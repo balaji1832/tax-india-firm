@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+/* ========================================
+   ROOT VARIABLES
+======================================== */
+
+:root {
+  --background: #ffffff;
+  --foreground: #172536;
+
+  --primary: #10233d;
+  --secondary: #5d6470;
+
+  --menu-active: #0878bd;
+  --header-background: #d9dfe8;
+  --contact-green: #0e998d;
+}
+
+/* ========================================
+   TAILWIND THEME
+======================================== */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+
+  /* Primary Heading Font */
+  --font-heading: var(--font-manrope);
+
+  /* Secondary Body Font */
+  --font-body: var(--font-inter);
+
+  --font-sans: var(--font-inter);
+}
+
+/* ========================================
+   GLOBAL RESET
+======================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+
+  background: var(--background);
+  color: var(--foreground);
+
+  font-family: var(--font-inter), sans-serif;
+}
+
+/* ========================================
+   HEADINGS
+======================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-manrope), sans-serif;
+  color: var(--primary);
+}
+
+/* ========================================
+   BODY TEXT
+======================================== */
+
+p {
+  font-family: var(--font-inter), sans-serif;
+}
+
+/* ========================================
+   INTERACTIVE ELEMENTS
+======================================== */
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
