@@ -4,6 +4,7 @@ import "./globals.css";
 
 import Header from "../components/Layouts/Header";
 import Footer from "../components/Layouts/Footer";
+import ScrollToTopButton from "../components/Layouts/Scrolltotopbutton";
 
 /* ========================================
    PRIMARY FONT - HEADINGS
@@ -53,6 +54,7 @@ export default function RootLayout({
         <Header />
 
         {children}
+        <ScrollToTopButton />
 
         <Footer />
       </body>

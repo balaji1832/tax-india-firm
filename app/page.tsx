@@ -4,6 +4,9 @@ import ServicesSection from "../components/Homepage/ServicesSection";
 import HowItWorks from "../components/Homepage/HowItWorks";
 import StartupPackages from "../components/Homepage/StartupPackages";
 import WhyTaxIndiaFirm from "../components/Homepage/WhyTaxIndiaFirm";
+import ClientTestimonials from "../components/Homepage/ClientTestimonials";
+import ExpertGuides from "../components/Homepage/ExpertGuides";
+import FinalCtaBanner from "../components/Homepage/Finalctabanner";
 
 export default function Home() {
   return (
@@ -17,6 +20,12 @@ export default function Home() {
     <StartupPackages />
 
     <WhyTaxIndiaFirm />
+
+   <ClientTestimonials />
+
+   <ExpertGuides />
+
+   <FinalCtaBanner />
     </>
   );
 }

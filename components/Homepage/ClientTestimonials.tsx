@@ -1,0 +1,1012 @@
+"use client";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+/* ======================================================
+   TYPES
+====================================================== */
+
+type Review = {
+  id: number;
+  name: string;
+  source: string;
+  rating: number;
+  text: string;
+};
+
+/* ======================================================
+   REVIEW DATA
+====================================================== */
+
+const reviews: Review[] = [
+  {
+    id: 1,
+    name: "Anand Valli",
+    source: "Google",
+    rating: 5,
+    text: "Timely, professional and thorough. Tax India Firm handled our Pvt Ltd registration and GST filing without a single follow-up needed from our side. Completely reliable.",
+  },
+  {
+    id: 2,
+    name: "Shaik Liswood",
+    source: "Google",
+    rating: 5,
+    text: "Best consultants in Chennai. They completed the work on time. Good team work and excellent follow-through. Highly recommend for any company registration or GST work.",
+  },
+  {
+    id: 3,
+    name: "Mavika Tech Malu",
+    source: "Google",
+    rating: 5,
+    text: "Excellent service from start to finish. Their team explained every step of our company compliance clearly. As a startup, having a CA firm that actually communicates makes all the difference.",
+  },
+];
+
+/* ======================================================
+   GOOGLE ICON
+====================================================== */
+
+function GoogleIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="shrink-0"
+    >
+      <path
+        fill="#4285F4"
+        d="M21.35 12.19c0-.73-.07-1.43-.19-2.1H12v3.96h5.24a4.48 4.48 0 0 1-1.94 2.94v2.57h3.14c1.84-1.69 2.91-4.19 2.91-7.37Z"
+      />
+
+      <path
+        fill="#34A853"
+        d="M12 21.7c2.63 0 4.84-.87 6.45-2.36l-3.14-2.57c-.87.59-1.99.94-3.31.94-2.54 0-4.69-1.71-5.46-4.01H3.29v2.65A9.74 9.74 0 0 0 12 21.7Z"
+      />
+
+      <path
+        fill="#FBBC05"
+        d="M6.54 13.7a5.86 5.86 0 0 1 0-3.74V7.31H3.29a9.74 9.74 0 0 0 0 9.04l3.25-2.65Z"
+      />
+
+      <path
+        fill="#EA4335"
+        d="M12 5.95c1.43 0 2.71.49 3.72 1.45l2.79-2.79A9.34 9.34 0 0 0 12 2a9.74 9.74 0 0 0-8.71 5.31l3.25 2.65C7.31 7.66 9.46 5.95 12 5.95Z"
+      />
+    </svg>
+  );
+}
+
+/* ======================================================
+   STAR ICON
+====================================================== */
+
+function StarIcon() {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      className="h-[17px] w-[17px]"
+      aria-hidden="true"
+    >
+      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 0 0 .95.69h3.463c.969 0 1.371 1.24.588 1.81l-2.802 2.036a1 1 0 0 0-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.539 1.118l-2.802-2.036a1 1 0 0 0-1.175 0l-2.802 2.036c-.783.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 0 0-.364-1.118L2.973 8.72c-.783-.57-.38-1.81.588-1.81h3.463a1 1 0 0 0 .951-.69l1.074-3.292Z" />
+    </svg>
+  );
+}
+
+/* ======================================================
+   QUOTE ICON
+====================================================== */
+
+function QuoteIcon() {
+  return (
+    <svg
+      viewBox="0 0 42 32"
+      fill="none"
+      className="h-7 w-9 sm:h-8 sm:w-10"
+      aria-hidden="true"
+    >
+      <path
+        d="M0 32V20.6C0 13.5 1.8 8.3 5.4 5C8.1 2.5 11.6.9 15.9.2v6.1c-2.7.6-4.7 1.7-5.9 3.4-1.2 1.6-1.9 3.8-2 6.4h8V32H0Zm25.5 0V20.6c0-7.1 1.8-12.3 5.4-15.6 2.7-2.5 6.2-4.1 10.5-4.8v6.1c-2.7.6-4.7 1.7-5.9 3.4-1.2 1.6-1.9 3.8-2 6.4h8V32h-16Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+/* ======================================================
+   ARROW ICON
+====================================================== */
+
+function ArrowIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      className="h-4 w-4"
+      aria-hidden="true"
+    >
+      <path
+        d="M5 12h14M13 6l6 6-6 6"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/* ======================================================
+   SLIDER ARROW
+====================================================== */
+
+function SliderArrow({
+  direction,
+  onClick,
+}: {
+  direction: "left" | "right";
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={
+        direction === "left"
+          ? "Previous testimonial"
+          : "Next testimonial"
+      }
+      className="
+        flex
+        h-10
+        w-10
+        items-center
+        justify-center
+        rounded-full
+        border
+        border-[#E5E3DC]
+        bg-white
+        text-[#173D34]
+        shadow-[0_5px_20px_rgba(20,55,46,0.06)]
+        transition-all
+        duration-300
+        hover:border-[#173D34]
+        hover:bg-[#173D34]
+        hover:text-white
+      "
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        className={`h-4 w-4 ${
+          direction === "left" ? "rotate-180" : ""
+        }`}
+      >
+        <path
+          d="M5 12h14M13 6l6 6-6 6"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>
+  );
+}
+
+/* ======================================================
+   REVIEW CARD
+
+   The props are explicitly typed here.
+   This fixes review.name / review.source / review.rating
+   TypeScript errors.
+====================================================== */
+
+function ReviewCard({ review }: { review: Review }) {
+  return (
+    <motion.article
+      whileHover={{
+        y: -6,
+      }}
+      transition={{
+        duration: 0.35,
+        ease: "easeOut",
+      }}
+      className="
+        group
+        relative
+        flex
+        h-full
+        min-h-[370px]
+        flex-col
+        overflow-hidden
+        rounded-[20px]
+        border
+        border-[#EAE7DF]
+        bg-white
+        p-6
+        shadow-[0_10px_40px_rgba(20,55,46,0.055)]
+        transition-shadow
+        duration-500
+
+        hover:shadow-[0_24px_60px_rgba(20,55,46,0.11)]
+
+        sm:min-h-[390px]
+        sm:p-7
+
+        xl:p-8
+      "
+    >
+      {/* top hover line */}
+
+      <div
+        className="
+          absolute
+          left-0
+          top-0
+          h-[3px]
+          w-full
+          origin-left
+          scale-x-0
+          bg-gradient-to-r
+          from-[#173F35]
+          via-[#C7A15A]
+          to-[#173F35]
+          transition-transform
+          duration-500
+          group-hover:scale-x-100
+        "
+      />
+
+      {/* top */}
+
+      <div className="mb-6 flex items-start justify-between">
+        <div
+          className="
+            text-[#E4DED2]
+            transition-colors
+            duration-300
+            group-hover:text-[#D5BF8F]
+          "
+        >
+          <QuoteIcon />
+        </div>
+
+        <div
+          className="
+            flex
+            items-center
+            gap-2
+            rounded-full
+            border
+            border-[#ECEAE4]
+            bg-[#FAFAF8]
+            px-3
+            py-1.5
+          "
+        >
+          <GoogleIcon size={18} />
+
+          <span className="text-[11px] font-medium text-[#56625F]">
+            {review.source}
+          </span>
+        </div>
+      </div>
+
+      {/* review text */}
+
+      <blockquote className="flex flex-1">
+        <p
+          className="
+            text-[14px]
+            italic
+            leading-[1.85]
+            text-[#56615E]
+
+            sm:text-[15px]
+            sm:leading-[1.9]
+
+            xl:text-base
+          "
+        >
+          “{review.text}”
+        </p>
+      </blockquote>
+
+      {/* line */}
+
+      <div className="my-6 h-px w-full bg-[#EEECE7]" />
+
+      {/* reviewer */}
+
+      <div
+        className="
+          flex
+          flex-col
+          gap-3
+
+          sm:flex-row
+          sm:items-end
+          sm:justify-between
+        "
+      >
+        <div>
+          <h3
+            className="
+              text-[15px]
+              font-semibold
+              tracking-[-0.01em]
+              text-[#172D27]
+
+              sm:text-base
+            "
+          >
+            {review.name}
+          </h3>
+
+          <div className="mt-1.5 flex items-center gap-2">
+            <span className="text-xs text-[#8A928F]">
+              {review.source}
+            </span>
+
+            <span className="h-1 w-1 rounded-full bg-[#CBCDCA]" />
+
+            <span className="text-xs font-medium text-[#53615D]">
+              {review.rating}/5
+            </span>
+          </div>
+        </div>
+
+        {/* stars */}
+
+        <div
+          className="flex items-center gap-[2px] text-[#F7B928]"
+          aria-label={`${review.rating} out of 5 stars`}
+        >
+          {Array.from({ length: review.rating }).map((_, index) => (
+            <StarIcon key={index} />
+          ))}
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+/* ======================================================
+   MAIN COMPONENT
+====================================================== */
+
+export default function ClientTestimonials() {
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
+
+  /* ====================================================
+     AUTO SLIDER
+  ==================================================== */
+
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = window.setInterval(() => {
+      setActiveIndex((previous) => (previous + 1) % reviews.length);
+    }, 4500);
+
+    return () => window.clearInterval(interval);
+  }, [isPaused]);
+
+  /* ====================================================
+     PREVIOUS
+  ==================================================== */
+
+  const previousSlide = () => {
+    setActiveIndex((previous) =>
+      previous === 0 ? reviews.length - 1 : previous - 1
+    );
+  };
+
+  /* ====================================================
+     NEXT
+  ==================================================== */
+
+  const nextSlide = () => {
+    setActiveIndex((previous) => (previous + 1) % reviews.length);
+  };
+
+  /* ====================================================
+     TABLET TWO CARDS
+
+     Example:
+     active 0 -> 0 + 1
+     active 1 -> 1 + 2
+     active 2 -> 2 + 0
+  ==================================================== */
+
+  const tabletReviews: Review[] = [
+    reviews[activeIndex],
+    reviews[(activeIndex + 1) % reviews.length],
+  ];
+
+  return (
+    <section
+      className="
+        relative
+        overflow-hidden
+        bg-[#F8F7F3]
+        py-14
+
+        sm:py-16
+        lg:py-20
+        xl:py-24
+      "
+    >
+      {/* =================================================
+          BACKGROUND DECORATION
+      ================================================== */}
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -left-[180px]
+          top-[80px]
+          h-[340px]
+          w-[340px]
+          rounded-full
+          bg-[#E3EDE8]/70
+          blur-[100px]
+        "
+      />
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          -right-[180px]
+          bottom-[20px]
+          h-[380px]
+          w-[380px]
+          rounded-full
+          bg-[#F3E9D7]/80
+          blur-[110px]
+        "
+      />
+
+      {/* dotted decoration */}
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          right-[6%]
+          top-[12%]
+          hidden
+          h-[90px]
+          w-[90px]
+          opacity-20
+          lg:block
+        "
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, #173F35 1.4px, transparent 1.4px)",
+          backgroundSize: "12px 12px",
+        }}
+      />
+
+      <div
+        className="
+          relative
+          mx-auto
+          max-w-[1320px]
+          px-5
+
+          sm:px-7
+          lg:px-8
+          xl:px-10
+        "
+      >
+        {/* =================================================
+            TITLE
+        ================================================== */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 35,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            amount: 0.3,
+          }}
+          transition={{
+            duration: 0.9,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="
+            mx-auto
+            mb-9
+            max-w-[820px]
+            text-center
+
+            sm:mb-11
+            lg:mb-14
+          "
+        >
+          {/* label */}
+
+          <div className="mb-4 flex items-center justify-center gap-3">
+            <span className="h-px w-7 bg-[#C6A15B]" />
+
+            <span
+              className="
+                text-[10px]
+                font-semibold
+                uppercase
+                tracking-[0.25em]
+                text-[#94713B]
+
+                sm:text-xs
+              "
+            >
+              Client Reviews
+            </span>
+
+            <span className="h-px w-7 bg-[#C6A15B]" />
+          </div>
+
+          {/* heading */}
+
+          <h2
+            className="
+              text-[29px]
+              font-semibold
+              leading-[1.15]
+              tracking-[-0.04em]
+              text-[#17312A]
+
+              sm:text-[38px]
+
+              lg:text-[44px]
+
+              xl:text-[48px]
+            "
+          >
+            What Business Owners in{" "}
+            <span className="relative inline-block">
+              Chennai
+              <span
+                className="
+                  absolute
+                  -bottom-[2px]
+                  left-0
+                  -z-[1]
+                  h-[7px]
+                  w-full
+                  rounded-full
+                  bg-[#E9D5AC]/65
+                "
+              />
+            </span>{" "}
+            Say About Us.
+          </h2>
+
+          {/* sub heading */}
+
+          <p
+            className="
+              mx-auto
+              mt-5
+              max-w-[700px]
+              text-[13px]
+              leading-6
+              text-[#69736F]
+
+              sm:text-[15px]
+              sm:leading-7
+
+              lg:text-base
+              lg:leading-8
+            "
+          >
+            Real Google reviews from real clients, businesses we've helped
+            register, file and stay compliant across Tamil Nadu.
+          </p>
+        </motion.div>
+
+        {/* =================================================
+            MOBILE SLIDER
+            less than 768px
+        ================================================== */}
+
+        <div
+          className="md:hidden"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
+        >
+          <div className="overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`mobile-${activeIndex}`}
+                initial={{
+                  opacity: 0,
+                  x: 45,
+                }}
+                animate={{
+                  opacity: 1,
+                  x: 0,
+                }}
+                exit={{
+                  opacity: 0,
+                  x: -45,
+                }}
+                transition={{
+                  duration: 0.65,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                <ReviewCard review={reviews[activeIndex]} />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* mobile controls */}
+
+          <SliderControls
+            activeIndex={activeIndex}
+            previousSlide={previousSlide}
+            nextSlide={nextSlide}
+            setActiveIndex={setActiveIndex}
+          />
+        </div>
+
+        {/* =================================================
+            TABLET SLIDER
+            768px -> 1023px
+        ================================================== */}
+
+        <div
+          className="hidden md:block lg:hidden"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <div className="overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`tablet-${activeIndex}`}
+                initial={{
+                  opacity: 0,
+                  x: 55,
+                }}
+                animate={{
+                  opacity: 1,
+                  x: 0,
+                }}
+                exit={{
+                  opacity: 0,
+                  x: -55,
+                }}
+                transition={{
+                  duration: 0.7,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="grid grid-cols-2 gap-5"
+              >
+                {tabletReviews.map((review, index) => (
+                  <ReviewCard
+                    key={`${review.id}-${activeIndex}-${index}`}
+                    review={review}
+                  />
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <SliderControls
+            activeIndex={activeIndex}
+            previousSlide={previousSlide}
+            nextSlide={nextSlide}
+            setActiveIndex={setActiveIndex}
+          />
+        </div>
+
+        {/* =================================================
+            DESKTOP GRID
+            1024px +
+        ================================================== */}
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{
+            once: true,
+            amount: 0.15,
+          }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.16,
+              },
+            },
+          }}
+          className="
+            hidden
+            grid-cols-3
+            gap-5
+
+            lg:grid
+
+            xl:gap-6
+          "
+        >
+          {reviews.map((review) => (
+            <motion.div
+              key={review.id}
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  y: 45,
+                },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.8,
+                    ease: [0.22, 1, 0.36, 1],
+                  },
+                },
+              }}
+              className="h-full"
+            >
+              <ReviewCard review={review} />
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* =================================================
+            BOTTOM CTA
+        ================================================== */}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 30,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            amount: 0.4,
+          }}
+          transition={{
+            duration: 0.8,
+            delay: 0.15,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="
+            mt-10
+            flex
+            flex-col
+            items-center
+            gap-6
+            rounded-[20px]
+            border
+            border-[#E4E1D8]
+            bg-white/65
+            px-5
+            py-6
+            backdrop-blur-md
+
+            sm:px-7
+
+            md:flex-row
+            md:justify-between
+
+            lg:mt-12
+            lg:px-9
+          "
+        >
+          {/* left */}
+
+          <div
+            className="
+              flex
+              items-center
+              gap-4
+              text-center
+
+              md:text-left
+            "
+          >
+            <div
+              className="
+                hidden
+                h-12
+                w-12
+                shrink-0
+                items-center
+                justify-center
+                rounded-full
+                bg-white
+                shadow-[0_5px_20px_rgba(0,0,0,0.06)]
+
+                sm:flex
+              "
+            >
+              <GoogleIcon size={22} />
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold text-[#1C352E] sm:text-[15px]">
+                Trusted by businesses across Chennai
+              </p>
+
+              <p
+                className="
+                  mt-1
+                  text-xs
+                  leading-5
+                  text-[#7B8581]
+
+                  sm:text-sm
+                "
+              >
+                Discover more experiences directly on our Google Business
+                Profile.
+              </p>
+            </div>
+          </div>
+
+          {/* only this CTA opens new tab */}
+
+          <a
+            href="https://g.page/taxindiafirm/review"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              group
+              inline-flex
+              w-full
+              shrink-0
+              items-center
+              justify-center
+              gap-2.5
+              rounded-full
+              bg-[#173F35]
+              px-6
+              py-3.5
+              text-[13px]
+              font-medium
+              text-white
+              shadow-[0_10px_28px_rgba(23,63,53,0.18)]
+              transition-all
+              duration-300
+
+              hover:-translate-y-[2px]
+              hover:bg-[#C49A52]
+              hover:shadow-[0_14px_32px_rgba(196,154,82,0.25)]
+
+              sm:w-auto
+              sm:text-sm
+            "
+          >
+            Read All Google Reviews
+            <span
+              className="
+                transition-transform
+                duration-300
+                group-hover:translate-x-1
+              "
+            >
+              <ArrowIcon />
+            </span>
+          </a>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ======================================================
+   SLIDER CONTROLS
+====================================================== */
+
+type SliderControlsProps = {
+  activeIndex: number;
+  previousSlide: () => void;
+  nextSlide: () => void;
+  setActiveIndex: (index: number) => void;
+};
+
+function SliderControls({
+  activeIndex,
+  previousSlide,
+  nextSlide,
+  setActiveIndex,
+}: SliderControlsProps) {
+  return (
+    <div
+      className="
+        mt-6
+        flex
+        items-center
+        justify-between
+      "
+    >
+      {/* arrows */}
+
+      <div className="flex items-center gap-2">
+        <SliderArrow direction="left" onClick={previousSlide} />
+
+        <SliderArrow direction="right" onClick={nextSlide} />
+      </div>
+
+      {/* dots */}
+
+      <div className="flex items-center gap-2">
+        {reviews.map((review, index) => (
+          <button
+            key={review.id}
+            type="button"
+            onClick={() => setActiveIndex(index)}
+            aria-label={`Go to testimonial ${index + 1}`}
+            className="
+              relative
+              flex
+              h-4
+              items-center
+              justify-center
+            "
+          >
+            <motion.span
+              animate={{
+                width: activeIndex === index ? 28 : 7,
+              }}
+              transition={{
+                duration: 0.35,
+              }}
+              className={`
+                block
+                h-[7px]
+                rounded-full
+                ${
+                  activeIndex === index
+                    ? "bg-[#173F35]"
+                    : "bg-[#CFD4D1]"
+                }
+              `}
+            />
+          </button>
+        ))}
+      </div>
+
+      {/* Google indicator */}
+
+      <div
+        className="
+          flex
+          h-10
+          min-w-10
+          items-center
+          justify-center
+          rounded-full
+          border
+          border-[#E8E5DD]
+          bg-white
+        "
+      >
+        <GoogleIcon size={18} />
+      </div>
+    </div>
+  );
+}
