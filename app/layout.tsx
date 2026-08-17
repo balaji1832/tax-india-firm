@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Manrope } from "next/font/google";
+import { Outfit, Fraunces } from "next/font/google";
 import "./globals.css";
 
 import Header from "../components/Layouts/Header";
@@ -10,20 +10,22 @@ import ScrollToTopButton from "../components/Layouts/Scrolltotopbutton";
    PRIMARY FONT - HEADINGS
 ======================================== */
 
-const manrope = Manrope({
-  variable: "--font-manrope",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
   display: "swap",
+  weight: ["400", "500"],
 });
 
 /* ========================================
    SECONDARY FONT - BODY / PARAGRAPHS
 ======================================== */
 
-const inter = Inter({
-  variable: "--font-inter",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
   display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 /* ========================================
@@ -48,7 +50,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${inter.variable}`}
+      className={`${fraunces.variable} ${outfit.variable}`}
     >
       <body className="min-h-screen bg-white font-body text-[#182536] antialiased">
         <Header />

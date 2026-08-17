@@ -28,12 +28,12 @@
   --color-secondary: var(--secondary);
 
   /* Primary Heading Font */
-  --font-heading: var(--font-manrope);
+  --font-heading: var(--font-fraunces);
 
   /* Secondary Body Font */
-  --font-body: var(--font-inter);
+  --font-body: var(--font-outfit);
 
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-outfit);
 }
 
 /* ========================================
@@ -54,7 +54,7 @@ body {
   background: var(--background);
   color: var(--foreground);
 
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-outfit), sans-serif;
 }
 
 /* ========================================
@@ -67,7 +67,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-manrope), sans-serif;
+  font-family: var(--font-fraunces), sans-serif;
   color: var(--primary);
 }
 
@@ -76,7 +76,7 @@ h6 {
 ======================================== */
 
 p {
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-outfit), sans-serif;
 }
 
 /* ========================================

@@ -1,15 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import type { MouseEvent } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import type { Variants } from "framer-motion";
 
-import {
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+/* =========================================================
+   TYPES
+========================================================= */
+
+type RailCard = {
+  type:
+    | "image"
+    | "chart"
+    | "client"
+    | "turnaround"
+    | "rating"
+    | "location"
+    | "service";
+
+  image?: string;
+  alt?: string;
+  title?: string;
+  subtitle?: string;
+};
 
 /* =========================================================
    DATA
@@ -34,31 +47,136 @@ const trustStats = [
   },
 ];
 
-const dashboardStats = [
+const leftRailCards: RailCard[] = [
   {
-    value: "Rs.0",
-    label: "Hidden Fees",
+    type: "service",
+    title: "GST Registration",
+    subtitle: "CA Assisted",
   },
   {
-    value: "48h",
-    label: "Average Turnaround",
+    type: "image",
+    image: "/images/ca-person-1.png",
+    alt: "Tax consultant",
   },
   {
-    value: "99%",
-    label: "On-Time Delivery",
+    type: "chart",
+  },
+  {
+    type: "image",
+    image: "/images/ca-person-2.png",
+    alt: "Professional consultant",
+  },
+  {
+    type: "client",
   },
 ];
 
-const services = [
-  "GST Registration",
-  "Pvt Ltd Formation",
-  "ITR Filing",
-  "Trademark Registration",
-  "TDS Returns",
-  "FSSAI License",
+const rightRailCards: RailCard[] = [
+  {
+    type: "location",
+  },
+  {
+    type: "rating",
+  },
+  {
+    type: "service",
+    title: "ITR Filing",
+    subtitle: "Expert Support",
+  },
+  {
+    type: "image",
+    image: "/images/ca-person-3.png",
+    alt: "Business consultant",
+  },
+  {
+    type: "turnaround",
+  },
 ];
 
-const chartBars = [36, 54, 47, 72, 58, 83, 72, 94, 80, 100];
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+const premiumEase = [0.16, 1, 0.3, 1] as const;
+
+/* Left content enters once as a slow, deliberate sequence. */
+const leftSequence: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.12,
+      staggerChildren: 0.19,
+    },
+  },
+};
+
+const leftReveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 34,
+    filter: "blur(9px)",
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 1.05,
+      ease: premiumEase,
+    },
+  },
+};
+
+const tagReveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 22,
+    scale: 0.94,
+    filter: "blur(7px)",
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.95,
+      ease: premiumEase,
+    },
+  },
+};
+
+const trustStripReveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 26,
+    filter: "blur(7px)",
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 1.0,
+      ease: premiumEase,
+      when: "beforeChildren",
+      staggerChildren: 0.11,
+    },
+  },
+};
+
+const statItem: Variants = {
+  hidden: { opacity: 0, y: 15, scale: 0.96 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.72,
+      ease: premiumEase,
+    },
+  },
+};
 
 /* =========================================================
    HERO
@@ -67,63 +185,6 @@ const chartBars = [36, 54, 47, 72, 58, 83, 72, 94, 80, 100];
 export default function HeroSection() {
   const reduceMotion = useReducedMotion();
 
-  /* =======================================================
-     3D POINTER VALUES
-  ======================================================= */
-
-  const pointerX = useMotionValue(0);
-  const pointerY = useMotionValue(0);
-
-  const rawRotateX = useTransform(
-    pointerY,
-    [-0.5, 0.5],
-    [5, -5]
-  );
-
-  const rawRotateY = useTransform(
-    pointerX,
-    [-0.5, 0.5],
-    [-6, 6]
-  );
-
-  const rotateX = useSpring(rawRotateX, {
-    stiffness: 150,
-    damping: 22,
-    mass: 0.7,
-  });
-
-  const rotateY = useSpring(rawRotateY, {
-    stiffness: 150,
-    damping: 22,
-    mass: 0.7,
-  });
-
-  /* =======================================================
-     3D MOUSE INTERACTION
-  ======================================================= */
-
-  const handleMouseMove = (
-    event: MouseEvent<HTMLDivElement>
-  ) => {
-    if (reduceMotion) return;
-
-    const rect = event.currentTarget.getBoundingClientRect();
-
-    const x =
-      (event.clientX - rect.left) / rect.width - 0.5;
-
-    const y =
-      (event.clientY - rect.top) / rect.height - 0.5;
-
-    pointerX.set(x);
-    pointerY.set(y);
-  };
-
-  const handleMouseLeave = () => {
-    pointerX.set(0);
-    pointerY.set(0);
-  };
-
   return (
     <section
       className="
@@ -131,405 +192,437 @@ export default function HeroSection() {
         isolate
         w-full
         overflow-hidden
-        bg-[#061321]
-        text-white
+        bg-[#70B8F5]
+        text-[#09284A]
       "
     >
-      {/* ===================================================
-          BACKGROUND
-      =================================================== */}
+      {/* =====================================================
+          SKY / CLOUD BACKGROUND
+      ===================================================== */}
 
-      <div className="pointer-events-none absolute inset-0">
-        {/* LEFT BLUE GLOW */}
-
-        <div
-          className="
-            absolute
-            -left-[220px]
-            top-[100px]
-
-            h-[500px]
-            w-[500px]
-
-            rounded-full
-
-            bg-[#246EF1]/15
-
-            blur-[150px]
-          "
-        />
-
-        {/* RIGHT BLUE GLOW */}
-
-        <div
-          className="
-            absolute
-            -right-[200px]
-            top-0
-
-            h-[570px]
-            w-[570px]
-
-            rounded-full
-
-            bg-[#246EF1]/10
-
-            blur-[160px]
-          "
-        />
-
-        {/* GREEN GLOW */}
-
-        <div
-          className="
-            absolute
-            -bottom-[230px]
-            right-[15%]
-
-            h-[460px]
-            w-[460px]
-
-            rounded-full
-
-            bg-[#4DD7B8]/[0.07]
-
-            blur-[150px]
-          "
-        />
-
-        {/* GRID */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        {/* BASE SKY GRADIENT */}
 
         <div
           className="
             absolute
             inset-0
 
-            opacity-[0.1]
+            bg-[linear-gradient(115deg,#BDE5FF_0%,#8DCCFA_35%,#5DAEF2_68%,#3D9AE8_100%)]
+          "
+        />
 
-            [background-image:linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)]
+        {/* LARGE SOFT LIGHT — TOP LEFT */}
 
-            [background-size:72px_72px]
+        <motion.div
+          animate={
+            reduceMotion
+              ? undefined
+              : {
+                  x: [0, 35, 0],
+                  y: [0, 18, 0],
+                  scale: [1, 1.07, 1],
+                }
+          }
+          transition={{
+            duration: 14,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            absolute
+            -left-[12%]
+            -top-[32%]
 
-            [mask-image:linear-gradient(to_bottom,black,transparent)]
+            h-[700px]
+            w-[700px]
+
+            rounded-full
+
+            bg-white/55
+
+            blur-[100px]
+          "
+        />
+
+        {/* CLOUD MASS LEFT */}
+
+        <motion.div
+          animate={
+            reduceMotion
+              ? undefined
+              : {
+                  x: [0, 24, -8, 0],
+                  y: [0, -10, 6, 0],
+                }
+          }
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            absolute
+            -left-[7%]
+            top-[17%]
+
+            h-[280px]
+            w-[520px]
+
+            rounded-[50%]
+
+            bg-white/25
+
+            blur-[65px]
+          "
+        />
+
+        {/* CLOUD HIGHLIGHT CENTER */}
+
+        <motion.div
+          animate={
+            reduceMotion
+              ? undefined
+              : {
+                  x: [0, -25, 10, 0],
+                  y: [0, 8, -8, 0],
+                }
+          }
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            absolute
+            left-[27%]
+            top-[4%]
+
+            h-[230px]
+            w-[460px]
+
+            rounded-[50%]
+
+            bg-white/20
+
+            blur-[60px]
+          "
+        />
+
+        {/* CLOUD RIGHT */}
+
+        <motion.div
+          animate={
+            reduceMotion
+              ? undefined
+              : {
+                  x: [0, -30, 0],
+                  y: [0, 12, 0],
+                  scale: [1, 1.05, 1],
+                }
+          }
+          transition={{
+            duration: 16,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            absolute
+            right-[-10%]
+            top-[3%]
+
+            h-[330px]
+            w-[580px]
+
+            rounded-[50%]
+
+            bg-[#D9F1FF]/25
+
+            blur-[70px]
+          "
+        />
+
+        {/* BLUE DEPTH */}
+
+        <div
+          className="
+            absolute
+            -right-[20%]
+            top-[25%]
+
+            h-[780px]
+            w-[780px]
+
+            rounded-full
+
+            bg-[#158CF1]/25
+
+            blur-[140px]
+          "
+        />
+
+        {/* LOWER CLOUD */}
+
+        <div
+          className="
+            absolute
+            -bottom-[170px]
+            -left-[10%]
+
+            h-[400px]
+            w-[800px]
+
+            rounded-[50%]
+
+            bg-white/20
+
+            blur-[80px]
+          "
+        />
+
+        {/* GLASS LIGHT WAVE */}
+
+        <div
+          className="
+            absolute
+            -bottom-[220px]
+            left-[-5%]
+
+            h-[380px]
+            w-[115%]
+
+            rotate-[-5deg]
+
+            rounded-[50%]
+
+            border-t
+            border-white/35
+
+            bg-white/[0.06]
+
+            shadow-[0_-8px_60px_rgba(255,255,255,0.14)]
+          "
+        />
+
+        {/* VERY SOFT LIGHT OVERLAY */}
+
+        <div
+          className="
+            absolute
+            inset-0
+
+            bg-[radial-gradient(circle_at_35%_40%,rgba(255,255,255,0.20),transparent_42%)]
           "
         />
       </div>
 
-      {/* ===================================================
-          MAIN CONTAINER
-      =================================================== */}
+      {/* =====================================================
+          MAIN LAYOUT
+      ===================================================== */}
 
       <div
         className="
           relative
+          z-10
 
           mx-auto
 
           grid
+
           w-full
-          max-w-[1440px]
+          max-w-[1500px]
 
           grid-cols-1
-          items-center
 
-          gap-14
+          lg:min-h-[720px]
+          lg:grid-cols-[1.28fr_0.72fr]
 
-          px-5
-          pb-16
-          pt-12
+          xl:min-h-[760px]
+          xl:grid-cols-[1.3fr_0.7fr]
 
-          sm:px-7
-          sm:pb-20
-          sm:pt-14
-
-          md:px-10
-          md:pt-16
-
-          lg:px-12
-
-          xl:min-h-[720px]
-          xl:grid-cols-[1fr_0.92fr]
-          xl:gap-14
-          xl:px-16
-          xl:pb-20
-          xl:pt-16
-
-          2xl:min-h-[760px]
-          2xl:grid-cols-[1.02fr_0.98fr]
-          2xl:gap-20
+          2xl:min-h-[800px]
         "
       >
-        {/* =================================================
+        {/* ===================================================
             LEFT CONTENT
-        ================================================= */}
+        =================================================== */}
 
-        <div className="relative z-10 min-w-0">
+        <motion.div
+          variants={reduceMotion ? undefined : leftSequence}
+          initial={reduceMotion ? false : "hidden"}
+          whileInView={reduceMotion ? undefined : "visible"}
+          viewport={{ once: true, amount: 0.18 }}
+          className="
+            relative
+
+            flex
+            flex-col
+            justify-center
+
+            px-5
+            py-14
+
+            sm:px-8
+            sm:py-16
+
+            md:px-12
+
+            lg:px-14
+            lg:py-20
+
+            xl:px-20
+
+            2xl:pl-24
+          "
+        >
           {/* =================================================
-              TAG
+              HERO TAG
           ================================================= */}
 
           <motion.div
-            initial={{
-              opacity: 0,
-              y: reduceMotion ? 0 : 22,
-              scale: reduceMotion ? 1 : 0.96,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-              scale: 1,
-            }}
-            viewport={{
-              once: true,
-              amount: 0.6,
-            }}
-            transition={{
-              duration: 0.9,
-              ease: [0.16, 1, 0.3, 1],
-            }}
+            variants={reduceMotion ? undefined : tagReveal}
             className="
               inline-flex
+              w-fit
               max-w-full
+
               items-center
-              gap-2.5
+
+              gap-2
 
               rounded-full
 
               border
-              border-[#246EF1]/35
+              border-white/70
 
-              bg-[#102A4B]/60
+              bg-white/65
 
-              px-3
+              px-3.5
               py-2
 
-              shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]
+              text-[9px]
+              font-semibold
+
+              text-[#153B61]
+
+              shadow-[0_10px_35px_rgba(20,81,135,0.12)]
 
               backdrop-blur-xl
 
-              sm:px-4
+              sm:text-[10px]
+
+              md:text-[11px]
             "
           >
-            <span className="relative flex h-[8px] w-[8px] shrink-0">
-              <span
-                className="
-                  absolute
-                  inline-flex
-                  h-full
-                  w-full
-
-                  animate-ping
-
-                  rounded-full
-
-                  bg-[#4DD7B8]
-
-                  opacity-50
-                "
-              />
-
-              <span
-                className="
-                  relative
-
-                  h-[8px]
-                  w-[8px]
-
-                  rounded-full
-
-                  bg-[#4DD7B8]
-
-                  shadow-[0_0_12px_rgba(77,215,184,0.8)]
-                "
-              />
-            </span>
-
             <span
               className="
-                truncate
+                flex
+                h-[18px]
+                w-[18px]
 
-                font-body
+                shrink-0
 
-                text-[10px]
-                font-semibold
+                items-center
+                justify-center
 
-                text-[#C4D6F2]
+                rounded-full
 
-                min-[380px]:text-[11px]
+                bg-[#D9EDFF]
 
-                sm:text-[12px]
-
-                md:text-[13px]
+                text-[#2976B9]
               "
             >
-              Chennai&apos;s Most Trusted CA Firm Since 2013
+              <StarIcon />
             </span>
+
+            <span>Chennai&apos;s Most Trusted CA Firm Since 2013</span>
           </motion.div>
 
           {/* =================================================
               H1
           ================================================= */}
 
-          <h1
+          <motion.h1
+            variants={reduceMotion ? undefined : leftReveal}
             className="
               mt-6
-              max-w-[800px]
 
-              font-heading
+              max-w-[810px]
 
-              text-[36px]
-              font-bold
+              text-[39px]
+              font-semibold
 
-              leading-[1.08]
+              leading-[1.02]
 
-              tracking-[-0.045em]
+              tracking-[-0.052em]
 
-              sm:text-[44px]
+              text-[#09284A]
 
-              md:text-[52px]
+              sm:text-[48px]
 
-              lg:text-[58px]
+              md:text-[56px]
 
-              xl:text-[52px]
+              lg:text-[54px]
 
-              2xl:text-[60px]
+              xl:text-[62px]
+
+              2xl:text-[67px]
             "
           >
-            {/* WHITE PART */}
+            Tax &amp; Business
+            <br className="hidden sm:block" />
 
-            <motion.span
-              initial={{
-                opacity: 0,
-                y: reduceMotion ? 0 : 38,
-                filter: reduceMotion
-                  ? "blur(0px)"
-                  : "blur(7px)",
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-                filter: "blur(0px)",
-              }}
-              viewport={{
-                once: true,
-                amount: 0.6,
-              }}
-              transition={{
-                duration: 1.05,
-                delay: 0.16,
-                ease: [0.16, 1, 0.3, 1],
-              }}
+            <span className="sm:hidden"> </span>
+
+            Services in Chennai,
+            <br />
+
+            <span
               className="
-                block
-
-                text-[#F8FBFF]
-
-                drop-shadow-[0_6px_24px_rgba(255,255,255,0.05)]
-              "
-              style={{
-                color: "#F8FBFF",
-              }}
-            >
-              Tax &amp; Business Services
-              <br className="hidden sm:block" />
-              <span className="sm:hidden"> </span>
-              in Chennai,
-            </motion.span>
-
-            {/* GRADIENT PART */}
-
-            <motion.span
-              initial={{
-                opacity: 0,
-                y: reduceMotion ? 0 : 38,
-                filter: reduceMotion
-                  ? "blur(0px)"
-                  : "blur(7px)",
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-                filter: "blur(0px)",
-              }}
-              viewport={{
-                once: true,
-                amount: 0.6,
-              }}
-              transition={{
-                duration: 1.1,
-                delay: 0.32,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="
-                mt-[5px]
-                block
-
                 bg-gradient-to-r
-                from-[#6A9BFF]
-                via-[#4B8CF9]
-                to-[#69DFC5]
+                from-[#166AB0]
+                via-[#1678CB]
+                to-[#0A60A7]
 
                 bg-clip-text
 
                 text-transparent
-
-                drop-shadow-[0_8px_25px_rgba(36,110,241,0.15)]
               "
             >
               GST, ITR &amp; Registration
-            </motion.span>
-          </h1>
+            </span>
+          </motion.h1>
 
           {/* =================================================
               DESCRIPTION
           ================================================= */}
 
           <motion.p
-            initial={{
-              opacity: 0,
-              y: reduceMotion ? 0 : 30,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            viewport={{
-              once: true,
-              amount: 0.5,
-            }}
-            transition={{
-              duration: 0.9,
-              delay: 0.5,
-              ease: [0.16, 1, 0.3, 1],
-            }}
+            variants={reduceMotion ? undefined : leftReveal}
             className="
               mt-6
 
-              max-w-[700px]
+              max-w-[665px]
 
-              font-body
+              text-[13px]
 
-              text-[14px]
+              font-medium
 
-              leading-[1.8]
+              leading-[1.85]
 
-              text-[#AAB8CA]
+              text-[#315B7C]
 
-              sm:text-[15px]
+              sm:text-[14px]
 
-              md:text-[16px]
-
-              lg:text-[17px]
-
-              xl:max-w-[650px]
-              xl:text-[16px]
-
-              2xl:text-[17px]
+              md:text-[15px]
             "
           >
-            From company registration to GST filing to legal contracts,
-            300+ services handled by Chartered Accountants, Company
-            Secretaries and Corporate Lawyers across Tamil Nadu.
+            From company registration to GST filing to legal contracts, 300+
+            services handled by Chartered Accountants, Company Secretaries and
+            Corporate Lawyers across Tamil Nadu.
           </motion.p>
 
           {/* =================================================
@@ -537,29 +630,20 @@ export default function HeroSection() {
           ================================================= */}
 
           <motion.div
-            initial={{
-              opacity: 0,
-              y: reduceMotion ? 0 : 28,
-              scale: reduceMotion ? 1 : 0.97,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-              scale: 1,
-            }}
-            viewport={{
-              once: true,
-              amount: 0.6,
-            }}
-            transition={{
-              duration: 0.85,
-              delay: 0.68,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-            className="mt-8"
+            variants={reduceMotion ? undefined : leftReveal}
+            className="
+              mt-8
+
+              flex
+              flex-wrap
+
+              items-center
+
+              gap-5
+            "
           >
             <Link
-              href="/contact-us"
+              href="https://taxindiafirm.com/contact-us"
               className="
                 group
 
@@ -567,54 +651,43 @@ export default function HeroSection() {
 
                 min-h-[50px]
 
-                max-w-full
-
                 items-center
                 justify-center
 
                 gap-3
 
-                rounded-[13px]
+                rounded-[9px]
 
-                bg-[#246EF1]
+                bg-[#082E52]
 
-                px-5
+                px-6
                 py-3
 
-                font-body
-
-                text-[12px]
+                text-[11px]
                 font-semibold
 
                 text-white
 
-                shadow-[0_15px_40px_rgba(36,110,241,0.3)]
+                shadow-[0_16px_36px_rgba(7,50,86,0.24)]
 
                 transition-all
                 duration-300
 
                 hover:-translate-y-[3px]
 
-                hover:bg-[#1E64DF]
+                hover:bg-[#0A3A66]
 
-                hover:shadow-[0_20px_45px_rgba(36,110,241,0.42)]
+                hover:shadow-[0_20px_46px_rgba(7,50,86,0.32)]
 
-                sm:min-h-[54px]
-                sm:px-6
-                sm:text-[13px]
+                sm:text-[12px]
 
                 md:px-7
-                md:text-[14px]
               "
             >
-              <span>
-                Get a Free Consultation with a CA
-              </span>
+              <span>Get a Free Consultation with a CA</span>
 
               <span
                 className="
-                  shrink-0
-
                   transition-transform
                   duration-300
 
@@ -624,31 +697,78 @@ export default function HeroSection() {
                 <ArrowIcon />
               </span>
             </Link>
+
+            <div
+              className="
+                hidden
+
+                items-center
+
+                gap-2.5
+
+                text-[10px]
+                font-semibold
+
+                text-[#356081]
+
+                sm:flex
+              "
+            >
+              <motion.span
+                animate={
+                  reduceMotion
+                    ? undefined
+                    : {
+                        scale: [1, 1.08, 1],
+                        boxShadow: [
+                          "0 6px 18px rgba(43,108,164,0.12)",
+                          "0 8px 26px rgba(43,108,164,0.22)",
+                          "0 6px 18px rgba(43,108,164,0.12)",
+                        ],
+                      }
+                }
+                transition={{
+                  duration: 2.8,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="
+                  flex
+                  h-8
+                  w-8
+
+                  items-center
+                  justify-center
+
+                  rounded-full
+
+                  border
+                  border-white/60
+
+                  bg-white/35
+
+                  text-[#1B6BAA]
+
+                  shadow-[0_6px_18px_rgba(43,108,164,0.12)]
+
+                  backdrop-blur-lg
+                "
+              >
+                <CheckIcon />
+              </motion.span>
+
+              Expert assisted
+            </div>
           </motion.div>
 
           {/* =================================================
-              TRUST STATS
+              TRUST STRIP
           ================================================= */}
 
           <motion.div
-            initial={{
-              opacity: 0,
-              y: reduceMotion ? 0 : 30,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            viewport={{
-              once: true,
-              amount: 0.4,
-            }}
-            transition={{
-              duration: 0.9,
-              delay: 0.85,
-            }}
+            variants={reduceMotion ? undefined : trustStripReveal}
             className="
-              mt-10
+              mt-11
 
               grid
 
@@ -657,86 +777,55 @@ export default function HeroSection() {
               grid-cols-2
 
               border-t
-              border-white/10
+              border-[#175B92]/20
 
               pt-6
 
-              sm:mt-11
               sm:grid-cols-4
               sm:pt-7
-
-              xl:mt-12
             "
           >
             {trustStats.map((stat, index) => (
               <motion.div
                 key={stat.label}
-                initial={{
-                  opacity: 0,
-                  y: reduceMotion ? 0 : 20,
-                  scale: reduceMotion ? 1 : 0.95,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                }}
-                viewport={{
-                  once: true,
-                  amount: 0.6,
-                }}
-                transition={{
-                  duration: 0.72,
-                  delay: 0.9 + index * 0.12,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
+                variants={reduceMotion ? undefined : statItem}
                 className={`
                   min-w-0
 
-                  px-3
                   py-3
-
-                  first:pl-0
 
                   ${
                     index % 2 !== 0
-                      ? "border-l border-white/10"
-                      : ""
+                      ? "border-l border-[#175B92]/18 pl-4"
+                      : "pr-4"
                   }
 
                   ${
                     index > 1
-                      ? "border-t border-white/10 sm:border-t-0"
+                      ? "border-t border-[#175B92]/18 pt-5 sm:border-t-0 sm:pt-0"
                       : ""
                   }
 
                   sm:border-l
-                  sm:border-white/10
+                  sm:border-[#175B92]/18
                   sm:px-5
                   sm:py-0
 
-                  sm:first:border-l-0
-                  sm:first:pl-0
+                  ${index === 0 ? "sm:border-l-0 sm:pl-0" : ""}
                 `}
               >
                 <div
                   className="
-                    font-heading
-
-                    text-[19px]
+                    text-[18px]
                     font-bold
 
-                    leading-[1.25]
+                    leading-none
 
-                    tracking-[-0.02em]
+                    tracking-[-0.035em]
 
-                    text-white
+                    text-[#09284A]
 
-                    sm:text-[18px]
-
-                    md:text-[20px]
-
-                    2xl:text-[21px]
+                    xl:text-[21px]
                   "
                 >
                   {stat.value}
@@ -744,20 +833,16 @@ export default function HeroSection() {
 
                 <div
                   className="
-                    mt-1.5
+                    mt-2
 
-                    font-body
-
-                    text-[9px]
+                    text-[8px]
                     font-medium
 
                     leading-[1.4]
 
-                    text-[#7F91A6]
+                    text-[#426B89]
 
-                    md:text-[10px]
-
-                    2xl:text-[11px]
+                    sm:text-[9px]
                   "
                 >
                   {stat.label}
@@ -765,722 +850,186 @@ export default function HeroSection() {
               </motion.div>
             ))}
           </motion.div>
-        </div>
+        </motion.div>
 
-        {/* =================================================
-            RIGHT DASHBOARD
-        ================================================= */}
+        {/* ===================================================
+            RIGHT SLIDER AREA
+
+            NO CENTER LINE
+            NO BLUR OVERLAY
+        =================================================== */}
 
         <motion.div
-          initial={{
-            opacity: 0,
-            x: reduceMotion ? 0 : 65,
-            y: reduceMotion ? 0 : 30,
-            scale: reduceMotion ? 1 : 0.92,
-            rotateY: reduceMotion ? 0 : -8,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-            y: 0,
-            scale: 1,
-            rotateY: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.25,
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 65,
-            damping: 17,
-          }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
+          initial={
+            reduceMotion
+              ? false
+              : { opacity: 0, x: 90, scale: 0.96, filter: "blur(10px)" }
+          }
+          whileInView={
+            reduceMotion
+              ? undefined
+              : { opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }
+          }
+          viewport={{ once: true, amount: 0.12 }}
+          transition={{ duration: 1.35, delay: 0.32, ease: premiumEase }}
           className="
             relative
 
-            mx-auto
+            h-[520px]
 
-            w-full
-            max-w-[650px]
+            overflow-hidden
 
-            [perspective:1500px]
+            lg:h-[720px]
 
-            xl:max-w-none
+            xl:h-[760px]
+
+            2xl:h-[800px]
           "
         >
           {/* =================================================
-              FLOATING DOT
+              DECORATIVE GLOW BEHIND CARDS
+              Does NOT blur the actual cards
           ================================================= */}
 
-          <motion.div
-            animate={
-              reduceMotion
-                ? undefined
-                : {
-                    y: [-7, 7, -7],
-                  }
-            }
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+          <div
+            aria-hidden="true"
             className="
               pointer-events-none
 
               absolute
-              -left-6
-              top-[15%]
+              left-1/2
+              top-1/2
 
-              z-20
+              h-[550px]
+              w-[430px]
 
-              hidden
+              -translate-x-1/2
+              -translate-y-1/2
 
-              h-[21px]
-              w-[21px]
+              rounded-[50%]
 
-              rounded-full
+              bg-[#087FE8]/15
 
-              border
-              border-[#4DD7B8]/40
-
-              bg-[#4DD7B8]/15
-
-              shadow-[0_0_30px_rgba(77,215,184,0.25)]
-
-              md:block
+              blur-[90px]
             "
           />
 
           {/* =================================================
-              MAIN 3D CARD
+              CARD RAILS
           ================================================= */}
 
-          <motion.div
-            style={
-              reduceMotion
-                ? undefined
-                : {
-                    rotateX,
-                    rotateY,
-                    transformStyle: "preserve-3d",
-                  }
-            }
+          <div
             className="
-              relative
+              absolute
 
-              rounded-[24px]
+              left-1/2
+              top-1/2
 
-              border
-              border-white/10
+              flex
 
-              bg-[#142335]/80
+              h-[720px]
 
-              p-3
+              w-[340px]
 
-              shadow-[0_35px_90px_rgba(0,0,0,0.38)]
+              -translate-x-1/2
+              -translate-y-1/2
 
-              backdrop-blur-[30px]
+              gap-3
 
-              sm:rounded-[28px]
-              sm:p-4
+              sm:w-[390px]
+              sm:gap-4
 
-              md:p-5
+              lg:h-[980px]
+              lg:w-[365px]
+
+              xl:w-[400px]
             "
           >
-            {/* TOP LIGHT */}
-
-            <div
-              className="
-                pointer-events-none
-
-                absolute
-                left-[20%]
-                top-0
-
-                h-px
-                w-[60%]
-
-                bg-gradient-to-r
-                from-transparent
-                via-[#4F87F5]/60
-                to-transparent
-              "
-            />
-
             {/* =================================================
-                INNER DASHBOARD
+                COLUMN 1 — UP
             ================================================= */}
 
             <div
               className="
                 relative
+                h-full
+                w-1/2
 
                 overflow-hidden
-
-                rounded-[20px]
-
-                border
-                border-white/[0.08]
-
-                bg-[#091827]/95
-
-                p-4
-
-                sm:rounded-[24px]
-                sm:p-5
-
-                md:p-6
               "
             >
-              {/* BROWSER DOTS */}
-
               <motion.div
-                initial={{
-                  opacity: 0,
-                  y: -10,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: true,
-                }}
-                transition={{
-                  duration: 0.7,
-                  delay: 0.55,
-                }}
-                className="flex items-center justify-between"
-              >
-                <div className="flex gap-[6px]">
-                  <span className="h-[7px] w-[7px] rounded-full bg-[#F06464]" />
-
-                  <span className="h-[7px] w-[7px] rounded-full bg-[#E4BB55]" />
-
-                  <span className="h-[7px] w-[7px] rounded-full bg-[#48CDB0]" />
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <span className="h-[5px] w-[28px] rounded-full bg-white/10" />
-
-                  <span
-                    className="
-                      h-[22px]
-                      w-[22px]
-
-                      rounded-full
-
-                      border
-                      border-white/10
-
-                      bg-white/[0.04]
-                    "
-                  />
-                </div>
-              </motion.div>
-
-              {/* =================================================
-                  DASHBOARD STATS
-              ================================================= */}
-
-              <div
-                className="
-                  mt-6
-
-                  grid
-                  grid-cols-3
-
-                  gap-2
-
-                  sm:gap-3
-                "
-              >
-                {dashboardStats.map((stat, index) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={{
-                      opacity: 0,
-                      y: reduceMotion ? 0 : 25,
-                      scale: reduceMotion ? 1 : 0.92,
-                    }}
-                    whileInView={{
-                      opacity: 1,
-                      y: 0,
-                      scale: 1,
-                    }}
-                    viewport={{
-                      once: true,
-                      amount: 0.5,
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 75,
-                      damping: 16,
-                      mass: 0.85,
-                      delay: 0.7 + index * 0.14,
-                    }}
-                    whileHover={
-                      reduceMotion
-                        ? undefined
-                        : {
-                            y: -5,
-                            scale: 1.025,
-                          }
-                    }
-                    className="
-                      min-w-0
-
-                      rounded-[13px]
-
-                      border
-                      border-white/[0.08]
-
-                      bg-white/[0.05]
-
-                      px-1.5
-                      py-3
-
-                      text-center
-
-                      sm:rounded-[16px]
-                      sm:px-3
-                      sm:py-4
-
-                      md:py-5
-                    "
-                  >
-                    <div
-                      className="
-                        font-heading
-
-                        text-[15px]
-                        font-bold
-
-                        leading-none
-
-                        text-white
-
-                        sm:text-[19px]
-
-                        md:text-[22px]
-                      "
-                    >
-                      {stat.value}
-                    </div>
-
-                    <div
-                      className="
-                        mt-2
-
-                        font-body
-
-                        text-[7px]
-                        font-medium
-
-                        leading-[1.35]
-
-                        text-[#8494A7]
-
-                        min-[380px]:text-[8px]
-
-                        sm:text-[9px]
-                      "
-                    >
-                      {stat.label}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* =================================================
-                  SERVICE DASHBOARD
-              ================================================= */}
-
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  y: reduceMotion ? 0 : 32,
-                  scale: reduceMotion ? 1 : 0.97,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                }}
-                viewport={{
-                  once: true,
-                  amount: 0.3,
-                }}
-                transition={{
-                  duration: 0.9,
-                  delay: 1.0,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="
-                  mt-5
-
-                  rounded-[17px]
-
-                  border
-                  border-white/[0.07]
-
-                  bg-[#06121E]/80
-
-                  p-3
-
-                  sm:mt-6
-                  sm:rounded-[20px]
-                  sm:p-4
-
-                  md:p-5
-                "
-              >
-                {/* =================================================
-                    PROGRESS BARS
-                ================================================= */}
-
-                <div className="space-y-[7px]">
-                  <div className="flex gap-3">
-                    <motion.div
-                      initial={{
-                        width: 0,
-                      }}
-                      whileInView={{
-                        width: "22%",
-                      }}
-                      viewport={{
-                        once: true,
-                      }}
-                      transition={{
-                        duration: 1.05,
-                        delay: 1.18,
-                      }}
-                      className="
-                        h-[6px]
-                        rounded-full
-                        bg-[#286CE6]
-                      "
-                    />
-
-                    <div className="h-[6px] flex-1 rounded-full bg-white/[0.05]" />
-                  </div>
-
-                  <div className="flex gap-3">
-                    <motion.div
-                      initial={{
-                        width: 0,
-                      }}
-                      whileInView={{
-                        width: "36%",
-                      }}
-                      viewport={{
-                        once: true,
-                      }}
-                      transition={{
-                        duration: 1.1,
-                        delay: 1.28,
-                      }}
-                      className="
-                        h-[6px]
-                        rounded-full
-                        bg-[#3EAD98]
-                      "
-                    />
-
-                    <div className="h-[6px] flex-1 rounded-full bg-white/[0.05]" />
-                  </div>
-                </div>
-
-                {/* =================================================
-                    SERVICE PILLS
-                ================================================= */}
-
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {services.map((service, index) => (
-                    <motion.span
-                      key={service}
-                      initial={{
-                        opacity: 0,
-                        y: reduceMotion ? 0 : 15,
-                        scale: reduceMotion ? 1 : 0.85,
-                      }}
-                      whileInView={{
-                        opacity: 1,
-                        y: 0,
-                        scale: 1,
-                      }}
-                      viewport={{
-                        once: true,
-                        amount: 0.6,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 85,
-                        damping: 15,
-                        mass: 0.8,
-                        delay: 1.2 + index * 0.1,
-                      }}
-                      whileHover={
-                        reduceMotion
-                          ? undefined
-                          : {
-                              y: -3,
-                              scale: 1.04,
-                            }
+                animate={
+                  reduceMotion
+                    ? undefined
+                    : {
+                        y: ["0%", "-50%"],
                       }
-                      className="
-                        inline-flex
+                }
+                transition={{
+                  duration: 23,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+                className="
+                  flex
+                  flex-col
 
-                        items-center
+                  gap-3
 
-                        gap-1.5
+                  sm:gap-4
+                "
+              >
+                <RailSet cards={leftRailCards} />
 
-                        rounded-full
-
-                        border
-                        border-[#48D4B0]/20
-
-                        bg-[#48D4B0]/10
-
-                        px-2
-                        py-[6px]
-
-                        font-body
-
-                        text-[8px]
-                        font-medium
-
-                        text-[#69DABD]
-
-                        min-[380px]:text-[9px]
-
-                        sm:px-2.5
-                        sm:text-[10px]
-                      "
-                    >
-                      <span
-                        className="
-                          h-[5px]
-                          w-[5px]
-
-                          shrink-0
-
-                          rounded-full
-
-                          bg-[#57DFBE]
-
-                          shadow-[0_0_9px_rgba(87,223,190,0.7)]
-                        "
-                      />
-
-                      {service}
-                    </motion.span>
-                  ))}
-                </div>
-
-                {/* =================================================
-                    CHART
-                ================================================= */}
-
-                <div
-                  className="
-                    mt-6
-
-                    flex
-
-                    h-[70px]
-
-                    items-end
-
-                    gap-[4px]
-
-                    border-b
-                    border-white/[0.07]
-
-                    px-1
-
-                    sm:h-[90px]
-                    sm:gap-[6px]
-
-                    md:h-[110px]
-                  "
-                >
-                  {chartBars.map((height, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{
-                        height: 0,
-                        opacity: 0,
-                      }}
-                      whileInView={{
-                        height: `${height}%`,
-                        opacity: 1,
-                      }}
-                      viewport={{
-                        once: true,
-                        amount: 0.3,
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 55,
-                        damping: 14,
-                        mass: 0.9,
-                        delay: 1.35 + index * 0.08,
-                      }}
-                      className="
-                        min-w-0
-                        flex-1
-
-                        rounded-t-[4px]
-
-                        bg-gradient-to-t
-                        from-[#0A2248]
-                        to-[#2869DB]
-                      "
-                    />
-                  ))}
-                </div>
+                <RailSet cards={leftRailCards} />
               </motion.div>
             </div>
 
             {/* =================================================
-                FLOATING SINCE 2013 CARD
+                COLUMN 2 — DOWN
             ================================================= */}
 
-            <motion.div
-              initial={{
-                opacity: 0,
-                x: reduceMotion ? 0 : -30,
-                scale: reduceMotion ? 1 : 0.9,
-              }}
-              whileInView={{
-                opacity: 1,
-                x: 0,
-                scale: 1,
-              }}
-              viewport={{
-                once: true,
-                amount: 0.5,
-              }}
-              transition={{
-                duration: 0.9,
-                delay: 1.55,
-                ease: [0.16, 1, 0.3, 1],
-              }}
+            <div
               className="
                 relative
+                h-full
+                w-1/2
 
-                z-20
-
-                mt-3
-
-                flex
-
-                items-center
-
-                gap-3
-
-                rounded-[15px]
-
-                border
-                border-[#46D7B5]/20
-
-                bg-[#103045]/95
-
-                px-3
-                py-3
-
-                shadow-[0_15px_40px_rgba(0,0,0,0.28)]
-
-                backdrop-blur-xl
-
-                sm:absolute
-                sm:-bottom-[24px]
-                sm:-left-[30px]
-                sm:mt-0
-                sm:min-w-[235px]
-
-                md:-left-[40px]
+                overflow-hidden
               "
             >
-              <span
+              <motion.div
+                initial={{
+                  y: "-50%",
+                }}
+                animate={
+                  reduceMotion
+                    ? undefined
+                    : {
+                        y: ["-50%", "0%"],
+                      }
+                }
+                transition={{
+                  duration: 27,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
                 className="
                   flex
+                  flex-col
 
-                  h-[38px]
-                  w-[38px]
+                  gap-3
 
-                  shrink-0
-
-                  items-center
-                  justify-center
-
-                  rounded-[11px]
-
-                  border
-                  border-[#4AD6B6]/20
-
-                  bg-[#4AD6B6]/10
-
-                  text-[#5EDCC0]
+                  sm:gap-4
                 "
               >
-                <CalendarIcon />
-              </span>
+                <RailSet cards={rightRailCards} />
 
-              <div className="min-w-0 flex-1">
-                <div
-                  className="
-                    font-heading
-
-                    text-[13px]
-                    font-bold
-
-                    text-white
-
-                    sm:text-[14px]
-                  "
-                >
-                  Since 2013
-                </div>
-
-                <div
-                  className="
-                    mt-1
-
-                    font-body
-
-                    text-[8px]
-                    font-medium
-
-                    text-[#8495A8]
-
-                    sm:text-[9px]
-                  "
-                >
-                  Serving Chennai &amp; Tamil Nadu
-                </div>
-              </div>
-
-              <span
-                className="
-                  h-[8px]
-                  w-[8px]
-
-                  shrink-0
-
-                  rounded-full
-
-                  bg-[#49DDBB]
-
-                  shadow-[0_0_15px_rgba(73,221,187,0.7)]
-                "
-              />
-            </motion.div>
-          </motion.div>
+                <RailSet cards={rightRailCards} />
+              </motion.div>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
@@ -1488,14 +1037,744 @@ export default function HeroSection() {
 }
 
 /* =========================================================
-   ARROW ICON
+   RAIL SET
+========================================================= */
+
+function RailSet({ cards }: { cards: RailCard[] }) {
+  return (
+    <>
+      {cards.map((card, index) => (
+        <RailCardComponent
+          key={`${card.type}-${card.title ?? ""}-${index}`}
+          card={card}
+        />
+      ))}
+    </>
+  );
+}
+
+/* =========================================================
+   RAIL CARD
+========================================================= */
+
+function RailCardComponent({ card }: { card: RailCard }) {
+  /* =======================================================
+     IMAGE CARD
+  ======================================================= */
+
+  if (card.type === "image") {
+    return (
+      <motion.div
+        whileHover={{
+          y: -4,
+          scale: 1.015,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 250,
+          damping: 22,
+        }}
+        className="
+          relative
+
+          h-[200px]
+
+          shrink-0
+
+          overflow-hidden
+
+          rounded-[14px]
+
+          border
+          border-white/80
+
+          bg-[#D8ECFB]
+
+          shadow-[0_18px_40px_rgba(19,95,158,0.18)]
+
+          sm:h-[225px]
+        "
+      >
+        <motion.img
+          src={card.image}
+          alt={card.alt ?? ""}
+          whileHover={{ scale: 1.045 }}
+          transition={{ duration: 0.55, ease: premiumEase }}
+          className="
+            h-full
+            w-full
+
+            object-cover
+
+            object-center
+          "
+        />
+
+        {/* ONLY SMALL CONTRAST GRADIENT.
+            NOT A BLUR. */}
+
+        <div
+          className="
+            pointer-events-none
+
+            absolute
+            inset-x-0
+            bottom-0
+
+            h-[30%]
+
+            bg-gradient-to-t
+            from-[#0B5C9C]/15
+            to-transparent
+          "
+        />
+      </motion.div>
+    );
+  }
+
+  /* =======================================================
+     BUSINESS GROWTH
+  ======================================================= */
+
+  if (card.type === "chart") {
+    return (
+      <GlassCard className="h-[142px] p-4 sm:h-[150px]">
+        <div className="flex items-center justify-between">
+          <span
+            className="
+              text-[7px]
+              font-bold
+
+              uppercase
+
+              tracking-[0.1em]
+
+              text-[#335F83]
+            "
+          >
+            Business Growth
+          </span>
+
+          <span
+            className="
+              rounded-full
+
+              bg-[#D5ECFF]
+
+              px-2
+              py-1
+
+              text-[6px]
+              font-bold
+
+              text-[#1374C2]
+            "
+          >
+            +18.4%
+          </span>
+        </div>
+
+        <div className="mt-4">
+          <GrowthChart />
+        </div>
+      </GlassCard>
+    );
+  }
+
+  /* =======================================================
+     CLIENTS
+  ======================================================= */
+
+  if (card.type === "client") {
+    return (
+      <GlassCard className="h-[155px] p-4">
+        <p
+          className="
+            text-[7px]
+            font-bold
+
+            uppercase
+
+            tracking-[0.11em]
+
+            text-[#47708E]
+          "
+        >
+          Clients Served
+        </p>
+
+        <div
+          className="
+            mt-3
+
+            text-[27px]
+            font-bold
+
+            tracking-[-0.05em]
+
+            text-[#082D50]
+          "
+        >
+          2,760+
+        </div>
+
+        <div
+          className="
+            mt-5
+
+            flex
+
+            h-[44px]
+
+            items-end
+
+            gap-[4px]
+          "
+        >
+          {[35, 53, 42, 65, 56, 72, 61, 83, 72, 96].map(
+            (height, index) => (
+              <motion.div
+                key={index}
+                initial={{
+                  height: 0,
+                }}
+                whileInView={{
+                  height: `${height}%`,
+                }}
+                viewport={{
+                  once: false,
+                  amount: 0.5,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 120,
+                  damping: 16,
+                  delay: index * 0.04,
+                }}
+                className="
+                  flex-1
+
+                  rounded-t-[2px]
+
+                  bg-gradient-to-t
+                  from-[#176BB0]
+                  to-[#54B2F5]
+                "
+              />
+            )
+          )}
+        </div>
+      </GlassCard>
+    );
+  }
+
+  /* =======================================================
+     TURNAROUND
+  ======================================================= */
+
+  if (card.type === "turnaround") {
+    return (
+      <GlassCard className="h-[160px] p-4">
+        <p
+          className="
+            text-[7px]
+            font-bold
+
+            uppercase
+
+            tracking-[0.1em]
+
+            text-[#47708E]
+          "
+        >
+          Average Turnaround
+        </p>
+
+        <div className="mt-3 flex items-end gap-1">
+          <span
+            className="
+              text-[32px]
+              font-bold
+
+              leading-none
+
+              tracking-[-0.055em]
+
+              text-[#082D50]
+            "
+          >
+            48
+          </span>
+
+          <span
+            className="
+              pb-1
+
+              text-[10px]
+              font-semibold
+
+              text-[#365F7D]
+            "
+          >
+            hours
+          </span>
+        </div>
+
+        <div className="mt-6 flex gap-[3px]">
+          {Array.from({ length: 14 }).map((_, index) => (
+            <motion.span
+              key={index}
+              initial={{ scaleY: 0, opacity: 0 }}
+              whileInView={{ scaleY: 1, opacity: 1 }}
+              viewport={{ once: false, amount: 0.6 }}
+              transition={{
+                duration: 0.45,
+                delay: index * 0.035,
+                ease: premiumEase,
+              }}
+              style={{ transformOrigin: "bottom" }}
+              className={`
+                h-[28px]
+                flex-1
+
+                rounded-[1px]
+
+                ${
+                  index % 3 === 0
+                    ? "bg-[#126EB7]"
+                    : "bg-[#80C5F5]"
+                }
+              `}
+            />
+          ))}
+        </div>
+      </GlassCard>
+    );
+  }
+
+  /* =======================================================
+     RATING
+  ======================================================= */
+
+  if (card.type === "rating") {
+    return (
+      <GlassCard className="h-[132px] p-4">
+        <div className="flex items-center justify-between">
+          <p
+            className="
+              text-[7px]
+              font-bold
+
+              uppercase
+
+              tracking-[0.1em]
+
+              text-[#376383]
+            "
+          >
+            Google Rating
+          </p>
+
+          <GoogleIcon />
+        </div>
+
+        <div className="mt-4 flex items-center gap-2">
+          <span
+            className="
+              text-[29px]
+              font-bold
+
+              tracking-[-0.05em]
+
+              text-[#082D50]
+            "
+          >
+            4.9
+          </span>
+
+          <span
+            className="
+              text-[10px]
+
+              text-[#4C708B]
+            "
+          >
+            / 5
+          </span>
+        </div>
+
+        <div className="mt-2 flex gap-[2px] text-[10px] text-[#1681D5]">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <motion.span
+              key={index}
+              initial={{ opacity: 0, scale: 0.4, rotate: -18 }}
+              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+              viewport={{ once: false, amount: 0.6 }}
+              transition={{
+                type: "spring",
+                stiffness: 180,
+                damping: 14,
+                delay: index * 0.07,
+              }}
+            >
+              ★
+            </motion.span>
+          ))}
+        </div>
+      </GlassCard>
+    );
+  }
+
+  /* =======================================================
+     LOCATION
+  ======================================================= */
+
+  if (card.type === "location") {
+    return (
+      <GlassCard className="h-[130px] p-4">
+        <div className="flex items-start gap-3">
+          <motion.div
+            whileInView={{ scale: [0.85, 1.08, 1], rotate: [0, -5, 0] }}
+            viewport={{ once: false, amount: 0.7 }}
+            transition={{ duration: 0.65, ease: premiumEase }}
+            className="
+              flex
+              h-9
+              w-9
+
+              shrink-0
+
+              items-center
+              justify-center
+
+              rounded-full
+
+              bg-[#D4EBFF]
+
+              text-[#1979C4]
+            "
+          >
+            <LocationIcon />
+          </motion.div>
+
+          <div className="min-w-0">
+            <p
+              className="
+                text-[9px]
+                font-bold
+
+                leading-[1.4]
+
+                text-[#0B365A]
+              "
+            >
+              Professional CA Services
+            </p>
+
+            <p
+              className="
+                mt-1
+
+                text-[7px]
+
+                leading-[1.6]
+
+                text-[#547793]
+              "
+            >
+              Serving Chennai &amp;
+              <br />
+              Tamil Nadu.
+            </p>
+          </div>
+        </div>
+      </GlassCard>
+    );
+  }
+
+  /* =======================================================
+     SERVICE
+  ======================================================= */
+
+  if (card.type === "service") {
+    return (
+      <GlassCard className="h-[132px] p-4">
+        <div className="flex items-center justify-between">
+          <motion.div
+            whileInView={{ scale: [0.85, 1.08, 1], rotate: [0, 5, 0] }}
+            viewport={{ once: false, amount: 0.7 }}
+            transition={{ duration: 0.65, ease: premiumEase }}
+            className="
+              flex
+              h-9
+              w-9
+
+              items-center
+              justify-center
+
+              rounded-full
+
+              bg-[#D5ECFF]
+
+              text-[#1777C1]
+            "
+          >
+            <DocumentIcon />
+          </motion.div>
+
+          <span
+            className="
+              h-2
+              w-2
+
+              rounded-full
+
+              bg-[#1687DF]
+
+              shadow-[0_0_12px_rgba(22,135,223,0.55)]
+            "
+          />
+        </div>
+
+        <p
+          className="
+            mt-4
+
+            text-[9px]
+            font-bold
+
+            text-[#0A3458]
+          "
+        >
+          {card.title}
+        </p>
+
+        <p
+          className="
+            mt-1
+
+            text-[7px]
+            font-medium
+
+            text-[#567895]
+          "
+        >
+          {card.subtitle}
+        </p>
+      </GlassCard>
+    );
+  }
+
+  return null;
+}
+
+/* =========================================================
+   GLASS CARD
+========================================================= */
+
+function GlassCard({
+  className = "",
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <motion.div
+      whileHover={{
+        y: -4,
+        scale: 1.015,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 250,
+        damping: 22,
+      }}
+      className={`
+        relative
+
+        shrink-0
+
+        overflow-hidden
+
+        rounded-[14px]
+
+        border
+        border-white/80
+
+        bg-white/72
+
+        text-[#082D50]
+
+        shadow-[0_18px_40px_rgba(19,95,158,0.15)]
+
+        backdrop-blur-xl
+
+        ${className}
+      `}
+    >
+      {/* GLASS TOP LIGHT */}
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+
+          absolute
+          inset-x-0
+          top-0
+
+          h-px
+
+          bg-gradient-to-r
+          from-transparent
+          via-white
+          to-transparent
+        "
+      />
+
+      {/* GLASS HIGHLIGHT */}
+
+      <motion.div
+        aria-hidden="true"
+        animate={{
+          x: [0, -18, 0],
+          y: [0, 12, 0],
+          opacity: [0.28, 0.5, 0.28],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="
+          pointer-events-none
+
+          absolute
+          -right-10
+          -top-12
+
+          h-28
+          w-28
+
+          rounded-full
+
+          bg-white/35
+
+          blur-2xl
+        "
+      />
+
+      <div className="relative z-10 h-full">{children}</div>
+    </motion.div>
+  );
+}
+
+/* =========================================================
+   GROWTH CHART
+========================================================= */
+
+function GrowthChart() {
+  return (
+    <svg
+      viewBox="0 0 160 55"
+      className="h-[60px] w-full"
+      fill="none"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient
+          id="chartArea"
+          x1="80"
+          y1="0"
+          x2="80"
+          y2="55"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop
+            offset="0%"
+            stopColor="#1889DF"
+            stopOpacity="0.32"
+          />
+
+          <stop
+            offset="100%"
+            stopColor="#1889DF"
+            stopOpacity="0"
+          />
+        </linearGradient>
+
+        <linearGradient
+          id="chartLine"
+          x1="0"
+          y1="0"
+          x2="160"
+          y2="0"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop
+            stopColor="#1775BE"
+          />
+
+          <stop
+            offset="1"
+            stopColor="#085D9F"
+          />
+        </linearGradient>
+      </defs>
+
+      <path
+        d="
+          M2 48
+          C18 44,24 44,34 34
+          C44 22,50 37,63 29
+          C78 18,84 28,95 18
+          C107 8,115 22,128 10
+          C139 2,148 7,158 1
+          L158 55
+          L2 55
+          Z
+        "
+        fill="url(#chartArea)"
+      />
+
+      <motion.path
+        d="
+          M2 48
+          C18 44,24 44,34 34
+          C44 22,50 37,63 29
+          C78 18,84 28,95 18
+          C107 8,115 22,128 10
+          C139 2,148 7,158 1
+        "
+        stroke="url(#chartLine)"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        initial={{ pathLength: 0, opacity: 0 }}
+        whileInView={{ pathLength: 1, opacity: 1 }}
+        viewport={{ once: false, amount: 0.6 }}
+        transition={{ duration: 1.25, ease: premiumEase }}
+      />
+
+      <circle
+        cx="158"
+        cy="1"
+        r="3"
+        fill="#075C9F"
+      />
+    </svg>
+  );
+}
+
+/* =========================================================
+   ICONS
 ========================================================= */
 
 function ArrowIcon() {
   return (
     <svg
-      width="17"
-      height="17"
+      width="15"
+      height="15"
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
@@ -1511,40 +1790,124 @@ function ArrowIcon() {
   );
 }
 
-/* =========================================================
-   CALENDAR ICON
-========================================================= */
-
-function CalendarIcon() {
+function StarIcon() {
   return (
     <svg
-      width="20"
-      height="20"
+      width="10"
+      height="10"
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
     >
-      <rect
-        x="3"
-        y="5"
-        width="18"
-        height="16"
-        rx="3"
-        stroke="currentColor"
-        strokeWidth="1.7"
-      />
-
       <path
-        d="M7 3V7M17 3V7M3 10H21"
+        d="M12 3L14.7 8.3L20.5 9.2L16.3 13.3L17.3 19.1L12 16.4L6.7 19.1L7.7 13.3L3.5 9.2L9.3 8.3L12 3Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg
+      width="13"
+      height="13"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M5 12.5L9.5 17L19 7"
         stroke="currentColor"
-        strokeWidth="1.7"
+        strokeWidth="1.8"
         strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function GoogleIcon() {
+  return (
+    <div
+      className="
+        flex
+        h-6
+        w-6
+
+        items-center
+        justify-center
+
+        rounded-full
+
+        border
+        border-[#B7D9F1]
+
+        bg-[#E2F2FF]
+
+        text-[9px]
+        font-bold
+
+        text-[#146FB5]
+      "
+    >
+      G
+    </div>
+  );
+}
+
+function LocationIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="
+          M20 10
+          C20 15 12 21 12 21
+          C12 21 4 15 4 10
+          C4 5.6 7.6 2 12 2
+          C16.4 2 20 5.6 20 10Z
+        "
+        stroke="currentColor"
+        strokeWidth="1.7"
+      />
+
+      <circle
+        cx="12"
+        cy="10"
+        r="2.5"
+        stroke="currentColor"
+        strokeWidth="1.7"
+      />
+    </svg>
+  );
+}
+
+function DocumentIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M7 3H14L19 8V21H7V3Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
       />
 
       <path
-        d="M8 14H10M14 14H16M8 17H10"
+        d="M14 3V8H19M10 12H16M10 16H16"
         stroke="currentColor"
-        strokeWidth="1.7"
+        strokeWidth="1.6"
         strokeLinecap="round"
       />
     </svg>

@@ -312,7 +312,9 @@ export default function Header() {
 
       <header
         className={`
-          sticky
+          fixed
+          left-0
+          right-0
           top-0
           z-[100]
           w-full
@@ -348,7 +350,7 @@ export default function Header() {
             w-full
             overflow-visible
 
-            backdrop-blur-xl
+            backdrop-blur-sm
 
             transition-[max-width,border-radius,box-shadow,border-color,background-color]
             duration-500
@@ -361,11 +363,11 @@ export default function Header() {
                   rounded-[18px]
 
                   border
-                  border-white/70
+                  border-white/55
 
-                  bg-[#EEF3F9]/92
+                  bg-[#DCEEFF]/82
 
-                  shadow-[0_14px_45px_rgba(15,31,55,0.13)]
+                  shadow-[0_16px_45px_rgba(15,72,120,0.16)]
 
                   sm:rounded-[20px]
 
@@ -381,7 +383,7 @@ export default function Header() {
                   border
                   border-transparent
 
-                  bg-[#EEF3F9]
+                  bg-transparent
 
                   shadow-none
                 `
@@ -405,23 +407,27 @@ export default function Header() {
 
               ${scrolled
                 ? "rounded-[inherit] opacity-100"
-                : "rounded-none opacity-70"
+                : "rounded-none opacity-0"
               }
             `}
           >
             <div
               className="
                 absolute
-                -left-14
-                -top-28
+                inset-0
+                bg-[linear-gradient(110deg,rgba(255,255,255,0.30)_0%,rgba(219,239,255,0.20)_42%,rgba(117,190,245,0.10)_100%)]
+              "
+            />
 
-                h-[190px]
-                w-[190px]
-
+            <div
+              className="
+                absolute
+                -left-12
+                -top-24
+                h-[180px]
+                w-[260px]
                 rounded-full
-
-                bg-[#246EF1]/10
-
+                bg-white/28
                 blur-[70px]
               "
             />
@@ -429,19 +435,17 @@ export default function Header() {
             <div
               className="
                 absolute
-                right-[12%]
-                -top-28
-
-                h-[170px]
-                w-[170px]
-
+                right-[10%]
+                -top-24
+                h-[180px]
+                w-[260px]
                 rounded-full
-
-                bg-[#246EF1]/5
-
-                blur-[65px]
+                bg-[#75BEF5]/18
+                blur-[70px]
               "
             />
+
+            <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
           </div>
 
           {/* =================================================
@@ -603,18 +607,18 @@ export default function Header() {
 
                           ${active
                             ? `
-                                bg-white
+                                bg-white/82
 
                                 text-[#246EF1]
 
-                                shadow-[0_5px_18px_rgba(36,110,241,0.12)]
+                                shadow-[0_6px_20px_rgba(36,110,241,0.12)]
                               `
                             : `
-                                text-[#536071]
+                                text-[#234968]
 
-                                hover:bg-white/75
+                                hover:bg-white/45
 
-                                hover:text-[#246EF1]
+                                hover:text-[#176FC1]
                               `
                           }
                         `}
@@ -735,7 +739,7 @@ export default function Header() {
 
                                 rounded-full
 
-                                bg-[#246EF1]/10
+                                bg-[#126FC5]/10
                               "
                             />
 
@@ -977,16 +981,16 @@ export default function Header() {
 
                   text-white
 
-                  shadow-[0_7px_20px_rgba(36,110,241,0.25)]
+                  shadow-[0_8px_24px_rgba(18,111,197,0.28)]
 
                   transition-all
                   duration-300
 
                   hover:-translate-y-[2px]
 
-                  hover:bg-[#195FD9]
+                  hover:bg-[#0B5DA9]
 
-                  hover:shadow-[0_12px_28px_rgba(36,110,241,0.32)]
+                  hover:shadow-[0_12px_30px_rgba(18,111,197,0.36)]
 
                   xl:px-[21px]
 
@@ -1026,11 +1030,11 @@ export default function Header() {
                 rounded-full
 
                 border
-                border-[#DCE4EE]
+                border-white/55
 
-                bg-white
+                bg-white/60
 
-                text-[#243247]
+                text-[#173E60]
 
                 shadow-[0_4px_15px_rgba(20,40,70,0.08)]
 
