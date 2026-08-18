@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import {
   motion,
+  useInView,
   useReducedMotion,
   type Variants,
 } from "framer-motion";
 
 import {
-  Clock,
+  Timer,
   Mesh,
   OrthographicCamera,
   PlaneGeometry,
@@ -489,13 +490,14 @@ function hexToVec3(hex: string) {
    CONTENT ANIMATION
 ========================================================= */
 
+const smoothEase = [0.16, 1, 0.3, 1] as const;
+
 const contentContainer: Variants = {
   hidden: {},
-
   show: {
     transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.1,
+      delayChildren: 0.08,
+      staggerChildren: 0.16,
     },
   },
 };
@@ -503,25 +505,14 @@ const contentContainer: Variants = {
 const rise: Variants = {
   hidden: {
     opacity: 0,
-    y: 18,
-    filter:
-      "blur(5px)",
+    y: 22,
   },
-
   show: {
     opacity: 1,
     y: 0,
-    filter:
-      "blur(0px)",
-
     transition: {
-      duration: 0.7,
-      ease: [
-        0.16,
-        1,
-        0.3,
-        1,
-      ],
+      duration: 0.95,
+      ease: smoothEase,
     },
   },
 };
@@ -531,6 +522,11 @@ const rise: Variants = {
 ========================================================= */
 
 export default function FinalCtaBanner() {
+  const sectionRef =
+    useRef<HTMLElement | null>(
+      null
+    );
+
   const canvasRef =
     useRef<HTMLDivElement | null>(
       null
@@ -538,6 +534,12 @@ export default function FinalCtaBanner() {
 
   const prefersReducedMotion =
     useReducedMotion();
+
+  const sectionInView =
+    useInView(sectionRef, {
+      amount: 0.12,
+      margin: "0px 0px -8% 0px",
+    });
 
   useEffect(() => {
     const container =
@@ -574,11 +576,15 @@ export default function FinalCtaBanner() {
         alpha: true,
       });
 
+    const isMobile =
+      window.matchMedia(
+        "(max-width: 767px)"
+      ).matches;
+
     renderer.setPixelRatio(
       Math.min(
-        window.devicePixelRatio ||
-          1,
-        2
+        window.devicePixelRatio || 1,
+        isMobile ? 1.35 : 1.75
       )
     );
 
@@ -680,8 +686,12 @@ export default function FinalCtaBanner() {
       mesh
     );
 
-    const clock =
-      new Clock();
+    const timer =
+      new Timer();
+
+    timer.connect(
+      document
+    );
 
     /* =====================================================
        RESIZE
@@ -786,15 +796,22 @@ export default function FinalCtaBanner() {
           0;
       };
 
-    container.addEventListener(
-      "pointermove",
-      handlePointerMove
-    );
+    const canHover =
+      window.matchMedia(
+        "(hover: hover) and (pointer: fine)"
+      ).matches;
 
-    container.addEventListener(
-      "pointerleave",
-      handlePointerLeave
-    );
+    if (canHover) {
+      container.addEventListener(
+        "pointermove",
+        handlePointerMove
+      );
+
+      container.addEventListener(
+        "pointerleave",
+        handlePointerLeave
+      );
+    }
 
     /* =====================================================
        ANIMATION
@@ -803,39 +820,60 @@ export default function FinalCtaBanner() {
     let raf =
       0;
 
+    let pageVisible =
+      !document.hidden;
+
+    const handleVisibility =
+      () => {
+        pageVisible =
+          !document.hidden;
+      };
+
+    document.addEventListener(
+      "visibilitychange",
+      handleVisibility
+    );
+
     const animate =
       () => {
         if (!active) {
           return;
         }
 
-        uniforms.iTime.value =
-          prefersReducedMotion
-            ? 0
-            : clock.getElapsedTime();
+        if (
+          sectionInView &&
+          pageVisible
+        ) {
+          timer.update();
 
-        currentMouse.lerp(
-          targetMouse,
-          damping
-        );
+          uniforms.iTime.value =
+            prefersReducedMotion
+              ? 0
+              : timer.getElapsed();
 
-        uniforms.iMouse.value.copy(
-          currentMouse
-        );
+          currentMouse.lerp(
+            targetMouse,
+            damping
+          );
 
-        currentInfluence +=
-          (
-            targetInfluence -
-            currentInfluence
-          ) * damping;
+          uniforms.iMouse.value.copy(
+            currentMouse
+          );
 
-        uniforms.bendInfluence.value =
-          currentInfluence;
+          currentInfluence +=
+            (
+              targetInfluence -
+              currentInfluence
+            ) * damping;
 
-        renderer.render(
-          scene,
-          camera
-        );
+          uniforms.bendInfluence.value =
+            currentInfluence;
+
+          renderer.render(
+            scene,
+            camera
+          );
+        }
 
         raf =
           requestAnimationFrame(
@@ -859,19 +897,28 @@ export default function FinalCtaBanner() {
 
       resizeObserver.disconnect();
 
-      container.removeEventListener(
-        "pointermove",
-        handlePointerMove
-      );
+      if (canHover) {
+        container.removeEventListener(
+          "pointermove",
+          handlePointerMove
+        );
 
-      container.removeEventListener(
-        "pointerleave",
-        handlePointerLeave
+        container.removeEventListener(
+          "pointerleave",
+          handlePointerLeave
+        );
+      }
+
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibility
       );
 
       geometry.dispose();
 
       material.dispose();
+
+      timer.disconnect();
 
       renderer.dispose();
 
@@ -890,25 +937,31 @@ export default function FinalCtaBanner() {
     };
   }, [
     prefersReducedMotion,
+    sectionInView,
   ]);
 
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="final-cta-heading"
       className="
         relative
         isolate
         flex
-        min-h-[560px]
+        min-h-[520px]
         w-full
         items-center
         overflow-hidden
-        px-6
-        py-24
+        px-5
+        py-20
         text-center
 
-        sm:min-h-[600px]
-        sm:py-28
+        sm:min-h-[580px]
+        sm:px-6
+        sm:py-24
+
+        md:min-h-[600px]
+        md:py-28
 
         lg:min-h-[620px]
         lg:py-32
@@ -946,19 +999,34 @@ export default function FinalCtaBanner() {
 
       <motion.div
         variants={
-          contentContainer
+          prefersReducedMotion
+            ? undefined
+            : contentContainer
         }
-        initial="hidden"
-        whileInView="show"
-        viewport={{
-          once: true,
-          amount: 0.4,
+        initial={
+          prefersReducedMotion
+            ? false
+            : "hidden"
+        }
+        animate={
+          prefersReducedMotion
+            ? undefined
+            : sectionInView
+              ? "show"
+              : "hidden"
+        }
+        style={{
+          willChange:
+            prefersReducedMotion
+              ? "auto"
+              : "transform, opacity",
         }}
         className="
           relative
           z-10
           mx-auto
           flex
+          transform-gpu
           w-full
           max-w-3xl
           flex-col
