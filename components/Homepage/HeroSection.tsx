@@ -860,18 +860,7 @@ export default function HeroSection() {
         =================================================== */}
 
         <motion.div
-          initial={
-            reduceMotion
-              ? false
-              : { opacity: 0, x: 90, scale: 0.96, filter: "blur(10px)" }
-          }
-          whileInView={
-            reduceMotion
-              ? undefined
-              : { opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }
-          }
-          viewport={{ once: true, amount: 0.12 }}
-          transition={{ duration: 1.35, delay: 0.32, ease: premiumEase }}
+          initial={false}
           className="
             relative
 
