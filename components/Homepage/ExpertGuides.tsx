@@ -5,9 +5,11 @@ import Link from "next/link";
 import {
   AnimatePresence,
   motion,
+  useInView,
+  useReducedMotion,
   type Variants,
 } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /* =========================================================
    TYPES
@@ -64,19 +66,65 @@ const guides: Guide[] = [
    SECTION ANIMATION
 ========================================================= */
 
+const smoothEase = [0.22, 1, 0.36, 1] as const;
+
+/*
+ * iPhone-friendly entrance animation:
+ * opacity + transform only.
+ * No blur/filter because those can be expensive in mobile Safari.
+ */
 const sectionReveal: Variants = {
   hidden: {
     opacity: 0,
-    y: 45,
+    y: 24,
   },
-
   visible: {
     opacity: 1,
     y: 0,
-
     transition: {
-      duration: 1,
-      ease: [0.22, 1, 0.36, 1],
+      duration: 1.15,
+      ease: smoothEase,
+    },
+  },
+};
+
+const headerSequence: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.08,
+      staggerChildren: 0.16,
+    },
+  },
+};
+
+const headerItem: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 18,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.95,
+      ease: smoothEase,
+    },
+  },
+};
+
+const cardAreaReveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1.05,
+      delay: 0.16,
+      ease: smoothEase,
     },
   },
 };
@@ -221,6 +269,7 @@ function BlogCard({ guide }: { guide: Guide }) {
                 33vw
               "
               className="
+                transform-gpu
                 object-cover
 
                 transition-transform
@@ -702,8 +751,8 @@ function SliderControls({
                     : 7,
               }}
               transition={{
-                duration: 0.45,
-                ease: [0.22, 1, 0.36, 1],
+                duration: 0.35,
+                ease: smoothEase,
               }}
               className={`
                 block
@@ -760,12 +809,23 @@ export default function ExpertGuides() {
   const [isPaused, setIsPaused] =
     useState(false);
 
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const reduceMotion = useReducedMotion();
+
+  const isSectionInView = useInView(sectionRef, {
+    amount: 0.12,
+    margin: "0px 0px -8% 0px",
+  });
+
   /* =====================================================
      AUTO SLIDER
+
+     Runs only while the section is visible.
+     This reduces unnecessary work on real phones.
   ====================================================== */
 
   useEffect(() => {
-    if (isPaused) return;
+    if (!isSectionInView || isPaused || reduceMotion) return;
 
     const interval =
       window.setInterval(() => {
@@ -774,11 +834,11 @@ export default function ExpertGuides() {
             (previous + 1) %
             guides.length,
         );
-      }, 5200);
+      }, 5600);
 
     return () =>
       window.clearInterval(interval);
-  }, [isPaused]);
+  }, [isSectionInView, isPaused, reduceMotion]);
 
   /* =====================================================
      PREVIOUS
@@ -819,6 +879,7 @@ export default function ExpertGuides() {
 
   return (
     <section
+      ref={sectionRef}
       className="
         relative
         overflow-hidden
@@ -932,12 +993,15 @@ export default function ExpertGuides() {
       =================================================== */}
 
       <motion.div
-        variants={sectionReveal}
-        initial="hidden"
-        whileInView="visible"
+        variants={reduceMotion ? undefined : sectionReveal}
+        initial={reduceMotion ? false : "hidden"}
+        whileInView={reduceMotion ? undefined : "visible"}
         viewport={{
           once: true,
           amount: 0.12,
+        }}
+        style={{
+          willChange: reduceMotion ? "auto" : "transform, opacity",
         }}
         className="
           relative
@@ -957,7 +1021,11 @@ export default function ExpertGuides() {
             HEADER
         =================================================== */}
 
-        <div
+        <motion.div
+          variants={reduceMotion ? undefined : headerSequence}
+          initial={reduceMotion ? false : "hidden"}
+          whileInView={reduceMotion ? undefined : "visible"}
+          viewport={{ once: true, amount: 0.35 }}
           className="
             mb-10
 
@@ -965,7 +1033,8 @@ export default function ExpertGuides() {
             lg:mb-14
           "
         >
-          <div
+          <motion.div
+            variants={reduceMotion ? undefined : headerItem}
             className="
               mb-5
 
@@ -989,7 +1058,7 @@ export default function ExpertGuides() {
             >
               Expert Guides
             </span>
-          </div>
+          </motion.div>
 
           <div
             className="
@@ -1004,7 +1073,8 @@ export default function ExpertGuides() {
               lg:gap-14
             "
           >
-            <h2
+            <motion.h2
+              variants={reduceMotion ? undefined : headerItem}
               className="
                 max-w-[680px]
 
@@ -1024,9 +1094,10 @@ export default function ExpertGuides() {
               <span className="text-[#0875D1]">
                 Stay Compliant.
               </span>
-            </h2>
+            </motion.h2>
 
-            <div
+            <motion.div
+              variants={reduceMotion ? undefined : headerItem}
               className="
                 md:ml-auto
                 md:max-w-[450px]
@@ -1051,10 +1122,19 @@ export default function ExpertGuides() {
                 by our CA team for Indian
                 entrepreneurs.
               </p>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
 
+        <motion.div
+          variants={reduceMotion ? undefined : cardAreaReveal}
+          initial={reduceMotion ? false : "hidden"}
+          whileInView={reduceMotion ? undefined : "visible"}
+          viewport={{ once: true, amount: 0.16 }}
+          style={{
+            willChange: reduceMotion ? "auto" : "transform, opacity",
+          }}
+        >
         {/* ==================================================
             MOBILE
             1 COMPLETE CARD
@@ -1068,6 +1148,15 @@ export default function ExpertGuides() {
           onMouseLeave={() =>
             setIsPaused(false)
           }
+          onTouchStart={() =>
+            setIsPaused(true)
+          }
+          onTouchEnd={() => {
+            window.setTimeout(
+              () => setIsPaused(false),
+              700,
+            );
+          }}
         >
           <div className="overflow-hidden">
             <AnimatePresence
@@ -1076,28 +1165,36 @@ export default function ExpertGuides() {
             >
               <motion.div
                 key={`mobile-slide-${activeIndex}`}
-                initial={{
-                  opacity: 0,
-                  x: 65,
-                }}
+                initial={
+                  reduceMotion
+                    ? false
+                    : {
+                        opacity: 0,
+                        x: 28,
+                      }
+                }
                 animate={{
                   opacity: 1,
                   x: 0,
                 }}
-                exit={{
-                  opacity: 0,
-                  x: -65,
-                }}
+                exit={
+                  reduceMotion
+                    ? undefined
+                    : {
+                        opacity: 0,
+                        x: -28,
+                      }
+                }
                 transition={{
-                  duration: 0.8,
-
-                  ease: [
-                    0.22,
-                    1,
-                    0.36,
-                    1,
-                  ],
+                  duration: reduceMotion ? 0 : 0.58,
+                  ease: smoothEase,
                 }}
+                style={{
+                  willChange: reduceMotion
+                    ? "auto"
+                    : "transform, opacity",
+                }}
+                className="transform-gpu"
               >
                 <BlogCard
                   guide={
@@ -1141,29 +1238,37 @@ export default function ExpertGuides() {
             >
               <motion.div
                 key={`tablet-slide-${activeIndex}`}
-                initial={{
-                  opacity: 0,
-                  x: 65,
-                }}
+                initial={
+                  reduceMotion
+                    ? false
+                    : {
+                        opacity: 0,
+                        x: 32,
+                      }
+                }
                 animate={{
                   opacity: 1,
                   x: 0,
                 }}
-                exit={{
-                  opacity: 0,
-                  x: -65,
-                }}
+                exit={
+                  reduceMotion
+                    ? undefined
+                    : {
+                        opacity: 0,
+                        x: -32,
+                      }
+                }
                 transition={{
-                  duration: 0.85,
-
-                  ease: [
-                    0.22,
-                    1,
-                    0.36,
-                    1,
-                  ],
+                  duration: reduceMotion ? 0 : 0.62,
+                  ease: smoothEase,
+                }}
+                style={{
+                  willChange: reduceMotion
+                    ? "auto"
+                    : "transform, opacity",
                 }}
                 className="
+                  transform-gpu
                   grid
                   grid-cols-2
 
@@ -1217,6 +1322,8 @@ export default function ExpertGuides() {
             />
           ))}
         </div>
+
+        </motion.div>
 
         {/* ==================================================
             BOTTOM CTA

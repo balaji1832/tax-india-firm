@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import {
   motion,
+  useInView,
   useReducedMotion,
 } from "framer-motion";
 import {
@@ -220,6 +221,8 @@ function getLayoutMode(
   return "desktop";
 }
 
+const smoothEase = [0.22, 1, 0.36, 1] as const;
+
 /* =========================================================
    SECTION
 ========================================================= */
@@ -227,6 +230,15 @@ function getLayoutMode(
 export default function ServicesSection() {
   const reduceMotion =
     useReducedMotion();
+
+  const sectionRef =
+    useRef<HTMLElement | null>(null);
+
+  const isSectionInView =
+    useInView(sectionRef, {
+      amount: 0.12,
+      margin: "0px 0px -8% 0px",
+    });
 
   const [
     activeIndex,
@@ -297,6 +309,7 @@ export default function ServicesSection() {
   useEffect(() => {
     if (
       reduceMotion ||
+      !isSectionInView ||
       paused ||
       hoveredIndex !==
         null
@@ -316,7 +329,7 @@ export default function ServicesSection() {
               )
           );
         },
-        4800
+        5600
       );
 
     return () => {
@@ -326,6 +339,7 @@ export default function ServicesSection() {
     };
   }, [
     reduceMotion,
+    isSectionInView,
     paused,
     hoveredIndex,
   ]);
@@ -385,7 +399,11 @@ export default function ServicesSection() {
       touchStartX.current =
         null;
 
-      setPaused(false);
+      window.setTimeout(
+        () =>
+          setPaused(false),
+        700
+      );
 
       if (
         start == null ||
@@ -422,6 +440,7 @@ export default function ServicesSection() {
 
   return (
     <section
+      ref={sectionRef}
       className="
         relative
         isolate
@@ -564,7 +583,11 @@ export default function ServicesSection() {
               amount: 0.6,
             }}
             transition={{
-              duration: 0.5,
+              duration:
+                reduceMotion
+                  ? 0
+                  : 0.85,
+              ease: smoothEase,
             }}
             className="
               mx-auto
@@ -621,7 +644,7 @@ export default function ServicesSection() {
               y:
                 reduceMotion
                   ? 0
-                  : 24,
+                  : 14,
             }}
             whileInView={{
               opacity: 1,
@@ -632,14 +655,15 @@ export default function ServicesSection() {
               amount: 0.5,
             }}
             transition={{
-              duration: 0.7,
-              delay: 0.05,
-              ease: [
-                0.22,
-                1,
-                0.36,
-                1,
-              ],
+              duration:
+                reduceMotion
+                  ? 0
+                  : 1.0,
+              delay:
+                reduceMotion
+                  ? 0
+                  : 0.08,
+              ease: smoothEase,
             }}
             className="
               mt-5
@@ -686,8 +710,15 @@ export default function ServicesSection() {
               amount: 0.5,
             }}
             transition={{
-              duration: 0.6,
-              delay: 0.12,
+              duration:
+                reduceMotion
+                  ? 0
+                  : 0.9,
+              delay:
+                reduceMotion
+                  ? 0
+                  : 0.16,
+              ease: smoothEase,
             }}
             className="
               mx-auto
@@ -914,13 +945,8 @@ export default function ServicesSection() {
                         duration:
                           reduceMotion
                             ? 0
-                            : 0.3,
-                        ease: [
-                          0.22,
-                          1,
-                          0.36,
-                          1,
-                        ],
+                            : 0.45,
+                        ease: smoothEase,
                       }}
                       className={`
                         block
@@ -1144,8 +1170,8 @@ function CarouselCard({
 
         y:
           active
-            ? -4
-            : 15,
+            ? -2
+            : 10,
       }}
       transition={
         reduceMotion
@@ -1153,11 +1179,8 @@ function CarouselCard({
               duration: 0,
             }
           : {
-              type:
-                "spring",
-              stiffness: 145,
-              damping: 24,
-              mass: 0.92,
+              duration: 0.82,
+              ease: smoothEase,
             }
       }
       style={{
@@ -1166,6 +1189,10 @@ function CarouselCard({
           zByOffset[
             offset
           ] ?? 0,
+        willChange:
+          reduceMotion
+            ? "auto"
+            : "transform, opacity",
       }}
       className={`
         group
@@ -1224,37 +1251,28 @@ function CarouselCard({
           bg-center
           bg-no-repeat
         "
-        style={{
-          backgroundImage:
-            `url("${service.image}")`,
-        }}
         initial={false}
         animate={{
           scale:
             highlighted &&
             !reduceMotion
-              ? 1.045
+              ? 1.035
               : 1,
-
-          filter:
-            active
-              ? "saturate(1.16) contrast(1.08) brightness(1.08)"
-              : hovered
-                ? "saturate(1.08) contrast(1.05) brightness(1.00)"
-                : "saturate(.92) contrast(1.02) brightness(.86)",
         }}
         transition={{
           duration:
             reduceMotion
               ? 0
-              : 0.55,
-
-          ease: [
-            0.22,
-            1,
-            0.36,
-            1,
-          ],
+              : 0.75,
+          ease: smoothEase,
+        }}
+        style={{
+          backgroundImage:
+            `url("${service.image}")`,
+          willChange:
+            reduceMotion
+              ? "auto"
+              : "transform",
         }}
       />
 
@@ -1283,7 +1301,8 @@ function CarouselCard({
           duration:
             reduceMotion
               ? 0
-              : 0.42,
+              : 0.65,
+          ease: smoothEase,
         }}
       />
 
@@ -1323,7 +1342,8 @@ function CarouselCard({
           duration:
             reduceMotion
               ? 0
-              : 0.35,
+              : 0.55,
+          ease: smoothEase,
         }}
       />
 

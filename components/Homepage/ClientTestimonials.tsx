@@ -1,7 +1,12 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  useReducedMotion,
+} from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 /* ======================================================
    TYPES
@@ -220,7 +225,7 @@ function ReviewCard({ review }: { review: Review }) {
         relative
         flex
         h-full
-        min-h-[370px]
+        min-h-[360px]
         flex-col
         overflow-hidden
         rounded-[20px]
@@ -234,7 +239,9 @@ function ReviewCard({ review }: { review: Review }) {
 
         hover:shadow-[0_24px_60px_rgba(20,55,46,0.11)]
 
-        sm:min-h-[390px]
+        sm:min-h-[380px]
+        md:min-h-[410px]
+        lg:min-h-[390px]
         sm:p-7
 
         xl:p-8
@@ -383,19 +390,33 @@ export default function ClientTestimonials() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isPaused, setIsPaused] = useState<boolean>(false);
 
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const isSectionInView = useInView(sectionRef, {
+    amount: 0.18,
+    margin: "0px 0px -8% 0px",
+  });
+
+  const reduceMotion = useReducedMotion();
+
   /* ====================================================
      AUTO SLIDER
+
+     Important:
+     - does not run while this section is off-screen
+     - does not run while user is interacting
+     - avoids changing the active card before the user
+       actually reaches this section
   ==================================================== */
 
   useEffect(() => {
-    if (isPaused) return;
+    if (!isSectionInView || isPaused) return;
 
     const interval = window.setInterval(() => {
       setActiveIndex((previous) => (previous + 1) % reviews.length);
-    }, 4500);
+    }, 5000);
 
     return () => window.clearInterval(interval);
-  }, [isPaused]);
+  }, [isSectionInView, isPaused]);
 
   /* ====================================================
      PREVIOUS
@@ -431,11 +452,12 @@ export default function ClientTestimonials() {
 
   return (
     <section
+      ref={sectionRef}
       className="
         relative
         overflow-hidden
         bg-[#F8F7F3]
-        py-14
+        py-12
 
         sm:py-16
         lg:py-20
@@ -512,21 +534,27 @@ export default function ClientTestimonials() {
         ================================================== */}
 
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 35,
-          }}
+          initial={
+            reduceMotion
+              ? false
+              : {
+                  opacity: 0,
+                  y: 24,
+                  filter: "blur(6px)",
+                }
+          }
           whileInView={{
             opacity: 1,
             y: 0,
+            filter: "blur(0px)",
           }}
           viewport={{
             once: true,
-            amount: 0.3,
+            amount: 0.42,
           }}
           transition={{
-            duration: 0.9,
-            ease: [0.22, 1, 0.36, 1],
+            duration: reduceMotion ? 0 : 1.25,
+            ease: [0.16, 1, 0.3, 1],
           }}
           className="
             mx-auto
@@ -540,7 +568,17 @@ export default function ClientTestimonials() {
         >
           {/* label */}
 
-          <div className="mb-4 flex items-center justify-center gap-3">
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{
+              duration: reduceMotion ? 0 : 0.95,
+              delay: reduceMotion ? 0 : 0.08,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="mb-4 flex items-center justify-center gap-3"
+          >
             <span className="h-px w-7 bg-[#C6A15B]" />
 
             <span
@@ -558,11 +596,19 @@ export default function ClientTestimonials() {
             </span>
 
             <span className="h-px w-7 bg-[#C6A15B]" />
-          </div>
+          </motion.div>
 
           {/* heading */}
 
-          <h2
+          <motion.h2
+            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.45 }}
+            transition={{
+              duration: reduceMotion ? 0 : 1.15,
+              delay: reduceMotion ? 0 : 0.16,
+              ease: [0.16, 1, 0.3, 1],
+            }}
             className="
               text-[29px]
               font-semibold
@@ -580,7 +626,16 @@ export default function ClientTestimonials() {
             What Business Owners in{" "}
             <span className="relative inline-block">
               Chennai
-              <span
+              <motion.span
+                initial={reduceMotion ? false : { scaleX: 0, opacity: 0 }}
+                whileInView={{ scaleX: 1, opacity: 1 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{
+                  duration: reduceMotion ? 0 : 1.0,
+                  delay: reduceMotion ? 0 : 0.55,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                style={{ transformOrigin: "left center" }}
                 className="
                   absolute
                   -bottom-[2px]
@@ -594,11 +649,19 @@ export default function ClientTestimonials() {
               />
             </span>{" "}
             Say About Us.
-          </h2>
+          </motion.h2>
 
           {/* sub heading */}
 
-          <p
+          <motion.p
+            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.45 }}
+            transition={{
+              duration: reduceMotion ? 0 : 1.05,
+              delay: reduceMotion ? 0 : 0.32,
+              ease: [0.16, 1, 0.3, 1],
+            }}
             className="
               mx-auto
               mt-5
@@ -616,7 +679,7 @@ export default function ClientTestimonials() {
           >
             Real Google reviews from real clients, businesses we've helped
             register, file and stay compliant across Tamil Nadu.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* =================================================
@@ -629,28 +692,39 @@ export default function ClientTestimonials() {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
+          onTouchEnd={() => {
+            window.setTimeout(() => setIsPaused(false), 900);
+          }}
         >
           <div className="overflow-hidden">
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={`mobile-${activeIndex}`}
-                initial={{
-                  opacity: 0,
-                  x: 45,
-                }}
+                initial={
+                  reduceMotion
+                    ? false
+                    : {
+                        opacity: 0,
+                        x: 28,
+                      }
+                }
                 animate={{
                   opacity: 1,
                   x: 0,
                 }}
-                exit={{
-                  opacity: 0,
-                  x: -45,
-                }}
+                exit={
+                  reduceMotion
+                    ? undefined
+                    : {
+                        opacity: 0,
+                        x: -28,
+                      }
+                }
                 transition={{
-                  duration: 0.65,
+                  duration: reduceMotion ? 0 : 0.42,
                   ease: [0.22, 1, 0.36, 1],
                 }}
+                className="min-h-[370px] sm:min-h-[390px]"
               >
                 <ReviewCard review={reviews[activeIndex]} />
               </motion.div>
@@ -678,26 +752,34 @@ export default function ClientTestimonials() {
           onMouseLeave={() => setIsPaused(false)}
         >
           <div className="overflow-hidden">
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={`tablet-${activeIndex}`}
-                initial={{
-                  opacity: 0,
-                  x: 55,
-                }}
+                initial={
+                  reduceMotion
+                    ? false
+                    : {
+                        opacity: 0,
+                        x: 32,
+                      }
+                }
                 animate={{
                   opacity: 1,
                   x: 0,
                 }}
-                exit={{
-                  opacity: 0,
-                  x: -55,
-                }}
+                exit={
+                  reduceMotion
+                    ? undefined
+                    : {
+                        opacity: 0,
+                        x: -32,
+                      }
+                }
                 transition={{
-                  duration: 0.7,
+                  duration: reduceMotion ? 0 : 0.45,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="grid grid-cols-2 gap-5"
+                className="grid min-h-[390px] grid-cols-2 gap-5"
               >
                 {tabletReviews.map((review, index) => (
                   <ReviewCard
@@ -722,21 +804,7 @@ export default function ClientTestimonials() {
             1024px +
         ================================================== */}
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.15,
-          }}
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.16,
-              },
-            },
-          }}
+        <div
           className="
             hidden
             grid-cols-3
@@ -748,51 +816,17 @@ export default function ClientTestimonials() {
           "
         >
           {reviews.map((review) => (
-            <motion.div
-              key={review.id}
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  y: 45,
-                },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    duration: 0.8,
-                    ease: [0.22, 1, 0.36, 1],
-                  },
-                },
-              }}
-              className="h-full"
-            >
+            <div key={review.id} className="h-full">
               <ReviewCard review={review} />
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* =================================================
             BOTTOM CTA
         ================================================== */}
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 30,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.4,
-          }}
-          transition={{
-            duration: 0.8,
-            delay: 0.15,
-            ease: [0.22, 1, 0.36, 1],
-          }}
+        <div
           className="
             mt-10
             flex
@@ -911,7 +945,7 @@ export default function ClientTestimonials() {
               <ArrowIcon />
             </span>
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

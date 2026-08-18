@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Check,
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
+
+const smoothEase = [0.22, 1, 0.36, 1] as const;
 
 type PackageType = {
   title: string;
@@ -66,27 +68,45 @@ function PackageCard({
   item: PackageType;
   index: number;
 }) {
+  const reduceMotion = useReducedMotion();
+
   return (
     <motion.article
-      initial={{
-        opacity: 0,
-        y: 35,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-      }}
+      initial={
+        reduceMotion
+          ? false
+          : {
+              opacity: 0,
+              y: 20,
+            }
+      }
+      whileInView={
+        reduceMotion
+          ? undefined
+          : {
+              opacity: 1,
+              y: 0,
+            }
+      }
       viewport={{
         once: true,
-        amount: 0.15,
+        amount: 0.18,
+        margin: "0px 0px -5% 0px",
       }}
       transition={{
-        duration: 0.55,
-        delay: index * 0.1,
-        ease: [0.22, 1, 0.36, 1],
+        duration: reduceMotion ? 0 : 0.95,
+        delay: reduceMotion ? 0 : index * 0.12,
+        ease: smoothEase,
       }}
-      whileHover={{
-        y: -7,
+      whileHover={
+        reduceMotion
+          ? undefined
+          : {
+              y: -4,
+            }
+      }
+      style={{
+        willChange: reduceMotion ? "auto" : "transform, opacity",
       }}
       className="group relative h-full pt-4"
     >
@@ -109,22 +129,29 @@ function PackageCard({
       {/* MOST POPULAR BADGE */}
       {item.popular && (
         <motion.div
-          initial={{
-            opacity: 0,
-            scale: 0.85,
-            y: 5,
-          }}
-          whileInView={{
-            opacity: 1,
-            scale: 1,
-            y: 0,
-          }}
+          initial={
+            reduceMotion
+              ? false
+              : {
+                  opacity: 0,
+                  scale: 0.92,
+                  y: 4,
+                }
+          }
+          whileInView={
+            reduceMotion
+              ? undefined
+              : {
+                  opacity: 1,
+                  scale: 1,
+                  y: 0,
+                }
+          }
           viewport={{ once: true }}
           transition={{
-            delay: 0.3,
-            type: "spring",
-            stiffness: 260,
-            damping: 18,
+            duration: reduceMotion ? 0 : 0.75,
+            delay: reduceMotion ? 0 : 0.28,
+            ease: smoothEase,
           }}
           className="
             absolute
@@ -297,18 +324,30 @@ function PackageCard({
           {item.features.map((feature, featureIndex) => (
             <motion.li
               key={feature}
-              initial={{
-                opacity: 0,
-                x: -10,
-              }}
-              whileInView={{
-                opacity: 1,
-                x: 0,
-              }}
+              initial={
+                reduceMotion
+                  ? false
+                  : {
+                      opacity: 0,
+                      x: -7,
+                    }
+              }
+              whileInView={
+                reduceMotion
+                  ? undefined
+                  : {
+                      opacity: 1,
+                      x: 0,
+                    }
+              }
               viewport={{ once: true }}
               transition={{
-                duration: 0.35,
-                delay: 0.1 + featureIndex * 0.045,
+                duration: reduceMotion ? 0 : 0.6,
+                delay:
+                  reduceMotion
+                    ? 0
+                    : 0.08 + featureIndex * 0.055,
+                ease: smoothEase,
               }}
               className="flex items-start gap-2.5"
             >
@@ -441,15 +480,29 @@ export default function StartupPackages() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
+  const reduceMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  const isSectionInView = useInView(sectionRef, {
+    amount: 0.12,
+    margin: "0px 0px -8% 0px",
+  });
+
   useEffect(() => {
-    if (isPaused) return;
+    if (
+      reduceMotion ||
+      !isSectionInView ||
+      isPaused
+    ) {
+      return;
+    }
 
     const interval = window.setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % packages.length);
-    }, 4000);
+    }, 5200);
 
     return () => window.clearInterval(interval);
-  }, [isPaused]);
+  }, [reduceMotion, isSectionInView, isPaused]);
 
   const nextSlide = () => {
     setActiveIndex((prev) => (prev + 1) % packages.length);
@@ -463,6 +516,7 @@ export default function StartupPackages() {
 
   return (
     <section
+      ref={sectionRef}
       className="
         relative
         overflow-hidden
@@ -509,12 +563,16 @@ export default function StartupPackages() {
 
       {/* BLUE GLOW */}
       <motion.div
-        animate={{
-          x: [0, 30, 0],
-          y: [0, 15, 0],
-        }}
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+                x: [0, 16, 0],
+                y: [0, 9, 0],
+              }
+        }
         transition={{
-          duration: 9,
+          duration: 15,
           repeat: Infinity,
           ease: "easeInOut",
         }}
@@ -533,12 +591,16 @@ export default function StartupPackages() {
 
       {/* GREEN GLOW */}
       <motion.div
-        animate={{
-          x: [0, -25, 0],
-          y: [0, -20, 0],
-        }}
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+                x: [0, -14, 0],
+                y: [0, -10, 0],
+              }
+        }
         transition={{
-          duration: 11,
+          duration: 17,
           repeat: Infinity,
           ease: "easeInOut",
         }}
@@ -572,21 +634,32 @@ export default function StartupPackages() {
         ====================================== */}
 
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 25,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
+          initial={
+            reduceMotion
+              ? false
+              : {
+                  opacity: 0,
+                  y: 18,
+                }
+          }
+          whileInView={
+            reduceMotion
+              ? undefined
+              : {
+                  opacity: 1,
+                  y: 0,
+                }
+          }
           viewport={{
             once: true,
-            amount: 0.4,
+            amount: 0.3,
           }}
           transition={{
-            duration: 0.6,
-            ease: [0.22, 1, 0.36, 1],
+            duration: reduceMotion ? 0 : 1.0,
+            ease: smoothEase,
+          }}
+          style={{
+            willChange: reduceMotion ? "auto" : "transform, opacity",
           }}
           className="
             mx-auto
@@ -690,6 +763,13 @@ export default function StartupPackages() {
           className="lg:hidden"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => {
+            window.setTimeout(
+              () => setIsPaused(false),
+              700
+            );
+          }}
         >
           {/*
             IMPORTANT:
@@ -704,21 +784,25 @@ export default function StartupPackages() {
                   x: `-${activeIndex * 100}%`,
                 }}
                 transition={{
-                  duration: 0.6,
-                  ease: [0.22, 1, 0.36, 1],
+                  duration: reduceMotion ? 0 : 0.85,
+                  ease: smoothEase,
                 }}
-                drag="x"
+                drag={reduceMotion ? false : "x"}
                 dragConstraints={{
                   left: 0,
                   right: 0,
                 }}
-                dragElastic={0.08}
+                dragElastic={0.04}
+                dragMomentum={false}
+                style={{
+                  willChange: reduceMotion ? "auto" : "transform",
+                }}
                 onDragEnd={(_, info) => {
-                  if (info.offset.x < -50) {
+                  if (info.offset.x < -60) {
                     nextSlide();
                   }
 
-                  if (info.offset.x > 50) {
+                  if (info.offset.x > 60) {
                     previousSlide();
                   }
                 }}
@@ -772,7 +856,8 @@ export default function StartupPackages() {
                     width: activeIndex === index ? 26 : 7,
                   }}
                   transition={{
-                    duration: 0.3,
+                    duration: reduceMotion ? 0 : 0.42,
+                    ease: smoothEase,
                   }}
                   className={`
                     block
@@ -808,17 +893,26 @@ export default function StartupPackages() {
         ====================================== */}
 
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 15,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{ once: true }}
+          initial={
+            reduceMotion
+              ? false
+              : {
+                  opacity: 0,
+                  y: 12,
+                }
+          }
+          whileInView={
+            reduceMotion
+              ? undefined
+              : {
+                  opacity: 1,
+                  y: 0,
+                }
+          }
+          viewport={{ once: true, amount: 0.35 }}
           transition={{
-            duration: 0.55,
+            duration: reduceMotion ? 0 : 0.85,
+            ease: smoothEase,
           }}
           className="
             mx-auto

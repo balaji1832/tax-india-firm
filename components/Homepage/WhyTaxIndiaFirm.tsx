@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   CalendarCheck2,
@@ -30,23 +30,28 @@ const differentiators = [
   },
 ];
 
+const smoothEase = [0.22, 1, 0.36, 1] as const;
+
 const itemVariants = {
   hidden: {
     opacity: 0,
-    y: 28,
+    y: 18,
   },
+
   visible: (index: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: index * 0.12,
-      duration: 0.6,
-      ease: [0.22, 1, 0.36, 1] as const,
+      delay: 0.16 + index * 0.18,
+      duration: 0.95,
+      ease: smoothEase,
     },
   }),
 };
 
 export default function WhyTaxIndiaFirm() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section className="relative overflow-hidden bg-white py-14 sm:py-16 lg:py-20">
       {/* dotted white pattern */}
@@ -64,12 +69,16 @@ export default function WhyTaxIndiaFirm() {
 
       {/* blue glow */}
       <motion.div
-        animate={{
-          x: [0, 28, 0],
-          y: [0, 18, 0],
-        }}
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+                x: [0, 16, 0],
+                y: [0, 10, 0],
+              }
+        }
         transition={{
-          duration: 10,
+          duration: 14,
           repeat: Infinity,
           ease: "easeInOut",
         }}
@@ -87,12 +96,16 @@ export default function WhyTaxIndiaFirm() {
       />
 
       <motion.div
-        animate={{
-          x: [0, -24, 0],
-          y: [0, -16, 0],
-        }}
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+                x: [0, -14, 0],
+                y: [0, -9, 0],
+              }
+        }
         transition={{
-          duration: 12,
+          duration: 16,
           repeat: Infinity,
           ease: "easeInOut",
         }}
@@ -113,12 +126,35 @@ export default function WhyTaxIndiaFirm() {
         <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 xl:gap-20">
           {/* LEFT CONTENT */}
           <motion.div
-            initial={{ opacity: 0, x: -35 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
+            initial={
+              reduceMotion
+                ? false
+                : {
+                    opacity: 0,
+                    x: -20,
+                    y: 10,
+                  }
+            }
+            whileInView={
+              reduceMotion
+                ? undefined
+                : {
+                    opacity: 1,
+                    x: 0,
+                    y: 0,
+                  }
+            }
+            viewport={{
+              once: true,
+              amount: 0.18,
+              margin: "0px 0px -6% 0px",
+            }}
             transition={{
-              duration: 0.7,
-              ease: [0.22, 1, 0.36, 1],
+              duration: 1.15,
+              ease: smoothEase,
+            }}
+            style={{
+              willChange: reduceMotion ? "auto" : "transform, opacity",
             }}
           >
             {/* section label */}
@@ -180,12 +216,30 @@ export default function WhyTaxIndiaFirm() {
 
             {/* CTA */}
             <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              initial={
+                reduceMotion
+                  ? false
+                  : {
+                      opacity: 0,
+                      y: 12,
+                    }
+              }
+              whileInView={
+                reduceMotion
+                  ? undefined
+                  : {
+                      opacity: 1,
+                      y: 0,
+                    }
+              }
+              viewport={{ once: true, amount: 0.35 }}
               transition={{
-                duration: 0.55,
-                delay: 0.25,
+                duration: 0.9,
+                delay: 0.28,
+                ease: smoothEase,
+              }}
+              style={{
+                willChange: reduceMotion ? "auto" : "transform, opacity",
               }}
               className="mt-7"
             >
@@ -237,13 +291,20 @@ export default function WhyTaxIndiaFirm() {
           <div className="relative">
             {/* vertical connector desktop */}
             <motion.div
-              initial={{ scaleY: 0 }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: true }}
+              initial={reduceMotion ? false : { scaleY: 0, opacity: 0 }}
+              whileInView={
+                reduceMotion
+                  ? undefined
+                  : {
+                      scaleY: 1,
+                      opacity: 1,
+                    }
+              }
+              viewport={{ once: true, amount: 0.3 }}
               transition={{
-                duration: 0.9,
-                delay: 0.25,
-                ease: [0.22, 1, 0.36, 1],
+                duration: 1.2,
+                delay: 0.2,
+                ease: smoothEase,
               }}
               className="
                 absolute
@@ -270,13 +331,24 @@ export default function WhyTaxIndiaFirm() {
                   <motion.div
                     key={item.title}
                     custom={index}
-                    variants={itemVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.2 }}
-                    whileHover={{
-                      x: 5,
-                      y: -3,
+                    variants={reduceMotion ? undefined : itemVariants}
+                    initial={reduceMotion ? false : "hidden"}
+                    whileInView={reduceMotion ? undefined : "visible"}
+                    viewport={{
+                      once: true,
+                      amount: 0.18,
+                      margin: "0px 0px -5% 0px",
+                    }}
+                    whileHover={
+                      reduceMotion
+                        ? undefined
+                        : {
+                            x: 3,
+                            y: -2,
+                          }
+                    }
+                    style={{
+                      willChange: reduceMotion ? "auto" : "transform, opacity",
                     }}
                     className="
                       group
@@ -335,10 +407,14 @@ export default function WhyTaxIndiaFirm() {
                     <div className="relative z-10 flex items-start gap-4">
                       {/* icon */}
                       <motion.div
-                        whileHover={{
-                          rotate: 5,
-                          scale: 1.08,
-                        }}
+                        whileHover={
+                          reduceMotion
+                            ? undefined
+                            : {
+                                rotate: 3,
+                                scale: 1.04,
+                              }
+                        }
                         className="
                           flex
                           h-[50px]
