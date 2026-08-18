@@ -161,26 +161,83 @@ export default function Header() {
   ========================================================= */
 
   useEffect(() => {
-    document.documentElement.dataset.pageReady = "false";
+    let cancelled = false;
+    let releaseTimer: number | undefined;
+    let safetyTimer: number | undefined;
 
-    const initialTimer = window.setTimeout(() => {
-      setPageLoading(false);
-      document.documentElement.dataset.pageReady = "true";
-      window.dispatchEvent(new Event("taxindia:page-ready"));
-      firstRenderRef.current = false;
-    }, 1150);
+    const root = document.documentElement;
 
-    return () => window.clearTimeout(initialTimer);
+    const lockPage = () => {
+      root.dataset.pageReady = "false";
+      root.dataset.pageLoading = "true";
+      document.body.style.overflow = "hidden";
+    };
+
+    const releasePage = () => {
+      if (cancelled) return;
+
+      // Two paint frames ensure the real page is mounted before we expose it.
+      // Sections that use IntersectionObserver / whileInView now begin only
+      // after the loader is leaving, instead of animating underneath it.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (cancelled) return;
+
+          root.dataset.pageReady = "true";
+          root.dataset.pageLoading = "false";
+          document.body.style.overflow = "";
+          setPageLoading(false);
+          firstRenderRef.current = false;
+          window.dispatchEvent(new Event("taxindia:page-ready"));
+        });
+      });
+    };
+
+    const beginRelease = () => {
+      // Keep the loader visible just long enough to avoid a flash, but do not
+      // hold the page for a hard 1150ms like before.
+      releaseTimer = window.setTimeout(releasePage, 360);
+    };
+
+    lockPage();
+
+    if (document.readyState === "complete") {
+      beginRelease();
+    } else {
+      window.addEventListener("load", beginRelease, { once: true });
+    }
+
+    // Safety fallback: never leave the visitor trapped behind the loader.
+    safetyTimer = window.setTimeout(releasePage, 900);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener("load", beginRelease);
+      if (releaseTimer) window.clearTimeout(releaseTimer);
+      if (safetyTimer) window.clearTimeout(safetyTimer);
+      document.body.style.overflow = "";
+    };
   }, []);
 
   useEffect(() => {
     if (firstRenderRef.current) return;
 
+    const root = document.documentElement;
+
+    // The click handler turns loading on before navigation. Once Next.js has
+    // committed the new pathname, keep the new page hidden for only a very
+    // short paint window, then release it so its own entrance animations start.
     const completeTimer = window.setTimeout(() => {
-      setPageLoading(false);
-      document.documentElement.dataset.pageReady = "true";
-      window.dispatchEvent(new Event("taxindia:page-ready"));
-    }, 520);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          root.dataset.pageReady = "true";
+          root.dataset.pageLoading = "false";
+          document.body.style.overflow = "";
+          setPageLoading(false);
+          window.dispatchEvent(new Event("taxindia:page-ready"));
+        });
+      });
+    }, 180);
 
     return () => window.clearTimeout(completeTimer);
   }, [pathname]);
@@ -230,6 +287,8 @@ export default function Header() {
       if (samePage) return;
 
       document.documentElement.dataset.pageReady = "false";
+      document.documentElement.dataset.pageLoading = "true";
+      document.body.style.overflow = "hidden";
       setPageLoading(true);
     };
 
@@ -1576,7 +1635,7 @@ function TaxIndiaPageLoader({ visible }: { visible: boolean }) {
         bg-[#F6F9FD]
 
         transition-all
-        duration-500
+        duration-[260ms]
         ease-[cubic-bezier(0.22,1,0.36,1)]
 
         ${visible
@@ -1751,7 +1810,7 @@ function TaxIndiaPageLoader({ visible }: { visible: boolean }) {
           text-center
 
           transition-all
-          duration-500
+          duration-[260ms]
 
           ${visible
             ? `
@@ -1910,6 +1969,19 @@ function TaxIndiaPageLoader({ visible }: { visible: boolean }) {
       </div>
 
       <style>{`
+        /* =========================================================
+           PAGE-ANIMATION GATE
+
+           Important: while the loader is visible, the real <main> is
+           removed from layout. That prevents IntersectionObserver and
+           Framer Motion whileInView sections from completing behind the
+           loader. As soon as pageReady becomes true, <main> is restored
+           and those animations start naturally from their initial state.
+        ========================================================= */
+        html[data-page-ready="false"] main {
+          display: none !important;
+        }
+
         @keyframes taxLoaderBar {
           0% {
             left: -50%;
