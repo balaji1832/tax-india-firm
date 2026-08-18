@@ -36,7 +36,7 @@ const guides: Guide[] = [
       "Due dates, late fees, ITC claims and GSTR forms — what every business owner in Tamil Nadu must know before filing.",
     linkText: "Read the GST filing guide",
     href: "/blogs/taxation/top-10-things-to-know-about-gst-filing",
-    image: "/images/gst-filing.jpg",
+    image: "/images/b1.png",
   },
   {
     id: 2,
@@ -46,7 +46,7 @@ const guides: Guide[] = [
       "DSC, DIN, name reservation, MOA, AOA and certificate of incorporation — simplified for first-time founders.",
     linkText: "Read the company registration guide",
     href: "/blogs/business/how-to-register-your-company-in-india",
-    image: "/images/company-registration.jpg",
+    image: "/images/b2.png",
   },
   {
     id: 3,
@@ -56,7 +56,7 @@ const guides: Guide[] = [
       "Form 26AS, AIS, deductions, old vs new regime — your complete pre-ITR checklist before you file in Tamil Nadu.",
     linkText: "Read the ITR filing checklist",
     href: "/blogs/taxation/things-to-consider-before-filing-income-tax-return",
-    image: "/images/income-tax.jpg",
+    image: "/images/b3.png",
   },
 ];
 

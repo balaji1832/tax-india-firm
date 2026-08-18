@@ -197,9 +197,35 @@ const contactItems = [
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#071321] text-white">
+    <footer className="relative w-full overflow-hidden bg-[#071321] text-white">
+      {/* SUBTLE CHECKED / GRID BACKGROUND — visual only, layout unchanged */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+      >
+        <div
+          className="absolute inset-0 opacity-[0.055]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.9) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.9) 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+          }}
+        />
+
+        {/* soft vignette keeps the grid subtle at the edges */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at 50% 20%, rgba(36,110,241,0.08), transparent 46%), linear-gradient(to bottom, rgba(7,19,33,0.05), rgba(7,19,33,0.45))",
+          }}
+        />
+      </div>
+
       <div
         className="
+          relative
+          z-10
           mx-auto
           w-full
           max-w-[1720px]
