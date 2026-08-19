@@ -1,517 +1,67 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
 import {
   motion,
-  useInView,
   useReducedMotion,
   type Variants,
 } from "framer-motion";
 
 import {
-  Timer,
-  Mesh,
-  OrthographicCamera,
-  PlaneGeometry,
-  Scene,
-  ShaderMaterial,
-  Vector2,
-  Vector3,
-  WebGLRenderer,
-} from "three";
+  ArrowRight,
+  Clock3,
+  MapPin,
+} from "lucide-react";
 
 /* =========================================================
-   SHADERS
-========================================================= */
-
-const vertexShader = `
-precision highp float;
-
-void main() {
-  gl_Position =
-    projectionMatrix *
-    modelViewMatrix *
-    vec4(position, 1.0);
-}
-`;
-
-const fragmentShader = `
-precision highp float;
-
-uniform float iTime;
-uniform vec3 iResolution;
-
-uniform vec2 iMouse;
-uniform float bendInfluence;
-
-uniform vec3 colorStart;
-uniform vec3 colorMid;
-uniform vec3 colorEnd;
-
-mat2 rotate(float r) {
-  return mat2(
-    cos(r),
-    sin(r),
-    -sin(r),
-    cos(r)
-  );
-}
-
-vec3 getGradient(float t) {
-  if (t < 0.5) {
-    return mix(
-      colorStart,
-      colorMid,
-      t * 2.0
-    );
-  }
-
-  return mix(
-    colorMid,
-    colorEnd,
-    (t - 0.5) * 2.0
-  );
-}
-
-float wave(
-  vec2 uv,
-  float offset,
-  float amplitude,
-  float speed,
-  vec2 mouseUv
-) {
-  float time =
-    iTime * speed;
-
-  float y =
-    sin(
-      uv.x * 1.1 +
-      offset +
-      time
-    ) * amplitude;
-
-  y +=
-    sin(
-      uv.x * 0.46 -
-      time * 0.5 +
-      offset * 1.1
-    ) * 0.055;
-
-  vec2 d =
-    uv - mouseUv;
-
-  float influence =
-    exp(
-      -dot(d, d) * 4.0
-    );
-
-  y +=
-    (
-      mouseUv.y -
-      uv.y
-    ) *
-    influence *
-    -0.12 *
-    bendInfluence;
-
-  float dist =
-    abs(
-      uv.y - y
-    );
-
-  float core =
-    1.0 -
-    smoothstep(
-      0.007,
-      0.019,
-      dist
-    );
-
-  float glow =
-    1.0 -
-    smoothstep(
-      0.015,
-      0.095,
-      dist
-    );
-
-  return
-    core * 0.95 +
-    glow * 0.15;
-}
-
-void mainImage(
-  out vec4 fragColor,
-  in vec2 fragCoord
-) {
-  vec2 uv =
-    (
-      2.0 * fragCoord -
-      iResolution.xy
-    ) /
-    iResolution.y;
-
-  uv.y *= -1.0;
-
-  vec2 mouseUv =
-    (
-      2.0 * iMouse -
-      iResolution.xy
-    ) /
-    iResolution.y;
-
-  mouseUv.y *= -1.0;
-
-  vec3 col =
-    vec3(0.0);
-
-  float totalIntensity =
-    0.0;
-
-  /* =====================================================
-     MAIN FLOW
-     top-left -> center -> bottom-right
-  ===================================================== */
-
-  for (
-    int i = 0;
-    i < 8;
-    i++
-  ) {
-    float fi =
-      float(i);
-
-    float t =
-      fi / 7.0;
-
-    vec2 p =
-      uv;
-
-    p =
-      p *
-      rotate(-0.24);
-
-    p.y +=
-      0.02;
-
-    float line =
-      wave(
-        p,
-        fi * 0.145,
-        0.25,
-        0.15,
-        mouseUv
-      );
-
-    vec3 c =
-      getGradient(t);
-
-    float strength =
-      0.42;
-
-    col +=
-      c *
-      line *
-      strength;
-
-    totalIntensity +=
-      line *
-      strength;
-  }
-
-  /* =====================================================
-     SECOND FLOW
-     from upper-right
-  ===================================================== */
-
-  for (
-    int i = 0;
-    i < 5;
-    i++
-  ) {
-    float fi =
-      float(i);
-
-    float t =
-      fi / 4.0;
-
-    vec2 p =
-      uv;
-
-    p =
-      p *
-      rotate(0.72);
-
-    p.x -=
-      1.15;
-
-    p.y -=
-      0.18;
-
-    float line =
-      wave(
-        p,
-        fi * 0.19 + 1.0,
-        0.20,
-        -0.09,
-        mouseUv
-      );
-
-    vec3 c =
-      mix(
-        colorMid,
-        colorEnd,
-        t
-      );
-
-    col +=
-      c *
-      line *
-      0.11;
-
-    totalIntensity +=
-      line *
-      0.11;
-  }
-
-  /* =====================================================
-     BOTTOM FLOW
-  ===================================================== */
-
-  for (
-    int i = 0;
-    i < 5;
-    i++
-  ) {
-    float fi =
-      float(i);
-
-    float t =
-      fi / 4.0;
-
-    vec2 p =
-      uv;
-
-    p =
-      p *
-      rotate(-0.62);
-
-    p.x +=
-      0.78;
-
-    p.y -=
-      0.92;
-
-    float line =
-      wave(
-        p,
-        fi * 0.18 + 2.0,
-        0.18,
-        0.08,
-        mouseUv
-      );
-
-    vec3 c =
-      mix(
-        colorStart,
-        colorMid,
-        t
-      );
-
-    col +=
-      c *
-      line *
-      0.085;
-
-    totalIntensity +=
-      line *
-      0.085;
-  }
-
-  /* =====================================================
-     FAINT BACKGROUND STRANDS
-  ===================================================== */
-
-  for (
-    int i = 0;
-    i < 4;
-    i++
-  ) {
-    float fi =
-      float(i);
-
-    vec2 p =
-      uv;
-
-    p =
-      p *
-      rotate(-0.38);
-
-    p.y +=
-      0.85;
-
-    p.x -=
-      0.3;
-
-    float line =
-      wave(
-        p,
-        fi * 0.22 + 2.8,
-        0.15,
-        0.06,
-        mouseUv
-      );
-
-    col +=
-      colorEnd *
-      line *
-      0.04;
-
-    totalIntensity +=
-      line *
-      0.04;
-  }
-
-  /* =====================================================
-     SOFT CENTER READABILITY
-     no white shape — only opacity reduction
-  ===================================================== */
-
-  vec2 textZone =
-    uv;
-
-  textZone.x /=
-    1.05;
-
-  textZone.y /=
-    0.50;
-
-  float centerDist =
-    length(textZone);
-
-  float textProtection =
-    smoothstep(
-      0.12,
-      0.82,
-      centerDist
-    );
-
-  float centerStrength =
-    mix(
-      0.55,
-      1.0,
-      textProtection
-    );
-
-  col *=
-    centerStrength;
-
-  totalIntensity *=
-    centerStrength;
-
-  /* =====================================================
-     EDGE FADE
-  ===================================================== */
-
-  float edge =
-    1.0 -
-    smoothstep(
-      1.7,
-      2.35,
-      length(uv)
-    );
-
-  col *=
-    edge;
-
-  totalIntensity *=
-    edge;
-
-  /* =====================================================
-     FINAL OPACITY
-  ===================================================== */
-
-  float alpha =
-    clamp(
-      totalIntensity * 0.78,
-      0.0,
-      0.68
-    );
-
-  fragColor =
-    vec4(
-      col,
-      alpha
-    );
-}
-
-void main() {
-  vec4 color =
-    vec4(0.0);
-
-  mainImage(
-    color,
-    gl_FragCoord.xy
-  );
-
-  gl_FragColor =
-    color;
-}
-`;
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function hexToVec3(hex: string) {
-  const value =
-    hex.replace("#", "");
-
-  return new Vector3(
-    parseInt(
-      value.slice(0, 2),
-      16
-    ) / 255,
-
-    parseInt(
-      value.slice(2, 4),
-      16
-    ) / 255,
-
-    parseInt(
-      value.slice(4, 6),
-      16
-    ) / 255
-  );
-}
-
-/* =========================================================
-   CONTENT ANIMATION
+   ANIMATION
 ========================================================= */
 
 const smoothEase = [0.16, 1, 0.3, 1] as const;
 
-const contentContainer: Variants = {
+const containerVariants: Variants = {
   hidden: {},
+
   show: {
     transition: {
-      delayChildren: 0.08,
-      staggerChildren: 0.16,
+      delayChildren: 0.06,
+      staggerChildren: 0.09,
     },
   },
 };
 
-const rise: Variants = {
+const contentItem: Variants = {
   hidden: {
     opacity: 0,
-    y: 22,
+    y: 18,
   },
+
   show: {
     opacity: 1,
     y: 0,
+
     transition: {
-      duration: 0.95,
+      duration: 0.75,
+      ease: smoothEase,
+    },
+  },
+};
+
+const visualItem: Variants = {
+  hidden: {
+    opacity: 0,
+    x: 24,
+    scale: 0.98,
+  },
+
+  show: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+
+    transition: {
+      duration: 0.9,
+      delay: 0.08,
       ease: smoothEase,
     },
   },
@@ -522,719 +72,627 @@ const rise: Variants = {
 ========================================================= */
 
 export default function FinalCtaBanner() {
-  const sectionRef =
-    useRef<HTMLElement | null>(
-      null
-    );
-
-  const canvasRef =
-    useRef<HTMLDivElement | null>(
-      null
-    );
-
   const prefersReducedMotion =
     useReducedMotion();
 
-  const sectionInView =
-    useInView(sectionRef, {
-      amount: 0.12,
-      margin: "0px 0px -8% 0px",
-    });
-
-  useEffect(() => {
-    const container =
-      canvasRef.current;
-
-    if (!container) return;
-
-    let active =
-      true;
-
-    /* =====================================================
-       SCENE
-    ===================================================== */
-
-    const scene =
-      new Scene();
-
-    const camera =
-      new OrthographicCamera(
-        -1,
-        1,
-        1,
-        -1,
-        0,
-        1
-      );
-
-    camera.position.z =
-      1;
-
-    const renderer =
-      new WebGLRenderer({
-        antialias: true,
-        alpha: true,
-      });
-
-    const isMobile =
-      window.matchMedia(
-        "(max-width: 767px)"
-      ).matches;
-
-    renderer.setPixelRatio(
-      Math.min(
-        window.devicePixelRatio || 1,
-        isMobile ? 1.35 : 1.75
-      )
-    );
-
-    renderer.setClearColor(
-      0xffffff,
-      0
-    );
-
-    renderer.domElement.style.width =
-      "100%";
-
-    renderer.domElement.style.height =
-      "100%";
-
-    renderer.domElement.style.display =
-      "block";
-
-    container.appendChild(
-      renderer.domElement
-    );
-
-    /* =====================================================
-       BLUE GRADIENT COLORS
-    ===================================================== */
-
-    const uniforms = {
-      iTime: {
-        value: 0,
-      },
-
-      iResolution: {
-        value:
-          new Vector3(
-            1,
-            1,
-            1
-          ),
-      },
-
-      iMouse: {
-        value:
-          new Vector2(
-            -1000,
-            -1000
-          ),
-      },
-
-      bendInfluence: {
-        value: 0,
-      },
-
-      colorStart: {
-        value:
-          hexToVec3(
-            "#3B82F6"
-          ),
-      },
-
-      colorMid: {
-        value:
-          hexToVec3(
-            "#2563EB"
-          ),
-      },
-
-      colorEnd: {
-        value:
-          hexToVec3(
-            "#93C5FD"
-          ),
-      },
-    };
-
-    const material =
-      new ShaderMaterial({
-        uniforms,
-        vertexShader,
-        fragmentShader,
-
-        transparent: true,
-
-        depthWrite: false,
-        depthTest: false,
-      });
-
-    const geometry =
-      new PlaneGeometry(
-        2,
-        2
-      );
-
-    const mesh =
-      new Mesh(
-        geometry,
-        material
-      );
-
-    scene.add(
-      mesh
-    );
-
-    const timer =
-      new Timer();
-
-    timer.connect(
-      document
-    );
-
-    /* =====================================================
-       RESIZE
-    ===================================================== */
-
-    const resize =
-      () => {
-        if (!active) {
-          return;
-        }
-
-        const width =
-          container.clientWidth ||
-          1;
-
-        const height =
-          container.clientHeight ||
-          1;
-
-        renderer.setSize(
-          width,
-          height,
-          false
-        );
-
-        uniforms.iResolution.value.set(
-          renderer.domElement.width,
-          renderer.domElement.height,
-          1
-        );
-      };
-
-    resize();
-
-    const resizeObserver =
-      new ResizeObserver(
-        resize
-      );
-
-    resizeObserver.observe(
-      container
-    );
-
-    /* =====================================================
-       POINTER INTERACTION
-    ===================================================== */
-
-    const targetMouse =
-      new Vector2(
-        -1000,
-        -1000
-      );
-
-    const currentMouse =
-      new Vector2(
-        -1000,
-        -1000
-      );
-
-    let targetInfluence =
-      0;
-
-    let currentInfluence =
-      0;
-
-    const damping =
-      0.05;
-
-    const handlePointerMove =
-      (
-        event: PointerEvent
-      ) => {
-        const rect =
-          container.getBoundingClientRect();
-
-        const x =
-          event.clientX -
-          rect.left;
-
-        const y =
-          event.clientY -
-          rect.top;
-
-        const dpr =
-          renderer.getPixelRatio();
-
-        targetMouse.set(
-          x * dpr,
-          (
-            rect.height -
-            y
-          ) * dpr
-        );
-
-        targetInfluence =
-          1;
-      };
-
-    const handlePointerLeave =
-      () => {
-        targetInfluence =
-          0;
-      };
-
-    const canHover =
-      window.matchMedia(
-        "(hover: hover) and (pointer: fine)"
-      ).matches;
-
-    if (canHover) {
-      container.addEventListener(
-        "pointermove",
-        handlePointerMove
-      );
-
-      container.addEventListener(
-        "pointerleave",
-        handlePointerLeave
-      );
-    }
-
-    /* =====================================================
-       ANIMATION
-    ===================================================== */
-
-    let raf =
-      0;
-
-    let pageVisible =
-      !document.hidden;
-
-    const handleVisibility =
-      () => {
-        pageVisible =
-          !document.hidden;
-      };
-
-    document.addEventListener(
-      "visibilitychange",
-      handleVisibility
-    );
-
-    const animate =
-      () => {
-        if (!active) {
-          return;
-        }
-
-        if (
-          sectionInView &&
-          pageVisible
-        ) {
-          timer.update();
-
-          uniforms.iTime.value =
-            prefersReducedMotion
-              ? 0
-              : timer.getElapsed();
-
-          currentMouse.lerp(
-            targetMouse,
-            damping
-          );
-
-          uniforms.iMouse.value.copy(
-            currentMouse
-          );
-
-          currentInfluence +=
-            (
-              targetInfluence -
-              currentInfluence
-            ) * damping;
-
-          uniforms.bendInfluence.value =
-            currentInfluence;
-
-          renderer.render(
-            scene,
-            camera
-          );
-        }
-
-        raf =
-          requestAnimationFrame(
-            animate
-          );
-      };
-
-    animate();
-
-    /* =====================================================
-       CLEANUP
-    ===================================================== */
-
-    return () => {
-      active =
-        false;
-
-      cancelAnimationFrame(
-        raf
-      );
-
-      resizeObserver.disconnect();
-
-      if (canHover) {
-        container.removeEventListener(
-          "pointermove",
-          handlePointerMove
-        );
-
-        container.removeEventListener(
-          "pointerleave",
-          handlePointerLeave
-        );
-      }
-
-      document.removeEventListener(
-        "visibilitychange",
-        handleVisibility
-      );
-
-      geometry.dispose();
-
-      material.dispose();
-
-      timer.disconnect();
-
-      renderer.dispose();
-
-      renderer.forceContextLoss();
-
-      if (
-        renderer.domElement
-          .parentElement
-      ) {
-        renderer.domElement
-          .parentElement
-          .removeChild(
-            renderer.domElement
-          );
-      }
-    };
-  }, [
-    prefersReducedMotion,
-    sectionInView,
-  ]);
-
   return (
     <section
-      ref={sectionRef}
       aria-labelledby="final-cta-heading"
       className="
         relative
-        isolate
-        flex
-        min-h-[520px]
         w-full
-        items-center
         overflow-hidden
-        px-5
-        py-20
-        text-center
+        bg-white
 
-        sm:min-h-[580px]
-        sm:px-6
-        sm:py-24
+        px-4
+        py-8
 
-        md:min-h-[600px]
-        md:py-28
+        sm:px-5
+        sm:py-10
 
-        lg:min-h-[620px]
-        lg:py-32
+        md:px-6
+        md:py-11
+
+        lg:px-7
+        lg:py-12
       "
-      style={{
-        background: `
-          linear-gradient(
-            180deg,
-            #FFFFFF 0%,
-            #FCFDFF 55%,
-            #F7FAFF 100%
-          )
-        `,
-      }}
     >
-      {/* =================================================
-          BLUE GRADIENT FLOWING LINES
-      ================================================= */}
-
-      <div
-        ref={canvasRef}
-        aria-hidden="true"
-        className="
-          absolute
-          inset-0
-          z-0
-          h-full
-          w-full
-        "
-      />
-
-      {/* =================================================
-          CONTENT
-      ================================================= */}
-
       <motion.div
         variants={
           prefersReducedMotion
             ? undefined
-            : contentContainer
+            : containerVariants
         }
         initial={
           prefersReducedMotion
             ? false
             : "hidden"
         }
-        animate={
+        whileInView={
           prefersReducedMotion
             ? undefined
-            : sectionInView
-              ? "show"
-              : "hidden"
+            : "show"
         }
-        style={{
-          willChange:
-            prefersReducedMotion
-              ? "auto"
-              : "transform, opacity",
+        viewport={{
+          once: true,
+          amount: 0.18,
         }}
         className="
           relative
-          z-10
           mx-auto
-          flex
-          transform-gpu
           w-full
-          max-w-3xl
-          flex-col
-          items-center
+          max-w-[1420px]
+          overflow-hidden
+
+          rounded-[24px]
+
+          sm:rounded-[28px]
+          lg:rounded-[34px]
+
+          shadow-[0_24px_65px_-42px_rgba(38,110,241,0.50)]
         "
       >
-        {/* Heading */}
+        {/* =====================================================
+            BRAND BACKGROUND
 
-        <motion.h2
-          id="final-cta-heading"
-          variants={rise}
+            Main Tax India blue:
+            #266EF1
+        ===================================================== */}
+
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[#266EF1]"
+        />
+
+        {/* =====================================================
+            SUBTLE BRAND GRADIENT
+
+            IMPORTANT:
+            No pale baby blue.
+            Keeps #266EF1 dominant.
+        ===================================================== */}
+
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            background: `
+              linear-gradient(
+                118deg,
+                #347AF3 0%,
+                #2C73F2 28%,
+                #266EF1 55%,
+                #2268E9 78%,
+                #1F61DB 100%
+              )
+            `,
+          }}
+        />
+
+        {/* =====================================================
+            VERY SUBTLE LEFT LIGHT
+
+            This adds depth without making the left side pale.
+        ===================================================== */}
+
+        <div
+          aria-hidden="true"
           className="
-            max-w-[760px]
-            tracking-[-0.04em]
+            pointer-events-none
+            absolute
+            inset-0
           "
           style={{
-            fontFamily:
-              "var(--font-display, ui-serif, Georgia, serif)",
-
-            fontSize:
-              "clamp(2.2rem, 5vw, 4.05rem)",
-
-            lineHeight:
-              1.04,
-
-            fontWeight:
-              500,
-
-            color:
-              "#102A43",
+            background: `
+              radial-gradient(
+                circle at 7% 10%,
+                rgba(255,255,255,0.10) 0%,
+                rgba(255,255,255,0.045) 25%,
+                transparent 48%
+              )
+            `,
           }}
-        >
-          Ready to Register,
-          File or{" "}
+        />
 
-          <span
-            className="italic"
-            style={{
-              color:
-                "#2563EB",
-            }}
-          >
-            Stay Compliant?
-          </span>
-        </motion.h2>
+        {/* =====================================================
+            RIGHT SIDE DEPTH
+        ===================================================== */}
 
-        {/* Description */}
-
-        <motion.p
-          variants={rise}
+        <div
+          aria-hidden="true"
           className="
-            mt-6
-            max-w-xl
-            leading-[1.75]
+            pointer-events-none
+            absolute
+            inset-0
           "
           style={{
-            fontFamily:
-              "var(--font-body, ui-sans-serif, system-ui, sans-serif)",
-
-            fontSize:
-              "clamp(0.95rem, 1.4vw, 1.075rem)",
-
-            color:
-              "#5D7185",
+            background: `
+              radial-gradient(
+                circle at 92% 72%,
+                rgba(10,47,132,0.17) 0%,
+                rgba(10,47,132,0.06) 28%,
+                transparent 52%
+              )
+            `,
           }}
-        >
-          Speak with a Chartered Accountant today,
-          no cost, no commitment. Just clear answers
-          about your business.
-        </motion.p>
+        />
 
-        {/* CTA */}
+        {/* =====================================================
+            TOP SOFT LIGHT
+        ===================================================== */}
 
         <motion.div
-          variants={rise}
-          className="mt-9"
+          aria-hidden="true"
+          animate={
+            prefersReducedMotion
+              ? undefined
+              : {
+                  x: [0, 14, 0],
+                  y: [0, -6, 0],
+                  scale: [1, 1.04, 1],
+                }
+          }
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            pointer-events-none
+
+            absolute
+            -right-[100px]
+            -top-[150px]
+
+            h-[380px]
+            w-[380px]
+
+            rounded-full
+
+            bg-white/[0.07]
+            blur-[90px]
+
+            lg:h-[480px]
+            lg:w-[480px]
+          "
+        />
+
+        {/* =====================================================
+            CONTENT
+        ===================================================== */}
+
+        <div
+          className="
+            relative
+            z-10
+
+            grid
+            grid-cols-1
+
+            lg:min-h-[455px]
+            lg:grid-cols-[0.96fr_1.04fr]
+          "
         >
-          <Link
-            href="/contact-us"
+          {/* ===================================================
+              LEFT
+          =================================================== */}
+
+          <div
             className="
-              group
-              inline-flex
+              flex
               items-center
+
+              px-6
+              pb-2
+              pt-9
+
+              sm:px-9
+              sm:pb-4
+              sm:pt-11
+
+              md:px-11
+
+              lg:px-14
+              lg:py-12
+
+              xl:px-16
+            "
+          >
+            <div className="w-full max-w-[590px]">
+
+              {/* LABEL */}
+
+              <motion.div
+                variants={contentItem}
+                className="
+                  mb-3
+
+                  text-[11px]
+                  font-semibold
+                  uppercase
+
+                  tracking-[0.16em]
+
+                  text-white/70
+
+                  sm:mb-4
+                  sm:text-[12px]
+                "
+              >
+                Business & Tax Support
+              </motion.div>
+
+              {/* =================================================
+                  HEADING
+              ================================================= */}
+
+              <motion.h2
+                id="final-cta-heading"
+                variants={contentItem}
+                className="
+                  max-w-[590px]
+
+                  text-[31px]
+                  font-semibold
+
+                  leading-[1.07]
+                  tracking-[-0.04em]
+
+                  text-white
+
+                  sm:text-[38px]
+
+                  md:text-[41px]
+
+                  lg:text-[42px]
+
+                  xl:text-[46px]
+                "
+                style={{
+                  fontFamily:
+                    "var(--font-display, ui-sans-serif, system-ui, sans-serif)",
+                }}
+              >
+                Ready to Register,
+                <br className="hidden sm:block" />
+
+                File or{" "}
+
+                <span className="text-white">
+                  Stay Compliant?
+                </span>
+              </motion.h2>
+
+              {/* =================================================
+                  DESCRIPTION
+              ================================================= */}
+
+              <motion.p
+                variants={contentItem}
+                className="
+                  mt-4
+                  max-w-[510px]
+
+                  text-[14px]
+                  leading-[1.65]
+
+                  text-white/75
+
+                  sm:mt-5
+                  sm:text-[15px]
+                "
+                style={{
+                  fontFamily:
+                    "var(--font-body, ui-sans-serif, system-ui, sans-serif)",
+                }}
+              >
+                Speak with a Chartered Accountant today.
+                No cost, no commitment — just clear answers
+                about your business.
+              </motion.p>
+
+              {/* =================================================
+                  BUTTONS
+              ================================================= */}
+
+              <motion.div
+                variants={contentItem}
+                className="
+                  mt-6
+
+                  flex
+                  flex-col
+                  gap-2.5
+
+                  sm:flex-row
+                  sm:flex-wrap
+                  sm:items-center
+
+                  lg:mt-7
+                "
+              >
+                {/* PRIMARY */}
+
+                <Link
+                  href="/contact-us"
+                  className="
+                    group
+
+                    inline-flex
+                    min-h-[47px]
+
+                    items-center
+                    justify-center
+
+                    gap-2.5
+
+                    rounded-full
+
+                    bg-[#09274A]
+
+                    px-5
+                    py-2.5
+
+                    text-[13px]
+                    font-semibold
+                    text-white
+
+                    shadow-[0_14px_30px_-18px_rgba(4,25,60,0.60)]
+
+                    transition-all
+                    duration-300
+                    ease-out
+
+                    hover:-translate-y-[2px]
+                    hover:bg-[#071E3A]
+
+                    active:translate-y-0
+
+                    sm:px-6
+                    sm:text-[14px]
+                  "
+                >
+                  Talk to a CA
+
+                  <ArrowRight
+                    size={16}
+                    strokeWidth={2}
+                    className="
+                      shrink-0
+
+                      transition-transform
+                      duration-300
+
+                      group-hover:translate-x-1
+                    "
+                  />
+                </Link>
+
+                {/* SECONDARY */}
+
+                <Link
+                  href="/contact-us"
+                  className="
+                    inline-flex
+                    min-h-[47px]
+
+                    items-center
+                    justify-center
+
+                    rounded-full
+
+                    border
+                    border-white/35
+
+                    bg-white
+
+                    px-5
+                    py-2.5
+
+                    text-[13px]
+                    font-semibold
+
+                    text-[#205ECF]
+
+                    shadow-[0_12px_25px_-18px_rgba(4,40,110,0.35)]
+
+                    transition-all
+                    duration-300
+                    ease-out
+
+                    hover:-translate-y-[2px]
+                    hover:bg-[#F6F9FF]
+
+                    active:translate-y-0
+
+                    sm:px-6
+                    sm:text-[14px]
+                  "
+                >
+                  Explore the Process
+                </Link>
+              </motion.div>
+
+              {/* =================================================
+                  INFO
+              ================================================= */}
+
+              <motion.div
+                variants={contentItem}
+                className="
+                  mt-5
+
+                  flex
+                  flex-wrap
+                  items-center
+
+                  gap-x-5
+                  gap-y-2
+
+                  text-[11px]
+                  font-medium
+
+                  text-white/65
+
+                  sm:mt-6
+                  sm:text-[12px]
+                "
+              >
+                <span
+                  className="
+                    inline-flex
+                    items-center
+                    gap-1.5
+                  "
+                >
+                  <Clock3
+                    size={13}
+                    strokeWidth={1.8}
+                  />
+
+                  Mon–Sat, 10 AM – 9 PM
+                </span>
+
+                <span
+                  className="
+                    inline-flex
+                    items-center
+                    gap-1.5
+                  "
+                >
+                  <MapPin
+                    size={13}
+                    strokeWidth={1.8}
+                  />
+
+                  Chennai, Tamil Nadu
+                </span>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* ===================================================
+              RIGHT IMAGE
+          =================================================== */}
+
+          <motion.div
+            variants={visualItem}
+            className="
+              relative
+
+              flex
+              min-h-[270px]
+
+              items-end
               justify-center
-              gap-3
 
-              rounded-full
+              overflow-hidden
 
-              border
-              border-[#D6E3EF]
+              px-3
 
-              bg-white/90
+              sm:min-h-[320px]
+              sm:px-6
 
-              px-7
-              py-3.5
+              md:min-h-[345px]
 
-              font-semibold
-              text-[#15324B]
-
-              shadow-[0_12px_34px_-16px_rgba(37,99,235,0.28)]
-
-              backdrop-blur-sm
-
-              transition-all
-              duration-300
-              ease-out
-
-              hover:-translate-y-0.5
-              hover:border-[#2563EB]
-              hover:bg-[#2563EB]
-              hover:text-white
-
-              active:translate-y-0
-
-              sm:px-8
-              sm:py-4
+              lg:min-h-full
+              lg:px-0
             "
-            style={{
-              fontFamily:
-                "var(--font-body, ui-sans-serif, system-ui, sans-serif)",
-
-              fontSize:
-                "0.9375rem",
-            }}
           >
-            Talk to a CA About Your Business
+            {/* IMAGE GLOW */}
 
-            <svg
+            <motion.div
               aria-hidden="true"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
+              animate={
+                prefersReducedMotion
+                  ? undefined
+                  : {
+                      scale: [1, 1.04, 1],
+                      opacity: [0.1, 0.16, 0.1],
+                    }
+              }
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
               className="
-                shrink-0
-                transition-transform
-                duration-300
-                group-hover:translate-x-1
+                pointer-events-none
+
+                absolute
+                bottom-[-10%]
+                left-1/2
+
+                h-[78%]
+                w-[72%]
+
+                -translate-x-1/2
+
+                rounded-full
+
+                bg-white/20
+                blur-[65px]
               "
-            >
-              <path
-                d="M5 12h14M13 6l6 6-6 6"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </Link>
-        </motion.div>
+            />
 
-        {/* Info */}
+            {/* =================================================
+                PERSON IMAGE
+            ================================================= */}
 
-        <motion.div
-          variants={rise}
-          className="
-            mt-7
-            flex
-            flex-wrap
-            items-center
-            justify-center
-            gap-x-3
-            gap-y-1
-            text-xs
-            sm:text-sm
-          "
-          style={{
-            fontFamily:
-              "var(--font-body, ui-sans-serif, system-ui, sans-serif)",
+            <motion.img
+              src="/images/cta-team-1.png"
+              alt="Chartered accountant helping a business owner"
+              draggable={false}
+              animate={
+                prefersReducedMotion
+                  ? undefined
+                  : {
+                      y: [0, -3, 0],
+                    }
+              }
+              transition={{
+                duration: 7,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="
+                relative
+                z-10
 
-            color:
-              "#8293A5",
-          }}
-        >
-          <span>
-            Monday to Saturday
-          </span>
+                h-auto
+                w-full
 
-          <span
-            aria-hidden="true"
-            className="
-              hidden
-              text-[#C7D3DE]
-              sm:inline
-            "
-          >
-            |
-          </span>
+                max-w-[400px]
 
-          <span>
-            10:00 AM – 9:00 PM
-          </span>
+                select-none
 
-          <span
-            aria-hidden="true"
-            className="
-              hidden
-              text-[#C7D3DE]
-              sm:inline
-            "
-          >
-            |
-          </span>
+                object-contain
+                object-bottom
 
-          <span>
-            Chennai, Tamil Nadu
-          </span>
-        </motion.div>
+                sm:max-w-[465px]
+
+                md:max-w-[510px]
+
+                lg:absolute
+                lg:bottom-0
+                lg:right-[2%]
+                lg:max-w-[550px]
+
+                xl:right-[4%]
+                xl:max-w-[600px]
+
+                2xl:right-[6%]
+                2xl:max-w-[625px]
+              "
+              style={{
+                willChange:
+                  prefersReducedMotion
+                    ? "auto"
+                    : "transform",
+              }}
+            />
+          </motion.div>
+        </div>
       </motion.div>
     </section>
   );

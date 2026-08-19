@@ -89,13 +89,13 @@ function PackageCard({
             }
       }
       viewport={{
-        once: true,
-        amount: 0.18,
-        margin: "0px 0px -5% 0px",
+        once: false,
+        amount: 0.2,
+        margin: "0px 0px -6% 0px",
       }}
       transition={{
-        duration: reduceMotion ? 0 : 0.95,
-        delay: reduceMotion ? 0 : index * 0.12,
+        duration: reduceMotion ? 0 : 1.05,
+        delay: reduceMotion ? 0 : index * 0.10,
         ease: smoothEase,
       }}
       whileHover={
@@ -120,8 +120,8 @@ function PackageCard({
             bottom-[-10px]
             top-5
             rounded-[24px]
-            bg-[#18894f]/10
-            blur-xl
+            bg-[#278650]/6
+            blur-2xl
           "
         />
       )}
@@ -147,7 +147,7 @@ function PackageCard({
                   y: 0,
                 }
           }
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.55 }}
           transition={{
             duration: reduceMotion ? 0 : 0.75,
             delay: reduceMotion ? 0 : 0.28,
@@ -168,9 +168,9 @@ function PackageCard({
               gap-1.5
               whitespace-nowrap
               rounded-full
-              bg-[#F4A62A]
-              px-3.5
-              py-[6px]
+              bg-[#D99A32]
+              px-3
+              py-[5px]
               shadow-[0_8px_22px_rgba(244,166,42,0.28)]
             "
           >
@@ -199,28 +199,28 @@ function PackageCard({
           h-full
           flex-col
           overflow-hidden
-          rounded-[18px]
+          rounded-[22px]
           border
           bg-white
-          p-5
-          shadow-[0_12px_35px_rgba(20,42,68,0.06)]
+          p-6
+          shadow-[0_14px_38px_rgba(20,42,68,0.055)]
           transition-all
           duration-500
 
-          sm:p-6
-          lg:p-6
-          xl:p-7
+          sm:p-7
+          lg:p-7
+          xl:p-8
 
           ${
             item.popular
               ? `
-                border-[#278650]
-                shadow-[0_17px_45px_rgba(34,126,77,0.11)]
+                border-[#8AB99C]
+                shadow-[0_18px_46px_rgba(34,126,77,0.09)]
               `
               : `
-                border-[#dce5ed]
-                hover:border-[#b9ccd9]
-                hover:shadow-[0_20px_50px_rgba(26,55,84,0.10)]
+                border-[#E2E7EB]
+                hover:border-[#C7D0D7]
+                hover:shadow-[0_22px_52px_rgba(26,55,84,0.09)]
               `
           }
         `}
@@ -291,12 +291,12 @@ function PackageCard({
           <h3
             className="
               !text-[#17293d]
-              text-[19px]
+              text-[18px]
               font-semibold
-              leading-tight
-              tracking-[-0.02em]
+              leading-[1.25]
+              tracking-[-0.018em]
 
-              sm:text-[20px]
+              sm:text-[19px]
             "
           >
             {item.title}
@@ -304,12 +304,12 @@ function PackageCard({
 
           <p
             className="
-              mt-2
-              !text-[#77899c]
-              text-[13px]
+              mt-2.5
+              !text-[#7A8794]
+              text-[11.5px]
               leading-[1.55]
 
-              sm:text-[14px]
+              sm:text-[12.5px]
             "
           >
             {item.subtitle}
@@ -317,10 +317,10 @@ function PackageCard({
         </div>
 
         {/* DIVIDER */}
-        <div className="relative z-10 my-5 h-px bg-[#edf1f4]" />
+        <div className="relative z-10 my-6 h-px bg-[#edf1f4]" />
 
         {/* FEATURES */}
-        <ul className="relative z-10 flex-1 space-y-3.5">
+        <ul className="relative z-10 flex-1 space-y-4">
           {item.features.map((feature, featureIndex) => (
             <motion.li
               key={feature}
@@ -340,16 +340,16 @@ function PackageCard({
                       x: 0,
                     }
               }
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.55 }}
               transition={{
-                duration: reduceMotion ? 0 : 0.6,
+                duration: reduceMotion ? 0 : 0.72,
                 delay:
                   reduceMotion
                     ? 0
                     : 0.08 + featureIndex * 0.055,
                 ease: smoothEase,
               }}
-              className="flex items-start gap-2.5"
+              className="flex items-start gap-3"
             >
               <div
                 className={`
@@ -383,12 +383,12 @@ function PackageCard({
 
               <span
                 className="
-                  !text-[#4e5f70]
+                  !text-[#526170]
                   text-[13px]
                   leading-[1.5]
 
-                  sm:text-[13.5px]
-                  xl:text-[14px]
+                  sm:text-[12px]
+                  xl:text-[13.5px]
                 "
               >
                 {feature}
@@ -398,22 +398,22 @@ function PackageCard({
         </ul>
 
         {/* CTA */}
-        <div className="relative z-10 mt-6">
+        <div className="relative z-10 mt-12">
           <Link
             href="https://taxindiafirm.com/contact-us"
             className={`
               group/btn
               relative
               flex
-              min-h-[46px]
+              min-h-[44px]
               w-full
               items-center
               justify-center
               gap-2
               overflow-hidden
-              rounded-[9px]
-              px-4
-              py-3
+              rounded-[10px]
+              px-6.5
+              py-2.5
               text-center
               text-[12px]
               font-semibold
@@ -520,113 +520,28 @@ export default function StartupPackages() {
       className="
         relative
         overflow-hidden
-        bg-[#f4f7fa]
-        py-14
+        bg-white
+        py-20
 
-        sm:py-16
-        lg:py-20
+        sm:py-24
+        md:py-28
+        lg:py-32
+        xl:py-36
       "
     >
-      {/* =====================================
-          WHITE DOTTED BACKGROUND
-      ====================================== */}
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          opacity-70
-        "
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, rgba(202, 215, 223, 0.75) 1.5px, transparent 1.5px)",
-          backgroundSize: "22px 22px",
-        }}
-      />
-
-      {/* SECOND SOFT DOT LAYER */}
-      <div
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          opacity-[0.25]
-        "
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, rgba(42,82,110,0.15) 1px, transparent 1px)",
-          backgroundSize: "44px 44px",
-          backgroundPosition: "11px 11px",
-        }}
-      />
-
-      {/* BLUE GLOW */}
-      <motion.div
-        animate={
-          reduceMotion
-            ? undefined
-            : {
-                x: [0, 16, 0],
-                y: [0, 9, 0],
-              }
-        }
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
-          pointer-events-none
-          absolute
-          -left-[180px]
-          top-[100px]
-          h-[360px]
-          w-[360px]
-          rounded-full
-          bg-[#2f91cd]/10
-          blur-[120px]
-        "
-      />
-
-      {/* GREEN GLOW */}
-      <motion.div
-        animate={
-          reduceMotion
-            ? undefined
-            : {
-                x: [0, -14, 0],
-                y: [0, -10, 0],
-              }
-        }
-        transition={{
-          duration: 17,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="
-          pointer-events-none
-          absolute
-          -right-[180px]
-          bottom-[20px]
-          h-[360px]
-          w-[360px]
-          rounded-full
-          bg-[#278650]/8
-          blur-[120px]
-        "
-      />
-
       <div
         className="
           relative
           z-10
           mx-auto
-          max-w-[1280px]
-          px-4
+          max-w-[1360px]
+          px-5
 
-          sm:px-6
-          lg:px-8
+          sm:px-8
+          md:px-20
+          lg:px-12
+          xl:px-16
+          2xl:px-20
         "
       >
         {/* =====================================
@@ -651,11 +566,12 @@ export default function StartupPackages() {
                 }
           }
           viewport={{
-            once: true,
-            amount: 0.3,
+            once: false,
+            amount: 0.35,
+            margin: "0px 0px -8% 0px",
           }}
           transition={{
-            duration: reduceMotion ? 0 : 1.0,
+            duration: reduceMotion ? 0 : 1.05,
             ease: smoothEase,
           }}
           style={{
@@ -663,21 +579,21 @@ export default function StartupPackages() {
           }}
           className="
             mx-auto
-            mb-8
-            max-w-[780px]
+            mb-12
+            max-w-[720px]
             text-center
 
-            sm:mb-10
-            lg:mb-11
+            sm:mb-14
+            lg:mb-16
           "
         >
           {/* LABEL */}
-          <div className="mb-3 flex items-center justify-center gap-2.5">
-            <span className="h-px w-7 bg-[#318dc5]" />
+          <div className="mb-4 flex items-center justify-center gap-2.5">
+            <span className="h-px w-8 bg-[#BFC8D1]" />
 
             <span
               className="
-                !text-[#3188be]
+                !text-[#6F7C88]
                 text-[10px]
                 font-bold
                 uppercase
@@ -689,25 +605,26 @@ export default function StartupPackages() {
               Startup Packages
             </span>
 
-            <span className="h-px w-7 bg-[#318dc5]" />
+            <span className="h-px w-8 bg-[#BFC8D1]" />
           </div>
 
           {/* HEADING */}
           <h2
             className="
-              !text-[#13253a]
-              text-[28px]
+              !text-[#17283A]
+              text-[25px]
               font-semibold
               leading-[1.18]
-              tracking-[-0.035em]
+              tracking-[-0.03em]
 
-              sm:text-[34px]
-              md:text-[39px]
-              lg:text-[44px]
+              sm:text-[30px]
+              md:text-[34px]
+              lg:text-[38px]
+              xl:text-[40px]
             "
           >
             Launch Your Business in Tamil Nadu.{" "}
-            <span className="!text-[#278650]">
+            <span className="!text-[#2C7F53]">
               Pick Your Plan.
             </span>
           </h2>
@@ -716,14 +633,14 @@ export default function StartupPackages() {
           <p
             className="
               mx-auto
-              mt-4
-              max-w-[700px]
-              !text-[#718496]
+              mt-5
+              max-w-[600px]
+              !text-[#7B8793]
               text-[13px]
               leading-6
 
-              sm:text-[14px]
-              md:text-[15px]
+              sm:text-[13px]
+              md:text-[14px]
             "
           >
             Pre-built bundles for the most common business setups in Chennai.
@@ -740,10 +657,11 @@ export default function StartupPackages() {
             hidden
             grid-cols-3
             items-stretch
-            gap-5
+            gap-7
 
             lg:grid
-            xl:gap-6
+            xl:gap-8
+            2xl:gap-9
           "
         >
           {packages.map((item, index) => (
@@ -760,7 +678,7 @@ export default function StartupPackages() {
         ====================================== */}
 
         <div
-          className="lg:hidden"
+          className="lg:hidden mt-2"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={() => setIsPaused(true)}
@@ -776,7 +694,7 @@ export default function StartupPackages() {
             pt-5 prevents badge cutting.
             overflow-hidden starts below badge space.
           */}
-          <div className="pt-2">
+          <div className="pt-3">
             <div className="overflow-hidden">
               <motion.div
                 className="flex"
@@ -784,7 +702,7 @@ export default function StartupPackages() {
                   x: `-${activeIndex * 100}%`,
                 }}
                 transition={{
-                  duration: reduceMotion ? 0 : 0.85,
+                  duration: reduceMotion ? 0 : 0.95,
                   ease: smoothEase,
                 }}
                 drag={reduceMotion ? false : "x"}
@@ -816,13 +734,13 @@ export default function StartupPackages() {
                       shrink-0
                       px-1
 
-                      sm:px-3
+                      sm:px-5
                     "
                   >
                     <div
                       className="
                         mx-auto
-                        max-w-[620px]
+                        max-w-[600px]
                       "
                     >
                       <PackageCard
@@ -837,7 +755,7 @@ export default function StartupPackages() {
           </div>
 
           {/* DOTS */}
-          <div className="mt-5 flex items-center justify-center gap-2">
+          <div className="mt-7 flex items-center justify-center gap-2.5">
             {packages.map((item, index) => (
               <button
                 key={item.title}
@@ -909,34 +827,34 @@ export default function StartupPackages() {
                   y: 0,
                 }
           }
-          viewport={{ once: true, amount: 0.35 }}
+          viewport={{ once: false, amount: 0.35, margin: "0px 0px -6% 0px" }}
           transition={{
-            duration: reduceMotion ? 0 : 0.85,
+            duration: reduceMotion ? 0 : 0.95,
             ease: smoothEase,
           }}
           className="
             mx-auto
             mt-8
             flex
-            max-w-[970px]
+            max-w-[980px]
             flex-col
             items-center
             justify-center
             gap-2
-            rounded-[14px]
+            rounded-[16px]
             border
-            border-white/80
-            bg-white/65
+            border-[#E5E9ED]
+            bg-[#FAFBFC]
             px-4
-            py-4
+            py-5
             text-center
-            shadow-[0_8px_25px_rgba(20,45,70,0.04)]
-            backdrop-blur-md
+            shadow-[0_10px_30px_rgba(20,45,70,0.045)]
+            backdrop-blur-sm
 
-            sm:mt-9
+            sm:mt-14
             md:flex-row
             md:gap-2.5
-            lg:mt-10
+            lg:mt-16
           "
         >
           <span

@@ -172,14 +172,14 @@ function SliderArrow({
         justify-center
         rounded-full
         border
-        border-[#E5E3DC]
+        border-[#DDE3E8]
         bg-white
-        text-[#173D34]
-        shadow-[0_5px_20px_rgba(20,55,46,0.06)]
+        text-[#2d8cff]
+        shadow-[0_6px_18px_rgba(17,24,39,0.06)]
         transition-all
         duration-300
-        hover:border-[#173D34]
-        hover:bg-[#173D34]
+        hover:border-[#2d8cff]
+        hover:bg-[#2d8cff]
         hover:text-white
       "
     >
@@ -225,23 +225,23 @@ function ReviewCard({ review }: { review: Review }) {
         relative
         flex
         h-full
-        min-h-[360px]
+        min-h-[340px]
         flex-col
         overflow-hidden
-        rounded-[20px]
+        rounded-[22px]
         border
-        border-[#EAE7DF]
+        border-[#E1E5E9]
         bg-white
         p-6
-        shadow-[0_10px_40px_rgba(20,55,46,0.055)]
+        shadow-[0_14px_38px_rgba(17,24,39,0.06)]
         transition-shadow
         duration-500
 
-        hover:shadow-[0_24px_60px_rgba(20,55,46,0.11)]
+        hover:shadow-[0_22px_50px_rgba(17,24,39,0.10)]
 
-        sm:min-h-[380px]
-        md:min-h-[410px]
-        lg:min-h-[390px]
+        sm:min-h-[355px]
+        md:min-h-[375px]
+        lg:min-h-[365px]
         sm:p-7
 
         xl:p-8
@@ -259,9 +259,9 @@ function ReviewCard({ review }: { review: Review }) {
           origin-left
           scale-x-0
           bg-gradient-to-r
-          from-[#173F35]
-          via-[#C7A15A]
-          to-[#173F35]
+          from-[#2d8cff]
+          via-[#87BCFF]
+          to-[#2d8cff]
           transition-transform
           duration-500
           group-hover:scale-x-100
@@ -273,10 +273,10 @@ function ReviewCard({ review }: { review: Review }) {
       <div className="mb-6 flex items-start justify-between">
         <div
           className="
-            text-[#E4DED2]
+            text-[#D4D9DE]
             transition-colors
             duration-300
-            group-hover:text-[#D5BF8F]
+            group-hover:text-[#2d8cff]
           "
         >
           <QuoteIcon />
@@ -289,15 +289,15 @@ function ReviewCard({ review }: { review: Review }) {
             gap-2
             rounded-full
             border
-            border-[#ECEAE4]
-            bg-[#FAFAF8]
+            border-[#E2E6EA]
+            bg-[#F7F8F9]
             px-3
             py-1.5
           "
         >
           <GoogleIcon size={18} />
 
-          <span className="text-[11px] font-medium text-[#56625F]">
+          <span className="text-[11px] font-medium text-[#626B74]">
             {review.source}
           </span>
         </div>
@@ -311,9 +311,9 @@ function ReviewCard({ review }: { review: Review }) {
             text-[14px]
             italic
             leading-[1.85]
-            text-[#56615E]
+            text-[#555F69]
 
-            sm:text-[15px]
+            sm:text-[14px]
             sm:leading-[1.9]
 
             xl:text-base
@@ -325,7 +325,7 @@ function ReviewCard({ review }: { review: Review }) {
 
       {/* line */}
 
-      <div className="my-6 h-px w-full bg-[#EEECE7]" />
+      <div className="my-6 h-px w-full bg-[#E5E8EB]" />
 
       {/* reviewer */}
 
@@ -346,7 +346,7 @@ function ReviewCard({ review }: { review: Review }) {
               text-[15px]
               font-semibold
               tracking-[-0.01em]
-              text-[#172D27]
+              text-[#1B2633]
 
               sm:text-base
             "
@@ -355,13 +355,13 @@ function ReviewCard({ review }: { review: Review }) {
           </h3>
 
           <div className="mt-1.5 flex items-center gap-2">
-            <span className="text-xs text-[#8A928F]">
+            <span className="text-xs text-[#8A939C]">
               {review.source}
             </span>
 
-            <span className="h-1 w-1 rounded-full bg-[#CBCDCA]" />
+            <span className="h-1 w-1 rounded-full bg-[#C8CDD2]" />
 
-            <span className="text-xs font-medium text-[#53615D]">
+            <span className="text-xs font-medium text-[#2d8cff]">
               {review.rating}/5
             </span>
           </div>
@@ -456,77 +456,39 @@ export default function ClientTestimonials() {
       className="
         relative
         overflow-hidden
-        bg-[#F8F7F3]
-        py-12
+        bg-white
+        py-20
 
-        sm:py-16
-        lg:py-20
-        xl:py-24
+        sm:py-24
+        md:py-28
+        lg:py-32
+        xl:py-36
       "
     >
       {/* =================================================
-          BACKGROUND DECORATION
+          SUBTLE BLACK BOXED PATTERN — WHITE BASE
       ================================================== */}
 
-      <div
-        className="
-          pointer-events-none
-          absolute
-          -left-[180px]
-          top-[80px]
-          h-[340px]
-          w-[340px]
-          rounded-full
-          bg-[#E3EDE8]/70
-          blur-[100px]
-        "
-      />
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          -right-[180px]
-          bottom-[20px]
-          h-[380px]
-          w-[380px]
-          rounded-full
-          bg-[#F3E9D7]/80
-          blur-[110px]
-        "
-      />
-
-      {/* dotted decoration */}
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          right-[6%]
-          top-[12%]
-          hidden
-          h-[90px]
-          w-[90px]
-          opacity-20
-          lg:block
-        "
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, #173F35 1.4px, transparent 1.4px)",
-          backgroundSize: "12px 12px",
-        }}
-      />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="absolute left-[4%] top-[8%] h-[150px] w-[34%] rounded-[28px] border border-black/[0.035] bg-black/[0.018]" />
+        <div className="absolute right-[3%] top-[18%] h-[220px] w-[28%] rounded-[30px] border border-black/[0.04] bg-black/[0.022]" />
+        <div className="absolute left-[10%] top-[47%] h-[180px] w-[26%] rounded-[28px] border border-black/[0.03] bg-black/[0.014]" />
+        <div className="absolute right-[10%] bottom-[7%] h-[150px] w-[40%] rounded-[28px] border border-black/[0.035] bg-black/[0.018]" />
+        <div className="absolute left-1/2 top-[38%] h-[420px] w-[72%] -translate-x-1/2 rounded-[44px] bg-black/[0.012] blur-[1px]" />
+      </div>
 
       <div
         className="
           relative
           mx-auto
-          max-w-[1320px]
+          max-w-[1380px]
           px-5
 
-          sm:px-7
-          lg:px-8
-          xl:px-10
+          sm:px-8
+          md:px-10
+          lg:px-14
+          xl:px-16
+          2xl:px-20
         "
       >
         {/* =================================================
@@ -539,31 +501,31 @@ export default function ClientTestimonials() {
               ? false
               : {
                   opacity: 0,
-                  y: 24,
-                  filter: "blur(6px)",
+                  y: 18,
+                  scale: 0.985,
                 }
           }
           whileInView={{
             opacity: 1,
             y: 0,
-            filter: "blur(0px)",
+            scale: 1,
           }}
           viewport={{
             once: true,
             amount: 0.42,
           }}
           transition={{
-            duration: reduceMotion ? 0 : 1.25,
+            duration: reduceMotion ? 0 : 1.0,
             ease: [0.16, 1, 0.3, 1],
           }}
           className="
             mx-auto
-            mb-9
-            max-w-[820px]
+            mb-12
+            max-w-[760px]
             text-center
 
-            sm:mb-11
-            lg:mb-14
+            sm:mb-14
+            lg:mb-16
           "
         >
           {/* label */}
@@ -579,7 +541,7 @@ export default function ClientTestimonials() {
             }}
             className="mb-4 flex items-center justify-center gap-3"
           >
-            <span className="h-px w-7 bg-[#C6A15B]" />
+            <span className="h-px w-7 bg-[#2d8cff]" />
 
             <span
               className="
@@ -587,7 +549,7 @@ export default function ClientTestimonials() {
                 font-semibold
                 uppercase
                 tracking-[0.25em]
-                text-[#94713B]
+                text-[#2d8cff]
 
                 sm:text-xs
               "
@@ -595,7 +557,7 @@ export default function ClientTestimonials() {
               Client Reviews
             </span>
 
-            <span className="h-px w-7 bg-[#C6A15B]" />
+            <span className="h-px w-7 bg-[#2d8cff]" />
           </motion.div>
 
           {/* heading */}
@@ -610,21 +572,20 @@ export default function ClientTestimonials() {
               ease: [0.16, 1, 0.3, 1],
             }}
             className="
-              text-[29px]
+              text-[25px]
               font-semibold
-              leading-[1.15]
-              tracking-[-0.04em]
-              text-[#17312A]
+              leading-[1.18]
+              tracking-[-0.03em]
+              text-[#172536]
 
-              sm:text-[38px]
-
-              lg:text-[44px]
-
-              xl:text-[48px]
+              sm:text-[30px]
+              md:text-[34px]
+              lg:text-[38px]
+              xl:text-[40px]
             "
           >
             What Business Owners in{" "}
-            <span className="relative inline-block">
+            <span className="relative inline-block text-[#2d8cff]">
               Chennai
               <motion.span
                 initial={reduceMotion ? false : { scaleX: 0, opacity: 0 }}
@@ -644,7 +605,7 @@ export default function ClientTestimonials() {
                   h-[7px]
                   w-full
                   rounded-full
-                  bg-[#E9D5AC]/65
+                  bg-[#2d8cff]/15
                 "
               />
             </span>{" "}
@@ -665,15 +626,15 @@ export default function ClientTestimonials() {
             className="
               mx-auto
               mt-5
-              max-w-[700px]
+              max-w-[640px]
               text-[13px]
               leading-6
-              text-[#69736F]
+              text-[#727E8A]
 
               sm:text-[15px]
               sm:leading-7
 
-              lg:text-base
+              lg:text-[14px]
               lg:leading-8
             "
           >
@@ -779,7 +740,7 @@ export default function ClientTestimonials() {
                   duration: reduceMotion ? 0 : 0.45,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="grid min-h-[390px] grid-cols-2 gap-5"
+                className="grid min-h-[375px] grid-cols-2 gap-7"
               >
                 {tabletReviews.map((review, index) => (
                   <ReviewCard
@@ -808,11 +769,12 @@ export default function ClientTestimonials() {
           className="
             hidden
             grid-cols-3
-            gap-5
+            gap-7
 
             lg:grid
 
-            xl:gap-6
+            xl:gap-8
+            2xl:gap-9
           "
         >
           {reviews.map((review) => (
@@ -828,25 +790,25 @@ export default function ClientTestimonials() {
 
         <div
           className="
-            mt-10
+            mt-16
             flex
             flex-col
             items-center
             gap-6
-            rounded-[20px]
+            rounded-[22px]
             border
-            border-[#E4E1D8]
-            bg-white/65
+            border-black/[0.07]
+            bg-[#F1F2F3]
             px-5
             py-6
-            backdrop-blur-md
+            backdrop-blur-sm
 
             sm:px-7
 
             md:flex-row
             md:justify-between
 
-            lg:mt-12
+            lg:mt-18
             lg:px-9
           "
         >
@@ -872,7 +834,7 @@ export default function ClientTestimonials() {
                 justify-center
                 rounded-full
                 bg-white
-                shadow-[0_5px_20px_rgba(0,0,0,0.06)]
+                shadow-[0_6px_20px_rgba(17,24,39,0.08)]
 
                 sm:flex
               "
@@ -881,7 +843,7 @@ export default function ClientTestimonials() {
             </div>
 
             <div>
-              <p className="text-sm font-semibold text-[#1C352E] sm:text-[15px]">
+              <p className="text-sm font-semibold text-[#1D2732] sm:text-[15px]">
                 Trusted by businesses across Chennai
               </p>
 
@@ -890,7 +852,7 @@ export default function ClientTestimonials() {
                   mt-1
                   text-xs
                   leading-5
-                  text-[#7B8581]
+                  text-[#6E7882]
 
                   sm:text-sm
                 "
@@ -916,19 +878,19 @@ export default function ClientTestimonials() {
               justify-center
               gap-2.5
               rounded-full
-              bg-[#173F35]
+              bg-[#2d8cff]
               px-6
               py-3.5
               text-[13px]
               font-medium
               text-white
-              shadow-[0_10px_28px_rgba(23,63,53,0.18)]
+              shadow-[0_10px_28px_rgba(45,140,255,0.22)]
               transition-all
               duration-300
 
               hover:-translate-y-[2px]
-              hover:bg-[#C49A52]
-              hover:shadow-[0_14px_32px_rgba(196,154,82,0.25)]
+              hover:bg-[#247FE8]
+              hover:shadow-[0_14px_34px_rgba(45,140,255,0.28)]
 
               sm:w-auto
               sm:text-sm
@@ -1015,8 +977,8 @@ function SliderControls({
                 rounded-full
                 ${
                   activeIndex === index
-                    ? "bg-[#173F35]"
-                    : "bg-[#CFD4D1]"
+                    ? "bg-[#2d8cff]"
+                    : "bg-[#D7E7FA]"
                 }
               `}
             />
@@ -1035,7 +997,7 @@ function SliderControls({
           justify-center
           rounded-full
           border
-          border-[#E8E5DD]
+          border-[#DFE4E9]
           bg-white
         "
       >

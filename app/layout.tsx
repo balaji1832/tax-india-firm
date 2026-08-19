@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Outfit, Fraunces } from "next/font/google";
+import { Inter } from "next/font/google";
+
 import "./globals.css";
 
 import Header from "../components/Layouts/Header";
@@ -7,25 +8,21 @@ import Footer from "../components/Layouts/Footer";
 import ScrollToTopButton from "../components/Layouts/Scrolltotopbutton";
 
 /* ========================================
-   PRIMARY FONT - HEADINGS
+   SITE FONT - INTER
 ======================================== */
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500"],
-});
-
-/* ========================================
-   SECONDARY FONT - BODY / PARAGRAPHS
-======================================== */
-
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
+  weight: [
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+  ],
 });
 
 /* ========================================
@@ -50,12 +47,21 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${outfit.variable}`}
+      className={inter.variable}
     >
-      <body className="min-h-screen bg-white font-body text-[#182536] antialiased">
+      <body
+        className="
+          min-h-screen
+          bg-white
+          font-body
+          text-[#182536]
+          antialiased
+        "
+      >
         <Header />
 
         {children}
+
         <ScrollToTopButton />
 
         <Footer />

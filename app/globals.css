@@ -11,7 +11,7 @@
   --primary: #10233d;
   --secondary: #5d6470;
 
-  --menu-active: #0878bd;
+  --menu-active: #266ef1;
   --header-background: #d9dfe8;
   --contact-green: #0e998d;
 }
@@ -27,13 +27,14 @@
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
 
-  /* Primary Heading Font */
-  --font-heading: var(--font-fraunces);
+  /* Heading */
+  --font-heading: var(--font-inter);
 
-  /* Secondary Body Font */
-  --font-body: var(--font-outfit);
+  /* Body */
+  --font-body: var(--font-inter);
 
-  --font-sans: var(--font-outfit);
+  /* Default sans */
+  --font-sans: var(--font-inter);
 }
 
 /* ========================================
@@ -54,11 +55,16 @@ body {
   background: var(--background);
   color: var(--foreground);
 
-  font-family: var(--font-outfit), sans-serif;
+  font-family:
+    var(--font-inter),
+    sans-serif;
+
+  font-weight: 400;
 }
 
 /* ========================================
    HEADINGS
+   INTER BOLD / EXTRA BOLD
 ======================================== */
 
 h1,
@@ -67,27 +73,122 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-fraunces), sans-serif;
+  margin: 0;
+
+  font-family:
+    var(--font-inter),
+    sans-serif;
+
+  font-weight: 700;
+
   color: var(--primary);
 }
 
+/* Larger headings */
+h1,
+h2 {
+  font-weight: 800;
+}
+
 /* ========================================
-   BODY TEXT
+   PARAGRAPHS
+   INTER REGULAR / LIGHT
 ======================================== */
 
 p {
-  font-family: var(--font-outfit), sans-serif;
+  font-family:
+    var(--font-inter),
+    sans-serif;
+
+  font-weight: 400;
 }
 
 /* ========================================
-   INTERACTIVE ELEMENTS
+   LINKS
 ======================================== */
 
-button,
 a {
+  font-family:
+    var(--font-inter),
+    sans-serif;
+
   -webkit-tap-highlight-color: transparent;
 }
 
+/* ========================================
+   BUTTONS
+======================================== */
+
 button {
+  font-family:
+    var(--font-inter),
+    sans-serif;
+
   cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ========================================
+   FORM ELEMENTS
+======================================== */
+
+input,
+textarea,
+select {
+  font-family:
+    var(--font-inter),
+    sans-serif;
+}
+
+/* ========================================
+   FONT UTILITIES
+======================================== */
+
+.font-heading {
+  font-family:
+    var(--font-inter),
+    sans-serif;
+
+  font-weight: 700;
+}
+
+.font-body {
+  font-family:
+    var(--font-inter),
+    sans-serif;
+
+  font-weight: 400;
+}
+
+.font-light {
+  font-family:
+    var(--font-inter),
+    sans-serif;
+
+  font-weight: 300;
+}
+
+.font-regular {
+  font-family:
+    var(--font-inter),
+    sans-serif;
+
+  font-weight: 400;
+}
+
+.font-bold {
+  font-family:
+    var(--font-inter),
+    sans-serif;
+
+  font-weight: 700;
+}
+
+.font-extrabold {
+  font-family:
+    var(--font-inter),
+    sans-serif;
+
+  font-weight: 800;
 }

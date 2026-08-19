@@ -197,35 +197,116 @@ const contactItems = [
 
 export default function Footer() {
   return (
-    <footer className="relative w-full overflow-hidden bg-[#071321] text-white">
-      {/* SUBTLE CHECKED / GRID BACKGROUND — visual only, layout unchanged */}
+    <footer
+      className="
+        relative
+        w-full
+        overflow-hidden
+
+        border-t
+        border-[#E6EDF7]
+
+        bg-[#FBFCFF]
+
+        text-[#172033]
+      "
+    >
+      {/* =====================================================
+          SUBTLE CONTOUR / TOPOGRAPHIC BACKGROUND
+      ===================================================== */}
+
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          overflow-hidden
+        "
       >
+        {/* LEFT PATTERN */}
+
         <div
-          className="absolute inset-0 opacity-[0.055]"
+          className="
+            absolute
+            inset-0
+            opacity-[0.24]
+          "
           style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.9) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.9) 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
+            backgroundImage: `
+              repeating-radial-gradient(
+                ellipse at 10% 26%,
+                transparent 0px,
+                transparent 18px,
+                rgba(38,110,241,0.09) 19px,
+                transparent 20px,
+                transparent 38px
+              ),
+
+              repeating-radial-gradient(
+                ellipse at 43% 76%,
+                transparent 0px,
+                transparent 21px,
+                rgba(38,110,241,0.065) 22px,
+                transparent 23px,
+                transparent 43px
+              ),
+
+              repeating-radial-gradient(
+                ellipse at 88% 22%,
+                transparent 0px,
+                transparent 19px,
+                rgba(38,110,241,0.07) 20px,
+                transparent 21px,
+                transparent 40px
+              )
+            `,
           }}
         />
 
-        {/* soft vignette keeps the grid subtle at the edges */}
+        {/* SOFT WHITE WASH */}
+
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "radial-gradient(circle at 50% 20%, rgba(36,110,241,0.08), transparent 46%), linear-gradient(to bottom, rgba(7,19,33,0.05), rgba(7,19,33,0.45))",
+            background: `
+              linear-gradient(
+                180deg,
+                rgba(255,255,255,0.60) 0%,
+                rgba(251,252,255,0.76) 100%
+              )
+            `,
+          }}
+        />
+
+        {/* SUBTLE BLUE LIGHT */}
+
+        <div
+          className="
+            absolute
+            inset-0
+          "
+          style={{
+            background: `
+              radial-gradient(
+                circle at 50% 0%,
+                rgba(38,110,241,0.045),
+                transparent 44%
+              )
+            `,
           }}
         />
       </div>
+
+      {/* =====================================================
+          CONTENT
+      ===================================================== */}
 
       <div
         className="
           relative
           z-10
+
           mx-auto
           w-full
           max-w-[1720px]
@@ -275,7 +356,7 @@ export default function Footer() {
           "
         >
           {/* =================================================
-              BRAND AREA - FULL WIDTH MOBILE / TABLET
+              BRAND AREA
           ================================================= */}
 
           <div className="w-full">
@@ -287,7 +368,7 @@ export default function Footer() {
               className="inline-flex items-center"
             >
               <Image
-                src="/icons/footer-logo.webp"
+                src="/icons/taxindia-logo.png"
                 alt="Tax India Firm"
                 width={190}
                 height={65}
@@ -317,7 +398,7 @@ export default function Footer() {
                 font-normal
                 leading-[1.8]
 
-                text-[#91A0B4]
+                text-[#667085]
 
                 sm:max-w-[330px]
                 sm:text-[14px]
@@ -356,16 +437,17 @@ export default function Footer() {
                     flex
                     h-[25px]
                     w-[25px]
+
                     items-center
                     justify-center
 
-                    text-[#91A0B4]
+                    text-[#667085]
 
                     transition-all
                     duration-300
 
                     hover:-translate-y-[2px]
-                    hover:text-white
+                    hover:text-[#266EF1]
                   "
                 >
                   <ContactIcon type={item.icon} />
@@ -424,12 +506,12 @@ export default function Footer() {
 
                     tracking-[0.04em]
 
-                    text-white
+                    text-[#172033]
 
                     transition-colors
                     duration-200
 
-                    hover:text-[#246EF1]
+                    hover:text-[#266EF1]
 
                     sm:text-[13px]
 
@@ -472,7 +554,6 @@ export default function Footer() {
                           group
 
                           inline-flex
-
                           max-w-full
 
                           font-body
@@ -480,12 +561,12 @@ export default function Footer() {
                           font-normal
                           leading-[1.5]
 
-                          text-[#91A0B4]
+                          text-[#5F6978]
 
                           transition-colors
                           duration-200
 
-                          hover:text-white
+                          hover:text-[#266EF1]
 
                           sm:text-[12.5px]
 
@@ -528,7 +609,8 @@ export default function Footer() {
             mt-11
             h-px
             w-full
-            bg-[#1D2B3D]
+
+            bg-[#DCE5F1]
 
             sm:mt-12
 
@@ -576,7 +658,7 @@ export default function Footer() {
               font-normal
               leading-[1.7]
 
-              text-[#7790AD]
+              text-[#758195]
 
               sm:text-[12px]
 
@@ -619,12 +701,12 @@ export default function Footer() {
                   text-[11px]
                   font-normal
 
-                  text-[#7790AD]
+                  text-[#758195]
 
                   transition-colors
                   duration-200
 
-                  hover:text-white
+                  hover:text-[#266EF1]
 
                   sm:text-[12px]
 

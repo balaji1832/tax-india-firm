@@ -446,96 +446,16 @@ export default function ServicesSection() {
         isolate
         overflow-hidden
 
-        py-14
-        sm:py-16
-        md:py-20
-        lg:py-22
-        xl:py-24
+        py-20
+        sm:py-24
+        md:py-28
+        lg:py-32
+        xl:py-36
       "
       style={{
-        background:
-          "#F7FAFE",
+        background: "#FFFFFF",
       }}
     >
-      {/* ===================================================
-          BACKGROUND
-      =================================================== */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          -z-10
-        "
-      >
-        {/* visible soft checker */}
-
-        <div
-          className="
-            absolute
-            inset-0
-          "
-          style={{
-            backgroundImage: `
-              linear-gradient(
-                45deg,
-                rgba(36,110,241,.060) 25%,
-                transparent 25%
-              ),
-              linear-gradient(
-                -45deg,
-                rgba(36,110,241,.060) 25%,
-                transparent 25%
-              ),
-              linear-gradient(
-                45deg,
-                transparent 75%,
-                rgba(36,110,241,.060) 75%
-              ),
-              linear-gradient(
-                -45deg,
-                transparent 75%,
-                rgba(36,110,241,.060) 75%
-              )
-            `,
-            backgroundSize:
-              "72px 72px",
-            backgroundPosition:
-              "0 0, 0 36px, 36px -36px, -36px 0",
-          }}
-        />
-
-        {/* softer center lighting */}
-
-        <div
-          className="
-            absolute
-            inset-0
-          "
-          style={{
-            background:
-              "radial-gradient(circle at 50% 48%, rgba(255,255,255,.58) 0%, rgba(255,255,255,.30) 32%, rgba(247,250,254,.10) 65%, rgba(247,250,254,.03) 100%)",
-          }}
-        />
-
-        {/* top continuity */}
-
-        <div
-          className="
-            absolute
-            inset-x-0
-            top-0
-            h-[220px]
-          "
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(103,177,233,.10) 0%, transparent 100%)",
-          }}
-        />
-      </div>
-
       {/* ===================================================
           CONTAINER
       =================================================== */}
@@ -547,12 +467,12 @@ export default function ServicesSection() {
           w-full
           max-w-[1536px]
 
-          px-4
-          sm:px-6
-          md:px-8
-          lg:px-10
-          xl:px-14
-          2xl:px-16
+          px-5
+          sm:px-8
+          md:px-10
+          lg:px-14
+          xl:px-20
+          2xl:px-24
         "
       >
         {/* =================================================
@@ -562,7 +482,7 @@ export default function ServicesSection() {
         <div
           className="
             mx-auto
-            max-w-[920px]
+            max-w-[820px]
             text-center
           "
         >
@@ -579,8 +499,9 @@ export default function ServicesSection() {
               y: 0,
             }}
             viewport={{
-              once: true,
-              amount: 0.6,
+              once: false,
+              amount: 0.45,
+              margin: "0px 0px -8% 0px",
             }}
             transition={{
               duration:
@@ -641,24 +562,24 @@ export default function ServicesSection() {
           <motion.h2
             initial={{
               opacity: 0,
-              y:
-                reduceMotion
-                  ? 0
-                  : 14,
+              y: reduceMotion ? 0 : 18,
+              scale: reduceMotion ? 1 : 0.985,
             }}
             whileInView={{
               opacity: 1,
               y: 0,
+              scale: 1,
             }}
             viewport={{
-              once: true,
-              amount: 0.5,
+              once: false,
+              amount: 0.4,
+              margin: "0px 0px -8% 0px",
             }}
             transition={{
               duration:
                 reduceMotion
                   ? 0
-                  : 1.0,
+                  : 1.05,
               delay:
                 reduceMotion
                   ? 0
@@ -670,18 +591,19 @@ export default function ServicesSection() {
 
               font-heading
 
-              text-[31px]
+              text-[28px]
               font-bold
 
-              leading-[1.08]
+              leading-[1.16]
 
-              tracking-[-0.04em]
+              tracking-[-0.035em]
 
               text-[#0D1F45]
 
-              sm:text-[40px]
-              md:text-[47px]
-              lg:text-[54px]
+              sm:text-[34px]
+              md:text-[40px]
+              lg:text-[46px]
+              xl:text-[50px]
             "
           >
             Everything Your
@@ -696,24 +618,24 @@ export default function ServicesSection() {
           <motion.p
             initial={{
               opacity: 0,
-              y:
-                reduceMotion
-                  ? 0
-                  : 18,
+              y: reduceMotion ? 0 : 20,
+              scale: reduceMotion ? 1 : 0.99,
             }}
             whileInView={{
               opacity: 1,
               y: 0,
+              scale: 1,
             }}
             viewport={{
-              once: true,
-              amount: 0.5,
+              once: false,
+              amount: 0.4,
+              margin: "0px 0px -8% 0px",
             }}
             transition={{
               duration:
                 reduceMotion
                   ? 0
-                  : 0.9,
+                  : 1.0,
               delay:
                 reduceMotion
                   ? 0
@@ -723,9 +645,9 @@ export default function ServicesSection() {
             className="
               mx-auto
 
-              mt-5
+              mt-6
 
-              max-w-[680px]
+              max-w-[650px]
 
               font-body
 
@@ -757,9 +679,10 @@ export default function ServicesSection() {
         <div
           className="
             relative
-            mt-8
-            sm:mt-10
-            md:mt-12
+            mt-12
+            sm:mt-14
+            md:mt-16
+            lg:mt-18
           "
           onMouseEnter={() =>
             setPaused(true)
@@ -782,13 +705,30 @@ export default function ServicesSection() {
         >
           {/* CARD STAGE */}
 
-          <div
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: reduceMotion ? 0 : 26,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: false,
+              amount: 0.2,
+              margin: "0px 0px -6% 0px",
+            }}
+            transition={{
+              duration: reduceMotion ? 0 : 1.05,
+              ease: smoothEase,
+            }}
             className="
               relative
 
               mx-auto
 
-              h-[420px]
+              h-[430px]
 
               w-full
 
@@ -796,10 +736,10 @@ export default function ServicesSection() {
 
               overflow-hidden
 
-              sm:h-[455px]
-              md:h-[485px]
-              lg:h-[535px]
-              xl:h-[555px]
+              sm:h-[470px]
+              md:h-[500px]
+              lg:h-[545px]
+              xl:h-[565px]
             "
           >
             {services.map(
@@ -869,7 +809,7 @@ export default function ServicesSection() {
                 );
               }
             )}
-          </div>
+          </motion.div>
 
           {/* =================================================
               CONTROLS
@@ -879,7 +819,7 @@ export default function ServicesSection() {
             className="
               mx-auto
 
-              mt-1
+              mt-5
 
               flex
 
@@ -888,89 +828,13 @@ export default function ServicesSection() {
               max-w-[1240px]
 
               items-center
-              justify-between
+              justify-end
 
               gap-6
 
               px-1
             "
           >
-            {/* INDICATORS */}
-
-            <div
-              className="
-                flex
-                items-center
-                gap-2
-              "
-            >
-              {services.map(
-                (
-                  service,
-                  index
-                ) => (
-                  <button
-                    key={
-                      service.href
-                    }
-                    type="button"
-                    onClick={() =>
-                      setActiveIndex(
-                        index
-                      )
-                    }
-                    aria-label={`Show ${service.title}`}
-                    className="
-                      group
-                      flex
-                      h-9
-                      items-center
-                      justify-center
-                    "
-                  >
-                    <motion.span
-                      animate={{
-                        width:
-                          index ===
-                          activeIndex
-                            ? 28
-                            : 7,
-                        opacity:
-                          index ===
-                          activeIndex
-                            ? 1
-                            : 0.5,
-                      }}
-                      transition={{
-                        duration:
-                          reduceMotion
-                            ? 0
-                            : 0.45,
-                        ease: smoothEase,
-                      }}
-                      className={`
-                        block
-
-                        h-[7px]
-
-                        rounded-full
-
-                        transition-colors
-                        duration-300
-
-                        ${
-                          index ===
-                          activeIndex
-                            ? "bg-[#246EF1]"
-                            : "bg-[#94AAC1] group-hover:bg-[#55799F]"
-                        }
-                      `}
-                    />
-                  </button>
-                )
-              )}
-            </div>
-
             {/* ARROWS */}
 
             <div
@@ -1091,9 +955,9 @@ function CarouselCard({
 
     desktop: {
       [-2]: 0.76,
-      [-1]: 0.9,
+      [-1]: 1.0,
       [0]: 1.055,
-      [1]: 0.9,
+      [1]: 1.0,
       [2]: 0.76,
     },
   };
@@ -1378,32 +1242,31 @@ function CarouselCard({
           <motion.div
             initial={false}
             animate={{
-              backgroundColor:
-                active
-                  ? "rgba(8,38,72,.80)"
-                  : "rgba(8,38,72,.68)",
-
-              borderColor:
-                active
-                  ? "rgba(255,255,255,.48)"
-                  : "rgba(255,255,255,.28)",
+              opacity: active ? 1 : 0.92,
+              scale:
+                active && !reduceMotion
+                  ? 1.03
+                  : 1,
+            }}
+            transition={{
+              duration:
+                reduceMotion
+                  ? 0
+                  : 0.4,
+              ease: smoothEase,
             }}
             className="
               flex
 
-              h-11
-              w-11
+              h-10
+              w-10
 
               items-center
               justify-center
 
-              rounded-[14px]
-
-              border
-
               text-white
 
-              backdrop-blur-md
+              [filter:drop-shadow(0_2px_6px_rgba(0,0,0,.28))]
             "
           >
             <Icon
@@ -1414,13 +1277,6 @@ function CarouselCard({
 
           <span
             className="
-              rounded-full
-
-              bg-[#082948]/80
-
-              px-2.5
-              py-1.5
-
               font-body
 
               text-[11px]
@@ -1430,7 +1286,7 @@ function CarouselCard({
 
               text-white
 
-              backdrop-blur-md
+              [text-shadow:0_2px_8px_rgba(0,0,0,.38)]
             "
           >
             {String(
@@ -1459,19 +1315,8 @@ function CarouselCard({
 
               gap-2
 
-              rounded-full
-
-              border
-              border-white/40
-
-              bg-white/20
-
               px-3
               py-1.5
-
-              shadow-[inset_0_1px_0_rgba(255,255,255,.22)]
-
-              backdrop-blur-md
             "
           >
             <span
@@ -1603,16 +1448,6 @@ function CarouselCard({
 
                 gap-2.5
 
-                rounded-full
-
-                border
-                border-white/35
-
-                bg-white/18
-
-                px-3.5
-                py-2.5
-
                 font-body
 
                 text-[11px]
@@ -1621,15 +1456,10 @@ function CarouselCard({
 
                 text-white
 
-                shadow-[inset_0_1px_0_rgba(255,255,255,.20)]
-
-                backdrop-blur-lg
-
                 transition-all
                 duration-300
 
-                hover:border-white/55
-                hover:bg-white/28
+                hover:opacity-90
 
                 sm:text-[11.5px]
                 lg:text-[12px]
@@ -1643,19 +1473,19 @@ function CarouselCard({
                 className="
                   flex
 
-                  h-8
-                  w-8
+                  h-7
+                  w-7
 
                   items-center
                   justify-center
 
                   rounded-full
 
-                  bg-white/90
+                  bg-white
 
                   text-[#173B61]
 
-                  shadow-[0_3px_10px_rgba(10,35,65,.10)]
+                  shadow-[0_3px_10px_rgba(10,35,65,.08)]
 
                   transition-transform
                   duration-300

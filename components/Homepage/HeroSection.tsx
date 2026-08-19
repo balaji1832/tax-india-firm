@@ -104,8 +104,8 @@ const leftSequence: Variants = {
   hidden: {},
   visible: {
     transition: {
-      delayChildren: 0.12,
-      staggerChildren: 0.19,
+      delayChildren: 0.08,
+      staggerChildren: 0.14,
     },
   },
 };
@@ -113,15 +113,15 @@ const leftSequence: Variants = {
 const leftReveal: Variants = {
   hidden: {
     opacity: 0,
-    y: 34,
-    filter: "blur(9px)",
+    y: 24,
+    scale: 0.985,
   },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
+    scale: 1,
     transition: {
-      duration: 1.05,
+      duration: 0.9,
       ease: premiumEase,
     },
   },
@@ -130,17 +130,15 @@ const leftReveal: Variants = {
 const tagReveal: Variants = {
   hidden: {
     opacity: 0,
-    y: 22,
-    scale: 0.94,
-    filter: "blur(7px)",
+    y: 16,
+    scale: 0.97,
   },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: "blur(0px)",
     transition: {
-      duration: 0.95,
+      duration: 0.8,
       ease: premiumEase,
     },
   },
@@ -149,18 +147,16 @@ const tagReveal: Variants = {
 const trustStripReveal: Variants = {
   hidden: {
     opacity: 0,
-    y: 26,
-    filter: "blur(7px)",
+    y: 18,
   },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
-      duration: 1.0,
+      duration: 0.82,
       ease: premiumEase,
       when: "beforeChildren",
-      staggerChildren: 0.11,
+      staggerChildren: 0.09,
     },
   },
 };
@@ -433,17 +429,21 @@ export default function HeroSection() {
           grid
 
           w-full
-          max-w-[1500px]
+          max-w-[1580px]
 
           grid-cols-1
+          gap-8
 
-          lg:min-h-[720px]
-          lg:grid-cols-[1.28fr_0.72fr]
+          lg:min-h-[760px]
+          lg:grid-cols-[1.2fr_0.8fr]
+          lg:gap-10
 
-          xl:min-h-[760px]
-          xl:grid-cols-[1.3fr_0.7fr]
+          xl:min-h-[800px]
+          xl:grid-cols-[1.22fr_0.78fr]
+          xl:gap-14
 
-          2xl:min-h-[800px]
+          2xl:min-h-[840px]
+          2xl:gap-16
         "
       >
         {/* ===================================================
@@ -454,28 +454,33 @@ export default function HeroSection() {
           variants={reduceMotion ? undefined : leftSequence}
           initial={reduceMotion ? false : "hidden"}
           whileInView={reduceMotion ? undefined : "visible"}
-          viewport={{ once: true, amount: 0.18 }}
+          viewport={{ once: true, amount: 0.22, margin: "-40px 0px" }}
           className="
             relative
 
             flex
             flex-col
+
+            will-change-transform
             justify-center
 
-            px-5
-            py-14
+            px-6
+            py-16
 
-            sm:px-8
-            sm:py-16
+            sm:px-10
+            sm:py-20
 
-            md:px-12
+            md:px-14
+            md:py-24
 
-            lg:px-14
-            lg:py-20
+            lg:px-16
+            lg:py-24
 
             xl:px-20
+            xl:py-28
 
             2xl:pl-24
+            2xl:pr-10
           "
         >
           {/* =================================================
@@ -500,8 +505,8 @@ export default function HeroSection() {
 
               bg-white/65
 
-              px-3.5
-              py-2
+              px-4
+              py-2.5 mt-8 md:mt-2
 
               text-[9px]
               font-semibold
@@ -548,28 +553,28 @@ export default function HeroSection() {
           <motion.h1
             variants={reduceMotion ? undefined : leftReveal}
             className="
-              mt-6
+              mt-8 pt-5
 
-              max-w-[810px]
+              max-w-[760px]
 
-              text-[39px]
+              text-[34px]
               font-semibold
 
-              leading-[1.02]
+              leading-[1.06]
 
-              tracking-[-0.052em]
+              tracking-[-0.045em]
 
               text-[#09284A]
 
-              sm:text-[48px]
+              sm:text-[40px]
 
-              md:text-[56px]
+              md:text-[46px]
 
-              lg:text-[54px]
+              lg:text-[48px]
 
-              xl:text-[62px]
+              xl:text-[54px]
 
-              2xl:text-[67px]
+              2xl:text-[58px]
             "
           >
             Tax &amp; Business
@@ -603,21 +608,23 @@ export default function HeroSection() {
           <motion.p
             variants={reduceMotion ? undefined : leftReveal}
             className="
-              mt-6
+              mt-7
 
-              max-w-[665px]
+              max-w-[690px]
 
               text-[13px]
 
               font-medium
 
-              leading-[1.85]
+              leading-[1.9]
 
               text-[#315B7C]
 
               sm:text-[14px]
 
               md:text-[15px]
+
+              lg:pr-4
             "
           >
             From company registration to GST filing to legal contracts, 300+
@@ -632,14 +639,14 @@ export default function HeroSection() {
           <motion.div
             variants={reduceMotion ? undefined : leftReveal}
             className="
-              mt-8
+              mt-9
 
               flex
               flex-wrap
 
               items-center
 
-              gap-5
+              gap-6
             "
           >
             <Link
@@ -768,21 +775,21 @@ export default function HeroSection() {
           <motion.div
             variants={reduceMotion ? undefined : trustStripReveal}
             className="
-              mt-11
+              mt-14
 
               grid
 
-              max-w-[800px]
+              max-w-[820px]
 
               grid-cols-2
 
               border-t
               border-[#175B92]/20
 
-              pt-6
+              pt-7
 
               sm:grid-cols-4
-              sm:pt-7
+              sm:pt-8
             "
           >
             {trustStats.map((stat, index) => (
@@ -864,15 +871,19 @@ export default function HeroSection() {
           className="
             relative
 
-            h-[520px]
+            h-[500px]
 
             overflow-hidden
 
-            lg:h-[720px]
+            sm:h-[560px]
 
-            xl:h-[760px]
+            md:h-[620px]
 
-            2xl:h-[800px]
+            lg:h-[760px]
+
+            xl:h-[800px]
+
+            2xl:h-[840px]
           "
         >
           {/* =================================================
@@ -918,7 +929,7 @@ export default function HeroSection() {
 
               h-[720px]
 
-              w-[340px]
+              w-[330px]
 
               -translate-x-1/2
               -translate-y-1/2
@@ -928,10 +939,13 @@ export default function HeroSection() {
               sm:w-[390px]
               sm:gap-4
 
-              lg:h-[980px]
-              lg:w-[365px]
+              md:w-[420px]
 
-              xl:w-[400px]
+              lg:h-[1020px]
+              lg:w-[390px]
+              lg:gap-5
+
+              xl:w-[430px]
             "
           >
             {/* =================================================
@@ -956,13 +970,15 @@ export default function HeroSection() {
                       }
                 }
                 transition={{
-                  duration: 23,
+                  duration: 28,
                   repeat: Infinity,
                   ease: "linear",
                 }}
                 className="
                   flex
                   flex-col
+
+                  will-change-transform
 
                   gap-3
 
@@ -1000,13 +1016,15 @@ export default function HeroSection() {
                       }
                 }
                 transition={{
-                  duration: 27,
+                  duration: 32,
                   repeat: Infinity,
                   ease: "linear",
                 }}
                 className="
                   flex
                   flex-col
+
+                  will-change-transform
 
                   gap-3
 
