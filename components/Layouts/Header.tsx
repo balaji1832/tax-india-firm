@@ -151,29 +151,6 @@ export default function Header() {
     null
   );
 
-  const [scrolled, setScrolled] = useState(false);
-
-
-  /* =========================================================
-     SCROLL STATE
-  ========================================================= */
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   /* =========================================================
      ACTIVE MAIN MENU
   ========================================================= */
@@ -223,143 +200,33 @@ export default function Header() {
       ===================================================== */}
 
       <header
-        className={`
+        className="
           fixed
           left-0
           right-0
           top-0
           z-[100]
           w-full
-
-          transition-[padding]
-          duration-500
-          ease-[cubic-bezier(0.22,1,0.36,1)]
-
-          ${scrolled
-            ? `
-                px-2
-                pt-2
-
-                sm:px-3
-
-                lg:px-4
-              `
-            : `
-                px-0
-                pt-0
-              `
-          }
-        `}
+          bg-white
+          border-b
+          border-[#E9EDF3]
+        "
       >
+
         {/* ===================================================
             HEADER SURFACE
         =================================================== */}
 
         <div
-          className={`
+          className="
             relative
             mx-auto
             w-full
+            max-w-none
             overflow-visible
-
-            backdrop-blur-sm
-
-            transition-[max-width,border-radius,box-shadow,border-color,background-color]
-            duration-500
-            ease-[cubic-bezier(0.22,1,0.36,1)]
-
-            ${scrolled
-              ? `
-                  max-w-[1480px]
-
-                  rounded-[18px]
-
-                  border
-                  border-white/55
-
-                  bg-[#DCEEFF]/82
-
-                  shadow-[0_16px_45px_rgba(15,72,120,0.16)]
-
-                  sm:rounded-[20px]
-
-                  lg:rounded-[26px]
-
-                  xl:rounded-[28px]
-                `
-              : `
-                  max-w-none
-
-                  rounded-none
-
-                  border
-                  border-transparent
-
-                  bg-transparent
-
-                  shadow-none
-                `
-            }
-          `}
+            bg-white
+          "
         >
-          {/* =================================================
-              SOFT BACKGROUND EFFECT
-          ================================================= */}
-
-          <div
-            className={`
-              pointer-events-none
-              absolute
-              inset-0
-
-              overflow-hidden
-
-              transition-all
-              duration-500
-
-              ${scrolled
-                ? "rounded-[inherit] opacity-100"
-                : "rounded-none opacity-0"
-              }
-            `}
-          >
-            <div
-              className="
-                absolute
-                inset-0
-                bg-[linear-gradient(110deg,rgba(255,255,255,0.30)_0%,rgba(219,239,255,0.20)_42%,rgba(117,190,245,0.10)_100%)]
-              "
-            />
-
-            <div
-              className="
-                absolute
-                -left-12
-                -top-24
-                h-[180px]
-                w-[260px]
-                rounded-full
-                bg-white/28
-                blur-[70px]
-              "
-            />
-
-            <div
-              className="
-                absolute
-                right-[10%]
-                -top-24
-                h-[180px]
-                w-[260px]
-                rounded-full
-                bg-[#75BEF5]/18
-                blur-[70px]
-              "
-            />
-
-            <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent" />
-          </div>
-
           {/* =================================================
               HEADER INNER
           ================================================= */}
@@ -985,19 +852,8 @@ export default function Header() {
               duration-300
 
               lg:hidden
-
-              ${scrolled
-                ? `
-                    mt-2
-
-                    rounded-[20px]
-                  `
-                : `
-                    mt-0
-
-                    rounded-b-[20px]
-                  `
-              }
+              mt-0
+              rounded-b-[20px]
 
               ${mobileMenuOpen
                 ? `
