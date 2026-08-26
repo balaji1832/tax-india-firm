@@ -221,7 +221,7 @@ function getLayoutMode(
   return "desktop";
 }
 
-const smoothEase = [0.22, 1, 0.36, 1] as const;
+const smoothEase = [0.16, 1, 0.3, 1] as const;
 
 /* =========================================================
    SECTION
@@ -446,16 +446,30 @@ export default function ServicesSection() {
         isolate
         overflow-hidden
 
-        py-20
-        sm:py-24
-        md:py-28
-        lg:py-32
-        xl:py-36
+        pt-10 pb-20 
       "
       style={{
         background: "#FFFFFF",
       }}
     >
+      {/* ===================================================
+          TOP-RIGHT CURVED BRAND DECORATION
+          Lightweight SVG + transform-only motion.
+      =================================================== */}
+
+      <TopRightCurveDecoration
+        reduceMotion={Boolean(reduceMotion)}
+      />
+
+      {/* ===================================================
+          BOTTOM-LEFT CURVED BRAND DECORATION
+          Mirrored partner of the top-right ribbon.
+      =================================================== */}
+
+      <BottomLeftCurveDecoration
+        reduceMotion={Boolean(reduceMotion)}
+      />
+
       {/* ===================================================
           CONTAINER
       =================================================== */}
@@ -463,6 +477,7 @@ export default function ServicesSection() {
       <div
         className="
           relative
+          z-10
           mx-auto
           w-full
           max-w-[1536px]
@@ -499,7 +514,7 @@ export default function ServicesSection() {
               y: 0,
             }}
             viewport={{
-              once: false,
+              once: true,
               amount: 0.45,
               margin: "0px 0px -8% 0px",
             }}
@@ -571,7 +586,7 @@ export default function ServicesSection() {
               scale: 1,
             }}
             viewport={{
-              once: false,
+              once: true,
               amount: 0.4,
               margin: "0px 0px -8% 0px",
             }}
@@ -627,7 +642,7 @@ export default function ServicesSection() {
               scale: 1,
             }}
             viewport={{
-              once: false,
+              once: true,
               amount: 0.4,
               margin: "0px 0px -8% 0px",
             }}
@@ -715,7 +730,7 @@ export default function ServicesSection() {
               y: 0,
             }}
             viewport={{
-              once: false,
+              once: true,
               amount: 0.2,
               margin: "0px 0px -6% 0px",
             }}
@@ -1057,9 +1072,12 @@ function CarouselCard({
           reduceMotion
             ? "auto"
             : "transform, opacity",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
       }}
       className={`
         group
+        transform-gpu
 
         absolute
 
@@ -1503,6 +1521,469 @@ function CarouselCard({
         </div>
       </div>
     </motion.article>
+  );
+}
+
+
+/* =========================================================
+   TOP-RIGHT CURVE DECORATION
+========================================================= */
+
+function TopRightCurveDecoration({
+  reduceMotion,
+}: {
+  reduceMotion: boolean;
+}) {
+  return (
+    <motion.div
+      aria-hidden="true"
+      animate={
+        reduceMotion
+          ? undefined
+          : {
+              x: [0, -5, 0],
+              y: [0, 3, 0],
+            }
+      }
+      transition={{
+        duration: 12,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+      className="
+        pointer-events-none
+
+        absolute
+        right-0
+        top-0
+        z-0
+
+        h-[72px]
+        w-[210px]
+
+        overflow-hidden
+
+        sm:h-[92px]
+        sm:w-[285px]
+
+        md:h-[112px]
+        md:w-[360px]
+
+        lg:h-[138px]
+        lg:w-[450px]
+
+        xl:h-[154px]
+        xl:w-[520px]
+
+        2xl:h-[168px]
+        2xl:w-[590px]
+
+        will-change-transform
+      "
+      style={{
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility:
+          "hidden",
+      }}
+    >
+      <svg
+        viewBox="0 0 680 190"
+        preserveAspectRatio="none"
+        className="
+          h-full
+          w-full
+        "
+      >
+        <defs>
+          <linearGradient
+            id="services-curve-light"
+            x1="0"
+            y1="0"
+            x2="1"
+            y2="0.9"
+          >
+            <stop
+              offset="0%"
+              stopColor="#2AA7F4"
+            />
+            <stop
+              offset="55%"
+              stopColor="#1888E9"
+            />
+            <stop
+              offset="100%"
+              stopColor="#0C69D8"
+            />
+          </linearGradient>
+
+          <linearGradient
+            id="services-curve-mid"
+            x1="0"
+            y1="0"
+            x2="1"
+            y2="1"
+          >
+            <stop
+              offset="0%"
+              stopColor="#0E91EA"
+            />
+            <stop
+              offset="52%"
+              stopColor="#0877DD"
+            />
+            <stop
+              offset="100%"
+              stopColor="#075CC6"
+            />
+          </linearGradient>
+
+          <linearGradient
+            id="services-curve-main"
+            x1="0"
+            y1="0"
+            x2="1"
+            y2="0.85"
+          >
+            <stop
+              offset="0%"
+              stopColor="#0879DE"
+            />
+            <stop
+              offset="52%"
+              stopColor="#075FCB"
+            />
+            <stop
+              offset="100%"
+              stopColor="#084AAE"
+            />
+          </linearGradient>
+
+          <linearGradient
+            id="services-curve-highlight"
+            x1="0"
+            y1="0"
+            x2="1"
+            y2="0"
+          >
+            <stop
+              offset="0%"
+              stopColor="#68C3FF"
+              stopOpacity="0.85"
+            />
+            <stop
+              offset="100%"
+              stopColor="#2C92F1"
+              stopOpacity="0.15"
+            />
+          </linearGradient>
+
+          <pattern
+            id="services-curve-dots"
+            width="15"
+            height="15"
+            patternUnits="userSpaceOnUse"
+          >
+            <circle
+              cx="2"
+              cy="2"
+              r="1.45"
+              fill="white"
+              opacity="0.72"
+            />
+          </pattern>
+
+          <clipPath id="services-main-curve-clip">
+            <path d="M74 0H680V159C610 121 541 101 458 90C362 78 277 81 202 67C143 56 99 35 74 0Z" />
+          </clipPath>
+        </defs>
+
+        {/* OUTER LIGHT RIBBON */}
+
+        <path
+          d="M0 0H680V190C614 150 543 129 456 117C356 104 263 108 174 89C99 73 39 43 0 0Z"
+          fill="url(#services-curve-light)"
+        />
+
+        {/* SECOND RIBBON */}
+
+        <path
+          d="M36 0H680V177C613 138 544 117 459 106C361 93 272 97 191 80C126 67 77 40 36 0Z"
+          fill="url(#services-curve-mid)"
+        />
+
+        {/* MAIN DARK RIBBON */}
+
+        <path
+          d="M74 0H680V159C610 121 541 101 458 90C362 78 277 81 202 67C143 56 99 35 74 0Z"
+          fill="url(#services-curve-main)"
+        />
+
+        {/* THIN HIGHLIGHT ALONG CURVE */}
+
+        <path
+          d="M22 3C75 47 129 70 195 83C278 100 369 96 463 109C548 120 617 142 680 179"
+          fill="none"
+          stroke="url(#services-curve-highlight)"
+          strokeWidth="5"
+          strokeLinecap="round"
+          opacity="0.82"
+        />
+
+        {/* DOTTED DETAIL */}
+
+        <rect
+          x="420"
+          y="7"
+          width="190"
+          height="64"
+          fill="url(#services-curve-dots)"
+          clipPath="url(#services-main-curve-clip)"
+          opacity="0.56"
+        />
+
+        {/* SMALL GLOW LINE */}
+
+        <path
+          d="M460 18C518 25 578 42 633 69"
+          fill="none"
+          stroke="rgba(255,255,255,.22)"
+          strokeWidth="1.5"
+          strokeDasharray="2 7"
+          strokeLinecap="round"
+        />
+      </svg>
+    </motion.div>
+  );
+}
+
+
+/* =========================================================
+   BOTTOM-LEFT CURVE DECORATION
+   Same visual language as the top-right curve, mirrored.
+========================================================= */
+
+function BottomLeftCurveDecoration({
+  reduceMotion,
+}: {
+  reduceMotion: boolean;
+}) {
+  return (
+    <motion.div
+      aria-hidden="true"
+      animate={
+        reduceMotion
+          ? undefined
+          : {
+              x: [0, 5, 0],
+              y: [0, -3, 0],
+            }
+      }
+      transition={{
+        duration: 13.5,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+      className="
+        pointer-events-none
+
+        absolute
+        bottom-0
+        left-0
+        z-0
+
+        h-[72px]
+        w-[210px]
+
+        overflow-hidden
+
+        sm:h-[92px]
+        sm:w-[285px]
+
+        md:h-[112px]
+        md:w-[360px]
+
+        lg:h-[138px]
+        lg:w-[450px]
+
+        xl:h-[154px]
+        xl:w-[520px]
+
+        2xl:h-[168px]
+        2xl:w-[590px]
+
+        will-change-transform
+      "
+      style={{
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility:
+          "hidden",
+      }}
+    >
+      <svg
+        viewBox="0 0 680 190"
+        preserveAspectRatio="none"
+        className="
+          h-full
+          w-full
+        "
+        style={{
+          transform: "rotate(180deg)",
+          transformOrigin: "50% 50%",
+        }}
+      >
+        <defs>
+          <linearGradient
+            id="services-bottom-curve-light"
+            x1="0"
+            y1="0"
+            x2="1"
+            y2="0.9"
+          >
+            <stop
+              offset="0%"
+              stopColor="#2AA7F4"
+            />
+            <stop
+              offset="55%"
+              stopColor="#1888E9"
+            />
+            <stop
+              offset="100%"
+              stopColor="#0C69D8"
+            />
+          </linearGradient>
+
+          <linearGradient
+            id="services-bottom-curve-mid"
+            x1="0"
+            y1="0"
+            x2="1"
+            y2="1"
+          >
+            <stop
+              offset="0%"
+              stopColor="#0E91EA"
+            />
+            <stop
+              offset="52%"
+              stopColor="#0877DD"
+            />
+            <stop
+              offset="100%"
+              stopColor="#075CC6"
+            />
+          </linearGradient>
+
+          <linearGradient
+            id="services-bottom-curve-main"
+            x1="0"
+            y1="0"
+            x2="1"
+            y2="0.85"
+          >
+            <stop
+              offset="0%"
+              stopColor="#0879DE"
+            />
+            <stop
+              offset="52%"
+              stopColor="#075FCB"
+            />
+            <stop
+              offset="100%"
+              stopColor="#084AAE"
+            />
+          </linearGradient>
+
+          <linearGradient
+            id="services-bottom-curve-highlight"
+            x1="0"
+            y1="0"
+            x2="1"
+            y2="0"
+          >
+            <stop
+              offset="0%"
+              stopColor="#68C3FF"
+              stopOpacity="0.85"
+            />
+            <stop
+              offset="100%"
+              stopColor="#2C92F1"
+              stopOpacity="0.15"
+            />
+          </linearGradient>
+
+          <pattern
+            id="services-bottom-curve-dots"
+            width="15"
+            height="15"
+            patternUnits="userSpaceOnUse"
+          >
+            <circle
+              cx="2"
+              cy="2"
+              r="1.45"
+              fill="white"
+              opacity="0.72"
+            />
+          </pattern>
+
+          <clipPath id="services-bottom-main-curve-clip">
+            <path d="M74 0H680V159C610 121 541 101 458 90C362 78 277 81 202 67C143 56 99 35 74 0Z" />
+          </clipPath>
+        </defs>
+
+        {/* OUTER LIGHT RIBBON */}
+        <path
+          d="M0 0H680V190C614 150 543 129 456 117C356 104 263 108 174 89C99 73 39 43 0 0Z"
+          fill="url(#services-bottom-curve-light)"
+        />
+
+        {/* SECOND RIBBON */}
+        <path
+          d="M36 0H680V177C613 138 544 117 459 106C361 93 272 97 191 80C126 67 77 40 36 0Z"
+          fill="url(#services-bottom-curve-mid)"
+        />
+
+        {/* MAIN DARK RIBBON */}
+        <path
+          d="M74 0H680V159C610 121 541 101 458 90C362 78 277 81 202 67C143 56 99 35 74 0Z"
+          fill="url(#services-bottom-curve-main)"
+        />
+
+        {/* THIN HIGHLIGHT */}
+        <path
+          d="M22 3C75 47 129 70 195 83C278 100 369 96 463 109C548 120 617 142 680 179"
+          fill="none"
+          stroke="url(#services-bottom-curve-highlight)"
+          strokeWidth="5"
+          strokeLinecap="round"
+          opacity="0.82"
+        />
+
+        {/* DOTTED DETAIL */}
+        <rect
+          x="420"
+          y="7"
+          width="190"
+          height="64"
+          fill="url(#services-bottom-curve-dots)"
+          clipPath="url(#services-bottom-main-curve-clip)"
+          opacity="0.56"
+        />
+
+        {/* SMALL GLOW LINE */}
+        <path
+          d="M460 18C518 25 578 42 633 69"
+          fill="none"
+          stroke="rgba(255,255,255,.22)"
+          strokeWidth="1.5"
+          strokeDasharray="2 7"
+          strokeLinecap="round"
+        />
+      </svg>
+    </motion.div>
   );
 }
 

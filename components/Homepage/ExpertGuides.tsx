@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+
 import {
   AnimatePresence,
   motion,
@@ -9,7 +10,13 @@ import {
   useReducedMotion,
   type Variants,
 } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 /* =========================================================
    TYPES
@@ -25,75 +32,91 @@ type Guide = {
   image: string;
 };
 
+type Direction = 1 | -1;
+
 /* =========================================================
-   BLOG DATA
+   DATA
 ========================================================= */
 
 const guides: Guide[] = [
   {
     id: 1,
     category: "GST & Taxation",
-    title: "Top 10 Things to Know About GST Filing in India",
+    title:
+      "Top 10 Things to Know About GST Filing in India",
     excerpt:
       "Due dates, late fees, ITC claims and GSTR forms — what every business owner in Tamil Nadu must know before filing.",
-    linkText: "Read the GST filing guide",
-    href: "/blogs/taxation/top-10-things-to-know-about-gst-filing",
+    linkText:
+      "Read the GST filing guide",
+    href:
+      "/blogs/taxation/top-10-things-to-know-about-gst-filing",
     image: "/images/b1.png",
   },
+
   {
     id: 2,
     category: "Company Registration",
-    title: "How to Register Your Company in India — Step-by-Step",
+    title:
+      "How to Register Your Company in India — Step-by-Step",
     excerpt:
       "DSC, DIN, name reservation, MOA, AOA and certificate of incorporation — simplified for first-time founders.",
-    linkText: "Read the company registration guide",
-    href: "/blogs/business/how-to-register-your-company-in-india",
+    linkText:
+      "Read the company registration guide",
+    href:
+      "/blogs/business/how-to-register-your-company-in-india",
     image: "/images/b2.png",
   },
+
   {
     id: 3,
     category: "Income Tax",
-    title: "Things to Consider Before Filing Your Income Tax Return",
+    title:
+      "Things to Consider Before Filing Your Income Tax Return",
     excerpt:
       "Form 26AS, AIS, deductions, old vs new regime — your complete pre-ITR checklist before you file in Tamil Nadu.",
-    linkText: "Read the ITR filing checklist",
-    href: "/blogs/taxation/things-to-consider-before-filing-income-tax-return",
+    linkText:
+      "Read the ITR filing checklist",
+    href:
+      "/blogs/taxation/things-to-consider-before-filing-income-tax-return",
     image: "/images/b3.png",
   },
 ];
 
 /* =========================================================
-   SECTION ANIMATION
+   MOTION
 ========================================================= */
 
-const smoothEase = [0.22, 1, 0.36, 1] as const;
+const smoothEase = [
+  0.16,
+  1,
+  0.3,
+  1,
+] as const;
 
-/*
- * iPhone-friendly entrance animation:
- * opacity + transform only.
- * No blur/filter because those can be expensive in mobile Safari.
- */
 const sectionReveal: Variants = {
   hidden: {
     opacity: 0,
     y: 24,
   },
+
   visible: {
     opacity: 1,
     y: 0,
+
     transition: {
-      duration: 1.15,
+      duration: 0.9,
       ease: smoothEase,
     },
   },
 };
 
-const headerSequence: Variants = {
+const headerContainer: Variants = {
   hidden: {},
+
   visible: {
     transition: {
-      delayChildren: 0.08,
-      staggerChildren: 0.16,
+      delayChildren: 0.06,
+      staggerChildren: 0.1,
     },
   },
 };
@@ -103,11 +126,13 @@ const headerItem: Variants = {
     opacity: 0,
     y: 18,
   },
+
   visible: {
     opacity: 1,
     y: 0,
+
     transition: {
-      duration: 0.95,
+      duration: 0.8,
       ease: smoothEase,
     },
   },
@@ -118,12 +143,14 @@ const cardAreaReveal: Variants = {
     opacity: 0,
     y: 20,
   },
+
   visible: {
     opacity: 1,
     y: 0,
+
     transition: {
-      duration: 1.05,
-      delay: 0.16,
+      duration: 0.85,
+      delay: 0.08,
       ease: smoothEase,
     },
   },
@@ -138,8 +165,8 @@ function ArrowRight() {
     <svg
       viewBox="0 0 24 24"
       fill="none"
-      className="h-[16px] w-[16px]"
       aria-hidden="true"
+      className="h-[16px] w-[16px]"
     >
       <path
         d="M5 12H19M13 6L19 12L13 18"
@@ -157,8 +184,8 @@ function ArrowUpRight() {
     <svg
       viewBox="0 0 24 24"
       fill="none"
-      className="h-[17px] w-[17px]"
       aria-hidden="true"
+      className="h-[17px] w-[17px]"
     >
       <path
         d="M7 17L17 7M9 7H17V15"
@@ -176,8 +203,8 @@ function ArticleIcon() {
     <svg
       viewBox="0 0 24 24"
       fill="none"
-      className="h-[15px] w-[15px]"
       aria-hidden="true"
+      className="h-[15px] w-[15px]"
     >
       <path
         d="M7 3.75H14.8L19 7.95V20.25H7V3.75Z"
@@ -197,66 +224,76 @@ function ArticleIcon() {
 
 /* =========================================================
    BLOG CARD
-
-   IMPORTANT:
-   No Framer Motion entrance variant here.
-
-   Mobile / tablet animation is controlled by the entire
-   slider wrapper, not individual cards.
 ========================================================= */
 
-function BlogCard({ guide }: { guide: Guide }) {
+function BlogCard({
+  guide,
+}: {
+  guide: Guide;
+}) {
   return (
-    <article className="group h-full">
+    <article
+      className="
+        group
+        h-full
+      "
+    >
       <div
         className="
           relative
+
           flex
           h-full
           flex-col
+
           overflow-hidden
 
           rounded-[22px]
 
           border
-          border-[#E2EAF0]
+          border-[#DDE7F1]
 
           bg-white
 
-          shadow-[0_12px_40px_rgba(15,55,85,0.055)]
+          shadow-[0_14px_44px_-30px_rgba(22,64,105,0.28)]
 
           transition-all
-          duration-700
-          ease-[cubic-bezier(0.22,1,0.36,1)]
+          duration-500
+          ease-[cubic-bezier(0.16,1,0.3,1)]
 
-          lg:hover:-translate-y-[6px]
-          lg:hover:border-[#CADCE9]
-          lg:hover:shadow-[0_26px_65px_rgba(15,55,85,0.11)]
+          lg:hover:-translate-y-[5px]
+          lg:hover:border-[#BFD6EA]
+          lg:hover:shadow-[0_25px_55px_-30px_rgba(25,82,137,0.32)]
         "
       >
         {/* =================================================
             IMAGE
-        ================================================== */}
+        ================================================= */}
 
         <Link
           href={guide.href}
           aria-label={guide.title}
-          className="relative block overflow-hidden"
+          className="
+            relative
+            block
+
+            overflow-hidden
+          "
         >
           <div
             className="
               relative
 
-              aspect-[1.5/1]
+              aspect-[1.45/1]
 
               w-full
               overflow-hidden
 
-              bg-[#EDF4F8]
+              bg-[#EAF2F9]
 
-              sm:aspect-[1.42/1]
+              sm:aspect-[1.48/1]
 
-              lg:aspect-[1.45/1]
+              lg:aspect-[1.5/1]
             "
           >
             <Image
@@ -273,28 +310,32 @@ function BlogCard({ guide }: { guide: Guide }) {
                 object-cover
 
                 transition-transform
-                duration-[1400ms]
-                ease-[cubic-bezier(0.22,1,0.36,1)]
+                duration-[1000ms]
 
-                lg:group-hover:scale-[1.055]
+                ease-[cubic-bezier(0.16,1,0.3,1)]
+
+                lg:group-hover:scale-[1.045]
               "
             />
 
-            {/* subtle overlay */}
+            {/* overlay */}
 
             <div
+              aria-hidden="true"
               className="
+                pointer-events-none
+
                 absolute
                 inset-0
 
                 bg-gradient-to-t
                 from-[#071D30]/30
-                via-transparent
+                via-[#071D30]/[0.03]
                 to-transparent
               "
             />
 
-            {/* category */}
+            {/* CATEGORY */}
 
             <div
               className="
@@ -315,36 +356,40 @@ function BlogCard({ guide }: { guide: Guide }) {
                   rounded-full
 
                   border
-                  border-white/60
+                  border-white/70
 
                   bg-white/90
 
-                  px-3.5
-                  py-2
+                  px-3
+                  py-1.5
 
-                  shadow-[0_6px_20px_rgba(0,0,0,0.06)]
+                  shadow-[0_6px_18px_rgba(0,0,0,0.06)]
 
-                  backdrop-blur-xl
+                  backdrop-blur-lg
                 "
               >
                 <span
                   className="
                     h-[6px]
                     w-[6px]
+
                     rounded-full
-                    bg-[#0875D1]
+
+                    bg-[#1579E6]
                   "
                 />
 
                 <span
                   className="
-                    text-[9px]
+                    text-[8.5px]
                     font-bold
                     uppercase
-                    tracking-[0.14em]
-                    text-[#0B4E87]
 
-                    sm:text-[10px]
+                    tracking-[0.14em]
+
+                    text-[#135A9B]
+
+                    sm:text-[9px]
                   "
                 >
                   {guide.category}
@@ -352,7 +397,7 @@ function BlogCard({ guide }: { guide: Guide }) {
               </div>
             </div>
 
-            {/* image arrow */}
+            {/* IMAGE ARROW */}
 
             <div
               className="
@@ -361,8 +406,9 @@ function BlogCard({ guide }: { guide: Guide }) {
                 right-4
 
                 flex
-                h-10
-                w-10
+                h-9
+                w-9
+
                 items-center
                 justify-center
 
@@ -371,24 +417,22 @@ function BlogCard({ guide }: { guide: Guide }) {
                 border
                 border-white/50
 
-                bg-white/20
+                bg-[#0B3151]/20
+
                 text-white
 
-                backdrop-blur-xl
+                backdrop-blur-lg
 
                 transition-all
-                duration-700
-                ease-[cubic-bezier(0.22,1,0.36,1)]
+                duration-500
 
-                sm:bottom-5
-                sm:right-5
-                sm:h-11
-                sm:w-11
+                sm:h-10
+                sm:w-10
 
                 lg:group-hover:rotate-45
                 lg:group-hover:border-white
                 lg:group-hover:bg-white
-                lg:group-hover:text-[#0875D1]
+                lg:group-hover:text-[#1579E6]
               "
             >
               <ArrowUpRight />
@@ -398,7 +442,7 @@ function BlogCard({ guide }: { guide: Guide }) {
 
         {/* =================================================
             CONTENT
-        ================================================== */}
+        ================================================= */}
 
         <div
           className="
@@ -410,39 +454,40 @@ function BlogCard({ guide }: { guide: Guide }) {
 
             sm:p-6
 
-            xl:p-7
+            xl:p-6
           "
         >
           {/* small label */}
 
           <div
             className="
-              mb-4
+              mb-3
 
               flex
               items-center
               gap-2
 
-              text-[#0875D1]
+              text-[#1579E6]
             "
           >
             <ArticleIcon />
 
             <span
               className="
-                text-[9px]
+                text-[8.5px]
                 font-bold
                 uppercase
-                tracking-[0.17em]
 
-                sm:text-[10px]
+                tracking-[0.16em]
+
+                sm:text-[9px]
               "
             >
               Expert Guide
             </span>
           </div>
 
-          {/* title */}
+          {/* TITLE */}
 
           <Link
             href={guide.href}
@@ -450,40 +495,42 @@ function BlogCard({ guide }: { guide: Guide }) {
           >
             <h3
               className="
-                text-[19px]
+                text-[18px]
                 font-semibold
-                leading-[1.32]
+
+                leading-[1.35]
                 tracking-[-0.03em]
+
                 text-[#102A43]
 
                 transition-colors
-                duration-500
+                duration-300
 
-                sm:text-[21px]
+                sm:text-[19px]
 
-                lg:group-hover:text-[#0875D1]
+                lg:group-hover:text-[#1579E6]
 
-                xl:text-[22px]
+                xl:text-[20px]
               "
             >
               {guide.title}
             </h3>
           </Link>
 
-          {/* description */}
+          {/* DESCRIPTION */}
 
           <p
             className="
-              mt-4
+              mt-3
 
-              line-clamp-2
+              line-clamp-3
 
-              text-[13px]
-              leading-6
-              text-[#70808B]
+              text-[12px]
+              leading-[1.75]
 
-              sm:text-[14px]
-              sm:leading-7
+              text-[#708294]
+
+              sm:text-[13px]
             "
           >
             {guide.excerpt}
@@ -492,74 +539,74 @@ function BlogCard({ guide }: { guide: Guide }) {
           <div className="flex-1" />
 
           {/* =================================================
-              GUIDE BUTTON
-          ================================================== */}
+              BUTTON
+          ================================================= */}
 
           <div
             className="
-              mt-6
+              mt-5
 
               border-t
-              border-[#E8EEF2]
+              border-[#E7EEF5]
 
-              pt-5
+              pt-4
             "
           >
             <Link
               href={guide.href}
               className="
-                group/guide
+                group/button
                 relative
 
                 inline-flex
                 max-w-full
+
                 items-center
-                gap-2.5
+                gap-2
 
                 overflow-hidden
 
                 rounded-full
 
                 border
-                border-[#BFD5E6]
+                border-[#BDD5EB]
 
                 bg-white
 
                 px-4
                 py-2.5
 
-                text-[11px]
+                text-[10.5px]
                 font-semibold
-                text-[#105184]
+
+                text-[#175A91]
 
                 transition-all
-                duration-500
-                ease-[cubic-bezier(0.22,1,0.36,1)]
+                duration-400
 
-                hover:border-[#0875D1]
+                hover:border-[#1579E6]
                 hover:text-white
-                hover:shadow-[0_10px_25px_rgba(8,117,209,0.18)]
+                hover:shadow-[0_10px_24px_-12px_rgba(21,121,230,0.42)]
 
-                sm:px-5
-                sm:text-[12px]
+                sm:text-[11px]
               "
             >
-              {/* smooth blue fill */}
-
               <span
+                aria-hidden="true"
                 className="
                   absolute
                   inset-0
 
-                  -translate-x-[101%]
+                  -translate-x-[102%]
 
-                  bg-[#0875D1]
+                  bg-[#1579E6]
 
                   transition-transform
-                  duration-500
-                  ease-[cubic-bezier(0.22,1,0.36,1)]
+                  duration-400
 
-                  group-hover/guide:translate-x-0
+                  ease-[cubic-bezier(0.16,1,0.3,1)]
+
+                  group-hover/button:translate-x-0
                 "
               />
 
@@ -582,9 +629,9 @@ function BlogCard({ guide }: { guide: Guide }) {
                   shrink-0
 
                   transition-transform
-                  duration-500
+                  duration-300
 
-                  group-hover/guide:translate-x-1
+                  group-hover/button:translate-x-1
                 "
               >
                 <ArrowRight />
@@ -593,9 +640,10 @@ function BlogCard({ guide }: { guide: Guide }) {
           </div>
         </div>
 
-        {/* hover bottom line */}
+        {/* subtle hover line */}
 
         <div
+          aria-hidden="true"
           className="
             absolute
             bottom-0
@@ -604,11 +652,10 @@ function BlogCard({ guide }: { guide: Guide }) {
             h-[2px]
             w-0
 
-            bg-[#0875D1]
+            bg-[#1579E6]
 
             transition-all
-            duration-700
-            ease-[cubic-bezier(0.22,1,0.36,1)]
+            duration-500
 
             lg:group-hover:w-full
           "
@@ -630,7 +677,7 @@ function SliderArrow({
   onClick: () => void;
 }) {
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onClick}
       aria-label={
@@ -638,38 +685,42 @@ function SliderArrow({
           ? "Previous guide"
           : "Next guide"
       }
+      whileTap={{
+        scale: 0.94,
+      }}
       className="
         group
 
         flex
         h-10
         w-10
+
         items-center
         justify-center
 
         rounded-full
 
         border
-        border-[#D4E2EC]
+        border-[#CDDCE9]
 
         bg-white
-        text-[#13537E]
 
-        shadow-[0_5px_18px_rgba(15,55,85,0.05)]
+        text-[#1567A9]
+
+        shadow-[0_7px_20px_-14px_rgba(20,67,107,0.32)]
 
         transition-all
-        duration-500
+        duration-300
 
-        hover:border-[#0875D1]
-        hover:bg-[#0875D1]
+        hover:border-[#1579E6]
+        hover:bg-[#1579E6]
         hover:text-white
-        hover:shadow-[0_9px_25px_rgba(8,117,209,0.18)]
       "
     >
       <span
         className={`
           transition-transform
-          duration-500
+          duration-300
 
           ${
             direction === "left"
@@ -680,7 +731,7 @@ function SliderArrow({
       >
         <ArrowRight />
       </span>
-    </button>
+    </motion.button>
   );
 }
 
@@ -688,32 +739,40 @@ function SliderArrow({
    CONTROLS
 ========================================================= */
 
-type SliderControlsProps = {
-  activeIndex: number;
-  previousSlide: () => void;
-  nextSlide: () => void;
-  setActiveIndex: (index: number) => void;
-};
-
 function SliderControls({
   activeIndex,
   previousSlide,
   nextSlide,
   setActiveIndex,
-}: SliderControlsProps) {
+}: {
+  activeIndex: number;
+  previousSlide: () => void;
+  nextSlide: () => void;
+  setActiveIndex: (
+    index: number,
+  ) => void;
+}) {
   return (
     <div
       className="
-        mt-6
+        mt-5
 
         flex
         items-center
         justify-between
+
+        gap-4
       "
     >
       {/* arrows */}
 
-      <div className="flex items-center gap-2">
+      <div
+        className="
+          flex
+          items-center
+          gap-2
+        "
+      >
         <SliderArrow
           direction="left"
           onClick={previousSlide}
@@ -725,71 +784,89 @@ function SliderControls({
         />
       </div>
 
-      {/* pagination */}
+      {/* indicators */}
 
-      <div className="flex items-center gap-2">
-        {guides.map((guide, index) => (
-          <button
-            key={guide.id}
-            type="button"
-            onClick={() =>
-              setActiveIndex(index)
-            }
-            aria-label={`Go to guide ${index + 1}`}
-            className="
-              flex
-              h-5
-              items-center
-              justify-center
-            "
-          >
-            <motion.span
-              animate={{
-                width:
-                  activeIndex === index
-                    ? 27
-                    : 7,
-              }}
-              transition={{
-                duration: 0.35,
-                ease: smoothEase,
-              }}
-              className={`
-                block
+      <div
+        className="
+          flex
+          items-center
+          gap-1
+        "
+      >
+        {guides.map(
+          (guide, index) => (
+            <button
+              key={guide.id}
+              type="button"
+              onClick={() =>
+                setActiveIndex(
+                  index,
+                )
+              }
+              aria-label={`Go to guide ${
+                index + 1
+              }`}
+              className="
+                flex
+                h-8
 
-                h-[7px]
+                items-center
+                justify-center
 
-                rounded-full
+                px-1
+              "
+            >
+              <motion.span
+                animate={{
+                  width:
+                    activeIndex ===
+                    index
+                      ? 28
+                      : 7,
+                }}
+                transition={{
+                  duration: 0.3,
+                  ease: smoothEase,
+                }}
+                className={`
+                  block
 
-                ${
-                  activeIndex === index
-                    ? "bg-[#0875D1]"
-                    : "bg-[#CBD8E2]"
-                }
-              `}
-            />
-          </button>
-        ))}
+                  h-[6px]
+
+                  rounded-full
+
+                  ${
+                    activeIndex ===
+                    index
+                      ? "bg-[#1579E6]"
+                      : "bg-[#CAD8E5]"
+                  }
+                `}
+              />
+            </button>
+          ),
+        )}
       </div>
 
-      {/* icon only */}
+      {/* decorative icon */}
 
       <div
         className="
           flex
           h-10
           w-10
+
           items-center
           justify-center
 
           rounded-full
 
           border
-          border-[#DCE6ED]
+          border-[#D7E3ED]
 
           bg-white
 
-          text-[#0875D1]
+          text-[#1579E6]
         "
       >
         <ArticleIcon />
@@ -803,32 +880,54 @@ function SliderControls({
 ========================================================= */
 
 export default function ExpertGuides() {
-  const [activeIndex, setActiveIndex] =
-    useState(0);
+  const [
+    activeIndex,
+    setActiveIndex,
+  ] = useState(0);
 
-  const [isPaused, setIsPaused] =
-    useState(false);
+  const [
+    direction,
+    setDirection,
+  ] =
+    useState<Direction>(1);
 
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const reduceMotion = useReducedMotion();
+  const [
+    isPaused,
+    setIsPaused,
+  ] = useState(false);
 
-  const isSectionInView = useInView(sectionRef, {
-    amount: 0.12,
-    margin: "0px 0px -8% 0px",
-  });
+  const sectionRef =
+    useRef<HTMLElement | null>(
+      null,
+    );
+
+  const reduceMotion =
+    useReducedMotion();
+
+  const isSectionInView =
+    useInView(sectionRef, {
+      amount: 0.12,
+      margin:
+        "0px 0px -8% 0px",
+    });
 
   /* =====================================================
      AUTO SLIDER
-
-     Runs only while the section is visible.
-     This reduces unnecessary work on real phones.
   ====================================================== */
 
   useEffect(() => {
-    if (!isSectionInView || isPaused || reduceMotion) return;
+    if (
+      !isSectionInView ||
+      isPaused ||
+      reduceMotion
+    ) {
+      return;
+    }
 
     const interval =
       window.setInterval(() => {
+        setDirection(1);
+
         setActiveIndex(
           (previous) =>
             (previous + 1) %
@@ -837,26 +936,33 @@ export default function ExpertGuides() {
       }, 5600);
 
     return () =>
-      window.clearInterval(interval);
-  }, [isSectionInView, isPaused, reduceMotion]);
+      window.clearInterval(
+        interval,
+      );
+  }, [
+    isSectionInView,
+    isPaused,
+    reduceMotion,
+  ]);
 
   /* =====================================================
-     PREVIOUS
+     NAVIGATION
   ====================================================== */
 
   const previousSlide = () => {
-    setActiveIndex((previous) =>
-      previous === 0
-        ? guides.length - 1
-        : previous - 1,
+    setDirection(-1);
+
+    setActiveIndex(
+      (previous) =>
+        previous === 0
+          ? guides.length - 1
+          : previous - 1,
     );
   };
 
-  /* =====================================================
-     NEXT
-  ====================================================== */
-
   const nextSlide = () => {
+    setDirection(1);
+
     setActiveIndex(
       (previous) =>
         (previous + 1) %
@@ -864,41 +970,123 @@ export default function ExpertGuides() {
     );
   };
 
+  const goToSlide = (
+    index: number,
+  ) => {
+    setDirection(
+      index >= activeIndex
+        ? 1
+        : -1,
+    );
+
+    setActiveIndex(index);
+  };
+
   /* =====================================================
-     TABLET TWO CARDS
+     TABLET CARDS
   ====================================================== */
 
-  const tabletGuides: Guide[] = [
-    guides[activeIndex],
+  const tabletGuides =
+    useMemo(
+      () => [
+        guides[activeIndex],
 
-    guides[
-      (activeIndex + 1) %
-        guides.length
-    ],
-  ];
+        guides[
+          (activeIndex + 1) %
+            guides.length
+        ],
+      ],
+      [activeIndex],
+    );
+
+  /* =====================================================
+     SLIDE VARIANT
+  ====================================================== */
+
+  const slideVariants: Variants = {
+    enter: (
+      slideDirection: Direction,
+    ) => ({
+      opacity: 0,
+
+      x:
+        slideDirection > 0
+          ? 34
+          : -34,
+    }),
+
+    center: {
+      opacity: 1,
+      x: 0,
+
+      transition: {
+        duration: 0.58,
+        ease: smoothEase,
+      },
+    },
+
+    exit: (
+      slideDirection: Direction,
+    ) => ({
+      opacity: 0,
+
+      x:
+        slideDirection > 0
+          ? -30
+          : 30,
+
+      transition: {
+        duration: 0.42,
+        ease: smoothEase,
+      },
+    }),
+  };
 
   return (
     <section
       ref={sectionRef}
       className="
         relative
+        isolate
         overflow-hidden
 
-        bg-[#F8FBFD]
+        bg-[#F5F9FD]
 
         py-14
 
         sm:py-16
         md:py-20
         lg:py-24
-        xl:py-[105px]
+        xl:py-[100px]
       "
     >
-      {/* ==================================================
+      {/* =====================================================
           BACKGROUND
-      =================================================== */}
+      ===================================================== */}
 
       <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+        "
+        style={{
+          background: `
+            linear-gradient(
+              145deg,
+              #F8FBFF 0%,
+              #F1F7FD 45%,
+              #F7FBFF 100%
+            )
+          `,
+        }}
+      />
+
+      {/* top divider */}
+
+      <div
+        aria-hidden="true"
         className="
           pointer-events-none
 
@@ -910,150 +1098,205 @@ export default function ExpertGuides() {
 
           bg-gradient-to-r
           from-transparent
-          via-[#DCE7EF]
+          via-[#D7E5F1]
           to-transparent
         "
       />
 
+      {/* left glow */}
+
       <div
+        aria-hidden="true"
         className="
           pointer-events-none
 
           absolute
+          -left-[220px]
+          top-[120px]
 
-          -left-[260px]
-          top-[150px]
-
-          h-[500px]
-          w-[500px]
+          h-[450px]
+          w-[450px]
 
           rounded-full
 
-          bg-[#E9F5FF]
+          bg-[#D9ECFF]/65
 
-          blur-[155px]
+          blur-[130px]
         "
       />
 
+      {/* right glow */}
+
       <div
+        aria-hidden="true"
         className="
           pointer-events-none
 
           absolute
+          -right-[240px]
+          bottom-[-40px]
 
-          -right-[280px]
-          bottom-[0]
-
-          h-[520px]
-          w-[520px]
+          h-[480px]
+          w-[480px]
 
           rounded-full
 
-          bg-[#EDF7FF]
+          bg-[#E1F0FF]/70
 
-          blur-[160px]
+          blur-[140px]
         "
       />
 
-      {/* grid */}
+      {/* subtle technical grid */}
 
       <div
+        aria-hidden="true"
         className="
           pointer-events-none
-
           absolute
           inset-0
 
-          opacity-[0.15]
+          opacity-[0.28]
         "
         style={{
           backgroundImage: `
             linear-gradient(
-              rgba(18, 83, 134, 0.04) 1px,
+              rgba(31,103,161,.035) 1px,
               transparent 1px
             ),
             linear-gradient(
               90deg,
-              rgba(18, 83, 134, 0.04) 1px,
+              rgba(31,103,161,.035) 1px,
               transparent 1px
             )
           `,
-          backgroundSize: "58px 58px",
 
-          maskImage:
-            "linear-gradient(to bottom, transparent, black 18%, black 80%, transparent)",
+          backgroundSize:
+            "54px 54px",
 
           WebkitMaskImage:
-            "linear-gradient(to bottom, transparent, black 18%, black 80%, transparent)",
+            "linear-gradient(to bottom, transparent 2%, black 18%, black 82%, transparent 100%)",
+
+          maskImage:
+            "linear-gradient(to bottom, transparent 2%, black 18%, black 82%, transparent 100%)",
         }}
       />
 
-      {/* ==================================================
-          ONE WHOLE SECTION ANIMATION
-      =================================================== */}
+      {/* =====================================================
+          WHOLE SECTION ENTRANCE
+      ===================================================== */}
 
       <motion.div
-        variants={reduceMotion ? undefined : sectionReveal}
-        initial={reduceMotion ? false : "hidden"}
-        whileInView={reduceMotion ? undefined : "visible"}
+        variants={
+          reduceMotion
+            ? undefined
+            : sectionReveal
+        }
+        initial={
+          reduceMotion
+            ? false
+            : "hidden"
+        }
+        whileInView={
+          reduceMotion
+            ? undefined
+            : "visible"
+        }
         viewport={{
           once: true,
           amount: 0.12,
         }}
         style={{
-          willChange: reduceMotion ? "auto" : "transform, opacity",
+          willChange:
+            reduceMotion
+              ? "auto"
+              : "transform, opacity",
         }}
         className="
           relative
           z-10
 
           mx-auto
+          w-full
           max-w-[1320px]
 
           px-5
 
           sm:px-7
+
           lg:px-8
+
           xl:px-10
         "
       >
-        {/* ==================================================
+        {/* =================================================
             HEADER
-        =================================================== */}
+        ================================================= */}
 
         <motion.div
-          variants={reduceMotion ? undefined : headerSequence}
-          initial={reduceMotion ? false : "hidden"}
-          whileInView={reduceMotion ? undefined : "visible"}
-          viewport={{ once: true, amount: 0.35 }}
+          variants={
+            reduceMotion
+              ? undefined
+              : headerContainer
+          }
+          initial={
+            reduceMotion
+              ? false
+              : "hidden"
+          }
+          whileInView={
+            reduceMotion
+              ? undefined
+              : "visible"
+          }
+          viewport={{
+            once: true,
+            amount: 0.3,
+          }}
           className="
-            mb-10
+            mb-9
 
-            md:mb-12
-            lg:mb-14
+            md:mb-11
+
+            lg:mb-12
           "
         >
+          {/* eyebrow */}
+
           <motion.div
-            variants={reduceMotion ? undefined : headerItem}
+            variants={
+              reduceMotion
+                ? undefined
+                : headerItem
+            }
             className="
-              mb-5
+              mb-4
 
               flex
               items-center
               gap-3
             "
           >
-            <span className="h-px w-8 bg-[#0875D1]" />
+            <span
+              className="
+                h-px
+                w-8
+
+                bg-[#1579E6]
+              "
+            />
 
             <span
               className="
-                text-[10px]
+                text-[9.5px]
                 font-bold
                 uppercase
-                tracking-[0.23em]
-                text-[#0875D1]
 
-                sm:text-[11px]
+                tracking-[0.22em]
+
+                text-[#1579E6]
+
+                sm:text-[10px]
               "
             >
               Expert Guides
@@ -1064,324 +1307,461 @@ export default function ExpertGuides() {
             className="
               grid
               grid-cols-1
-              gap-5
 
-              md:grid-cols-[1fr_0.78fr]
+              gap-4
+
+              md:grid-cols-[1fr_0.75fr]
               md:items-end
               md:gap-8
 
-              lg:gap-14
+              lg:gap-12
             "
           >
             <motion.h2
-              variants={reduceMotion ? undefined : headerItem}
+              variants={
+                reduceMotion
+                  ? undefined
+                  : headerItem
+              }
               className="
-                max-w-[680px]
+                max-w-[670px]
 
-                text-[32px]
+                text-[30px]
                 font-semibold
+
                 leading-[1.08]
-                tracking-[-0.05em]
+                tracking-[-0.045em]
+
                 text-[#102A43]
 
-                sm:text-[40px]
-                lg:text-[48px]
-                xl:text-[54px]
+                sm:text-[38px]
+
+                lg:text-[45px]
+
+                xl:text-[50px]
               "
             >
               Stay Informed.{" "}
 
-              <span className="text-[#0875D1]">
+              <span
+                className="
+                  text-[#1579E6]
+                "
+              >
                 Stay Compliant.
               </span>
             </motion.h2>
 
             <motion.div
-              variants={reduceMotion ? undefined : headerItem}
+              variants={
+                reduceMotion
+                  ? undefined
+                  : headerItem
+              }
               className="
                 md:ml-auto
-                md:max-w-[450px]
+                md:max-w-[430px]
               "
             >
               <p
                 className="
-                  text-[13px]
-                  leading-6
-                  text-[#6B7C88]
+                  text-[12.5px]
+                  leading-[1.75]
 
-                  sm:text-[15px]
-                  sm:leading-7
+                  text-[#6B7D8C]
 
-                  lg:text-base
-                  lg:leading-8
+                  sm:text-[14px]
+
+                  lg:text-[15px]
                 "
               >
                 Practical guides on GST,
-                company registration, income tax
-                and business compliance, written
-                by our CA team for Indian
+                company registration,
+                income tax and business
+                compliance, written by
+                our CA team for Indian
                 entrepreneurs.
               </p>
             </motion.div>
           </div>
         </motion.div>
 
+        {/* =================================================
+            CARD AREA
+        ================================================= */}
+
         <motion.div
-          variants={reduceMotion ? undefined : cardAreaReveal}
-          initial={reduceMotion ? false : "hidden"}
-          whileInView={reduceMotion ? undefined : "visible"}
-          viewport={{ once: true, amount: 0.16 }}
-          style={{
-            willChange: reduceMotion ? "auto" : "transform, opacity",
+          variants={
+            reduceMotion
+              ? undefined
+              : cardAreaReveal
+          }
+          initial={
+            reduceMotion
+              ? false
+              : "hidden"
+          }
+          whileInView={
+            reduceMotion
+              ? undefined
+              : "visible"
+          }
+          viewport={{
+            once: true,
+            amount: 0.14,
           }}
         >
-        {/* ==================================================
-            MOBILE
-            1 COMPLETE CARD
-        =================================================== */}
+          {/* =================================================
+              MOBILE
+              ONE CARD
+          ================================================= */}
 
-        <div
-          className="md:hidden"
-          onMouseEnter={() =>
-            setIsPaused(true)
-          }
-          onMouseLeave={() =>
-            setIsPaused(false)
-          }
-          onTouchStart={() =>
-            setIsPaused(true)
-          }
-          onTouchEnd={() => {
-            window.setTimeout(
-              () => setIsPaused(false),
-              700,
-            );
-          }}
-        >
-          <div className="overflow-hidden">
-            <AnimatePresence
-              mode="wait"
-              initial={false}
-            >
-              <motion.div
-                key={`mobile-slide-${activeIndex}`}
-                initial={
-                  reduceMotion
-                    ? false
-                    : {
-                        opacity: 0,
-                        x: 28,
-                      }
-                }
-                animate={{
-                  opacity: 1,
-                  x: 0,
-                }}
-                exit={
-                  reduceMotion
-                    ? undefined
-                    : {
-                        opacity: 0,
-                        x: -28,
-                      }
-                }
-                transition={{
-                  duration: reduceMotion ? 0 : 0.58,
-                  ease: smoothEase,
-                }}
-                style={{
-                  willChange: reduceMotion
-                    ? "auto"
-                    : "transform, opacity",
-                }}
-                className="transform-gpu"
-              >
-                <BlogCard
-                  guide={
-                    guides[activeIndex]
-                  }
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <SliderControls
-            activeIndex={activeIndex}
-            previousSlide={previousSlide}
-            nextSlide={nextSlide}
-            setActiveIndex={setActiveIndex}
-          />
-        </div>
-
-        {/* ==================================================
-            TABLET
-            2 COMPLETE CARDS
-        =================================================== */}
-
-        <div
-          className="
-            hidden
-            md:block
-            xl:hidden
-          "
-          onMouseEnter={() =>
-            setIsPaused(true)
-          }
-          onMouseLeave={() =>
-            setIsPaused(false)
-          }
-        >
-          <div className="overflow-hidden">
-            <AnimatePresence
-              mode="wait"
-              initial={false}
-            >
-              <motion.div
-                key={`tablet-slide-${activeIndex}`}
-                initial={
-                  reduceMotion
-                    ? false
-                    : {
-                        opacity: 0,
-                        x: 32,
-                      }
-                }
-                animate={{
-                  opacity: 1,
-                  x: 0,
-                }}
-                exit={
-                  reduceMotion
-                    ? undefined
-                    : {
-                        opacity: 0,
-                        x: -32,
-                      }
-                }
-                transition={{
-                  duration: reduceMotion ? 0 : 0.62,
-                  ease: smoothEase,
-                }}
-                style={{
-                  willChange: reduceMotion
-                    ? "auto"
-                    : "transform, opacity",
-                }}
-                className="
-                  transform-gpu
-                  grid
-                  grid-cols-2
-
-                  gap-5
-
-                  lg:gap-6
-                "
-              >
-                {tabletGuides.map(
-                  (guide, index) => (
-                    <div
-                      key={`${activeIndex}-${guide.id}-${index}`}
-                      className="h-full"
-                    >
-                      <BlogCard
-                        guide={guide}
-                      />
-                    </div>
+          <div
+            className="md:hidden"
+            onMouseEnter={() =>
+              setIsPaused(true)
+            }
+            onMouseLeave={() =>
+              setIsPaused(false)
+            }
+            onTouchStart={() =>
+              setIsPaused(true)
+            }
+            onTouchEnd={() => {
+              window.setTimeout(
+                () =>
+                  setIsPaused(
+                    false,
                   ),
-                )}
-              </motion.div>
-            </AnimatePresence>
+                800,
+              );
+            }}
+          >
+            <div
+              className="
+                overflow-hidden
+              "
+            >
+              <AnimatePresence
+                mode="wait"
+                custom={direction}
+                initial={false}
+              >
+                <motion.div
+                  key={`mobile-${activeIndex}`}
+                  custom={direction}
+                  variants={
+                    slideVariants
+                  }
+                  initial={
+                    reduceMotion
+                      ? false
+                      : "enter"
+                  }
+                  animate="center"
+                  exit={
+                    reduceMotion
+                      ? undefined
+                      : "exit"
+                  }
+                  style={{
+                    willChange:
+                      reduceMotion
+                        ? "auto"
+                        : "transform, opacity",
+                  }}
+                  className="
+                    transform-gpu
+                  "
+                >
+                  <BlogCard
+                    guide={
+                      guides[
+                        activeIndex
+                      ]
+                    }
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <SliderControls
+              activeIndex={
+                activeIndex
+              }
+              previousSlide={
+                previousSlide
+              }
+              nextSlide={
+                nextSlide
+              }
+              setActiveIndex={
+                goToSlide
+              }
+            />
           </div>
 
-          <SliderControls
-            activeIndex={activeIndex}
-            previousSlide={previousSlide}
-            nextSlide={nextSlide}
-            setActiveIndex={setActiveIndex}
-          />
-        </div>
+          {/* =================================================
+              TABLET
+              TWO CARDS
+          ================================================= */}
 
-        {/* ==================================================
-            DESKTOP
-            3 STATIC CARDS
-        =================================================== */}
+          <div
+            className="
+              hidden
 
-        <div
-          className="
-            hidden
+              md:block
 
-            xl:grid
-            xl:grid-cols-3
-            xl:gap-6
-          "
-        >
-          {guides.map((guide) => (
-            <BlogCard
-              key={guide.id}
-              guide={guide}
+              xl:hidden
+            "
+            onMouseEnter={() =>
+              setIsPaused(true)
+            }
+            onMouseLeave={() =>
+              setIsPaused(false)
+            }
+          >
+            <div
+              className="
+                overflow-hidden
+              "
+            >
+              <AnimatePresence
+                mode="wait"
+                custom={direction}
+                initial={false}
+              >
+                <motion.div
+                  key={`tablet-${activeIndex}`}
+                  custom={direction}
+                  variants={
+                    slideVariants
+                  }
+                  initial={
+                    reduceMotion
+                      ? false
+                      : "enter"
+                  }
+                  animate="center"
+                  exit={
+                    reduceMotion
+                      ? undefined
+                      : "exit"
+                  }
+                  style={{
+                    willChange:
+                      reduceMotion
+                        ? "auto"
+                        : "transform, opacity",
+                  }}
+                  className="
+                    transform-gpu
+
+                    grid
+                    grid-cols-2
+
+                    items-stretch
+
+                    gap-5
+
+                    lg:gap-6
+                  "
+                >
+                  {tabletGuides.map(
+                    (
+                      guide,
+                      index,
+                    ) => (
+                      <div
+                        key={`${activeIndex}-${guide.id}-${index}`}
+                        className="
+                          h-full
+                        "
+                      >
+                        <BlogCard
+                          guide={
+                            guide
+                          }
+                        />
+                      </div>
+                    ),
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <SliderControls
+              activeIndex={
+                activeIndex
+              }
+              previousSlide={
+                previousSlide
+              }
+              nextSlide={
+                nextSlide
+              }
+              setActiveIndex={
+                goToSlide
+              }
             />
-          ))}
-        </div>
+          </div>
 
+          {/* =================================================
+              DESKTOP
+              THREE CARDS
+          ================================================= */}
+
+          <div
+            className="
+              hidden
+
+              xl:grid
+              xl:grid-cols-3
+
+              xl:items-stretch
+
+              xl:gap-6
+            "
+          >
+            {guides.map(
+              (
+                guide,
+                index,
+              ) => (
+                <motion.div
+                  key={guide.id}
+                  initial={
+                    reduceMotion
+                      ? false
+                      : {
+                          opacity: 0,
+                          y: 24,
+                        }
+                  }
+                  whileInView={
+                    reduceMotion
+                      ? undefined
+                      : {
+                          opacity: 1,
+                          y: 0,
+                        }
+                  }
+                  viewport={{
+                    once: true,
+                    amount: 0.2,
+                  }}
+                  transition={{
+                    duration:
+                      reduceMotion
+                        ? 0
+                        : 0.7,
+
+                    delay:
+                      index *
+                      0.08,
+
+                    ease:
+                      smoothEase,
+                  }}
+                  className="
+                    h-full
+                  "
+                >
+                  <BlogCard
+                    guide={guide}
+                  />
+                </motion.div>
+              ),
+            )}
+          </div>
         </motion.div>
 
-        {/* ==================================================
+        {/* =================================================
             BOTTOM CTA
-        =================================================== */}
+        ================================================= */}
 
-        <div
+        <motion.div
+          initial={
+            reduceMotion
+              ? false
+              : {
+                  opacity: 0,
+                  y: 18,
+                }
+          }
+          whileInView={
+            reduceMotion
+              ? undefined
+              : {
+                  opacity: 1,
+                  y: 0,
+                }
+          }
+          viewport={{
+            once: true,
+            amount: 0.3,
+          }}
+          transition={{
+            duration:
+              reduceMotion
+                ? 0
+                : 0.75,
+
+            ease: smoothEase,
+          }}
           className="
-            mt-10
+            mt-9
 
             flex
             flex-col
+
             gap-5
 
             border-t
-            border-[#DDE7EE]
+            border-[#DCE7F0]
 
-            pt-7
+            pt-6
 
             sm:flex-row
             sm:items-center
             sm:justify-between
 
-            lg:mt-12
+            lg:mt-11
+            lg:pt-7
           "
         >
           <div>
             <p
               className="
-                text-[13px]
+                text-[12.5px]
                 font-semibold
+
                 text-[#173750]
 
-                sm:text-[14px]
+                sm:text-[13px]
               "
             >
-              Practical knowledge for smarter
-              business decisions.
+              Practical knowledge for
+              smarter business decisions.
             </p>
 
             <p
               className="
                 mt-1
 
-                text-[11px]
+                text-[10.5px]
                 leading-5
+
                 text-[#84939D]
 
-                sm:text-[12px]
+                sm:text-[11px]
               "
             >
-              Explore our complete collection
-              of tax and compliance resources.
+              Explore our complete
+              collection of tax and
+              compliance resources.
             </p>
           </div>
-
-          {/* =================================================
-              MAIN FILL CTA
-          ================================================== */}
 
           <Link
             href="/blogs"
@@ -1390,52 +1770,55 @@ export default function ExpertGuides() {
               relative
 
               inline-flex
+
               w-full
               items-center
               justify-center
-              gap-3
+
+              gap-2.5
 
               overflow-hidden
 
               rounded-full
 
               border
-              border-[#0875D1]
+              border-[#1579E6]
 
               bg-transparent
 
-              px-6
-              py-3.5
+              px-5
+              py-3
 
-              text-[12px]
+              text-[11px]
               font-semibold
-              text-[#0875D1]
+
+              text-[#1579E6]
 
               transition-all
-              duration-500
-              ease-[cubic-bezier(0.22,1,0.36,1)]
+              duration-400
 
               hover:text-white
-              hover:shadow-[0_12px_30px_rgba(8,117,209,0.22)]
+              hover:shadow-[0_12px_28px_-14px_rgba(21,121,230,0.44)]
 
               sm:w-auto
-              sm:text-[13px]
+              sm:px-6
+              sm:text-[12px]
             "
           >
-            {/* blue fill */}
-
             <span
+              aria-hidden="true"
               className="
                 absolute
                 inset-0
 
-                -translate-x-[101%]
+                -translate-x-[102%]
 
-                bg-[#0875D1]
+                bg-[#1579E6]
 
                 transition-transform
-                duration-500
-                ease-[cubic-bezier(0.22,1,0.36,1)]
+                duration-400
+
+                ease-[cubic-bezier(0.16,1,0.3,1)]
 
                 group-hover/all:translate-x-0
               "
@@ -1447,7 +1830,8 @@ export default function ExpertGuides() {
                 z-10
               "
             >
-              Browse All Tax & Business Guides
+              Browse All Tax & Business
+              Guides
             </span>
 
             <span
@@ -1456,15 +1840,15 @@ export default function ExpertGuides() {
                 z-10
 
                 transition-transform
-                duration-500
+                duration-300
 
-                group-hover/all:translate-x-1.5
+                group-hover/all:translate-x-1
               "
             >
               <ArrowRight />
             </span>
           </Link>
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   );

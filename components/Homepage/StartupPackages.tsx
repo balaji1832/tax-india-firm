@@ -1,17 +1,33 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import Link from "next/link";
+
 import {
+  motion,
+  useInView,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
+
+import {
+  ArrowLeft,
   ArrowRight,
   Check,
   Sparkles,
 } from "lucide-react";
-import Link from "next/link";
 
-const smoothEase = [0.22, 1, 0.36, 1] as const;
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
-type PackageType = {
+/* =========================================================
+   TYPES
+========================================================= */
+
+type PackageItem = {
   title: string;
   subtitle: string;
   features: string[];
@@ -19,10 +35,17 @@ type PackageType = {
   popular?: boolean;
 };
 
-const packages: PackageType[] = [
+/* =========================================================
+   CONTENT
+   KEEPING YOUR CONTENT UNCHANGED
+========================================================= */
+
+const packages: PackageItem[] = [
   {
     title: "Sole Trader",
-    subtitle: "For freelancers & sole proprietors",
+    subtitle:
+      "For freelancers & sole proprietors",
+
     features: [
       "GST Registration in Chennai",
       "MSME Udyam Registration",
@@ -30,11 +53,16 @@ const packages: PackageType[] = [
       "PAN & TAN Application",
       "Current Account Opening Support",
     ],
-    cta: "Start as a Sole Trader in Chennai",
+
+    cta:
+      "Start as a Sole Trader in Chennai",
   },
+
   {
     title: "Business Launch",
-    subtitle: "For Pvt Ltd, LLP or OPC incorporations",
+    subtitle:
+      "For Pvt Ltd, LLP or OPC incorporations",
+
     features: [
       "Company Registration (Pvt Ltd / LLP / OPC)",
       "DSC — 2 Directors (2 year validity)",
@@ -43,12 +71,18 @@ const packages: PackageType[] = [
       "GST & MSME Registration",
       "Current Account Opening Assistance",
     ],
-    cta: "Register Your Company in Chennai",
+
+    cta:
+      "Register Your Company in Chennai",
+
     popular: true,
   },
+
   {
     title: "Full Compliance",
-    subtitle: "For established businesses needing year-round support",
+    subtitle:
+      "For established businesses needing year-round support",
+
     features: [
       "Everything in Business Launch",
       "GST Return Filing — 12 Months",
@@ -57,416 +91,1240 @@ const packages: PackageType[] = [
       "Accounting & Books Maintenance",
       "ROC Annual Filing",
     ],
-    cta: "Get Full Compliance Support",
+
+    cta:
+      "Get Full Compliance Support",
   },
 ];
 
-function PackageCard({
-  item,
-  index,
-}: {
-  item: PackageType;
-  index: number;
-}) {
-  const reduceMotion = useReducedMotion();
+/* =========================================================
+   MOTION
+========================================================= */
+
+const smoothEase = [
+  0.16,
+  1,
+  0.3,
+  1,
+] as const;
+
+const headerContainer: Variants = {
+  hidden: {},
+
+  visible: {
+    transition: {
+      delayChildren: 0.04,
+      staggerChildren: 0.09,
+    },
+  },
+};
+
+const fadeUp: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+  },
+
+  visible: {
+    opacity: 1,
+    y: 0,
+
+    transition: {
+      duration: 0.85,
+      ease: smoothEase,
+    },
+  },
+};
+
+const cardContainer: Variants = {
+  hidden: {},
+
+  visible: {
+    transition: {
+      staggerChildren: 0.085,
+      delayChildren: 0.08,
+    },
+  },
+};
+
+const cardReveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+    scale: 0.975,
+  },
+
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+
+    transition: {
+      duration: 0.82,
+      ease: smoothEase,
+    },
+  },
+};
+
+/* =========================================================
+   MAIN COMPONENT
+========================================================= */
+
+export default function StartupPackages() {
+  const [activeIndex, setActiveIndex] =
+    useState(1);
+
+  const [isPaused, setIsPaused] =
+    useState(false);
+
+  const sectionRef =
+    useRef<HTMLElement | null>(null);
+
+  const reduceMotion =
+    useReducedMotion();
+
+  const sectionInView =
+    useInView(sectionRef, {
+      amount: 0.12,
+      margin:
+        "0px 0px -8% 0px",
+    });
+
+  /* =======================================================
+     MOBILE / TABLET AUTO SLIDER
+  ======================================================= */
+
+  useEffect(() => {
+    if (
+      reduceMotion ||
+      !sectionInView ||
+      isPaused
+    ) {
+      return;
+    }
+
+    const interval =
+      window.setInterval(() => {
+        setActiveIndex(
+          (current) =>
+            (current + 1) %
+            packages.length,
+        );
+      }, 5600);
+
+    return () =>
+      window.clearInterval(
+        interval,
+      );
+  }, [
+    reduceMotion,
+    sectionInView,
+    isPaused,
+  ]);
+
+  /* =======================================================
+     NAVIGATION
+  ======================================================= */
+
+  const previousSlide = () => {
+    setActiveIndex(
+      (current) =>
+        (current -
+          1 +
+          packages.length) %
+        packages.length,
+    );
+  };
+
+  const nextSlide = () => {
+    setActiveIndex(
+      (current) =>
+        (current + 1) %
+        packages.length,
+    );
+  };
 
   return (
+    <section
+      ref={sectionRef}
+      className="
+        relative
+        isolate
+
+        w-full
+
+        overflow-hidden
+
+        bg-white
+
+        py-3
+      "
+    >
+      {/* =====================================================
+          BLUE HEADER AREA
+      ===================================================== */}
+
+      <div
+        className="
+          relative
+
+          h-[330px]
+
+          overflow-hidden
+
+          sm:h-[345px]
+          md:h-[355px]
+          lg:h-[365px]
+          xl:h-[375px]
+        "
+      >
+        {/* =================================================
+            BLUE BACKGROUND
+            NO GRID / NO WHITE LINES
+        ================================================= */}
+
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+          "
+          style={{
+            background: `
+              linear-gradient(
+                125deg,
+                #3989F7 0%,
+                #2B7CF1 28%,
+                #1D6DE5 58%,
+                #155FD2 78%,
+                #1055BF 100%
+              )
+            `,
+          }}
+        />
+
+        {/* =================================================
+            VERY SOFT CENTER LIGHT
+        ================================================= */}
+
+        <motion.div
+          aria-hidden="true"
+          animate={
+            reduceMotion
+              ? undefined
+              : {
+                  x: [
+                    -25,
+                    28,
+                    -25,
+                  ],
+
+                  scale: [
+                    1,
+                    1.05,
+                    1,
+                  ],
+                }
+          }
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            pointer-events-none
+
+            absolute
+            left-1/2
+            top-[-260px]
+
+            h-[600px]
+            w-[900px]
+
+            -translate-x-1/2
+
+            rounded-full
+
+            bg-white/[0.10]
+
+            blur-[130px]
+
+            will-change-transform
+          "
+        />
+
+        {/* =================================================
+            SIDE GLASS BLOCKS
+            REBUILT TO MATCH REFERENCE
+        ================================================= */}
+
+        <PricingGlassBlocks />
+
+        {/* =================================================
+            HEADER CONTENT
+        ================================================= */}
+
+        <motion.div
+          variants={
+            reduceMotion
+              ? undefined
+              : headerContainer
+          }
+          initial={
+            reduceMotion
+              ? false
+              : "hidden"
+          }
+          whileInView={
+            reduceMotion
+              ? undefined
+              : "visible"
+          }
+          viewport={{
+            once: true,
+            amount: 0.3,
+          }}
+          className="
+            relative
+            z-20
+
+            mx-auto
+
+            flex
+            max-w-[760px]
+
+            flex-col
+            items-center
+
+            px-5
+            pt-[44px]
+
+            text-center
+
+            sm:px-7
+            sm:pt-[48px]
+
+            md:pt-[52px]
+
+            lg:pt-[54px]
+          "
+        >
+          {/* LABEL */}
+
+          <motion.div
+            variants={fadeUp}
+            className="
+              inline-flex
+              items-center
+              gap-2
+
+              rounded-full
+
+              border
+              border-white/35
+
+              bg-white/[0.15]
+
+              px-3.5
+              py-[6px]
+
+              shadow-[inset_0_1px_0_rgba(255,255,255,.18)]
+
+              backdrop-blur-md
+            "
+          >
+            <span
+              className="
+                h-[6px]
+                w-[6px]
+
+                rounded-full
+
+                bg-white
+              "
+            />
+
+            <span
+              className="
+                text-[8px]
+                font-bold
+                uppercase
+
+                tracking-[0.17em]
+
+                text-white
+
+                sm:text-[8.5px]
+              "
+            >
+              Startup Packages
+            </span>
+          </motion.div>
+
+          {/* =================================================
+              HEADING — FULL WHITE
+          ================================================= */}
+
+          <motion.h2
+            variants={fadeUp}
+            className="
+              mx-auto
+
+              mt-4
+
+              max-w-[650px]
+
+              text-[28px]
+              font-semibold
+
+              leading-[1.06]
+              tracking-[-0.045em]
+
+              !text-white pt-3
+
+              sm:text-[34px]
+              md:text-[38px]
+              lg:text-[41px]
+            "
+          >
+            Launch Your Business in
+            Tamil Nadu. Pick Your Plan.
+          </motion.h2>
+
+          {/* DESCRIPTION */}
+
+          <motion.p
+            variants={fadeUp}
+            className="
+              mx-auto
+
+              mt-4
+
+              max-w-[550px]
+
+              text-[10px]
+              leading-[1.65]
+
+              text-white/75
+
+              sm:text-[10.5px]
+              md:text-[11px]
+            "
+          >
+            Pre-built bundles for the most
+            common business setups in
+            Chennai. Affordable,
+            expert-handled and delivered
+            on time.
+          </motion.p>
+        </motion.div>
+      </div>
+
+      {/* =====================================================
+          DESKTOP CARDS
+          ALL EXACTLY SAME HEIGHT + ALIGNMENT
+      ===================================================== */}
+
+      <motion.div
+        variants={
+          reduceMotion
+            ? undefined
+            : cardContainer
+        }
+        initial={
+          reduceMotion
+            ? false
+            : "hidden"
+        }
+        whileInView={
+          reduceMotion
+            ? undefined
+            : "visible"
+        }
+        viewport={{
+          once: true,
+          amount: 0.12,
+        }}
+        className="
+          relative
+          z-30
+
+          mx-auto
+
+          -mt-[116px]
+
+          hidden
+          w-full
+          max-w-[1050px]
+
+          grid-cols-3
+          items-stretch
+
+          gap-[14px]
+
+          px-6
+
+          lg:grid
+
+          lg:-mt-[92px]
+          xl:max-w-[1090px]
+          xl:gap-[17px]
+        "
+      >
+        {packages.map(
+          (
+            item,
+            index,
+          ) => (
+            <motion.div
+              key={item.title}
+              variants={
+                reduceMotion
+                  ? undefined
+                  : cardReveal
+              }
+              className="
+                h-full
+              "
+            >
+              <PricingCard
+                item={item}
+                index={index}
+                mobile={false}
+              />
+            </motion.div>
+          ),
+        )}
+      </motion.div>
+
+      {/* =====================================================
+          MOBILE / TABLET
+      ===================================================== */}
+
+      <div
+        className="
+          relative
+          z-30
+
+          -mt-[116px]
+
+          lg:hidden
+        "
+        onMouseEnter={() =>
+          setIsPaused(true)
+        }
+        onMouseLeave={() =>
+          setIsPaused(false)
+        }
+        onTouchStart={() =>
+          setIsPaused(true)
+        }
+        onTouchEnd={() => {
+          window.setTimeout(
+            () =>
+              setIsPaused(false),
+            750,
+          );
+        }}
+      >
+        <div
+          className="
+            overflow-hidden
+
+            pt-4
+          "
+        >
+          <motion.div
+            animate={{
+              x: `-${activeIndex * 100}%`,
+            }}
+            transition={{
+              duration:
+                reduceMotion
+                  ? 0
+                  : 0.68,
+
+              ease:
+                smoothEase,
+            }}
+            drag={
+              reduceMotion
+                ? false
+                : "x"
+            }
+            dragConstraints={{
+              left: 0,
+              right: 0,
+            }}
+            dragElastic={0.035}
+            dragMomentum={false}
+            style={{
+              touchAction:
+                "pan-y",
+
+              willChange:
+                reduceMotion
+                  ? "auto"
+                  : "transform",
+            }}
+            onDragEnd={(
+              _,
+              info,
+            ) => {
+              if (
+                info.offset.x <
+                -55
+              ) {
+                nextSlide();
+              }
+
+              if (
+                info.offset.x >
+                55
+              ) {
+                previousSlide();
+              }
+            }}
+            className="
+              flex
+              transform-gpu
+            "
+          >
+            {packages.map(
+              (
+                item,
+                index,
+              ) => (
+                <div
+                  key={
+                    item.title
+                  }
+                  className="
+                    min-w-full
+                    shrink-0
+
+                    px-4
+
+                    sm:px-14
+
+                    md:px-[100px]
+                  "
+                >
+                  <div
+                    className="
+                      mx-auto
+                      max-w-[430px]
+                    "
+                  >
+                    <PricingCard
+                      item={item}
+                      index={index}
+                      mobile
+                    />
+                  </div>
+                </div>
+              ),
+            )}
+          </motion.div>
+        </div>
+
+        {/* =================================================
+            MOBILE NAVIGATION
+        ================================================= */}
+
+        <div
+          className="
+            mx-auto
+            mt-5
+
+            flex
+            max-w-[430px]
+
+            items-center
+            justify-between
+
+            px-4
+
+            sm:px-0
+          "
+        >
+          <SliderButton
+            label="Previous package"
+            onClick={
+              previousSlide
+            }
+          >
+            <ArrowLeft
+              size={15}
+            />
+          </SliderButton>
+
+          <div
+            className="
+              flex
+              items-center
+              gap-2
+            "
+          >
+            {packages.map(
+              (
+                item,
+                index,
+              ) => (
+                <button
+                  key={
+                    item.title
+                  }
+                  type="button"
+                  aria-label={`Show ${item.title}`}
+                  onClick={() =>
+                    setActiveIndex(
+                      index,
+                    )
+                  }
+                  className="
+                    flex
+                    h-8
+
+                    items-center
+                    justify-center
+
+                    px-1
+                  "
+                >
+                  <motion.span
+                    animate={{
+                      width:
+                        activeIndex ===
+                        index
+                          ? 24
+                          : 6,
+                    }}
+                    transition={{
+                      duration:
+                        0.3,
+
+                      ease:
+                        smoothEase,
+                    }}
+                    className={`
+                      h-[6px]
+
+                      rounded-full
+
+                      ${
+                        activeIndex ===
+                        index
+                          ? "bg-[#1768E7]"
+                          : "bg-[#C6D2E2]"
+                      }
+                    `}
+                  />
+                </button>
+              ),
+            )}
+          </div>
+
+          <SliderButton
+            label="Next package"
+            onClick={
+              nextSlide
+            }
+          >
+            <ArrowRight
+              size={15}
+            />
+          </SliderButton>
+        </div>
+      </div>
+
+      {/* bottom breathing space */}
+
+      <div
+        className="
+          h-10
+
+          sm:h-12
+          lg:h-16
+        "
+      />
+    </section>
+  );
+}
+
+/* =========================================================
+   PRICING CARD
+========================================================= */
+
+function PricingCard({
+  item,
+  index,
+  mobile,
+}: {
+  item: PackageItem;
+  index: number;
+  mobile: boolean;
+}) {
+  return (
     <motion.article
-      initial={
-        reduceMotion
-          ? false
-          : {
-              opacity: 0,
-              y: 20,
-            }
-      }
-      whileInView={
-        reduceMotion
-          ? undefined
-          : {
-              opacity: 1,
-              y: 0,
-            }
-      }
-      viewport={{
-        once: false,
-        amount: 0.2,
-        margin: "0px 0px -6% 0px",
-      }}
-      transition={{
-        duration: reduceMotion ? 0 : 1.05,
-        delay: reduceMotion ? 0 : index * 0.10,
-        ease: smoothEase,
-      }}
       whileHover={
-        reduceMotion
+        mobile
           ? undefined
           : {
               y: -4,
             }
       }
-      style={{
-        willChange: reduceMotion ? "auto" : "transform, opacity",
+      transition={{
+        duration: 0.28,
+        ease: smoothEase,
       }}
-      className="group relative h-full pt-4"
+      className="
+        relative
+        h-full
+      "
     >
-      {/* POPULAR OUTER GLOW */}
+      {/* =====================================================
+          POPULAR BADGE
+          FLOATS ONLY — DOES NOT CHANGE CARD ALIGNMENT
+      ===================================================== */}
+
       {item.popular && (
         <div
           className="
-            pointer-events-none
             absolute
-            inset-x-3
-            bottom-[-10px]
-            top-5
-            rounded-[24px]
-            bg-[#278650]/6
-            blur-2xl
-          "
-        />
-      )}
 
-      {/* MOST POPULAR BADGE */}
-      {item.popular && (
-        <motion.div
-          initial={
-            reduceMotion
-              ? false
-              : {
-                  opacity: 0,
-                  scale: 0.92,
-                  y: 4,
-                }
-          }
-          whileInView={
-            reduceMotion
-              ? undefined
-              : {
-                  opacity: 1,
-                  scale: 1,
-                  y: 0,
-                }
-          }
-          viewport={{ once: false, amount: 0.55 }}
-          transition={{
-            duration: reduceMotion ? 0 : 0.75,
-            delay: reduceMotion ? 0 : 0.28,
-            ease: smoothEase,
-          }}
-          className="
-            absolute
             left-1/2
             top-0
-            z-30
+            z-40
+
             -translate-x-1/2
+            -translate-y-1/2
+          "
+        >
+          <div
+            className="
+              inline-flex
+              items-center
+              gap-1.5
+
+              whitespace-nowrap
+
+              rounded-full
+
+              border
+              border-[#C5D9F8]
+
+              bg-white
+
+              px-3
+              py-[5px]
+
+              shadow-[0_8px_22px_-14px_rgba(18,91,210,.45)]
+            "
+          >
+            <Sparkles
+              size={9}
+              className="
+                text-[#1768E7]
+              "
+            />
+
+            <span
+              className="
+                text-[7px]
+                font-bold
+                uppercase
+
+                tracking-[0.13em]
+
+                text-[#1768E7]
+              "
+            >
+              Most Popular
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* =====================================================
+          ALL DESKTOP CARDS:
+          SAME HEIGHT EXACTLY
+      ===================================================== */}
+
+      <div
+        className={`
+          group/card
+          relative
+
+          flex
+          h-full
+          flex-col
+
+          overflow-hidden
+
+          rounded-[15px]
+
+          border
+
+          bg-white
+
+          px-[18px]
+          pb-[17px]
+          pt-[19px]
+
+          transition-all
+          duration-300
+
+          sm:px-5
+          sm:pb-5
+          sm:pt-5
+
+          ${
+            mobile
+              ? `
+                  min-h-[420px]
+
+                  sm:min-h-[400px]
+                `
+              : `
+                  lg:h-[360px]
+
+                  xl:h-[372px]
+                `
+          }
+
+          ${
+            item.popular
+              ? `
+                  border-[#A7C8F8]
+
+                  shadow-[0_22px_50px_-27px_rgba(20,96,220,.38)]
+                `
+              : `
+                  border-[#D9E3EF]
+
+                  shadow-[0_15px_42px_-29px_rgba(25,61,108,.30)]
+
+                  hover:border-[#BED1E7]
+                `
+          }
+        `}
+      >
+        {/* =================================================
+            VERY SUBTLE CARD TOP LIGHT
+        ================================================= */}
+
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+
+            absolute
+            inset-x-0
+            top-0
+
+            h-[78px]
+          "
+          style={{
+            background: `
+              linear-gradient(
+                180deg,
+                rgba(239,245,255,.82) 0%,
+                rgba(255,255,255,0) 100%
+              )
+            `,
+          }}
+        />
+
+        {/* popular top edge */}
+
+        {item.popular && (
+          <div
+            aria-hidden="true"
+            className="
+              absolute
+              inset-x-0
+              top-0
+
+              h-[2px]
+
+              bg-[#2475ED]
+            "
+          />
+        )}
+
+        {/* =================================================
+            CARD HEADER
+        ================================================= */}
+
+        <div
+          className="
+            relative
+            z-10
           "
         >
           <div
             className="
               flex
               items-center
-              gap-1.5
-              whitespace-nowrap
-              rounded-full
-              bg-[#D99A32]
-              px-3
-              py-[5px]
-              shadow-[0_8px_22px_rgba(244,166,42,0.28)]
+
+              gap-2.5
             "
           >
-            <Sparkles size={11} className="text-white" />
-
             <span
               className="
-                !text-white
+                flex
+                h-[25px]
+                w-[25px]
+
+                shrink-0
+
+                items-center
+                justify-center
+
+                rounded-full
+
+                bg-[#1768E7]
+
                 text-[9px]
                 font-bold
-                uppercase
-                tracking-[0.14em]
+
+                text-white
               "
             >
-              Most Popular
+              {index + 1}
             </span>
+
+            <div
+              className="
+                min-w-0
+              "
+            >
+              <p
+                className="
+                  text-[6.5px]
+                  font-semibold
+                  uppercase
+
+                  tracking-[0.14em]
+
+                  text-[#9AA8B8]
+                "
+              >
+                Package
+              </p>
+
+              <h3
+                className="
+                  mt-[1px]
+
+                  text-[15px]
+                  font-semibold
+
+                  leading-[1.15]
+                  tracking-[-0.025em]
+
+                  text-[#172A43]
+
+                  sm:text-[16px]
+                "
+              >
+                {item.title}
+              </h3>
+            </div>
           </div>
-        </motion.div>
-      )}
-
-      {/* CARD */}
-      <div
-        className={`
-          relative
-          flex
-          h-full
-          flex-col
-          overflow-hidden
-          rounded-[22px]
-          border
-          bg-white
-          p-6
-          shadow-[0_14px_38px_rgba(20,42,68,0.055)]
-          transition-all
-          duration-500
-
-          sm:p-7
-          lg:p-7
-          xl:p-8
-
-          ${
-            item.popular
-              ? `
-                border-[#8AB99C]
-                shadow-[0_18px_46px_rgba(34,126,77,0.09)]
-              `
-              : `
-                border-[#E2E7EB]
-                hover:border-[#C7D0D7]
-                hover:shadow-[0_22px_52px_rgba(26,55,84,0.09)]
-              `
-          }
-        `}
-      >
-        {/* HOVER GRADIENT */}
-        <div
-          className={`
-            pointer-events-none
-            absolute
-            inset-0
-            opacity-0
-            transition-opacity
-            duration-500
-            group-hover:opacity-100
-
-            ${
-              item.popular
-                ? "bg-gradient-to-br from-[#eef9f2]/70 via-transparent to-transparent"
-                : "bg-gradient-to-br from-[#eef7fc]/80 via-transparent to-transparent"
-            }
-          `}
-        />
-
-        {/* TOP GLOW */}
-        <div
-          className={`
-            pointer-events-none
-            absolute
-            -right-20
-            -top-20
-            h-[180px]
-            w-[180px]
-            rounded-full
-            blur-[75px]
-            transition-all
-            duration-500
-
-            ${
-              item.popular
-                ? "bg-[#278650]/0 group-hover:bg-[#278650]/10"
-                : "bg-[#2e8fc9]/0 group-hover:bg-[#2e8fc9]/8"
-            }
-          `}
-        />
-
-        {/* TOP ACCENT LINE */}
-        <div
-          className={`
-            absolute
-            left-0
-            top-0
-            h-[3px]
-            w-0
-            transition-all
-            duration-500
-            group-hover:w-full
-
-            ${
-              item.popular
-                ? "bg-gradient-to-r from-[#278650] to-[#54b780]"
-                : "bg-gradient-to-r from-[#338fc6] to-[#7dc7ed]"
-            }
-          `}
-        />
-
-        {/* TITLE */}
-        <div className="relative z-10">
-          <h3
-            className="
-              !text-[#17293d]
-              text-[18px]
-              font-semibold
-              leading-[1.25]
-              tracking-[-0.018em]
-
-              sm:text-[19px]
-            "
-          >
-            {item.title}
-          </h3>
 
           <p
             className="
-              mt-2.5
-              !text-[#7A8794]
-              text-[11.5px]
-              leading-[1.55]
+              mt-3
 
-              sm:text-[12.5px]
+              min-h-[29px]
+
+              text-[8.5px]
+              leading-[1.5]
+
+              text-[#74859A]
+
+              sm:text-[9px]
             "
           >
             {item.subtitle}
           </p>
         </div>
 
-        {/* DIVIDER */}
-        <div className="relative z-10 my-6 h-px bg-[#edf1f4]" />
+        {/* divider */}
 
-        {/* FEATURES */}
-        <ul className="relative z-10 flex-1 space-y-4">
-          {item.features.map((feature, featureIndex) => (
-            <motion.li
-              key={feature}
-              initial={
-                reduceMotion
-                  ? false
-                  : {
-                      opacity: 0,
-                      x: -7,
-                    }
-              }
-              whileInView={
-                reduceMotion
-                  ? undefined
-                  : {
-                      opacity: 1,
-                      x: 0,
-                    }
-              }
-              viewport={{ once: false, amount: 0.55 }}
-              transition={{
-                duration: reduceMotion ? 0 : 0.72,
-                delay:
-                  reduceMotion
-                    ? 0
-                    : 0.08 + featureIndex * 0.055,
-                ease: smoothEase,
-              }}
-              className="flex items-start gap-3"
-            >
-              <div
-                className={`
-                  mt-[2px]
-                  flex
-                  h-[17px]
-                  w-[17px]
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
+        <div
+          className="
+            relative
+            z-10
 
-                  ${
-                    item.popular
-                      ? "border-[#70ad8a] bg-[#f0f9f4]"
-                      : "border-[#80b9dd] bg-[#f2f8fc]"
-                  }
-                `}
-              >
-                <Check
-                  size={9}
-                  strokeWidth={3}
-                  className={
-                    item.popular
-                      ? "text-[#278650]"
-                      : "text-[#2e8dc7]"
-                  }
-                />
-              </div>
+            my-3
 
-              <span
+            h-px
+
+            bg-[#E6ECF4]
+          "
+        />
+
+        {/* =================================================
+            FEATURES
+        ================================================= */}
+
+        <ul
+          className="
+            relative
+            z-10
+
+            flex-1
+
+            space-y-[8px]
+          "
+        >
+          {item.features.map(
+            (feature) => (
+              <li
+                key={feature}
                 className="
-                  !text-[#526170]
-                  text-[13px]
-                  leading-[1.5]
+                  flex
+                  items-start
 
-                  sm:text-[12px]
-                  xl:text-[13.5px]
+                  gap-2
                 "
               >
-                {feature}
-              </span>
-            </motion.li>
-          ))}
+                <span
+                  className="
+                    mt-[1px]
+
+                    flex
+                    h-[14px]
+                    w-[14px]
+
+                    shrink-0
+
+                    items-center
+                    justify-center
+
+                    rounded-full
+
+                    bg-[#EAF2FF]
+
+                    text-[#1768E7]
+                  "
+                >
+                  <Check
+                    size={8}
+                    strokeWidth={
+                      2.8
+                    }
+                  />
+                </span>
+
+                <span
+                  className="
+                    text-[8.5px]
+                    leading-[1.42]
+
+                    text-[#56697E]
+
+                    sm:text-[9px]
+
+                    xl:text-[9.5px]
+                  "
+                >
+                  {feature}
+                </span>
+              </li>
+            ),
+          )}
         </ul>
 
-        {/* CTA */}
-        <div className="relative z-10 mt-12">
+        {/* =================================================
+            CTA
+        ================================================= */}
+
+        <div
+          className="
+            relative
+            z-10
+
+            mt-4
+          "
+        >
           <Link
-            href="https://taxindiafirm.com/contact-us"
+            href="/contact-us"
             className={`
-              group/btn
-              relative
+              group/button
+
               flex
-              min-h-[44px]
+              min-h-[35px]
+
               w-full
+
               items-center
               justify-center
-              gap-2
-              overflow-hidden
-              rounded-[10px]
-              px-6.5
-              py-2.5
+
+              gap-1.5
+
+              rounded-[8px]
+
+              border
+
+              px-2.5
+              py-2
+
               text-center
-              text-[12px]
+
+              text-[8px]
               font-semibold
+
               transition-all
               duration-300
 
-              sm:text-[13px]
+              sm:text-[8.5px]
 
               ${
                 item.popular
                   ? `
-                    bg-[#278650]
-                    text-white
-                    shadow-[0_9px_25px_rgba(39,134,80,0.20)]
-                    hover:bg-[#207244]
-                    hover:shadow-[0_13px_30px_rgba(39,134,80,0.28)]
-                  `
+                      border-[#1768E7]
+
+                      bg-[#1768E7]
+
+                      text-white
+
+                      shadow-[0_8px_20px_-13px_rgba(23,104,231,.50)]
+
+                      hover:border-[#0F58C7]
+                      hover:bg-[#0F58C7]
+                    `
                   : `
-                    bg-[#eaf3ff]
-                    text-[#2a88c3]
-                    hover:bg-[#dcecff]
-                    hover:text-[#176fa8]
-                  `
+                      border-[#BAD0EC]
+
+                      bg-white
+
+                      text-[#1768E7]
+
+                      hover:border-[#1768E7]
+                      hover:bg-[#1768E7]
+                      hover:text-white
+                    `
               }
             `}
           >
-            <span className="relative z-10">
+            <span>
               {item.cta}
             </span>
 
             <ArrowRight
-              size={15}
+              size={11}
               className="
-                relative
-                z-10
+                shrink-0
+
                 transition-transform
                 duration-300
-                group-hover/btn:translate-x-1
-              "
-            />
 
-            <span
-              className="
-                absolute
-                inset-0
-                -translate-x-full
-                bg-gradient-to-r
-                from-transparent
-                via-white/20
-                to-transparent
-                transition-transform
-                duration-700
-                group-hover/btn:translate-x-full
+                group-hover/button:translate-x-[2px]
               "
             />
           </Link>
@@ -476,443 +1334,252 @@ function PackageCard({
   );
 }
 
-export default function StartupPackages() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+/* =========================================================
+   GLASS BLOCK PATTERN
+========================================================= */
 
-  const reduceMotion = useReducedMotion();
-  const sectionRef = useRef<HTMLElement | null>(null);
-
-  const isSectionInView = useInView(sectionRef, {
-    amount: 0.12,
-    margin: "0px 0px -8% 0px",
-  });
-
-  useEffect(() => {
-    if (
-      reduceMotion ||
-      !isSectionInView ||
-      isPaused
-    ) {
-      return;
-    }
-
-    const interval = window.setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % packages.length);
-    }, 5200);
-
-    return () => window.clearInterval(interval);
-  }, [reduceMotion, isSectionInView, isPaused]);
-
-  const nextSlide = () => {
-    setActiveIndex((prev) => (prev + 1) % packages.length);
-  };
-
-  const previousSlide = () => {
-    setActiveIndex(
-      (prev) => (prev - 1 + packages.length) % packages.length
-    );
-  };
-
+function PricingGlassBlocks() {
   return (
-    <section
-      ref={sectionRef}
-      className="
-        relative
-        overflow-hidden
-        bg-white
-        py-20
+    <>
+      {/* =====================================================
+          LEFT CLUSTER
+      ===================================================== */}
 
-        sm:py-24
-        md:py-28
-        lg:py-32
-        xl:py-36
-      "
-    >
       <div
+        aria-hidden="true"
         className="
-          relative
-          z-10
-          mx-auto
-          max-w-[1360px]
-          px-5
+          pointer-events-none
 
-          sm:px-8
-          md:px-20
-          lg:px-12
-          xl:px-16
-          2xl:px-20
+          absolute
+          bottom-0
+          left-0
+
+          hidden
+
+          h-[205px]
+          w-[270px]
+
+          md:block
+
+          xl:w-[300px]
         "
       >
-        {/* =====================================
-            SECTION HEADER
-        ====================================== */}
+        {/* outer tallest */}
 
-        <motion.div
-          initial={
-            reduceMotion
-              ? false
-              : {
-                  opacity: 0,
-                  y: 18,
-                }
-          }
-          whileInView={
-            reduceMotion
-              ? undefined
-              : {
-                  opacity: 1,
-                  y: 0,
-                }
-          }
-          viewport={{
-            once: false,
-            amount: 0.35,
-            margin: "0px 0px -8% 0px",
-          }}
-          transition={{
-            duration: reduceMotion ? 0 : 1.05,
-            ease: smoothEase,
-          }}
-          style={{
-            willChange: reduceMotion ? "auto" : "transform, opacity",
-          }}
+        <GlassBlock
           className="
-            mx-auto
-            mb-12
-            max-w-[720px]
-            text-center
+            -left-[18px]
+            bottom-0
 
-            sm:mb-14
-            lg:mb-16
+            h-[176px]
+            w-[108px]
+
+            rounded-tr-[26px]
           "
-        >
-          {/* LABEL */}
-          <div className="mb-4 flex items-center justify-center gap-2.5">
-            <span className="h-px w-8 bg-[#BFC8D1]" />
+        />
 
-            <span
-              className="
-                !text-[#6F7C88]
-                text-[10px]
-                font-bold
-                uppercase
-                tracking-[0.22em]
+        {/* middle */}
 
-                sm:text-[11px]
-              "
-            >
-              Startup Packages
-            </span>
-
-            <span className="h-px w-8 bg-[#BFC8D1]" />
-          </div>
-
-          {/* HEADING */}
-          <h2
-            className="
-              !text-[#17283A]
-              text-[25px]
-              font-semibold
-              leading-[1.18]
-              tracking-[-0.03em]
-
-              sm:text-[30px]
-              md:text-[34px]
-              lg:text-[38px]
-              xl:text-[40px]
-            "
-          >
-            Launch Your Business in Tamil Nadu.{" "}
-            <span className="!text-[#2C7F53]">
-              Pick Your Plan.
-            </span>
-          </h2>
-
-          {/* SUB HEADING */}
-          <p
-            className="
-              mx-auto
-              mt-5
-              max-w-[600px]
-              !text-[#7B8793]
-              text-[13px]
-              leading-6
-
-              sm:text-[13px]
-              md:text-[14px]
-            "
-          >
-            Pre-built bundles for the most common business setups in Chennai.
-            Affordable, expert-handled and delivered on time.
-          </p>
-        </motion.div>
-
-        {/* =====================================
-            DESKTOP CARDS
-        ====================================== */}
-
-        <div
+        <GlassBlock
           className="
-            hidden
-            grid-cols-3
-            items-stretch
-            gap-7
+            left-[65px]
+            bottom-0
 
-            lg:grid
-            xl:gap-8
-            2xl:gap-9
+            h-[145px]
+            w-[110px]
+
+            rounded-t-[25px]
           "
-        >
-          {packages.map((item, index) => (
-            <PackageCard
-              key={item.title}
-              item={item}
-              index={index}
-            />
-          ))}
-        </div>
+        />
 
-        {/* =====================================
-            MOBILE + TABLET SLIDER
-        ====================================== */}
+        {/* inside smaller */}
 
-        <div
-          className="lg:hidden mt-2"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => {
-            window.setTimeout(
-              () => setIsPaused(false),
-              700
-            );
-          }}
-        >
-          {/*
-            IMPORTANT:
-            pt-5 prevents badge cutting.
-            overflow-hidden starts below badge space.
-          */}
-          <div className="pt-3">
-            <div className="overflow-hidden">
-              <motion.div
-                className="flex"
-                animate={{
-                  x: `-${activeIndex * 100}%`,
-                }}
-                transition={{
-                  duration: reduceMotion ? 0 : 0.95,
-                  ease: smoothEase,
-                }}
-                drag={reduceMotion ? false : "x"}
-                dragConstraints={{
-                  left: 0,
-                  right: 0,
-                }}
-                dragElastic={0.04}
-                dragMomentum={false}
-                style={{
-                  willChange: reduceMotion ? "auto" : "transform",
-                }}
-                onDragEnd={(_, info) => {
-                  if (info.offset.x < -60) {
-                    nextSlide();
-                  }
-
-                  if (info.offset.x > 60) {
-                    previousSlide();
-                  }
-                }}
-              >
-                {packages.map((item, index) => (
-                  <div
-                    key={item.title}
-                    className="
-                      w-full
-                      min-w-full
-                      shrink-0
-                      px-1
-
-                      sm:px-5
-                    "
-                  >
-                    <div
-                      className="
-                        mx-auto
-                        max-w-[600px]
-                      "
-                    >
-                      <PackageCard
-                        item={item}
-                        index={index}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </motion.div>
-            </div>
-          </div>
-
-          {/* DOTS */}
-          <div className="mt-7 flex items-center justify-center gap-2.5">
-            {packages.map((item, index) => (
-              <button
-                key={item.title}
-                type="button"
-                aria-label={`Show ${item.title}`}
-                onClick={() => setActiveIndex(index)}
-                className="
-                  flex
-                  h-5
-                  items-center
-                  justify-center
-                "
-              >
-                <motion.span
-                  animate={{
-                    width: activeIndex === index ? 26 : 7,
-                  }}
-                  transition={{
-                    duration: reduceMotion ? 0 : 0.42,
-                    ease: smoothEase,
-                  }}
-                  className={`
-                    block
-                    h-[7px]
-                    rounded-full
-
-                    ${
-                      activeIndex === index
-                        ? "bg-[#278650]"
-                        : "bg-[#bbc8d3]"
-                    }
-                  `}
-                />
-              </button>
-            ))}
-          </div>
-
-          <p
-            className="
-              mt-1
-              text-center
-              !text-[#95a2ae]
-              text-[10px]
-              sm:text-[11px]
-            "
-          >
-            Swipe to explore packages
-          </p>
-        </div>
-
-        {/* =====================================
-            BOTTOM INFO
-        ====================================== */}
-
-        <motion.div
-          initial={
-            reduceMotion
-              ? false
-              : {
-                  opacity: 0,
-                  y: 12,
-                }
-          }
-          whileInView={
-            reduceMotion
-              ? undefined
-              : {
-                  opacity: 1,
-                  y: 0,
-                }
-          }
-          viewport={{ once: false, amount: 0.35, margin: "0px 0px -6% 0px" }}
-          transition={{
-            duration: reduceMotion ? 0 : 0.95,
-            ease: smoothEase,
-          }}
+        <GlassBlock
           className="
-            mx-auto
-            mt-8
-            flex
-            max-w-[980px]
-            flex-col
-            items-center
-            justify-center
-            gap-2
-            rounded-[16px]
-            border
-            border-[#E5E9ED]
-            bg-[#FAFBFC]
-            px-4
-            py-5
-            text-center
-            shadow-[0_10px_30px_rgba(20,45,70,0.045)]
-            backdrop-blur-sm
+            left-[145px]
+            bottom-0
 
-            sm:mt-14
-            md:flex-row
-            md:gap-2.5
-            lg:mt-16
+            h-[112px]
+            w-[110px]
+
+            rounded-t-[24px]
           "
-        >
-          <span
-            className="
-              !text-[#687a8b]
-              text-[12px]
-              leading-5
-
-              sm:text-[13px]
-            "
-          >
-            All packages include a dedicated expert, document support and
-            on-time delivery.
-          </span>
-
-          <span
-            className="
-              hidden
-              h-1
-              w-1
-              rounded-full
-              bg-[#a4b1bd]
-
-              md:block
-            "
-          />
-
-          <Link
-            href="/contact-us"
-            className="
-              group/footer
-              inline-flex
-              items-center
-              gap-1.5
-              !text-[#2780b8]
-              text-[12px]
-              font-semibold
-              transition-colors
-              duration-300
-
-              hover:!text-[#1d6b9c]
-
-              sm:text-[13px]
-            "
-          >
-            Custom plans available, talk to us directly
-
-            <ArrowRight
-              size={14}
-              className="
-                transition-transform
-                duration-300
-                group-hover/footer:translate-x-1
-              "
-            />
-          </Link>
-        </motion.div>
+        />
       </div>
-    </section>
+
+      {/* =====================================================
+          RIGHT CLUSTER
+      ===================================================== */}
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+
+          absolute
+          bottom-0
+          right-0
+
+          hidden
+
+          h-[205px]
+          w-[270px]
+
+          md:block
+
+          xl:w-[300px]
+        "
+      >
+        {/* outer tallest */}
+
+        <GlassBlock
+          className="
+            -right-[18px]
+            bottom-0
+
+            h-[176px]
+            w-[108px]
+
+            rounded-tl-[26px]
+          "
+        />
+
+        {/* middle */}
+
+        <GlassBlock
+          className="
+            right-[65px]
+            bottom-0
+
+            h-[145px]
+            w-[110px]
+
+            rounded-t-[25px]
+          "
+        />
+
+        {/* inside */}
+
+        <GlassBlock
+          className="
+            right-[145px]
+            bottom-0
+
+            h-[112px]
+            w-[110px]
+
+            rounded-t-[24px]
+          "
+        />
+      </div>
+    </>
+  );
+}
+
+/* =========================================================
+   SINGLE GLASS BLOCK
+========================================================= */
+
+function GlassBlock({
+  className,
+}: {
+  className: string;
+}) {
+  return (
+    <div
+      className={`
+        absolute
+
+        overflow-hidden
+
+        border
+        border-white/[0.08]
+
+        shadow-[inset_0_1px_0_rgba(255,255,255,.14)]
+
+        backdrop-blur-[4px]
+
+        ${className}
+      `}
+      style={{
+        background: `
+          linear-gradient(
+            180deg,
+            rgba(255,255,255,0.17) 0%,
+            rgba(188,218,255,0.12) 54%,
+            rgba(124,179,247,0.08) 100%
+          )
+        `,
+      }}
+    >
+      {/* top soft highlight */}
+
+      <div
+        className="
+          absolute
+          inset-x-0
+          top-0
+
+          h-[42%]
+
+          bg-gradient-to-b
+          from-white/[0.07]
+          to-transparent
+        "
+      />
+    </div>
+  );
+}
+
+/* =========================================================
+   MOBILE SLIDER BUTTON
+========================================================= */
+
+function SliderButton({
+  children,
+  label,
+  onClick,
+}: {
+  children: ReactNode;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <motion.button
+      type="button"
+      aria-label={label}
+      onClick={onClick}
+      whileTap={{
+        scale: 0.94,
+      }}
+      className="
+        flex
+        h-9
+        w-9
+
+        items-center
+        justify-center
+
+        rounded-full
+
+        border
+        border-[#D2DDEA]
+
+        bg-white
+
+        text-[#1768E7]
+
+        shadow-[0_8px_20px_-16px_rgba(25,63,115,.45)]
+
+        transition-all
+        duration-300
+
+        hover:border-[#1768E7]
+        hover:bg-[#1768E7]
+        hover:text-white
+      "
+    >
+      {children}
+    </motion.button>
   );
 }

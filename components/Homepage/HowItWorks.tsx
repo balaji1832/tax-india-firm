@@ -92,7 +92,7 @@ export default function HowItWorksCollisionFixedFinal() {
   });
 
   return (
-    <section ref={sectionRef} className="relative bg-[#FBFCFE] xl:h-[350vh]">
+    <section ref={sectionRef} className="relative mt-10 bg-[#FBFCFE] xl:h-[350vh]">
       {/* =========================================================
           DESKTOP PINNED TIMELINE
 
@@ -124,7 +124,7 @@ export default function HowItWorksCollisionFixedFinal() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.6 }}
               transition={{ duration: 0.6, delay: 0.04, ease: [0.22, 1, 0.36, 1] }}
-              className="mx-auto mt-2.5 max-w-[880px] font-heading text-[clamp(32px,2.55vw,48px)] font-bold leading-[1.02] tracking-[-0.045em] text-[#101B34]"
+              className="mx-auto mt-2.5 pt-5 max-w-[880px] font-heading text-[clamp(32px,2.55vw,48px)] font-bold leading-[1.02] tracking-[-0.045em] text-[#101B34]"
             >
               Start Your Business or File Your Taxes in{" "}
               <span className="bg-gradient-to-r from-[#0A72FF] via-[#2D8CFF] to-[#62C5FF] bg-clip-text text-transparent">
@@ -137,7 +137,7 @@ export default function HowItWorksCollisionFixedFinal() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.6 }}
               transition={{ duration: 0.52, delay: 0.1 }}
-              className="mx-auto mt-2.5 max-w-[690px] font-body text-[clamp(12px,0.78vw,14.5px)] leading-[1.55] text-[#65758A]"
+              className="mx-auto mt-2.5 pt-3 max-w-[690px] font-body text-[clamp(12px,0.78vw,14.5px)] leading-[1.55] text-[#65758A]"
             >
               No government portals, no paperwork confusion. Our CA team handles
               everything from document collection to final submission.
@@ -332,7 +332,7 @@ export default function HowItWorksCollisionFixedFinal() {
 
 function TimelineBackground() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+    <div className="pointer-events-none absolute  inset-0 overflow-hidden">
       <div
         className="absolute inset-0 opacity-[0.5]"
         style={{

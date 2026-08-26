@@ -5,12 +5,26 @@ import {
   motion,
   useInView,
   useReducedMotion,
+  type Variants,
 } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
 
-/* ======================================================
+import {
+  ArrowLeft,
+  ArrowRight,
+  ExternalLink,
+  Star,
+} from "lucide-react";
+
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+
+/* =========================================================
    TYPES
-====================================================== */
+========================================================= */
 
 type Review = {
   id: number;
@@ -18,11 +32,12 @@ type Review = {
   source: string;
   rating: number;
   text: string;
+  image: string;
 };
 
-/* ======================================================
-   REVIEW DATA
-====================================================== */
+/* =========================================================
+   REVIEWS
+========================================================= */
 
 const reviews: Review[] = [
   {
@@ -30,29 +45,78 @@ const reviews: Review[] = [
     name: "Anand Valli",
     source: "Google",
     rating: 5,
-    text: "Timely, professional and thorough. Tax India Firm handled our Pvt Ltd registration and GST filing without a single follow-up needed from our side. Completely reliable.",
+    text:
+      "Timely, professional and thorough. Tax India Firm handled our Pvt Ltd registration and GST filing without a single follow-up needed from our side. Completely reliable.",
+    image:
+      "https://images.latestaiprompts.com/blog/ai-image-prompts-for-profile-picture/professional-corporate-dp.webp",
   },
+
   {
     id: 2,
     name: "Shaik Liswood",
     source: "Google",
     rating: 5,
-    text: "Best consultants in Chennai. They completed the work on time. Good team work and excellent follow-through. Highly recommend for any company registration or GST work.",
+    text:
+      "Best consultants in Chennai. They completed the work on time. Good team work and excellent follow-through. Highly recommend for any company registration or GST work.",
+    image:
+      "https://distil.webcraftstudio.site/indian-male-entrepreneur-ceo-professional-headshot.jpg",
   },
+
   {
     id: 3,
     name: "Mavika Tech Malu",
     source: "Google",
     rating: 5,
-    text: "Excellent service from start to finish. Their team explained every step of our company compliance clearly. As a startup, having a CA firm that actually communicates makes all the difference.",
+    text:
+      "Excellent service from start to finish. Their team explained every step of our company compliance clearly. As a startup, having a CA firm that actually communicates makes all the difference.",
+    image:
+      "https://images.squarespace-cdn.com/content/v1/6932f22638bc0d25b7bee5ae/93f4d48a-62c3-4efa-a514-e8bfd49f35e0/SOC_1005.jpg?format=1000w",
   },
 ];
 
-/* ======================================================
-   GOOGLE ICON
-====================================================== */
+/* =========================================================
+   MOTION
+========================================================= */
 
-function GoogleIcon({ size = 20 }: { size?: number }) {
+const smoothEase = [0.16, 1, 0.3, 1] as const;
+
+const containerVariants: Variants = {
+  hidden: {},
+
+  show: {
+    transition: {
+      delayChildren: 0.05,
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const fadeUp: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 18,
+  },
+
+  show: {
+    opacity: 1,
+    y: 0,
+
+    transition: {
+      duration: 0.82,
+      ease: smoothEase,
+    },
+  },
+};
+
+/* =========================================================
+   GOOGLE ICON
+========================================================= */
+
+function GoogleIcon({
+  size = 18,
+}: {
+  size?: number;
+}) {
   return (
     <svg
       width={size}
@@ -84,925 +148,1563 @@ function GoogleIcon({ size = 20 }: { size?: number }) {
   );
 }
 
-/* ======================================================
-   STAR ICON
-====================================================== */
-
-function StarIcon() {
-  return (
-    <svg
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      className="h-[17px] w-[17px]"
-      aria-hidden="true"
-    >
-      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 0 0 .95.69h3.463c.969 0 1.371 1.24.588 1.81l-2.802 2.036a1 1 0 0 0-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.539 1.118l-2.802-2.036a1 1 0 0 0-1.175 0l-2.802 2.036c-.783.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 0 0-.364-1.118L2.973 8.72c-.783-.57-.38-1.81.588-1.81h3.463a1 1 0 0 0 .951-.69l1.074-3.292Z" />
-    </svg>
-  );
-}
-
-/* ======================================================
-   QUOTE ICON
-====================================================== */
-
-function QuoteIcon() {
-  return (
-    <svg
-      viewBox="0 0 42 32"
-      fill="none"
-      className="h-7 w-9 sm:h-8 sm:w-10"
-      aria-hidden="true"
-    >
-      <path
-        d="M0 32V20.6C0 13.5 1.8 8.3 5.4 5C8.1 2.5 11.6.9 15.9.2v6.1c-2.7.6-4.7 1.7-5.9 3.4-1.2 1.6-1.9 3.8-2 6.4h8V32H0Zm25.5 0V20.6c0-7.1 1.8-12.3 5.4-15.6 2.7-2.5 6.2-4.1 10.5-4.8v6.1c-2.7.6-4.7 1.7-5.9 3.4-1.2 1.6-1.9 3.8-2 6.4h8V32h-16Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
-/* ======================================================
-   ARROW ICON
-====================================================== */
-
-function ArrowIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className="h-4 w-4"
-      aria-hidden="true"
-    >
-      <path
-        d="M5 12h14M13 6l6 6-6 6"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-/* ======================================================
-   SLIDER ARROW
-====================================================== */
-
-function SliderArrow({
-  direction,
-  onClick,
-}: {
-  direction: "left" | "right";
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={
-        direction === "left"
-          ? "Previous testimonial"
-          : "Next testimonial"
-      }
-      className="
-        flex
-        h-10
-        w-10
-        items-center
-        justify-center
-        rounded-full
-        border
-        border-[#DDE3E8]
-        bg-white
-        text-[#2d8cff]
-        shadow-[0_6px_18px_rgba(17,24,39,0.06)]
-        transition-all
-        duration-300
-        hover:border-[#2d8cff]
-        hover:bg-[#2d8cff]
-        hover:text-white
-      "
-    >
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        className={`h-4 w-4 ${
-          direction === "left" ? "rotate-180" : ""
-        }`}
-      >
-        <path
-          d="M5 12h14M13 6l6 6-6 6"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </button>
-  );
-}
-
-/* ======================================================
-   REVIEW CARD
-
-   The props are explicitly typed here.
-   This fixes review.name / review.source / review.rating
-   TypeScript errors.
-====================================================== */
-
-function ReviewCard({ review }: { review: Review }) {
-  return (
-    <motion.article
-      whileHover={{
-        y: -6,
-      }}
-      transition={{
-        duration: 0.35,
-        ease: "easeOut",
-      }}
-      className="
-        group
-        relative
-        flex
-        h-full
-        min-h-[340px]
-        flex-col
-        overflow-hidden
-        rounded-[22px]
-        border
-        border-[#E1E5E9]
-        bg-white
-        p-6
-        shadow-[0_14px_38px_rgba(17,24,39,0.06)]
-        transition-shadow
-        duration-500
-
-        hover:shadow-[0_22px_50px_rgba(17,24,39,0.10)]
-
-        sm:min-h-[355px]
-        md:min-h-[375px]
-        lg:min-h-[365px]
-        sm:p-7
-
-        xl:p-8
-      "
-    >
-      {/* top hover line */}
-
-      <div
-        className="
-          absolute
-          left-0
-          top-0
-          h-[3px]
-          w-full
-          origin-left
-          scale-x-0
-          bg-gradient-to-r
-          from-[#2d8cff]
-          via-[#87BCFF]
-          to-[#2d8cff]
-          transition-transform
-          duration-500
-          group-hover:scale-x-100
-        "
-      />
-
-      {/* top */}
-
-      <div className="mb-6 flex items-start justify-between">
-        <div
-          className="
-            text-[#D4D9DE]
-            transition-colors
-            duration-300
-            group-hover:text-[#2d8cff]
-          "
-        >
-          <QuoteIcon />
-        </div>
-
-        <div
-          className="
-            flex
-            items-center
-            gap-2
-            rounded-full
-            border
-            border-[#E2E6EA]
-            bg-[#F7F8F9]
-            px-3
-            py-1.5
-          "
-        >
-          <GoogleIcon size={18} />
-
-          <span className="text-[11px] font-medium text-[#626B74]">
-            {review.source}
-          </span>
-        </div>
-      </div>
-
-      {/* review text */}
-
-      <blockquote className="flex flex-1">
-        <p
-          className="
-            text-[14px]
-            italic
-            leading-[1.85]
-            text-[#555F69]
-
-            sm:text-[14px]
-            sm:leading-[1.9]
-
-            xl:text-base
-          "
-        >
-          “{review.text}”
-        </p>
-      </blockquote>
-
-      {/* line */}
-
-      <div className="my-6 h-px w-full bg-[#E5E8EB]" />
-
-      {/* reviewer */}
-
-      <div
-        className="
-          flex
-          flex-col
-          gap-3
-
-          sm:flex-row
-          sm:items-end
-          sm:justify-between
-        "
-      >
-        <div>
-          <h3
-            className="
-              text-[15px]
-              font-semibold
-              tracking-[-0.01em]
-              text-[#1B2633]
-
-              sm:text-base
-            "
-          >
-            {review.name}
-          </h3>
-
-          <div className="mt-1.5 flex items-center gap-2">
-            <span className="text-xs text-[#8A939C]">
-              {review.source}
-            </span>
-
-            <span className="h-1 w-1 rounded-full bg-[#C8CDD2]" />
-
-            <span className="text-xs font-medium text-[#2d8cff]">
-              {review.rating}/5
-            </span>
-          </div>
-        </div>
-
-        {/* stars */}
-
-        <div
-          className="flex items-center gap-[2px] text-[#F7B928]"
-          aria-label={`${review.rating} out of 5 stars`}
-        >
-          {Array.from({ length: review.rating }).map((_, index) => (
-            <StarIcon key={index} />
-          ))}
-        </div>
-      </div>
-    </motion.article>
-  );
-}
-
-/* ======================================================
+/* =========================================================
    MAIN COMPONENT
-====================================================== */
+========================================================= */
 
 export default function ClientTestimonials() {
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const sectionRef = useRef<HTMLElement | null>(null);
-  const isSectionInView = useInView(sectionRef, {
-    amount: 0.18,
-    margin: "0px 0px -8% 0px",
-  });
 
   const reduceMotion = useReducedMotion();
 
-  /* ====================================================
-     AUTO SLIDER
+  const isInView = useInView(sectionRef, {
+    amount: 0.14,
+    margin: "0px 0px -7% 0px",
+  });
 
-     Important:
-     - does not run while this section is off-screen
-     - does not run while user is interacting
-     - avoids changing the active card before the user
-       actually reaches this section
-  ==================================================== */
+  /* =======================================================
+     AUTO SLIDER
+  ======================================================= */
 
   useEffect(() => {
-    if (!isSectionInView || isPaused) return;
+    if (
+      reduceMotion ||
+      !isInView ||
+      isPaused
+    ) {
+      return;
+    }
 
-    const interval = window.setInterval(() => {
-      setActiveIndex((previous) => (previous + 1) % reviews.length);
-    }, 5000);
+    const timer = window.setInterval(() => {
+      setActiveIndex(
+        (current) =>
+          (current + 1) % reviews.length,
+      );
+    }, 5400);
 
-    return () => window.clearInterval(interval);
-  }, [isSectionInView, isPaused]);
+    return () =>
+      window.clearInterval(timer);
+  }, [
+    reduceMotion,
+    isInView,
+    isPaused,
+  ]);
 
-  /* ====================================================
-     PREVIOUS
-  ==================================================== */
+  /* =======================================================
+     NAVIGATION
+  ======================================================= */
 
-  const previousSlide = () => {
-    setActiveIndex((previous) =>
-      previous === 0 ? reviews.length - 1 : previous - 1
+  const previous = () => {
+    setActiveIndex((current) =>
+      current === 0
+        ? reviews.length - 1
+        : current - 1,
     );
   };
 
-  /* ====================================================
-     NEXT
-  ==================================================== */
-
-  const nextSlide = () => {
-    setActiveIndex((previous) => (previous + 1) % reviews.length);
+  const next = () => {
+    setActiveIndex(
+      (current) =>
+        (current + 1) % reviews.length,
+    );
   };
 
-  /* ====================================================
-     TABLET TWO CARDS
+  const selectReview = (
+    id: number,
+  ) => {
+    const index = reviews.findIndex(
+      (review) =>
+        review.id === id,
+    );
 
-     Example:
-     active 0 -> 0 + 1
-     active 1 -> 1 + 2
-     active 2 -> 2 + 0
-  ==================================================== */
+    if (index >= 0) {
+      setActiveIndex(index);
+    }
+  };
 
-  const tabletReviews: Review[] = [
-    reviews[activeIndex],
-    reviews[(activeIndex + 1) % reviews.length],
-  ];
+  /* =======================================================
+     PORTRAIT ORDER
+  ======================================================= */
+
+  const portraitOrder = useMemo(() => {
+    const previousIndex =
+      activeIndex === 0
+        ? reviews.length - 1
+        : activeIndex - 1;
+
+    const nextIndex =
+      (activeIndex + 1) %
+      reviews.length;
+
+    return [
+      reviews[previousIndex],
+      reviews[activeIndex],
+      reviews[nextIndex],
+    ];
+  }, [activeIndex]);
+
+  const activeReview =
+    reviews[activeIndex];
 
   return (
     <section
       ref={sectionRef}
       className="
         relative
+        isolate
+        w-full
         overflow-hidden
-        bg-white
-        py-20
 
-        sm:py-24
-        md:py-28
-        lg:py-32
-        xl:py-36
+        bg-[#FBFCFF]
+
+        py-8
+
+        
       "
     >
-      {/* =================================================
-          SUBTLE BLACK BOXED PATTERN — WHITE BASE
-      ================================================== */}
+      {/* =====================================================
+          BACKGROUND
+      ===================================================== */}
 
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[4%] top-[8%] h-[150px] w-[34%] rounded-[28px] border border-black/[0.035] bg-black/[0.018]" />
-        <div className="absolute right-[3%] top-[18%] h-[220px] w-[28%] rounded-[30px] border border-black/[0.04] bg-black/[0.022]" />
-        <div className="absolute left-[10%] top-[47%] h-[180px] w-[26%] rounded-[28px] border border-black/[0.03] bg-black/[0.014]" />
-        <div className="absolute right-[10%] bottom-[7%] h-[150px] w-[40%] rounded-[28px] border border-black/[0.035] bg-black/[0.018]" />
-        <div className="absolute left-1/2 top-[38%] h-[420px] w-[72%] -translate-x-1/2 rounded-[44px] bg-black/[0.012] blur-[1px]" />
-      </div>
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+
+          bg-gradient-to-b
+          from-white
+          via-[#FBFCFF]
+          to-[#F5F8FF]
+        "
+      />
+
+      {/* soft center glow */}
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+
+          absolute
+          left-1/2
+          top-[35%]
+
+          h-[300px]
+          w-[760px]
+
+          -translate-x-1/2
+          -translate-y-1/2
+
+          rounded-full
+
+          bg-[#4B86F7]/[0.045]
+
+          blur-[105px]
+        "
+      />
+
+      {/* =====================================================
+          WAVE BACKGROUND
+      ===================================================== */}
+
+      <WaveBackground
+        reduceMotion={
+          !!reduceMotion
+        }
+      />
+
+      {/* =====================================================
+          CONTENT
+      ===================================================== */}
+
+      <motion.div
+        variants={
+          reduceMotion
+            ? undefined
+            : containerVariants
+        }
+        initial={
+          reduceMotion
+            ? false
+            : "hidden"
+        }
+        whileInView={
+          reduceMotion
+            ? undefined
+            : "show"
+        }
+        viewport={{
+          once: true,
+          amount: 0.12,
+        }}
+        className="
+          relative
+          z-10
+
+          mx-auto
+          w-full
+          max-w-[1320px]
+
+          px-4
+
+          sm:px-6
+          md:px-8
+          lg:px-10
+        "
+      >
+        {/* =====================================================
+            HEADER
+        ===================================================== */}
+
+        <div
+          className="
+            mx-auto
+            max-w-[720px]
+
+            text-center
+          "
+        >
+          <motion.div
+            variants={fadeUp}
+            className="
+              inline-flex
+              items-center
+              gap-2
+
+              rounded-full
+
+              border
+              border-[#3478F6]/15
+
+              bg-[#F5F8FF]
+
+              px-3
+              py-1.5
+            "
+          >
+            <span
+              className="
+                h-[6px]
+                w-[6px]
+
+                rounded-full
+
+                bg-[#3478F6]
+              "
+            />
+
+            <span
+              className="
+                text-[9px]
+                font-bold
+                uppercase
+
+                tracking-[0.17em]
+
+                text-[#3478F6]
+
+                sm:text-[10px]
+              "
+            >
+              Client Reviews
+            </span>
+          </motion.div>
+
+          <motion.h2
+            variants={fadeUp}
+            className="
+              mt-4
+
+              text-[28px]
+              font-semibold
+
+              leading-[1.08]
+              tracking-[-0.045em]
+
+              text-[#14243C]
+
+              sm:text-[34px]
+              md:text-[39px]
+              lg:text-[42px]
+            "
+          >
+            Honest Feedback From{" "}
+
+            <span className="text-[#3478F6]">
+              Valued Clients.
+            </span>
+          </motion.h2>
+
+          <motion.p
+            variants={fadeUp}
+            className="
+              mx-auto
+              mt-3
+
+              max-w-[570px]
+
+              text-[12px]
+              leading-[1.6]
+
+              text-[#6A7890]
+
+              sm:text-[13px]
+            "
+          >
+            Real Google reviews from
+            businesses we&apos;ve helped
+            register, file and stay
+            compliant across Tamil Nadu.
+          </motion.p>
+        </div>
+
+        {/* =====================================================
+            TESTIMONIAL
+        ===================================================== */}
+
+        <motion.div
+          variants={fadeUp}
+          onMouseEnter={() =>
+            setIsPaused(true)
+          }
+          onMouseLeave={() =>
+            setIsPaused(false)
+          }
+          onTouchStart={() =>
+            setIsPaused(true)
+          }
+          onTouchEnd={() => {
+            window.setTimeout(
+              () =>
+                setIsPaused(false),
+              800,
+            );
+          }}
+          className="
+            mx-auto
+            mt-8
+
+            w-full
+            max-w-[1120px]
+
+            sm:mt-9
+            lg:mt-10
+          "
+        >
+          {/* =================================================
+              MOBILE PORTRAITS
+          ================================================= */}
+
+          <div
+            className="
+              mb-4
+
+              flex
+              justify-center
+
+              md:hidden
+            "
+          >
+            <div
+              className="
+                flex
+                h-[102px]
+
+                w-full
+                max-w-[320px]
+
+                items-center
+                justify-center
+
+                gap-3.5
+              "
+            >
+              {portraitOrder.map(
+                (
+                  review,
+                  position,
+                ) => (
+                  <Portrait
+                    key={
+                      review.id
+                    }
+                    review={
+                      review
+                    }
+                    active={
+                      position === 1
+                    }
+                    mobile
+                    reduceMotion={
+                      !!reduceMotion
+                    }
+                    onClick={() =>
+                      selectReview(
+                        review.id,
+                      )
+                    }
+                  />
+                ),
+              )}
+            </div>
+          </div>
+
+          {/* =================================================
+              MAIN CARD
+          ================================================= */}
+
+          <div
+            className="
+              relative
+
+              overflow-hidden
+
+              rounded-[24px]
+
+              border
+              border-[#D6E1F3]
+
+              bg-white
+
+              shadow-[0_26px_62px_-42px_rgba(32,61,111,.30)]
+
+              sm:rounded-[28px]
+
+              lg:rounded-[30px]
+            "
+          >
+            {/* soft card background */}
+
+            <div
+              aria-hidden="true"
+              className="
+                pointer-events-none
+                absolute
+                inset-0
+              "
+              style={{
+                background: `
+                  linear-gradient(
+                    125deg,
+                    #FFFFFF 0%,
+                    #FCFDFF 52%,
+                    #F3F7FF 100%
+                  )
+                `,
+              }}
+            />
+
+            {/* soft glow */}
+
+            <div
+              aria-hidden="true"
+              className="
+                pointer-events-none
+
+                absolute
+                -right-[100px]
+                -top-[100px]
+
+                h-[250px]
+                w-[250px]
+
+                rounded-full
+
+                bg-[#3478F6]/[0.05]
+
+                blur-[70px]
+              "
+            />
+
+            {/* quote watermark */}
+
+            <div
+              aria-hidden="true"
+              className="
+                pointer-events-none
+
+                absolute
+                right-5
+                top-[-28px]
+
+                font-serif
+                text-[120px]
+
+                leading-none
+
+                text-[#3478F6]/[0.03]
+
+                sm:text-[145px]
+              "
+            >
+              ”
+            </div>
+
+            {/* =================================================
+                MOBILE
+            ================================================= */}
+
+            <div
+              className="
+                relative
+                z-10
+
+                block
+
+                px-5
+                py-5
+
+                sm:px-6
+                sm:py-6
+
+                md:hidden
+              "
+            >
+              <ReviewContent
+                review={
+                  activeReview
+                }
+                activeIndex={
+                  activeIndex
+                }
+                reduceMotion={
+                  !!reduceMotion
+                }
+              />
+            </div>
+
+            {/* =================================================
+                DESKTOP
+            ================================================= */}
+
+            <div
+              className="
+                relative
+                z-10
+
+                hidden
+
+                grid-cols-[125px_minmax(0,1fr)]
+
+                items-center
+
+                gap-7
+
+                px-7
+                py-6
+
+                md:grid
+
+                lg:grid-cols-[145px_minmax(0,1fr)]
+                lg:gap-9
+                lg:px-9
+                lg:py-7
+
+                xl:grid-cols-[155px_minmax(0,1fr)]
+                xl:px-10
+              "
+            >
+              {/* ===========================================
+                  PORTRAITS
+              =========================================== */}
+
+              <div
+                className="
+                  flex
+                  items-center
+                  justify-center
+                "
+              >
+                <div
+                  className="
+                    flex
+                    flex-col
+
+                    items-center
+                    justify-center
+
+                    gap-3
+                  "
+                >
+                  {portraitOrder.map(
+                    (
+                      review,
+                      position,
+                    ) => (
+                      <Portrait
+                        key={
+                          review.id
+                        }
+                        review={
+                          review
+                        }
+                        active={
+                          position === 1
+                        }
+                        reduceMotion={
+                          !!reduceMotion
+                        }
+                        onClick={() =>
+                          selectReview(
+                            review.id,
+                          )
+                        }
+                      />
+                    ),
+                  )}
+                </div>
+              </div>
+
+              {/* review */}
+
+              <div className="min-w-0">
+                <ReviewContent
+                  review={
+                    activeReview
+                  }
+                  activeIndex={
+                    activeIndex
+                  }
+                  reduceMotion={
+                    !!reduceMotion
+                  }
+                />
+              </div>
+            </div>
+
+            {/* =================================================
+                PROGRESS
+            ================================================= */}
+
+            <div
+              className="
+                absolute
+                bottom-0
+                left-0
+                right-0
+
+                h-[3px]
+
+                bg-[#E4EAF4]
+              "
+            >
+              {!reduceMotion &&
+                !isPaused &&
+                isInView && (
+                  <motion.div
+                    key={`progress-${activeIndex}`}
+                    initial={{
+                      width: "0%",
+                    }}
+                    animate={{
+                      width: "100%",
+                    }}
+                    transition={{
+                      duration: 5.4,
+                      ease: "linear",
+                    }}
+                    className="
+                      h-full
+
+                      bg-gradient-to-r
+                      from-[#9BB8F6]
+                      via-[#6694F4]
+                      to-[#3478F6]
+                    "
+                  />
+                )}
+            </div>
+          </div>
+
+          {/* =================================================
+              CONTROLS
+          ================================================= */}
+
+          <div
+            className="
+              mt-4
+
+              flex
+              flex-col
+
+              gap-3
+
+              sm:flex-row
+              sm:items-center
+              sm:justify-between
+            "
+          >
+            <div
+              className="
+                flex
+                justify-center
+
+                gap-2
+
+                sm:justify-start
+              "
+            >
+              <ControlButton
+                label="Previous review"
+                onClick={previous}
+              >
+                <ArrowLeft
+                  size={15}
+                />
+              </ControlButton>
+
+              <ControlButton
+                label="Next review"
+                onClick={next}
+              >
+                <ArrowRight
+                  size={15}
+                />
+              </ControlButton>
+            </div>
+
+            <a
+              href="https://g.page/taxindiafirm/review"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+                group
+
+                inline-flex
+                min-h-[40px]
+
+                w-full
+
+                items-center
+                justify-center
+
+                gap-2
+
+                rounded-full
+
+                border
+                border-[#D6DFED]
+
+                bg-white
+
+                px-4
+                py-2
+
+                text-[10.5px]
+                font-semibold
+
+                text-[#465875]
+
+                shadow-[0_8px_20px_-18px_rgba(40,71,124,.3)]
+
+                transition-all
+                duration-300
+
+                hover:-translate-y-[2px]
+                hover:border-[#3478F6]/40
+                hover:text-[#3478F6]
+
+                sm:w-auto
+              "
+            >
+              <GoogleIcon
+                size={15}
+              />
+
+              Read Google Reviews
+
+              <ExternalLink
+                size={11}
+                className="
+                  transition-transform
+                  duration-300
+
+                  group-hover:translate-x-[1px]
+                  group-hover:-translate-y-[1px]
+                "
+              />
+            </a>
+          </div>
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* =========================================================
+   REVIEW CONTENT
+========================================================= */
+
+function ReviewContent({
+  review,
+  activeIndex,
+  reduceMotion,
+}: {
+  review: Review;
+  activeIndex: number;
+  reduceMotion: boolean;
+}) {
+  return (
+    <div
+      className="
+        w-full
+        min-w-0
+      "
+    >
+      {/* =====================================================
+          META
+      ===================================================== */}
 
       <div
         className="
-          relative
-          mx-auto
-          max-w-[1380px]
-          px-5
+          flex
+          flex-wrap
 
-          sm:px-8
-          md:px-10
-          lg:px-14
-          xl:px-16
-          2xl:px-20
+          items-center
+          justify-between
+
+          gap-3
         "
       >
-        {/* =================================================
-            TITLE
-        ================================================== */}
+        <div
+          className="
+            inline-flex
+            items-center
 
+            gap-2
+
+            rounded-full
+
+            border
+            border-[#D7DFED]
+
+            bg-white
+
+            px-2.5
+            py-1.5
+          "
+        >
+          <GoogleIcon
+            size={15}
+          />
+
+          <span
+            className="
+              text-[9px]
+              font-semibold
+
+              text-[#596980]
+
+              sm:text-[9.5px]
+            "
+          >
+            Google Review
+          </span>
+        </div>
+
+        <span
+          className="
+            text-[8.5px]
+            font-semibold
+
+            tracking-[0.1em]
+
+            text-[#8A97AA]
+          "
+        >
+          {String(
+            activeIndex + 1,
+          ).padStart(2, "0")}
+
+          <span
+            className="
+              mx-1.5
+              text-[#B5BECF]
+            "
+          >
+            /
+          </span>
+
+          {String(
+            reviews.length,
+          ).padStart(2, "0")}
+        </span>
+      </div>
+
+      {/* =====================================================
+          ONE RATING ONLY
+      ===================================================== */}
+
+      <div
+        className="
+          mt-3
+
+          flex
+          items-center
+
+          gap-2
+        "
+      >
+        <div
+          className="
+            inline-flex
+            items-center
+
+            gap-[2px]
+
+            rounded-full
+
+            border
+            border-[#F0DDA8]
+
+            bg-[#FFF9EB]
+
+            px-2.5
+            py-1.5
+          "
+        >
+          {Array.from({
+            length:
+              review.rating,
+          }).map(
+            (_, index) => (
+              <Star
+                key={index}
+                size={14}
+                strokeWidth={1.35}
+                fill="#F2CB72"
+                className="
+                  text-[#D9A83F]
+                "
+              />
+            ),
+          )}
+        </div>
+
+        <span
+          className="
+            text-[10px]
+            font-semibold
+
+            text-[#53627B]
+          "
+        >
+          {review.rating}.0 / 5
+        </span>
+      </div>
+
+      {/* =====================================================
+          CHANGING CONTENT
+      ===================================================== */}
+
+      <AnimatePresence
+        mode="wait"
+        initial={false}
+      >
         <motion.div
+          key={review.id}
           initial={
             reduceMotion
               ? false
               : {
                   opacity: 0,
-                  y: 18,
-                  scale: 0.985,
+                  y: 15,
                 }
           }
-          whileInView={{
+          animate={{
             opacity: 1,
             y: 0,
-            scale: 1,
           }}
-          viewport={{
-            once: true,
-            amount: 0.42,
-          }}
+          exit={
+            reduceMotion
+              ? undefined
+              : {
+                  opacity: 0,
+                  y: -10,
+                }
+          }
           transition={{
-            duration: reduceMotion ? 0 : 1.0,
-            ease: [0.16, 1, 0.3, 1],
+            duration:
+              reduceMotion
+                ? 0
+                : 0.62,
+
+            ease: smoothEase,
           }}
-          className="
-            mx-auto
-            mb-12
-            max-w-[760px]
-            text-center
-
-            sm:mb-14
-            lg:mb-16
-          "
         >
-          {/* label */}
+          {/* =================================================
+              QUOTE
+          ================================================= */}
 
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{
-              duration: reduceMotion ? 0 : 0.95,
-              delay: reduceMotion ? 0 : 0.08,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-            className="mb-4 flex items-center justify-center gap-3"
+          <blockquote
+            className="
+              mt-4
+
+              max-w-[800px]
+            "
           >
-            <span className="h-px w-7 bg-[#2d8cff]" />
-
-            <span
+            <p
               className="
-                text-[10px]
-                font-semibold
-                uppercase
-                tracking-[0.25em]
-                text-[#2d8cff]
+                break-words
 
-                sm:text-xs
+                text-[15px]
+                font-medium
+
+                leading-[1.48]
+                tracking-[-0.022em]
+
+                text-[#29384F]
+
+                sm:text-[16px]
+
+                md:text-[17px]
+
+                lg:text-[19px]
+                lg:leading-[1.46]
+
+                xl:text-[20px]
               "
             >
-              Client Reviews
-            </span>
+              “{review.text}”
+            </p>
+          </blockquote>
 
-            <span className="h-px w-7 bg-[#2d8cff]" />
-          </motion.div>
-
-          {/* heading */}
-
-          <motion.h2
-            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.45 }}
-            transition={{
-              duration: reduceMotion ? 0 : 1.15,
-              delay: reduceMotion ? 0 : 0.16,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-            className="
-              text-[25px]
-              font-semibold
-              leading-[1.18]
-              tracking-[-0.03em]
-              text-[#172536]
-
-              sm:text-[30px]
-              md:text-[34px]
-              lg:text-[38px]
-              xl:text-[40px]
-            "
-          >
-            What Business Owners in{" "}
-            <span className="relative inline-block text-[#2d8cff]">
-              Chennai
-              <motion.span
-                initial={reduceMotion ? false : { scaleX: 0, opacity: 0 }}
-                whileInView={{ scaleX: 1, opacity: 1 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{
-                  duration: reduceMotion ? 0 : 1.0,
-                  delay: reduceMotion ? 0 : 0.55,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                style={{ transformOrigin: "left center" }}
-                className="
-                  absolute
-                  -bottom-[2px]
-                  left-0
-                  -z-[1]
-                  h-[7px]
-                  w-full
-                  rounded-full
-                  bg-[#2d8cff]/15
-                "
-              />
-            </span>{" "}
-            Say About Us.
-          </motion.h2>
-
-          {/* sub heading */}
-
-          <motion.p
-            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.45 }}
-            transition={{
-              duration: reduceMotion ? 0 : 1.05,
-              delay: reduceMotion ? 0 : 0.32,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-            className="
-              mx-auto
-              mt-5
-              max-w-[640px]
-              text-[13px]
-              leading-6
-              text-[#727E8A]
-
-              sm:text-[15px]
-              sm:leading-7
-
-              lg:text-[14px]
-              lg:leading-8
-            "
-          >
-            Real Google reviews from real clients, businesses we've helped
-            register, file and stay compliant across Tamil Nadu.
-          </motion.p>
-        </motion.div>
-
-        {/* =================================================
-            MOBILE SLIDER
-            less than 768px
-        ================================================== */}
-
-        <div
-          className="md:hidden"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => {
-            window.setTimeout(() => setIsPaused(false), 900);
-          }}
-        >
-          <div className="overflow-hidden">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={`mobile-${activeIndex}`}
-                initial={
-                  reduceMotion
-                    ? false
-                    : {
-                        opacity: 0,
-                        x: 28,
-                      }
-                }
-                animate={{
-                  opacity: 1,
-                  x: 0,
-                }}
-                exit={
-                  reduceMotion
-                    ? undefined
-                    : {
-                        opacity: 0,
-                        x: -28,
-                      }
-                }
-                transition={{
-                  duration: reduceMotion ? 0 : 0.42,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="min-h-[370px] sm:min-h-[390px]"
-              >
-                <ReviewCard review={reviews[activeIndex]} />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* mobile controls */}
-
-          <SliderControls
-            activeIndex={activeIndex}
-            previousSlide={previousSlide}
-            nextSlide={nextSlide}
-            setActiveIndex={setActiveIndex}
-          />
-        </div>
-
-        {/* =================================================
-            TABLET SLIDER
-            768px -> 1023px
-        ================================================== */}
-
-        <div
-          className="hidden md:block lg:hidden"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          <div className="overflow-hidden">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={`tablet-${activeIndex}`}
-                initial={
-                  reduceMotion
-                    ? false
-                    : {
-                        opacity: 0,
-                        x: 32,
-                      }
-                }
-                animate={{
-                  opacity: 1,
-                  x: 0,
-                }}
-                exit={
-                  reduceMotion
-                    ? undefined
-                    : {
-                        opacity: 0,
-                        x: -32,
-                      }
-                }
-                transition={{
-                  duration: reduceMotion ? 0 : 0.45,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="grid min-h-[375px] grid-cols-2 gap-7"
-              >
-                {tabletReviews.map((review, index) => (
-                  <ReviewCard
-                    key={`${review.id}-${activeIndex}-${index}`}
-                    review={review}
-                  />
-                ))}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <SliderControls
-            activeIndex={activeIndex}
-            previousSlide={previousSlide}
-            nextSlide={nextSlide}
-            setActiveIndex={setActiveIndex}
-          />
-        </div>
-
-        {/* =================================================
-            DESKTOP GRID
-            1024px +
-        ================================================== */}
-
-        <div
-          className="
-            hidden
-            grid-cols-3
-            gap-7
-
-            lg:grid
-
-            xl:gap-8
-            2xl:gap-9
-          "
-        >
-          {reviews.map((review) => (
-            <div key={review.id} className="h-full">
-              <ReviewCard review={review} />
-            </div>
-          ))}
-        </div>
-
-        {/* =================================================
-            BOTTOM CTA
-        ================================================== */}
-
-        <div
-          className="
-            mt-16
-            flex
-            flex-col
-            items-center
-            gap-6
-            rounded-[22px]
-            border
-            border-black/[0.07]
-            bg-[#F1F2F3]
-            px-5
-            py-6
-            backdrop-blur-sm
-
-            sm:px-7
-
-            md:flex-row
-            md:justify-between
-
-            lg:mt-18
-            lg:px-9
-          "
-        >
-          {/* left */}
+          {/* =================================================
+              REVIEWER
+          ================================================= */}
 
           <div
             className="
-              flex
-              items-center
-              gap-4
-              text-center
+              mt-4
 
-              md:text-left
+              border-t
+              border-[#E0E6EF]
+
+              pt-3.5
             "
           >
+            <p
+              className="
+                text-[11.5px]
+                font-semibold
+
+                text-[#263850]
+
+                sm:text-[12px]
+              "
+            >
+              {review.name}
+            </p>
+
             <div
               className="
-                hidden
-                h-12
-                w-12
-                shrink-0
-                items-center
-                justify-center
-                rounded-full
-                bg-white
-                shadow-[0_6px_20px_rgba(17,24,39,0.08)]
+                mt-1
 
-                sm:flex
+                flex
+                flex-wrap
+                items-center
+
+                gap-2
+
+                text-[8.5px]
+
+                text-[#7A8799]
               "
             >
-              <GoogleIcon size={22} />
-            </div>
+              <span>
+                {review.source}
+              </span>
 
-            <div>
-              <p className="text-sm font-semibold text-[#1D2732] sm:text-[15px]">
-                Trusted by businesses across Chennai
-              </p>
-
-              <p
+              <span
                 className="
-                  mt-1
-                  text-xs
-                  leading-5
-                  text-[#6E7882]
+                  h-1
+                  w-1
 
-                  sm:text-sm
+                  rounded-full
+
+                  bg-[#A4AFBF]
+                "
+              />
+
+              <span
+                className="
+                  font-semibold
+
+                  text-[#3478F6]
                 "
               >
-                Discover more experiences directly on our Google Business
-                Profile.
-              </p>
+                Verified feedback
+              </span>
             </div>
           </div>
-
-          {/* only this CTA opens new tab */}
-
-          <a
-            href="https://g.page/taxindiafirm/review"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-              group
-              inline-flex
-              w-full
-              shrink-0
-              items-center
-              justify-center
-              gap-2.5
-              rounded-full
-              bg-[#2d8cff]
-              px-6
-              py-3.5
-              text-[13px]
-              font-medium
-              text-white
-              shadow-[0_10px_28px_rgba(45,140,255,0.22)]
-              transition-all
-              duration-300
-
-              hover:-translate-y-[2px]
-              hover:bg-[#247FE8]
-              hover:shadow-[0_14px_34px_rgba(45,140,255,0.28)]
-
-              sm:w-auto
-              sm:text-sm
-            "
-          >
-            Read All Google Reviews
-            <span
-              className="
-                transition-transform
-                duration-300
-                group-hover:translate-x-1
-              "
-            >
-              <ArrowIcon />
-            </span>
-          </a>
-        </div>
-      </div>
-    </section>
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 }
 
-/* ======================================================
-   SLIDER CONTROLS
-====================================================== */
+/* =========================================================
+   PORTRAIT
+========================================================= */
 
-type SliderControlsProps = {
-  activeIndex: number;
-  previousSlide: () => void;
-  nextSlide: () => void;
-  setActiveIndex: (index: number) => void;
-};
-
-function SliderControls({
-  activeIndex,
-  previousSlide,
-  nextSlide,
-  setActiveIndex,
-}: SliderControlsProps) {
+function Portrait({
+  review,
+  active,
+  mobile = false,
+  reduceMotion,
+  onClick,
+}: {
+  review: Review;
+  active: boolean;
+  mobile?: boolean;
+  reduceMotion: boolean;
+  onClick: () => void;
+}) {
   return (
-    <div
+    <motion.button
+      layout
+      type="button"
+      onClick={onClick}
+      aria-label={`Show review from ${review.name}`}
+      animate={{
+        opacity:
+          active
+            ? 1
+            : 0.56,
+
+        scale:
+          active
+            ? 1
+            : 0.91,
+      }}
+      whileHover={
+        reduceMotion
+          ? undefined
+          : {
+              scale:
+                active
+                  ? 1.035
+                  : 0.95,
+            }
+      }
+      transition={{
+        layout: {
+          duration:
+            reduceMotion
+              ? 0
+              : 0.62,
+
+          ease: smoothEase,
+        },
+
+        duration:
+          reduceMotion
+            ? 0
+            : 0.3,
+      }}
       className="
-        mt-6
-        flex
-        items-center
-        justify-between
+        relative
+        shrink-0
+
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-[#3478F6]
+        focus-visible:ring-offset-2
       "
     >
-      {/* arrows */}
+      {active && (
+        <motion.span
+          layoutId={
+            mobile
+              ? "active-mobile-review"
+              : "active-desktop-review"
+          }
+          transition={{
+            duration: 0.5,
+            ease: smoothEase,
+          }}
+          className="
+            absolute
+            -inset-[4px]
 
-      <div className="flex items-center gap-2">
-        <SliderArrow direction="left" onClick={previousSlide} />
+            rounded-[19px]
 
-        <SliderArrow direction="right" onClick={nextSlide} />
-      </div>
+            border-[2px]
+            border-[#3478F6]
 
-      {/* dots */}
+            shadow-[0_11px_28px_-14px_rgba(52,120,246,.48)]
 
-      <div className="flex items-center gap-2">
-        {reviews.map((review, index) => (
-          <button
-            key={review.id}
-            type="button"
-            onClick={() => setActiveIndex(index)}
-            aria-label={`Go to testimonial ${index + 1}`}
-            className="
-              relative
-              flex
-              h-4
-              items-center
-              justify-center
-            "
-          >
-            <motion.span
-              animate={{
-                width: activeIndex === index ? 28 : 7,
-              }}
-              transition={{
-                duration: 0.35,
-              }}
-              className={`
-                block
-                h-[7px]
-                rounded-full
-                ${
-                  activeIndex === index
-                    ? "bg-[#2d8cff]"
-                    : "bg-[#D7E7FA]"
-                }
-              `}
-            />
-          </button>
-        ))}
-      </div>
-
-      {/* Google indicator */}
+            sm:rounded-[21px]
+          "
+        />
+      )}
 
       <div
+        className={`
+          relative
+
+          overflow-hidden
+
+          bg-[#DEE4ED]
+
+          transition-all
+          duration-500
+
+          ${
+            mobile
+              ? active
+                ? `
+                    h-[86px]
+                    w-[70px]
+
+                    rounded-[17px]
+
+                    sm:h-[94px]
+                    sm:w-[76px]
+                  `
+                : `
+                    h-[58px]
+                    w-[49px]
+
+                    rounded-[14px]
+
+                    sm:h-[64px]
+                    sm:w-[54px]
+                  `
+              : active
+                ? `
+                    h-[108px]
+                    w-[88px]
+
+                    rounded-[20px]
+
+                    lg:h-[114px]
+                    lg:w-[94px]
+                  `
+                : `
+                    h-[66px]
+                    w-[56px]
+
+                    rounded-[15px]
+
+                    lg:h-[70px]
+                    lg:w-[60px]
+                  `
+          }
+        `}
+      >
+        <img
+          src={review.image}
+          alt="Professional client portrait"
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          referrerPolicy="no-referrer"
+          className={`
+            h-full
+            w-full
+
+            select-none
+            object-cover
+
+            transition-all
+            duration-700
+
+            ${
+              active
+                ? `
+                    scale-[1.04]
+                    grayscale-0
+                  `
+                : `
+                    scale-100
+                    grayscale
+                  `
+            }
+          `}
+        />
+      </div>
+
+      {active && (
+        <motion.span
+          initial={{
+            scale: 0,
+          }}
+          animate={{
+            scale: 1,
+          }}
+          className="
+            absolute
+            -bottom-[4px]
+            -right-[4px]
+
+            h-[12px]
+            w-[12px]
+
+            rounded-full
+
+            border-[3px]
+            border-white
+
+            bg-[#3478F6]
+          "
+        />
+      )}
+    </motion.button>
+  );
+}
+
+/* =========================================================
+   CONTROL BUTTON
+========================================================= */
+
+function ControlButton({
+  children,
+  label,
+  onClick,
+}: {
+  children: React.ReactNode;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <motion.button
+      type="button"
+      aria-label={label}
+      onClick={onClick}
+      whileHover={{
+        y: -2,
+      }}
+      whileTap={{
+        scale: 0.95,
+      }}
+      transition={{
+        duration: 0.2,
+      }}
+      className="
+        flex
+        h-9
+        w-9
+
+        items-center
+        justify-center
+
+        rounded-full
+
+        border
+        border-[#D4DEED]
+
+        bg-white
+
+        text-[#3478F6]
+
+        transition-all
+        duration-300
+
+        hover:border-[#3478F6]
+        hover:bg-[#3478F6]
+        hover:text-white
+      "
+    >
+      {children}
+    </motion.button>
+  );
+}
+
+/* =========================================================
+   WAVE BACKGROUND
+========================================================= */
+
+function WaveBackground({
+  reduceMotion,
+}: {
+  reduceMotion: boolean;
+}) {
+  return (
+    <div
+      aria-hidden="true"
+      className="
+        pointer-events-none
+
+        absolute
+        bottom-0
+        left-0
+
+        h-[22%]
+        w-full
+
+        sm:h-[24%]
+        md:h-[27%]
+        lg:h-[30%]
+      "
+    >
+      {/* =====================================================
+          LIGHT WAVE
+      ===================================================== */}
+
+      <motion.svg
+        viewBox="0 0 1600 400"
+        preserveAspectRatio="none"
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+                x: [
+                  -6,
+                  8,
+                  -6,
+                ],
+              }
+        }
+        transition={{
+          duration: 18,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
         className="
-          flex
-          h-10
-          min-w-10
-          items-center
-          justify-center
-          rounded-full
-          border
-          border-[#DFE4E9]
-          bg-white
+          absolute
+          inset-0
+
+          h-full
+          w-[102%]
+
+          will-change-transform
         "
       >
-        <GoogleIcon size={18} />
-      </div>
+        <path
+          d="
+            M0 210
+            C320 300 610 325 865 275
+            C1120 225 1310 140 1600 90
+            L1600 400
+            L0 400
+            Z
+          "
+          fill="#DCE8FF"
+        />
+      </motion.svg>
+
+      {/* =====================================================
+          MID WAVE
+      ===================================================== */}
+
+      <motion.svg
+        viewBox="0 0 1600 400"
+        preserveAspectRatio="none"
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+                x: [
+                  6,
+                  -7,
+                  6,
+                ],
+              }
+        }
+        transition={{
+          duration: 21,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="
+          absolute
+          inset-0
+
+          h-full
+          w-[102%]
+
+          will-change-transform
+        "
+      >
+        <path
+          d="
+            M0 240
+            C325 320 615 342 875 288
+            C1135 235 1320 160 1600 112
+            L1600 400
+            L0 400
+            Z
+          "
+          fill="#A2C0FA"
+        />
+      </motion.svg>
+
+      {/* =====================================================
+          MAIN BLUE WAVE
+      ===================================================== */}
+
+      <motion.svg
+        viewBox="0 0 1600 400"
+        preserveAspectRatio="none"
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+                y: [
+                  0,
+                  3,
+                  0,
+                ],
+              }
+        }
+        transition={{
+          duration: 19,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="
+          absolute
+          inset-0
+
+          h-full
+          w-full
+
+          will-change-transform
+        "
+      >
+        <defs>
+          <linearGradient
+            id="testimonial-main-wave"
+            x1="0"
+            y1="0"
+            x2="1"
+            y2="1"
+          >
+            <stop
+              offset="0%"
+              stopColor="#5688EA"
+            />
+
+            <stop
+              offset="52%"
+              stopColor="#477BE3"
+            />
+
+            <stop
+              offset="100%"
+              stopColor="#386DD8"
+            />
+          </linearGradient>
+        </defs>
+
+        <path
+          d="
+            M0 266
+            C330 337 620 357 890 301
+            C1145 249 1330 182 1600 132
+            L1600 400
+            L0 400
+            Z
+          "
+          fill="url(#testimonial-main-wave)"
+        />
+      </motion.svg>
     </div>
   );
 }
