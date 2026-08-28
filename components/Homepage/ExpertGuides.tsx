@@ -1341,14 +1341,14 @@ export default function ExpertGuides() {
                 xl:text-[50px]
               "
             >
-              Stay Informed.{" "}
+              Latest{" "}
 
               <span
                 className="
                   text-[#1579E6]
                 "
               >
-                Stay Compliant.
+                Articles
               </span>
             </motion.h2>
 
@@ -1363,25 +1363,7 @@ export default function ExpertGuides() {
                 md:max-w-[430px]
               "
             >
-              <p
-                className="
-                  text-[12.5px]
-                  leading-[1.75]
-
-                  text-[#6B7D8C]
-
-                  sm:text-[14px]
-
-                  lg:text-[15px]
-                "
-              >
-                Practical guides on GST,
-                company registration,
-                income tax and business
-                compliance, written by
-                our CA team for Indian
-                entrepreneurs.
-              </p>
+              
             </motion.div>
           </div>
         </motion.div>

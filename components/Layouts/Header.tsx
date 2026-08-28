@@ -141,15 +141,14 @@ const navigation: NavigationItem[] = [
 export default function Header() {
   const pathname = usePathname();
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] =
+    useState(false);
 
-  const [desktopDropdown, setDesktopDropdown] = useState<string | null>(
-    null
-  );
+  const [desktopDropdown, setDesktopDropdown] =
+    useState<string | null>(null);
 
-  const [mobileDropdown, setMobileDropdown] = useState<string | null>(
-    null
-  );
+  const [mobileDropdown, setMobileDropdown] =
+    useState<string | null>(null);
 
   /* =========================================================
      ACTIVE MAIN MENU
@@ -168,7 +167,10 @@ export default function Header() {
   ========================================================= */
 
   const isSubMenuActive = (href: string) => {
-    return pathname === href || pathname.startsWith(`${href}/`);
+    return (
+      pathname === href ||
+      pathname.startsWith(`${href}/`)
+    );
   };
 
   /* =========================================================
@@ -186,7 +188,8 @@ export default function Header() {
   ========================================================= */
 
   useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+    document.body.style.overflow =
+      mobileMenuOpen ? "hidden" : "";
 
     return () => {
       document.body.style.overflow = "";
@@ -212,7 +215,6 @@ export default function Header() {
           border-[#E9EDF3]
         "
       >
-
         {/* ===================================================
             HEADER SURFACE
         =================================================== */}
@@ -320,13 +322,16 @@ export default function Header() {
                 "
               >
                 {navigation.map((item) => {
-                  const active = isActive(item);
+                  const active =
+                    isActive(item);
 
                   const hasDropdown =
-                    item.submenu && item.submenu.length > 0;
+                    item.submenu &&
+                    item.submenu.length > 0;
 
                   const dropdownOpen =
-                    desktopDropdown === item.name;
+                    desktopDropdown ===
+                    item.name;
 
                   return (
                     <li
@@ -339,7 +344,9 @@ export default function Header() {
                       "
                       onMouseEnter={() => {
                         if (hasDropdown) {
-                          setDesktopDropdown(item.name);
+                          setDesktopDropdown(
+                            item.name,
+                          );
                         }
                       }}
                       onMouseLeave={() => {
@@ -384,15 +391,16 @@ export default function Header() {
                           2xl:px-[15px]
                           2xl:text-[14px]
 
-                          ${active
-                            ? `
+                          ${
+                            active
+                              ? `
                                 bg-white/82
 
                                 text-[#246EF1]
 
                                 shadow-[0_6px_20px_rgba(36,110,241,0.12)]
                               `
-                            : `
+                              : `
                                 text-[#234968]
 
                                 hover:bg-white/45
@@ -402,10 +410,16 @@ export default function Header() {
                           }
                         `}
                       >
-                        <span>{item.name}</span>
+                        <span>
+                          {item.name}
+                        </span>
 
                         {hasDropdown && (
-                          <ChevronIcon open={dropdownOpen} />
+                          <ChevronIcon
+                            open={
+                              dropdownOpen
+                            }
+                          />
                         )}
                       </Link>
 
@@ -431,8 +445,9 @@ export default function Header() {
                             transition-all
                             duration-300
 
-                            ${dropdownOpen
-                              ? `
+                            ${
+                              dropdownOpen
+                                ? `
                                   visible
 
                                   translate-y-0
@@ -441,7 +456,7 @@ export default function Header() {
 
                                   opacity-100
                                 `
-                              : `
+                                : `
                                   invisible
 
                                   pointer-events-none
@@ -523,200 +538,217 @@ export default function Header() {
                             />
 
                             <div className="relative space-y-[6px]">
-                              {item.submenu?.map((subItem) => {
-                                const subActive =
-                                  isSubMenuActive(subItem.href);
+                              {item.submenu?.map(
+                                (
+                                  subItem,
+                                ) => {
+                                  const subActive =
+                                    isSubMenuActive(
+                                      subItem.href,
+                                    );
 
-                                return (
-                                  <Link
-                                    key={subItem.href}
-                                    href={subItem.href}
-                                    className={`
-                                      group/sub
+                                  return (
+                                    <Link
+                                      key={
+                                        subItem.href
+                                      }
+                                      href={
+                                        subItem.href
+                                      }
+                                      className={`
+                                        group/sub
 
-                                      relative
+                                        relative
 
-                                      flex
-                                      min-h-[58px]
+                                        flex
+                                        min-h-[58px]
 
-                                      items-center
+                                        items-center
 
-                                      gap-3
+                                        gap-3
 
-                                      overflow-hidden
+                                        overflow-hidden
 
-                                      rounded-[15px]
+                                        rounded-[15px]
 
-                                      px-3
-                                      py-[9px]
+                                        px-3
+                                        py-[9px]
 
-                                      transition-all
-                                      duration-300
+                                        transition-all
+                                        duration-300
 
-                                      ${subActive
-                                        ? `
+                                        ${
+                                          subActive
+                                            ? `
+                                              bg-[#246EF1]
+
+                                              text-white
+
+                                              shadow-[0_7px_20px_rgba(36,110,241,0.22)]
+                                            `
+                                            : `
+                                              bg-[#F7F9FC]
+
+                                              text-[#263446]
+
+                                              hover:-translate-y-[1px]
+
+                                              hover:bg-[#EEF4FF]
+
+                                              hover:shadow-[0_7px_20px_rgba(20,45,80,0.08)]
+                                            `
+                                        }
+                                      `}
+                                    >
+                                      {/* LEFT HOVER ACCENT */}
+
+                                      {!subActive && (
+                                        <span
+                                          className="
+                                            absolute
+
+                                            inset-y-0
+                                            left-0
+
+                                            w-0
+
                                             bg-[#246EF1]
 
-                                            text-white
+                                            opacity-0
 
-                                            shadow-[0_7px_20px_rgba(36,110,241,0.22)]
-                                          `
-                                        : `
-                                            bg-[#F7F9FC]
+                                            transition-all
+                                            duration-300
 
-                                            text-[#263446]
+                                            group-hover/sub:w-[4px]
 
-                                            hover:-translate-y-[1px]
+                                            group-hover/sub:opacity-100
+                                          "
+                                        />
+                                      )}
 
-                                            hover:bg-[#EEF4FF]
+                                      {/* ICON */}
 
-                                            hover:shadow-[0_7px_20px_rgba(20,45,80,0.08)]
-                                          `
-                                      }
-                                    `}
-                                  >
-                                    {/* LEFT HOVER ACCENT */}
-
-                                    {!subActive && (
                                       <span
-                                        className="
-                                          absolute
+                                        className={`
+                                          relative
 
-                                          inset-y-0
-                                          left-0
+                                          flex
 
-                                          w-0
+                                          h-[40px]
+                                          w-[40px]
 
-                                          bg-[#246EF1]
+                                          shrink-0
 
-                                          opacity-0
+                                          items-center
+                                          justify-center
+
+                                          rounded-[12px]
 
                                           transition-all
                                           duration-300
 
-                                          group-hover/sub:w-[4px]
+                                          ${
+                                            subActive
+                                              ? `
+                                                bg-white/15
 
-                                          group-hover/sub:opacity-100
+                                                text-white
+                                              `
+                                              : `
+                                                bg-white
+
+                                                text-[#246EF1]
+
+                                                shadow-[0_4px_12px_rgba(20,40,70,0.08)]
+
+                                                group-hover/sub:rotate-[-3deg]
+
+                                                group-hover/sub:scale-105
+
+                                                group-hover/sub:bg-[#246EF1]
+
+                                                group-hover/sub:text-white
+                                              `
+                                          }
+                                        `}
+                                      >
+                                        <SubMenuIcon
+                                          type={
+                                            subItem.icon
+                                          }
+                                        />
+                                      </span>
+
+                                      {/* NAME */}
+
+                                      <span
+                                        className="
+                                          relative
+
+                                          flex-1
+
+                                          font-heading
+
+                                          text-[13px]
+
+                                          font-semibold
+
+                                          leading-[1.3]
+
+                                          xl:text-[13.5px]
                                         "
-                                      />
-                                    )}
-
-                                    {/* ICON */}
-
-                                    <span
-                                      className={`
-                                        relative
-
-                                        flex
-
-                                        h-[40px]
-                                        w-[40px]
-
-                                        shrink-0
-
-                                        items-center
-                                        justify-center
-
-                                        rounded-[12px]
-
-                                        transition-all
-                                        duration-300
-
-                                        ${subActive
-                                          ? `
-                                              bg-white/15
-
-                                              text-white
-                                            `
-                                          : `
-                                              bg-white
-
-                                              text-[#246EF1]
-
-                                              shadow-[0_4px_12px_rgba(20,40,70,0.08)]
-
-                                              group-hover/sub:rotate-[-3deg]
-
-                                              group-hover/sub:scale-105
-
-                                              group-hover/sub:bg-[#246EF1]
-
-                                              group-hover/sub:text-white
-                                            `
+                                      >
+                                        {
+                                          subItem.name
                                         }
-                                      `}
-                                    >
-                                      <SubMenuIcon
-                                        type={subItem.icon}
-                                      />
-                                    </span>
+                                      </span>
 
-                                    {/* NAME */}
+                                      {/* ARROW */}
 
-                                    <span
-                                      className="
-                                        relative
+                                      <span
+                                        className={`
+                                          relative
 
-                                        flex-1
+                                          flex
 
-                                        font-heading
+                                          h-[28px]
+                                          w-[28px]
 
-                                        text-[13px]
+                                          shrink-0
 
-                                        font-semibold
+                                          items-center
+                                          justify-center
 
-                                        leading-[1.3]
+                                          rounded-full
 
-                                        xl:text-[13.5px]
-                                      "
-                                    >
-                                      {subItem.name}
-                                    </span>
+                                          transition-all
+                                          duration-300
 
-                                    {/* ARROW */}
+                                          ${
+                                            subActive
+                                              ? `
+                                                bg-white/15
 
-                                    <span
-                                      className={`
-                                        relative
+                                                text-white
+                                              `
+                                              : `
+                                                bg-white
 
-                                        flex
+                                                text-[#A2ACBA]
 
-                                        h-[28px]
-                                        w-[28px]
+                                                group-hover/sub:translate-x-[3px]
 
-                                        shrink-0
-
-                                        items-center
-                                        justify-center
-
-                                        rounded-full
-
-                                        transition-all
-                                        duration-300
-
-                                        ${subActive
-                                          ? `
-                                              bg-white/15
-
-                                              text-white
-                                            `
-                                          : `
-                                              bg-white
-
-                                              text-[#A2ACBA]
-
-                                              group-hover/sub:translate-x-[3px]
-
-                                              group-hover/sub:text-[#246EF1]
-                                            `
-                                        }
-                                      `}
-                                    >
-                                      <ArrowRightIcon />
-                                    </span>
-                                  </Link>
-                                );
-                              })}
+                                                group-hover/sub:text-[#246EF1]
+                                              `
+                                          }
+                                        `}
+                                      >
+                                        <ArrowRightIcon />
+                                      </span>
+                                    </Link>
+                                  );
+                                },
+                              )}
                             </div>
                           </div>
                         </div>
@@ -758,7 +790,7 @@ export default function Header() {
                   text-[13px]
                   font-semibold
 
-                  text-white
+                  !text-white
 
                   shadow-[0_8px_24px_rgba(18,111,197,0.28)]
 
@@ -778,7 +810,9 @@ export default function Header() {
               >
                 <MessageIcon />
 
-                <span>Contact Us</span>
+                <span className="!text-white">
+                  Contact Us
+                </span>
               </Link>
             </div>
 
@@ -793,9 +827,14 @@ export default function Header() {
                   ? "Close navigation menu"
                   : "Open navigation menu"
               }
-              aria-expanded={mobileMenuOpen}
+              aria-expanded={
+                mobileMenuOpen
+              }
               onClick={() => {
-                setMobileMenuOpen((previous) => !previous);
+                setMobileMenuOpen(
+                  (previous) =>
+                    !previous,
+                );
               }}
               className="
                 flex
@@ -855,15 +894,16 @@ export default function Header() {
               mt-0
               rounded-b-[20px]
 
-              ${mobileMenuOpen
-                ? `
+              ${
+                mobileMenuOpen
+                  ? `
                     visible
 
                     max-h-[calc(100vh-90px)]
 
                     opacity-100
                   `
-                : `
+                  : `
                     invisible
 
                     max-h-0
@@ -899,22 +939,333 @@ export default function Header() {
               "
             >
               <ul className="space-y-[5px]">
-                {navigation.map((item) => {
-                  const active = isActive(item);
+                {navigation.map(
+                  (item) => {
+                    const active =
+                      isActive(item);
 
-                  const hasDropdown =
-                    item.submenu && item.submenu.length > 0;
+                    const hasDropdown =
+                      item.submenu &&
+                      item.submenu
+                        .length > 0;
 
-                  const submenuOpen =
-                    mobileDropdown === item.name;
+                    const submenuOpen =
+                      mobileDropdown ===
+                      item.name;
 
-                  return (
-                    <li key={item.name}>
-                      {hasDropdown ? (
-                        <>
-                          {/* MOBILE MAIN ITEM */}
+                    return (
+                      <li
+                        key={
+                          item.name
+                        }
+                      >
+                        {hasDropdown ? (
+                          <>
+                            {/* MOBILE MAIN ITEM */}
 
-                          <div
+                            <div
+                              className={`
+                                flex
+
+                                min-h-[50px]
+
+                                items-center
+
+                                rounded-[14px]
+
+                                px-1
+
+                                transition-all
+                                duration-300
+
+                                ${
+                                  active
+                                    ? "bg-[#EEF4FF]"
+                                    : "hover:bg-[#F7F9FC]"
+                                }
+                              `}
+                            >
+                              <Link
+                                href={
+                                  item.href
+                                }
+                                className={`
+                                  flex
+
+                                  min-h-[50px]
+
+                                  flex-1
+
+                                  items-center
+
+                                  px-3
+
+                                  font-body
+
+                                  text-[14px]
+
+                                  font-semibold
+
+                                  ${
+                                    active
+                                      ? "text-[#246EF1]"
+                                      : "text-[#3E4A5A]"
+                                  }
+                                `}
+                              >
+                                {
+                                  item.name
+                                }
+                              </Link>
+
+                              <button
+                                type="button"
+                                aria-label={`Toggle ${item.name} submenu`}
+                                aria-expanded={
+                                  submenuOpen
+                                }
+                                onClick={() => {
+                                  setMobileDropdown(
+                                    submenuOpen
+                                      ? null
+                                      : item.name,
+                                  );
+                                }}
+                                className={`
+                                  mr-1
+
+                                  flex
+
+                                  h-[38px]
+                                  w-[38px]
+
+                                  items-center
+                                  justify-center
+
+                                  rounded-full
+
+                                  transition-all
+                                  duration-300
+
+                                  ${
+                                    submenuOpen
+                                      ? `
+                                        bg-[#246EF1]
+
+                                        text-white
+                                      `
+                                      : `
+                                        bg-white
+
+                                        text-[#687486]
+
+                                        shadow-[0_3px_10px_rgba(20,40,70,0.07)]
+                                      `
+                                  }
+                                `}
+                              >
+                                <ChevronIcon
+                                  open={
+                                    submenuOpen
+                                  }
+                                />
+                              </button>
+                            </div>
+
+                            {/* MOBILE SUBMENU */}
+
+                            <div
+                              className={`
+                                overflow-hidden
+
+                                transition-all
+                                duration-300
+
+                                ${
+                                  submenuOpen
+                                    ? `
+                                      max-h-[430px]
+
+                                      pb-2
+                                      pt-2
+
+                                      opacity-100
+                                    `
+                                    : `
+                                      max-h-0
+
+                                      opacity-0
+                                    `
+                                }
+                              `}
+                            >
+                              <div
+                                className="
+                                  ml-2
+
+                                  grid
+
+                                  gap-[6px]
+
+                                  rounded-[16px]
+
+                                  bg-[#F5F8FC]
+
+                                  p-[7px]
+                                "
+                              >
+                                {item.submenu?.map(
+                                  (
+                                    subItem,
+                                  ) => {
+                                    const subActive =
+                                      isSubMenuActive(
+                                        subItem.href,
+                                      );
+
+                                    return (
+                                      <Link
+                                        key={
+                                          subItem.href
+                                        }
+                                        href={
+                                          subItem.href
+                                        }
+                                        className={`
+                                          flex
+
+                                          min-h-[54px]
+
+                                          items-center
+
+                                          gap-3
+
+                                          rounded-[13px]
+
+                                          px-3
+                                          py-2
+
+                                          transition-all
+                                          duration-300
+
+                                          ${
+                                            subActive
+                                              ? `
+                                                bg-[#246EF1]
+
+                                                text-white
+                                              `
+                                              : `
+                                                bg-white
+
+                                                text-[#2C3949]
+
+                                                shadow-[0_3px_12px_rgba(20,40,70,0.05)]
+
+                                                active:scale-[0.98]
+                                              `
+                                          }
+                                        `}
+                                      >
+                                        {/* MOBILE ICON */}
+
+                                        <span
+                                          className={`
+                                            flex
+
+                                            h-[38px]
+                                            w-[38px]
+
+                                            shrink-0
+
+                                            items-center
+                                            justify-center
+
+                                            rounded-[11px]
+
+                                            ${
+                                              subActive
+                                                ? `
+                                                  bg-white/15
+
+                                                  text-white
+                                                `
+                                                : `
+                                                  bg-[#EEF4FF]
+
+                                                  text-[#246EF1]
+                                                `
+                                            }
+                                          `}
+                                        >
+                                          <SubMenuIcon
+                                            type={
+                                              subItem.icon
+                                            }
+                                          />
+                                        </span>
+
+                                        {/* MOBILE NAME */}
+
+                                        <span
+                                          className="
+                                            flex-1
+
+                                            font-heading
+
+                                            text-[13px]
+
+                                            font-semibold
+                                          "
+                                        >
+                                          {
+                                            subItem.name
+                                          }
+                                        </span>
+
+                                        <span
+                                          className={`
+                                            flex
+
+                                            h-[27px]
+                                            w-[27px]
+
+                                            items-center
+                                            justify-center
+
+                                            rounded-full
+
+                                            ${
+                                              subActive
+                                                ? `
+                                                  bg-white/15
+
+                                                  text-white
+                                                `
+                                                : `
+                                                  bg-[#F6F8FB]
+
+                                                  text-[#8994A3]
+                                                `
+                                            }
+                                          `}
+                                        >
+                                          <ArrowRightIcon />
+                                        </span>
+                                      </Link>
+                                    );
+                                  },
+                                )}
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          /* NORMAL MOBILE ITEM */
+
+                          <Link
+                            href={
+                              item.href
+                            }
                             className={`
                               flex
 
@@ -924,308 +1275,39 @@ export default function Header() {
 
                               rounded-[14px]
 
-                              px-1
+                              px-4
+
+                              font-body
+
+                              text-[14px]
+
+                              font-semibold
 
                               transition-all
-                              duration-300
+                              duration-200
 
-                              ${active
-                                ? "bg-[#EEF4FF]"
-                                : "hover:bg-[#F7F9FC]"
-                              }
-                            `}
-                          >
-                            <Link
-                              href={item.href}
-                              className={`
-                                flex
-
-                                min-h-[50px]
-
-                                flex-1
-
-                                items-center
-
-                                px-3
-
-                                font-body
-
-                                text-[14px]
-
-                                font-semibold
-
-                                ${active
-                                  ? "text-[#246EF1]"
-                                  : "text-[#3E4A5A]"
-                                }
-                              `}
-                            >
-                              {item.name}
-                            </Link>
-
-                            <button
-                              type="button"
-                              aria-label={`Toggle ${item.name} submenu`}
-                              aria-expanded={submenuOpen}
-                              onClick={() => {
-                                setMobileDropdown(
-                                  submenuOpen
-                                    ? null
-                                    : item.name
-                                );
-                              }}
-                              className={`
-                                mr-1
-
-                                flex
-
-                                h-[38px]
-                                w-[38px]
-
-                                items-center
-                                justify-center
-
-                                rounded-full
-
-                                transition-all
-                                duration-300
-
-                                ${submenuOpen
+                              ${
+                                active
                                   ? `
-                                      bg-[#246EF1]
+                                    bg-[#EEF4FF]
 
-                                      text-white
-                                    `
-                                  : `
-                                      bg-white
-
-                                      text-[#687486]
-
-                                      shadow-[0_3px_10px_rgba(20,40,70,0.07)]
-                                    `
-                                }
-                              `}
-                            >
-                              <ChevronIcon
-                                open={submenuOpen}
-                              />
-                            </button>
-                          </div>
-
-                          {/* MOBILE SUBMENU */}
-
-                          <div
-                            className={`
-                              overflow-hidden
-
-                              transition-all
-                              duration-300
-
-                              ${submenuOpen
-                                ? `
-                                    max-h-[430px]
-
-                                    pb-2
-                                    pt-2
-
-                                    opacity-100
+                                    text-[#246EF1]
                                   `
-                                : `
-                                    max-h-0
+                                  : `
+                                    text-[#3E4A5A]
 
-                                    opacity-0
+                                    hover:bg-[#F7F9FC]
                                   `
                               }
                             `}
                           >
-                            <div
-                              className="
-                                ml-2
-
-                                grid
-
-                                gap-[6px]
-
-                                rounded-[16px]
-
-                                bg-[#F5F8FC]
-
-                                p-[7px]
-                              "
-                            >
-                              {item.submenu?.map((subItem) => {
-                                const subActive =
-                                  isSubMenuActive(subItem.href);
-
-                                return (
-                                  <Link
-                                    key={subItem.href}
-                                    href={subItem.href}
-                                    className={`
-                                      flex
-
-                                      min-h-[54px]
-
-                                      items-center
-
-                                      gap-3
-
-                                      rounded-[13px]
-
-                                      px-3
-                                      py-2
-
-                                      transition-all
-                                      duration-300
-
-                                      ${subActive
-                                        ? `
-                                            bg-[#246EF1]
-
-                                            text-white
-                                          `
-                                        : `
-                                            bg-white
-
-                                            text-[#2C3949]
-
-                                            shadow-[0_3px_12px_rgba(20,40,70,0.05)]
-
-                                            active:scale-[0.98]
-                                          `
-                                      }
-                                    `}
-                                  >
-                                    {/* MOBILE ICON */}
-
-                                    <span
-                                      className={`
-                                        flex
-
-                                        h-[38px]
-                                        w-[38px]
-
-                                        shrink-0
-
-                                        items-center
-                                        justify-center
-
-                                        rounded-[11px]
-
-                                        ${subActive
-                                          ? `
-                                              bg-white/15
-
-                                              text-white
-                                            `
-                                          : `
-                                              bg-[#EEF4FF]
-
-                                              text-[#246EF1]
-                                            `
-                                        }
-                                      `}
-                                    >
-                                      <SubMenuIcon
-                                        type={subItem.icon}
-                                      />
-                                    </span>
-
-                                    {/* MOBILE NAME */}
-
-                                    <span
-                                      className="
-                                        flex-1
-
-                                        font-heading
-
-                                        text-[13px]
-
-                                        font-semibold
-                                      "
-                                    >
-                                      {subItem.name}
-                                    </span>
-
-                                    <span
-                                      className={`
-                                        flex
-
-                                        h-[27px]
-                                        w-[27px]
-
-                                        items-center
-                                        justify-center
-
-                                        rounded-full
-
-                                        ${subActive
-                                          ? `
-                                              bg-white/15
-
-                                              text-white
-                                            `
-                                          : `
-                                              bg-[#F6F8FB]
-
-                                              text-[#8994A3]
-                                            `
-                                        }
-                                      `}
-                                    >
-                                      <ArrowRightIcon />
-                                    </span>
-                                  </Link>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        </>
-                      ) : (
-                        /* NORMAL MOBILE ITEM */
-
-                        <Link
-                          href={item.href}
-                          className={`
-                            flex
-
-                            min-h-[50px]
-
-                            items-center
-
-                            rounded-[14px]
-
-                            px-4
-
-                            font-body
-
-                            text-[14px]
-
-                            font-semibold
-
-                            transition-all
-                            duration-200
-
-                            ${active
-                              ? `
-                                  bg-[#EEF4FF]
-
-                                  text-[#246EF1]
-                                `
-                              : `
-                                  text-[#3E4A5A]
-
-                                  hover:bg-[#F7F9FC]
-                                `
-                            }
-                          `}
-                        >
-                          {item.name}
-                        </Link>
-                      )}
-                    </li>
-                  );
-                })}
+                            {item.name}
+                          </Link>
+                        )}
+                      </li>
+                    );
+                  },
+                )}
               </ul>
 
               {/* MOBILE CONTACT */}
@@ -1256,7 +1338,7 @@ export default function Header() {
 
                   font-semibold
 
-                  text-white
+                  !text-white
 
                   shadow-[0_8px_22px_rgba(36,110,241,0.25)]
 
@@ -1268,7 +1350,9 @@ export default function Header() {
               >
                 <MessageIcon />
 
-                <span>Contact Us</span>
+                <span className="!text-white">
+                  Contact Us
+                </span>
               </Link>
             </nav>
           </div>
@@ -1301,13 +1385,14 @@ export default function Header() {
 
           lg:hidden
 
-          ${mobileMenuOpen
-            ? `
+          ${
+            mobileMenuOpen
+              ? `
                 pointer-events-auto
 
                 opacity-100
               `
-            : `
+              : `
                 pointer-events-none
 
                 opacity-0
@@ -1319,7 +1404,6 @@ export default function Header() {
   );
 }
 
-
 /* =========================================================
    SUBMENU ICONS
 ========================================================= */
@@ -1329,7 +1413,8 @@ function SubMenuIcon({
 }: {
   type: IconType;
 }) {
-  const iconClass = "h-[20px] w-[20px]";
+  const iconClass =
+    "h-[20px] w-[20px]";
 
   /* REGISTRATION */
 

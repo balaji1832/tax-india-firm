@@ -41,8 +41,8 @@ type PackageItem = {
 
 const packages: PackageItem[] = [
   {
-    title: "Sole Trader",
-    subtitle: "For freelancers & sole proprietors",
+    title: "Proprietorship Launch",
+    subtitle: "For freelancers & proprietorship launch",
 
     features: [
       "GST Registration in Chennai",
@@ -449,8 +449,7 @@ export default function StartupPackages() {
               lg:text-[41px]
             "
           >
-            Launch Your Business in Tamil Nadu.
-            Pick Your Plan.
+            Launch Your Business with us 
           </motion.h2>
 
           {/* DESCRIPTION */}
@@ -470,12 +469,10 @@ export default function StartupPackages() {
               !text-white/75
 
               sm:text-[10.5px]
-              md:text-[11px]
+              md:text-[11px] pt-3
             "
           >
-            Pre-built bundles for the most common
-            business setups in Chennai. Affordable,
-            expert-handled and delivered on time.
+           Choose your perfect plan. Pre built bundles for business peoples
           </motion.p>
         </motion.div>
       </div>

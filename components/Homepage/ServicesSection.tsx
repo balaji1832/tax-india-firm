@@ -621,13 +621,12 @@ export default function ServicesSection() {
               xl:text-[50px]
             "
           >
-            Everything Your
-            Business Needs.
+            Our Expertise
             <br className="hidden sm:block" />
             <span className="sm:hidden">
               {" "}
             </span>
-            One Firm in Chennai.
+            
           </motion.h2>
 
           <motion.p
@@ -677,13 +676,7 @@ export default function ServicesSection() {
               lg:text-[16px]
             "
           >
-            Whether you&apos;re
-            starting up, scaling
-            or staying compliant,
-            we have the right
-            service for every
-            stage of your business
-            journey.
+            We Provide Best Quality Services.
           </motion.p>
         </div>
 

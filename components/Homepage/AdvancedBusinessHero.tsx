@@ -1240,9 +1240,7 @@ export default function BusinessHero() {
                 md:leading-8
               "
             >
-              Start your dream business with expert support at every stage.
-              From registration and tax filing to legal agreements and ongoing
-              compliance, we make the journey simple, accurate and stress-free.
+              Start your dream business with us! We turn your idea into reality with expert support at every stage. Whether you’re launching a startup or growing a business, we ensure a smooth journey to success! 
             </motion.p>
           </motion.div>
 
@@ -1716,7 +1714,7 @@ export default function BusinessHero() {
           >
             <SparkIcon className="mt-[3px] h-[13px] w-[13px] shrink-0 !text-[#AEE1FF] sm:mt-0" />
             <span>
-              Registration, Taxation, Compliance & Legal Support — All in One Place
+              Registration, Taxation, Compliance & Legal Support . All in One Place .
             </span>
           </motion.div>
 
@@ -1903,7 +1901,7 @@ export default function BusinessHero() {
               index={1}
               icon={<HeadsetIcon className="h-[21px] w-[21px]" />}
               title="Dedicated Support"
-              description="Personal assistance through every stage."
+              description="Personalized client support at every stage of Business."
               variant="scale"
               reduceMotion={reduceMotion}
             />
@@ -1912,7 +1910,7 @@ export default function BusinessHero() {
               index={2}
               icon={<WalletIcon className="h-[21px] w-[21px]" />}
               title="Affordable Fee"
-              description="Transparent and cost-effective professional services."
+              description="High-Quality Professional Services at affordable fee."
               variant="rise"
               reduceMotion={reduceMotion}
             />
@@ -1921,7 +1919,7 @@ export default function BusinessHero() {
               index={3}
               icon={<ClockIcon className="h-[21px] w-[21px]" />}
               title="On-Time Response"
-              description="Timely and efficient solutions for your business."
+              description="Timely and Efficient Solutions for Business needs."
               variant="scale"
               reduceMotion={reduceMotion}
             />

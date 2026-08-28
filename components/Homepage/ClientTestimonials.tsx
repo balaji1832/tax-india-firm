@@ -429,15 +429,15 @@ export default function ClientTestimonials() {
               text-[#14243C]
 
               sm:text-[34px]
-              md:text-[39px]
+              md:text-[39px] pt-3
               lg:text-[42px]
             "
           >
-            Honest Feedback From{" "}
+            What {" "}
 
             <span className="text-[#3478F6]">
-              Valued Clients.
-            </span>
+              Our Client 
+            </span> Says
           </motion.h2>
 
           <motion.p
@@ -448,7 +448,7 @@ export default function ClientTestimonials() {
 
               max-w-[570px]
 
-              text-[12px]
+              text-[12px] pt-2
               leading-[1.6]
 
               text-[#6A7890]
