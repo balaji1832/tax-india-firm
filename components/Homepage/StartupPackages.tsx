@@ -52,7 +52,7 @@ const packages: PackageItem[] = [
       "Current Account Opening Support",
     ],
 
-    cta: "Start as a Sole Trader in Chennai",
+    cta: "Start as a Proprietorship Launch in Chennai",
   },
 
   {

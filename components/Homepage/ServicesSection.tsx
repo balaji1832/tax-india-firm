@@ -49,110 +49,75 @@ type LayoutMode =
 const services: ServiceItem[] = [
   {
     category: "BUSINESS",
-    title:
-      "Company Registration in Chennai",
+    title: "Company Registration in Chennai",
     description:
       "Pvt Ltd, LLP, OPC, Partnership, Sole Proprietorship, Section 8 and more — registered in days.",
-    cta:
-      "Register your company",
-    href:
-      "/business/registration",
-    image:
-      "/images/company-registration.png",
+    cta: "Register your company",
+    href: "/business/registration",
+    image: "/images/company-registration.png",
   },
   {
     category: "LICENSES",
-    title:
-      "Business License Registration",
+    title: "Business License Registration",
     description:
       "FSSAI, MSME Udyam, ISO, DSC, IEC, ESI, PF, Professional Tax and Shop Act in Tamil Nadu.",
-    cta:
-      "Get your business licensed",
-    href:
-      "/business/license",
-    image:
-      "/images/business-license.png",
+    cta: "Get your business licensed",
+    href: "/business/license",
+    image: "/images/business-license.png",
   },
   {
     category: "COMPLIANCE",
-    title:
-      "Company Compliance & ROC Filing",
+    title: "Company Compliance & ROC Filing",
     description:
       "ROC filings, director changes, MOA amendments, eKYC and all MCA compliance handled.",
-    cta:
-      "Stay MCA compliant",
-    href:
-      "/business/compliance",
-    image:
-      "/images/company-compliance.png",
+    cta: "Stay MCA compliant",
+    href: "/business/compliance",
+    image: "/images/company-compliance.png",
   },
   {
     category: "GST",
-    title:
-      "GST Registration & Filing in Chennai",
+    title: "GST Registration & Filing in Chennai",
     description:
       "New GSTIN, GSTR-1, GSTR-3B, GSTR-9, LUT filing, GST notice reply and advisory services.",
-    cta:
-      "Sort your GST today",
-    href:
-      "/taxation/gst",
-    image:
-      "/images/gst-registration.png",
+    cta: "Sort your GST today",
+    href: "/taxation/gst",
+    image: "/images/gst-registration.png",
   },
   {
     category: "INCOME TAX",
-    title:
-      "Income Tax Return Filing in Chennai",
+    title: "Income Tax Return Filing in Chennai",
     description:
       "ITR for salaried, freelancers, business owners, HUFs and NRIs — filed accurately and on time.",
-    cta:
-      "File your ITR now",
-    href:
-      "/itr/income-tax-return-filing",
-    image:
-      "/images/income-tax.png",
+    cta: "File your ITR now",
+    href: "/itr/income-tax-return-filing",
+    image: "/images/income-tax.png",
   },
   {
-    category:
-      "TAX & ACCOUNTING",
-    title:
-      "TDS, Bookkeeping & Tax Advisory",
+    category: "TAX & ACCOUNTING",
+    title: "TDS, Bookkeeping & Tax Advisory",
     description:
       "TDS returns, PAN, TAN, bookkeeping, capital gains advisory and year-round tax planning.",
-    cta:
-      "Explore tax filing services",
-    href:
-      "/taxation/tax-filing",
-    image:
-      "/images/tax-accounting.png",
+    cta: "Explore tax filing services",
+    href: "/taxation/tax-filing",
+    image: "/images/tax-accounting.png",
   },
   {
-    category:
-      "IP REGISTRATION",
-    title:
-      "Trademark, Copyright & Patent in India",
+    category: "IP REGISTRATION",
+    title: "Trademark, Copyright & Patent in India",
     description:
       "Protect your brand name, logo, creative work and invention with IP India registration.",
-    cta:
-      "Protect your brand",
-    href:
-      "/legal/ip",
-    image:
-      "/images/ip-registration.png",
+    cta: "Protect your brand",
+    href: "/legal/ip",
+    image: "/images/ip-registration.png",
   },
   {
-    category:
-      "LEGAL CONTRACTS",
-    title:
-      "Business Contract Drafting in India",
+    category: "LEGAL CONTRACTS",
+    title: "Business Contract Drafting in India",
     description:
       "NDA, MOU, franchise, employment, shareholders, vendor and master service agreements.",
-    cta:
-      "Draft your contracts",
-    href:
-      "/legal/contracts",
-    image:
-      "/images/legal-contracts.png",
+    cta: "Draft your contracts",
+    href: "/legal/contracts",
+    image: "/images/legal-contracts.png",
   },
 ];
 
@@ -171,44 +136,38 @@ const icons = [
    HELPERS
 ========================================================= */
 
-function wrapIndex(
-  index: number
-) {
+function wrapIndex(index: number) {
   return (
-    (index +
-      services.length) %
+    (index + services.length) %
     services.length
   );
 }
 
 function shortestOffset(
   index: number,
-  activeIndex: number
+  activeIndex: number,
 ) {
-  let diff =
-    index - activeIndex;
+  let diff = index - activeIndex;
 
   if (
     diff >
     services.length / 2
   ) {
-    diff -=
-      services.length;
+    diff -= services.length;
   }
 
   if (
     diff <
     -services.length / 2
   ) {
-    diff +=
-      services.length;
+    diff += services.length;
   }
 
   return diff;
 }
 
 function getLayoutMode(
-  width: number
+  width: number,
 ): LayoutMode {
   if (width < 640) {
     return "mobile";
@@ -221,7 +180,12 @@ function getLayoutMode(
   return "desktop";
 }
 
-const smoothEase = [0.16, 1, 0.3, 1] as const;
+const smoothEase = [
+  0.16,
+  1,
+  0.3,
+  1,
+] as const;
 
 /* =========================================================
    SECTION
@@ -232,41 +196,41 @@ export default function ServicesSection() {
     useReducedMotion();
 
   const sectionRef =
-    useRef<HTMLElement | null>(null);
+    useRef<HTMLElement | null>(
+      null,
+    );
 
   const isSectionInView =
     useInView(sectionRef, {
       amount: 0.12,
-      margin: "0px 0px -8% 0px",
+      margin:
+        "0px 0px -8% 0px",
     });
 
   const [
     activeIndex,
     setActiveIndex,
-  ] =
-    useState(0);
+  ] = useState(0);
 
   const [
     hoveredIndex,
     setHoveredIndex,
-  ] =
-    useState<
-      number | null
-    >(null);
+  ] = useState<
+    number | null
+  >(null);
 
   const [
     layoutMode,
     setLayoutMode,
   ] =
     useState<LayoutMode>(
-      "desktop"
+      "desktop",
     );
 
   const [
     paused,
     setPaused,
-  ] =
-    useState(false);
+  ] = useState(false);
 
   const touchStartX =
     useRef<
@@ -278,32 +242,32 @@ export default function ServicesSection() {
   ======================================================= */
 
   useEffect(() => {
-    const update =
-      () => {
-        setLayoutMode(
-          getLayoutMode(
-            window.innerWidth
-          )
-        );
-      };
+    const update = () => {
+      setLayoutMode(
+        getLayoutMode(
+          window.innerWidth,
+        ),
+      );
+    };
 
     update();
 
     window.addEventListener(
       "resize",
-      update
+      update,
     );
 
     return () => {
       window.removeEventListener(
         "resize",
-        update
+        update,
       );
     };
   }, []);
 
   /* =======================================================
      AUTO SLIDE
+     3.5 SECONDS
   ======================================================= */
 
   useEffect(() => {
@@ -311,8 +275,7 @@ export default function ServicesSection() {
       reduceMotion ||
       !isSectionInView ||
       paused ||
-      hoveredIndex !==
-        null
+      hoveredIndex !== null
     ) {
       return;
     }
@@ -321,20 +284,20 @@ export default function ServicesSection() {
       window.setInterval(
         () => {
           setActiveIndex(
-            (
-              current
-            ) =>
+            (current) =>
               wrapIndex(
-                current + 1
-              )
+                current + 1,
+              ),
           );
         },
-        5600
+
+        /* 3.5 SECOND AUTO SLIDE */
+        2500,
       );
 
     return () => {
       window.clearInterval(
-        timer
+        timer,
       );
     };
   }, [
@@ -344,97 +307,83 @@ export default function ServicesSection() {
     hoveredIndex,
   ]);
 
-  const goNext =
-    () => {
-      setActiveIndex(
-        (
-          current
-        ) =>
-          wrapIndex(
-            current + 1
-          )
-      );
-    };
+  const goNext = () => {
+    setActiveIndex(
+      (current) =>
+        wrapIndex(
+          current + 1,
+        ),
+    );
+  };
 
-  const goPrev =
-    () => {
-      setActiveIndex(
-        (
-          current
-        ) =>
-          wrapIndex(
-            current - 1
-          )
-      );
-    };
+  const goPrev = () => {
+    setActiveIndex(
+      (current) =>
+        wrapIndex(
+          current - 1,
+        ),
+    );
+  };
 
   /* =======================================================
      SWIPE
   ======================================================= */
 
-  const handleTouchStart =
-    (
-      event: React.TouchEvent<HTMLDivElement>
-    ) => {
-      touchStartX.current =
-        event.touches[0]
-          ?.clientX ??
-        null;
+  const handleTouchStart = (
+    event: React.TouchEvent<HTMLDivElement>,
+  ) => {
+    touchStartX.current =
+      event.touches[0]
+        ?.clientX ?? null;
 
-      setPaused(true);
-    };
+    setPaused(true);
+  };
 
-  const handleTouchEnd =
-    (
-      event: React.TouchEvent<HTMLDivElement>
-    ) => {
-      const start =
-        touchStartX.current;
+  const handleTouchEnd = (
+    event: React.TouchEvent<HTMLDivElement>,
+  ) => {
+    const start =
+      touchStartX.current;
 
-      const end =
-        event
-          .changedTouches[0]
-          ?.clientX;
+    const end =
+      event.changedTouches[0]
+        ?.clientX;
 
-      touchStartX.current =
-        null;
+    touchStartX.current =
+      null;
 
-      window.setTimeout(
-        () =>
-          setPaused(false),
-        700
-      );
+    window.setTimeout(
+      () =>
+        setPaused(false),
+      700,
+    );
 
-      if (
-        start == null ||
-        end == null
-      ) {
-        return;
-      }
+    if (
+      start == null ||
+      end == null
+    ) {
+      return;
+    }
 
-      const distance =
-        start - end;
+    const distance =
+      start - end;
 
-      if (
-        Math.abs(
-          distance
-        ) < 45
-      ) {
-        return;
-      }
+    if (
+      Math.abs(distance) <
+      45
+    ) {
+      return;
+    }
 
-      if (
-        distance > 0
-      ) {
-        goNext();
-      } else {
-        goPrev();
-      }
-    };
+    if (distance > 0) {
+      goNext();
+    } else {
+      goPrev();
+    }
+  };
 
   const visibleRange =
-    layoutMode ===
-    "mobile"
+    layoutMode === "mobile"
       ? 1
       : 2;
 
@@ -446,33 +395,24 @@ export default function ServicesSection() {
         isolate
         overflow-hidden
 
-        pt-10 pb-20 
+        pt-10
+        pb-20
       "
       style={{
         background: "#FFFFFF",
       }}
     >
-      {/* ===================================================
-          TOP-RIGHT CURVED BRAND DECORATION
-          Lightweight SVG + transform-only motion.
-      =================================================== */}
-
       <TopRightCurveDecoration
-        reduceMotion={Boolean(reduceMotion)}
+        reduceMotion={Boolean(
+          reduceMotion,
+        )}
       />
-
-      {/* ===================================================
-          BOTTOM-LEFT CURVED BRAND DECORATION
-          Mirrored partner of the top-right ribbon.
-      =================================================== */}
 
       <BottomLeftCurveDecoration
-        reduceMotion={Boolean(reduceMotion)}
+        reduceMotion={Boolean(
+          reduceMotion,
+        )}
       />
-
-      {/* ===================================================
-          CONTAINER
-      =================================================== */}
 
       <div
         className="
@@ -490,9 +430,7 @@ export default function ServicesSection() {
           2xl:px-24
         "
       >
-        {/* =================================================
-            INTRO
-        ================================================= */}
+        {/* INTRO */}
 
         <div
           className="
@@ -504,10 +442,9 @@ export default function ServicesSection() {
           <motion.div
             initial={{
               opacity: 0,
-              y:
-                reduceMotion
-                  ? 0
-                  : 12,
+              y: reduceMotion
+                ? 0
+                : 12,
             }}
             whileInView={{
               opacity: 1,
@@ -516,7 +453,8 @@ export default function ServicesSection() {
             viewport={{
               once: true,
               amount: 0.45,
-              margin: "0px 0px -8% 0px",
+              margin:
+                "0px 0px -8% 0px",
             }}
             transition={{
               duration:
@@ -577,8 +515,13 @@ export default function ServicesSection() {
           <motion.h2
             initial={{
               opacity: 0,
-              y: reduceMotion ? 0 : 18,
-              scale: reduceMotion ? 1 : 0.985,
+              y: reduceMotion
+                ? 0
+                : 18,
+              scale:
+                reduceMotion
+                  ? 1
+                  : 0.985,
             }}
             whileInView={{
               opacity: 1,
@@ -588,7 +531,8 @@ export default function ServicesSection() {
             viewport={{
               once: true,
               amount: 0.4,
-              margin: "0px 0px -8% 0px",
+              margin:
+                "0px 0px -8% 0px",
             }}
             transition={{
               duration:
@@ -603,6 +547,7 @@ export default function ServicesSection() {
             }}
             className="
               mt-5
+              pt-3
 
               font-heading
 
@@ -622,18 +567,24 @@ export default function ServicesSection() {
             "
           >
             Our Expertise
+
             <br className="hidden sm:block" />
+
             <span className="sm:hidden">
               {" "}
             </span>
-            
           </motion.h2>
 
           <motion.p
             initial={{
               opacity: 0,
-              y: reduceMotion ? 0 : 20,
-              scale: reduceMotion ? 1 : 0.99,
+              y: reduceMotion
+                ? 0
+                : 20,
+              scale:
+                reduceMotion
+                  ? 1
+                  : 0.99,
             }}
             whileInView={{
               opacity: 1,
@@ -643,13 +594,14 @@ export default function ServicesSection() {
             viewport={{
               once: true,
               amount: 0.4,
-              margin: "0px 0px -8% 0px",
+              margin:
+                "0px 0px -8% 0px",
             }}
             transition={{
               duration:
                 reduceMotion
                   ? 0
-                  : 1.0,
+                  : 1,
               delay:
                 reduceMotion
                   ? 0
@@ -660,6 +612,7 @@ export default function ServicesSection() {
               mx-auto
 
               mt-6
+              pt-3
 
               max-w-[650px]
 
@@ -676,7 +629,8 @@ export default function ServicesSection() {
               lg:text-[16px]
             "
           >
-            We Provide Best Quality Services.
+            We Provide Best Quality
+            Services.
           </motion.p>
         </div>
 
@@ -687,7 +641,9 @@ export default function ServicesSection() {
         <div
           className="
             relative
+
             mt-12
+
             sm:mt-14
             md:mt-16
             lg:mt-18
@@ -716,7 +672,9 @@ export default function ServicesSection() {
           <motion.div
             initial={{
               opacity: 0,
-              y: reduceMotion ? 0 : 26,
+              y: reduceMotion
+                ? 0
+                : 26,
             }}
             whileInView={{
               opacity: 1,
@@ -725,10 +683,14 @@ export default function ServicesSection() {
             viewport={{
               once: true,
               amount: 0.2,
-              margin: "0px 0px -6% 0px",
+              margin:
+                "0px 0px -6% 0px",
             }}
             transition={{
-              duration: reduceMotion ? 0 : 1.05,
+              duration:
+                reduceMotion
+                  ? 0
+                  : 1.05,
               ease: smoothEase,
             }}
             className="
@@ -753,17 +715,17 @@ export default function ServicesSection() {
             {services.map(
               (
                 service,
-                index
+                index,
               ) => {
                 const offset =
                   shortestOffset(
                     index,
-                    activeIndex
+                    activeIndex,
                   );
 
                 if (
                   Math.abs(
-                    offset
+                    offset,
                   ) >
                   visibleRange
                 ) {
@@ -778,15 +740,10 @@ export default function ServicesSection() {
                     service={
                       service
                     }
-                    index={
-                      index
-                    }
-                    offset={
-                      offset
-                    }
+                    index={index}
+                    offset={offset}
                     active={
-                      offset ===
-                      0
+                      offset === 0
                     }
                     hovered={
                       hoveredIndex ===
@@ -796,32 +753,30 @@ export default function ServicesSection() {
                       layoutMode
                     }
                     reduceMotion={Boolean(
-                      reduceMotion
+                      reduceMotion,
                     )}
                     onHover={() =>
                       setHoveredIndex(
-                        index
+                        index,
                       )
                     }
                     onLeave={() =>
                       setHoveredIndex(
-                        null
+                        null,
                       )
                     }
                     onSelect={() =>
                       setActiveIndex(
-                        index
+                        index,
                       )
                     }
                   />
                 );
-              }
+              },
             )}
           </motion.div>
 
-          {/* =================================================
-              CONTROLS
-          ================================================= */}
+          {/* CONTROLS */}
 
           <div
             className="
@@ -843,8 +798,6 @@ export default function ServicesSection() {
               px-1
             "
           >
-            {/* ARROWS */}
-
             <div
               className="
                 flex
@@ -907,15 +860,11 @@ function CarouselCard({
     BriefcaseBusiness;
 
   const highlighted =
-    active ||
-    hovered;
+    active || hovered;
 
   const xByMode: Record<
     LayoutMode,
-    Record<
-      number,
-      number
-    >
+    Record<number, number>
   > = {
     mobile: {
       [-1]: -235,
@@ -942,15 +891,12 @@ function CarouselCard({
 
   const scaleByMode: Record<
     LayoutMode,
-    Record<
-      number,
-      number
-    >
+    Record<number, number>
   > = {
     mobile: {
-      [-1]: 0.80,
+      [-1]: 0.8,
       [0]: 1.035,
-      [1]: 0.80,
+      [1]: 0.8,
     },
 
     tablet: {
@@ -963,19 +909,16 @@ function CarouselCard({
 
     desktop: {
       [-2]: 0.76,
-      [-1]: 1.0,
+      [-1]: 1,
       [0]: 1.055,
-      [1]: 1.0,
+      [1]: 1,
       [2]: 0.76,
     },
   };
 
   const opacityByMode: Record<
     LayoutMode,
-    Record<
-      number,
-      number
-    >
+    Record<number, number>
   > = {
     mobile: {
       [-1]: 0.72,
@@ -1057,16 +1000,22 @@ function CarouselCard({
       }
       style={{
         left: "50%",
+
         zIndex:
           zByOffset[
             offset
           ] ?? 0,
+
         willChange:
           reduceMotion
             ? "auto"
             : "transform, opacity",
-        backfaceVisibility: "hidden",
-        WebkitBackfaceVisibility: "hidden",
+
+        backfaceVisibility:
+          "hidden",
+
+        WebkitBackfaceVisibility:
+          "hidden",
       }}
       className={`
         group
@@ -1111,10 +1060,7 @@ function CarouselCard({
         }
       `}
     >
-      {/* =====================================================
-          IMAGE AS TRUE BACKGROUND
-          Using CSS background avoids Next/Image preload issue.
-      ===================================================== */}
+      {/* IMAGE BACKGROUND */}
 
       <motion.div
         aria-hidden="true"
@@ -1144,6 +1090,7 @@ function CarouselCard({
         style={{
           backgroundImage:
             `url("${service.image}")`,
+
           willChange:
             reduceMotion
               ? "auto"
@@ -1151,10 +1098,7 @@ function CarouselCard({
         }}
       />
 
-      {/* =====================================================
-          OVERLAY
-          Clear image on top, stronger contrast near content.
-      ===================================================== */}
+      {/* OVERLAY */}
 
       <motion.div
         aria-hidden="true"
@@ -1181,7 +1125,7 @@ function CarouselCard({
         }}
       />
 
-      {/* LEFT/TOP READABILITY FADE */}
+      {/* READABILITY FADE */}
 
       <div
         aria-hidden="true"
@@ -1196,7 +1140,7 @@ function CarouselCard({
         }}
       />
 
-      {/* ACTIVE EDGE ONLY — NO DROP SHADOW */}
+      {/* ACTIVE EDGE */}
 
       <motion.div
         aria-hidden="true"
@@ -1222,9 +1166,7 @@ function CarouselCard({
         }}
       />
 
-      {/* =====================================================
-          CONTENT
-      ===================================================== */}
+      {/* CONTENT */}
 
       <div
         className="
@@ -1236,11 +1178,13 @@ function CarouselCard({
           flex-col
 
           p-5
+
           sm:p-6
+
           lg:p-7
         "
       >
-        {/* TOP ROW */}
+        {/* TOP */}
 
         <div
           className="
@@ -1253,9 +1197,14 @@ function CarouselCard({
           <motion.div
             initial={false}
             animate={{
-              opacity: active ? 1 : 0.92,
+              opacity:
+                active
+                  ? 1
+                  : 0.92,
+
               scale:
-                active && !reduceMotion
+                active &&
+                !reduceMotion
                   ? 1.03
                   : 1,
             }}
@@ -1264,6 +1213,7 @@ function CarouselCard({
                 reduceMotion
                   ? 0
                   : 0.4,
+
               ease: smoothEase,
             }}
             className="
@@ -1301,29 +1251,23 @@ function CarouselCard({
             "
           >
             {String(
-              index + 1
+              index + 1,
             ).padStart(
               2,
-              "0"
+              "0",
             )}
           </span>
         </div>
 
         {/* CONTENT BLOCK */}
 
-        <div
-          className="
-            mt-auto
-          "
-        >
+        <div className="mt-auto">
           {/* CATEGORY */}
 
           <div
             className="
               inline-flex
-
               items-center
-
               gap-2
 
               px-3
@@ -1342,7 +1286,10 @@ function CarouselCard({
             />
 
             <span
-              style={{ color: "#FFFFFF" }}
+              style={{
+                color:
+                  "#FFFFFF",
+              }}
               className="
                 font-body
 
@@ -1367,7 +1314,9 @@ function CarouselCard({
           {/* TITLE */}
 
           <motion.h3
-            style={{ color: "#FFFFFF" }}
+            style={{
+              color: "#FFFFFF",
+            }}
             initial={false}
             animate={{
               y:
@@ -1407,7 +1356,9 @@ function CarouselCard({
           {/* DESCRIPTION */}
 
           <p
-            style={{ color: "#FFFFFF" }}
+            style={{
+              color: "#FFFFFF",
+            }}
             className="
               mt-3
 
@@ -1435,21 +1386,17 @@ function CarouselCard({
 
           {/* CTA */}
 
-          <div
-            className="
-              mt-6
-            "
-          >
+          <div className="mt-6">
             <Link
               href={
                 service.href
               }
-              onClick={(
-                event
-              ) =>
+              onClick={(event) =>
                 event.stopPropagation()
               }
-              style={{ color: "#FFFFFF" }}
+              style={{
+                color: "#FFFFFF",
+              }}
               className="
                 group/link
 
@@ -1517,7 +1464,6 @@ function CarouselCard({
   );
 }
 
-
 /* =========================================================
    TOP-RIGHT CURVE DECORATION
 ========================================================= */
@@ -1574,7 +1520,9 @@ function TopRightCurveDecoration({
         will-change-transform
       "
       style={{
-        backfaceVisibility: "hidden",
+        backfaceVisibility:
+          "hidden",
+
         WebkitBackfaceVisibility:
           "hidden",
       }}
@@ -1599,10 +1547,12 @@ function TopRightCurveDecoration({
               offset="0%"
               stopColor="#2AA7F4"
             />
+
             <stop
               offset="55%"
               stopColor="#1888E9"
             />
+
             <stop
               offset="100%"
               stopColor="#0C69D8"
@@ -1620,10 +1570,12 @@ function TopRightCurveDecoration({
               offset="0%"
               stopColor="#0E91EA"
             />
+
             <stop
               offset="52%"
               stopColor="#0877DD"
             />
+
             <stop
               offset="100%"
               stopColor="#075CC6"
@@ -1641,10 +1593,12 @@ function TopRightCurveDecoration({
               offset="0%"
               stopColor="#0879DE"
             />
+
             <stop
               offset="52%"
               stopColor="#075FCB"
             />
+
             <stop
               offset="100%"
               stopColor="#084AAE"
@@ -1663,6 +1617,7 @@ function TopRightCurveDecoration({
               stopColor="#68C3FF"
               stopOpacity="0.85"
             />
+
             <stop
               offset="100%"
               stopColor="#2C92F1"
@@ -1690,28 +1645,20 @@ function TopRightCurveDecoration({
           </clipPath>
         </defs>
 
-        {/* OUTER LIGHT RIBBON */}
-
         <path
           d="M0 0H680V190C614 150 543 129 456 117C356 104 263 108 174 89C99 73 39 43 0 0Z"
           fill="url(#services-curve-light)"
         />
-
-        {/* SECOND RIBBON */}
 
         <path
           d="M36 0H680V177C613 138 544 117 459 106C361 93 272 97 191 80C126 67 77 40 36 0Z"
           fill="url(#services-curve-mid)"
         />
 
-        {/* MAIN DARK RIBBON */}
-
         <path
           d="M74 0H680V159C610 121 541 101 458 90C362 78 277 81 202 67C143 56 99 35 74 0Z"
           fill="url(#services-curve-main)"
         />
-
-        {/* THIN HIGHLIGHT ALONG CURVE */}
 
         <path
           d="M22 3C75 47 129 70 195 83C278 100 369 96 463 109C548 120 617 142 680 179"
@@ -1722,8 +1669,6 @@ function TopRightCurveDecoration({
           opacity="0.82"
         />
 
-        {/* DOTTED DETAIL */}
-
         <rect
           x="420"
           y="7"
@@ -1733,8 +1678,6 @@ function TopRightCurveDecoration({
           clipPath="url(#services-main-curve-clip)"
           opacity="0.56"
         />
-
-        {/* SMALL GLOW LINE */}
 
         <path
           d="M460 18C518 25 578 42 633 69"
@@ -1749,10 +1692,8 @@ function TopRightCurveDecoration({
   );
 }
 
-
 /* =========================================================
    BOTTOM-LEFT CURVE DECORATION
-   Same visual language as the top-right curve, mirrored.
 ========================================================= */
 
 function BottomLeftCurveDecoration({
@@ -1807,7 +1748,9 @@ function BottomLeftCurveDecoration({
         will-change-transform
       "
       style={{
-        backfaceVisibility: "hidden",
+        backfaceVisibility:
+          "hidden",
+
         WebkitBackfaceVisibility:
           "hidden",
       }}
@@ -1820,8 +1763,11 @@ function BottomLeftCurveDecoration({
           w-full
         "
         style={{
-          transform: "rotate(180deg)",
-          transformOrigin: "50% 50%",
+          transform:
+            "rotate(180deg)",
+
+          transformOrigin:
+            "50% 50%",
         }}
       >
         <defs>
@@ -1836,10 +1782,12 @@ function BottomLeftCurveDecoration({
               offset="0%"
               stopColor="#2AA7F4"
             />
+
             <stop
               offset="55%"
               stopColor="#1888E9"
             />
+
             <stop
               offset="100%"
               stopColor="#0C69D8"
@@ -1857,10 +1805,12 @@ function BottomLeftCurveDecoration({
               offset="0%"
               stopColor="#0E91EA"
             />
+
             <stop
               offset="52%"
               stopColor="#0877DD"
             />
+
             <stop
               offset="100%"
               stopColor="#075CC6"
@@ -1878,10 +1828,12 @@ function BottomLeftCurveDecoration({
               offset="0%"
               stopColor="#0879DE"
             />
+
             <stop
               offset="52%"
               stopColor="#075FCB"
             />
+
             <stop
               offset="100%"
               stopColor="#084AAE"
@@ -1900,6 +1852,7 @@ function BottomLeftCurveDecoration({
               stopColor="#68C3FF"
               stopOpacity="0.85"
             />
+
             <stop
               offset="100%"
               stopColor="#2C92F1"
@@ -1927,25 +1880,21 @@ function BottomLeftCurveDecoration({
           </clipPath>
         </defs>
 
-        {/* OUTER LIGHT RIBBON */}
         <path
           d="M0 0H680V190C614 150 543 129 456 117C356 104 263 108 174 89C99 73 39 43 0 0Z"
           fill="url(#services-bottom-curve-light)"
         />
 
-        {/* SECOND RIBBON */}
         <path
           d="M36 0H680V177C613 138 544 117 459 106C361 93 272 97 191 80C126 67 77 40 36 0Z"
           fill="url(#services-bottom-curve-mid)"
         />
 
-        {/* MAIN DARK RIBBON */}
         <path
           d="M74 0H680V159C610 121 541 101 458 90C362 78 277 81 202 67C143 56 99 35 74 0Z"
           fill="url(#services-bottom-curve-main)"
         />
 
-        {/* THIN HIGHLIGHT */}
         <path
           d="M22 3C75 47 129 70 195 83C278 100 369 96 463 109C548 120 617 142 680 179"
           fill="none"
@@ -1955,7 +1904,6 @@ function BottomLeftCurveDecoration({
           opacity="0.82"
         />
 
-        {/* DOTTED DETAIL */}
         <rect
           x="420"
           y="7"
@@ -1966,7 +1914,6 @@ function BottomLeftCurveDecoration({
           opacity="0.56"
         />
 
-        {/* SMALL GLOW LINE */}
         <path
           d="M460 18C518 25 578 42 633 69"
           fill="none"
@@ -1996,20 +1943,15 @@ function ControlButton({
   onClick: () => void;
 }) {
   const Icon =
-    direction ===
-    "left"
+    direction === "left"
       ? ArrowLeft
       : ArrowRight;
 
   return (
     <button
       type="button"
-      onClick={
-        onClick
-      }
-      aria-label={
-        label
-      }
+      onClick={onClick}
+      aria-label={label}
       className="
         group
 

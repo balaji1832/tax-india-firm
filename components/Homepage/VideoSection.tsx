@@ -202,8 +202,8 @@ export default function VideoSection({
               lg:text-[46px]
             "
           >
-            Business, tax and compliance support made{" "}
-            <span className="text-[#2D8CFF]">simple.</span>
+            Business, Tax and Compliance Support Made For {" "}
+            <span className="text-[#2D8CFF]"> All Your Need .</span>
           </motion.h2>
 
           <motion.p
