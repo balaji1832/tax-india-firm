@@ -38,6 +38,30 @@ type SearchItem = {
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+/* =========================================================
+   ROTATING HERO WORDS
+========================================================= */
+
+const rotatingHeadlineWords = [
+  "Successfully",
+  "Confidently",
+  "Seamlessly",
+] as const;
+
+/* =========================================================
+   SEARCH TYPING PLACEHOLDERS
+   - continuously types and deletes
+   - pauses while the search area is hovered
+   - pauses as soon as the user starts typing
+========================================================= */
+
+const searchPlaceholderPhrases = [
+  "Search GST Registration...",
+  "Search Private Limited Company...",
+  "Search Trademark Registration...",
+  "Search ITR Filing...",
+] as const;
+
 const introContainer: Variants = {
   hidden: {},
   visible: {
@@ -783,8 +807,111 @@ export default function BusinessHero() {
   const [query, setQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [headlineWordIndex, setHeadlineWordIndex] = useState(0);
+
+  const [typedPlaceholder, setTypedPlaceholder] = useState("Search");
+  const [placeholderPhraseIndex, setPlaceholderPhraseIndex] = useState(0);
+  const [placeholderDeleting, setPlaceholderDeleting] = useState(false);
+  const [searchHovered, setSearchHovered] = useState(false);
 
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
+
+  /* =======================================================
+     ROTATING HEADLINE WORD
+     - smooth continuous change
+     - no layout jump
+     - respects reduced motion
+  ======================================================= */
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setHeadlineWordIndex(0);
+      return;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setHeadlineWordIndex(
+        (current) => (current + 1) % rotatingHeadlineWords.length,
+      );
+    }, 2700);
+
+    return () => window.clearInterval(intervalId);
+  }, [reduceMotion]);
+
+  /* =======================================================
+     CONTINUOUS SEARCH PLACEHOLDER TYPING
+     - type phrase
+     - short pause
+     - delete phrase
+     - move to next phrase
+     - pauses on hover or while user has typed text
+     - resumes after hover leaves if the input is empty
+  ======================================================= */
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setTypedPlaceholder("Search any service...");
+      return;
+    }
+
+    if (searchHovered || query.length > 0) {
+      return;
+    }
+
+    const currentPhrase =
+      searchPlaceholderPhrases[placeholderPhraseIndex];
+
+    const phraseComplete =
+      !placeholderDeleting &&
+      typedPlaceholder.length === currentPhrase.length;
+
+    const phraseDeleted =
+      placeholderDeleting && typedPlaceholder.length === 0;
+
+    let delay = placeholderDeleting ? 36 : 72;
+
+    if (phraseComplete) {
+      delay = 1200;
+    }
+
+    if (phraseDeleted) {
+      delay = 280;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      if (phraseComplete) {
+        setPlaceholderDeleting(true);
+        return;
+      }
+
+      if (phraseDeleted) {
+        setPlaceholderDeleting(false);
+        setPlaceholderPhraseIndex(
+          (current) =>
+            (current + 1) % searchPlaceholderPhrases.length,
+        );
+        return;
+      }
+
+      if (placeholderDeleting) {
+        setTypedPlaceholder((current) => current.slice(0, -1));
+        return;
+      }
+
+      setTypedPlaceholder(
+        currentPhrase.slice(0, typedPlaceholder.length + 1),
+      );
+    }, delay);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [
+    placeholderDeleting,
+    placeholderPhraseIndex,
+    query.length,
+    reduceMotion,
+    searchHovered,
+    typedPlaceholder,
+  ]);
 
   /* =======================================================
      FILTERING
@@ -1053,7 +1180,42 @@ export default function BusinessHero() {
               "
             >
               Helping You Build Your Business{" "}
-              <span className="!text-[#AEE4FF]">Successfully</span>
+              <span
+                className="relative inline-grid align-baseline"
+                aria-live="polite"
+              >
+                {/* Invisible word keeps the headline width stable while words change. */}
+                <span
+                  aria-hidden="true"
+                  className="invisible col-start-1 row-start-1 !text-[#AEE4FF]"
+                >
+                  Successfully
+                </span>
+
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={rotatingHeadlineWords[headlineWordIndex]}
+                    initial={
+                      reduceMotion
+                        ? false
+                        : { opacity: 0, y: 14, scale: 0.985 }
+                    }
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={
+                      reduceMotion
+                        ? { opacity: 0 }
+                        : { opacity: 0, y: -12, scale: 0.99 }
+                    }
+                    transition={{
+                      duration: reduceMotion ? 0.01 : 0.58,
+                      ease: EASE,
+                    }}
+                    className="col-start-1 row-start-1 inline-block !text-[#AEE4FF]"
+                  >
+                    {rotatingHeadlineWords[headlineWordIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              </span>
             </motion.h1>
 
             <motion.p
@@ -1094,6 +1256,8 @@ export default function BusinessHero() {
             initial={reduceMotion ? false : "hidden"}
             whileInView="visible"
             viewport={{ once: true, amount: 0.3, margin: "0px 0px -5% 0px" }}
+            onMouseEnter={() => setSearchHovered(true)}
+            onMouseLeave={() => setSearchHovered(false)}
             className="relative z-50 mt-8 w-full max-w-[920px] md:mt-9"
           >
             <div
@@ -1137,7 +1301,7 @@ export default function BusinessHero() {
               <input
                 type="text"
                 value={query}
-                placeholder="Search any service..."
+                placeholder={typedPlaceholder}
                 autoComplete="off"
                 spellCheck={false}
                 aria-label="Search services"
@@ -1646,7 +1810,7 @@ export default function BusinessHero() {
                 font-body
                 text-[11px]
                 font-semibold
-                text-[#086AB8]
+                 text-[#2563EB]
                 shadow-[0_5px_16px_rgba(21,86,133,0.04)]
 
                 sm:text-[12px]
@@ -1791,8 +1955,8 @@ function QuickLink({
           justify-center
           rounded-full
           border
-          border-white/20
-          bg-white/[0.09]
+          border-white/90
+          bg-white/95
           px-3
           py-2
           text-center
@@ -1800,13 +1964,16 @@ function QuickLink({
           text-[10.5px]
           font-medium
           leading-[1.25]
-          text-white/90
-          transition-[border-color,background-color,color,transform]
-          duration-300
-          hover:-translate-y-[1px]
-          hover:border-white/35
-          hover:bg-white/[0.14]
-          hover:text-white
+          text-[#0B64AD]
+          shadow-[0_7px_18px_rgba(2,45,91,0.08)]
+          transition-[border-color,background-color,color,box-shadow,transform]
+          duration-[400ms]
+          ease-out
+          hover:-translate-y-[2px]
+          hover:border-white
+          hover:bg-white
+          hover:text-[#075698]
+          hover:shadow-[0_12px_28px_rgba(2,45,91,0.14)]
 
           min-[420px]:text-[11px]
 
@@ -1838,22 +2005,44 @@ function StatItem({
   title: string;
   subtitle: string;
 }) {
+  const reduceMotion = useReducedMotion();
+
   return (
     <motion.div
       variants={statReveal}
+      whileHover={
+        reduceMotion
+          ? undefined
+          : {
+              y: -3,
+              scale: 1.01,
+              transition: { duration: 0.42, ease: EASE },
+            }
+      }
       className="
+        group
+        relative
+        isolate
         flex
         min-h-[104px]
         w-full
         items-center
         justify-start
         gap-4
+        overflow-hidden
         rounded-[18px]
         border
         border-white/[0.13]
         bg-white/[0.08]
         px-5
         py-5
+        shadow-[0_10px_30px_rgba(2,34,76,0.06)]
+        transition-[border-color,background-color,box-shadow]
+        duration-500
+        ease-out
+        hover:border-white/[0.30]
+        hover:bg-white/[0.12]
+        hover:shadow-[0_18px_42px_rgba(2,34,76,0.16)]
 
         sm:min-h-[116px]
         sm:justify-center
@@ -1862,8 +2051,55 @@ function StatItem({
         lg:px-5
       "
     >
+      {/* Soft white glass layer appears gently on hover. */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          z-0
+          bg-gradient-to-br
+          from-white/[0.16]
+          via-white/[0.055]
+          to-transparent
+          opacity-0
+          transition-opacity
+          duration-500
+          ease-out
+          group-hover:opacity-100
+        "
+      />
+
+      {/* Very subtle moving white sheen for a premium hover finish. */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          -left-[45%]
+          top-[-25%]
+          z-0
+          h-[160%]
+          w-[34%]
+          rotate-[18deg]
+          bg-gradient-to-r
+          from-transparent
+          via-white/[0.16]
+          to-transparent
+          opacity-0
+          transition-[left,opacity]
+          duration-700
+          ease-out
+          group-hover:left-[115%]
+          group-hover:opacity-100
+        "
+      />
+
       <div
         className="
+          relative
+          z-10
           flex
           h-[44px]
           w-[44px]
@@ -1873,12 +2109,18 @@ function StatItem({
           rounded-[13px]
           bg-white/[0.11]
           text-white
+          transition-[background-color,box-shadow,transform]
+          duration-500
+          ease-out
+          group-hover:scale-[1.04]
+          group-hover:bg-white/[0.17]
+          group-hover:shadow-[0_8px_24px_rgba(255,255,255,0.08)]
         "
       >
         {icon}
       </div>
 
-      <div className="min-w-0 text-left">
+      <div className="relative z-10 min-w-0 text-left">
         <div
           className="
             font-heading

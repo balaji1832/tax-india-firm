@@ -8,6 +8,7 @@ import ExpertGuides from "../components/Homepage/ExpertGuides";
 import FinalCtaBanner from "../components/Homepage/Finalctabanner";
 import AdvancedBusinessHero from "../components/Homepage/AdvancedBusinessHero";
 import VideoSection from "../components/Homepage/VideoSection";
+import WhyChooseUs from "../components/Homepage/WhyChooseUs";
 
 export default function Home() {
   return (
@@ -15,9 +16,13 @@ export default function Home() {
     <AdvancedBusinessHero />
 
     <VideoSection />
+
+   <WhyChooseUs />
+
     <ServicesSection />
 
     <HowItWorks />
+
 
     <StartupPackages />
 

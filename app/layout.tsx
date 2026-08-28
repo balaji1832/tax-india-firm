@@ -1,5 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type { ReactNode } from "react";
+
+/* ========================================
+   INTER FONT - LOCAL PACKAGE
+   No Google Fonts network request
+======================================== */
+
+import "@fontsource/inter/300.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
+import "@fontsource/inter/800.css";
 
 import "./globals.css";
 
@@ -8,29 +20,15 @@ import Footer from "../components/Layouts/Footer";
 import ScrollToTopButton from "../components/Layouts/Scrolltotopbutton";
 
 /* ========================================
-   SITE FONT - INTER
-======================================== */
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-  weight: [
-    "300",
-    "400",
-    "500",
-    "600",
-    "700",
-    "800",
-  ],
-});
-
-/* ========================================
    METADATA
 ======================================== */
 
 export const metadata: Metadata = {
-  title: "Tax India Firm",
+  title: {
+    default: "Tax India Firm",
+    template: "%s | Tax India Firm",
+  },
+
   description:
     "Professional tax, business, income tax and legal services in India.",
 };
@@ -42,25 +40,14 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={inter.variable}
-    >
-      <body
-        className="
-          min-h-screen
-          bg-white
-          font-body
-          text-[#182536]
-          antialiased
-        "
-      >
+    <html lang="en">
+      <body className="min-h-screen bg-white font-body text-[#182536] antialiased">
         <Header />
 
-        {children}
+        <main>{children}</main>
 
         <ScrollToTopButton />
 

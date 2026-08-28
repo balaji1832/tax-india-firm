@@ -627,7 +627,7 @@ export default function FinalCtaBanner() {
                 text-[13px]
                 font-semibold
 
-                text-white
+                !text-white
 
                 shadow-[0_15px_30px_-16px_rgba(15,23,42,0.50)]
 
@@ -713,7 +713,7 @@ export default function FinalCtaBanner() {
 
               text-[#9AA4B1]
 
-              sm:text-[11px]
+              sm:text-[11px] pt-5
             "
           >
             Monday to Saturday · 10:00 AM – 9:00 PM · Chennai

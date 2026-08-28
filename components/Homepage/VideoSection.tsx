@@ -172,7 +172,7 @@ export default function VideoSection({
               font-body
               text-[11px]
               font-semibold
-              text-[#0B72C5]
+               text-[#2563EB]
 
               sm:text-[12px]
             "
@@ -203,7 +203,7 @@ export default function VideoSection({
             "
           >
             Business, tax and compliance support made{" "}
-            <span className="text-[#0B72C5]">simple.</span>
+            <span className="text-[#2D8CFF]">simple.</span>
           </motion.h2>
 
           <motion.p

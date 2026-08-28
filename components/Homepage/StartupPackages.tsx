@@ -37,14 +37,12 @@ type PackageItem = {
 
 /* =========================================================
    CONTENT
-   KEEPING YOUR CONTENT UNCHANGED
 ========================================================= */
 
 const packages: PackageItem[] = [
   {
     title: "Sole Trader",
-    subtitle:
-      "For freelancers & sole proprietors",
+    subtitle: "For freelancers & sole proprietors",
 
     features: [
       "GST Registration in Chennai",
@@ -54,14 +52,12 @@ const packages: PackageItem[] = [
       "Current Account Opening Support",
     ],
 
-    cta:
-      "Start as a Sole Trader in Chennai",
+    cta: "Start as a Sole Trader in Chennai",
   },
 
   {
     title: "Business Launch",
-    subtitle:
-      "For Pvt Ltd, LLP or OPC incorporations",
+    subtitle: "For Pvt Ltd, LLP or OPC incorporations",
 
     features: [
       "Company Registration (Pvt Ltd / LLP / OPC)",
@@ -72,8 +68,7 @@ const packages: PackageItem[] = [
       "Current Account Opening Assistance",
     ],
 
-    cta:
-      "Register Your Company in Chennai",
+    cta: "Register Your Company in Chennai",
 
     popular: true,
   },
@@ -92,8 +87,7 @@ const packages: PackageItem[] = [
       "ROC Annual Filing",
     ],
 
-    cta:
-      "Get Full Compliance Support",
+    cta: "Get Full Compliance Support",
   },
 ];
 
@@ -101,12 +95,7 @@ const packages: PackageItem[] = [
    MOTION
 ========================================================= */
 
-const smoothEase = [
-  0.16,
-  1,
-  0.3,
-  1,
-] as const;
+const smoothEase = [0.16, 1, 0.3, 1] as const;
 
 const headerContainer: Variants = {
   hidden: {},
@@ -171,24 +160,17 @@ const cardReveal: Variants = {
 ========================================================= */
 
 export default function StartupPackages() {
-  const [activeIndex, setActiveIndex] =
-    useState(1);
+  const [activeIndex, setActiveIndex] = useState(1);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const [isPaused, setIsPaused] =
-    useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
 
-  const sectionRef =
-    useRef<HTMLElement | null>(null);
+  const reduceMotion = useReducedMotion();
 
-  const reduceMotion =
-    useReducedMotion();
-
-  const sectionInView =
-    useInView(sectionRef, {
-      amount: 0.12,
-      margin:
-        "0px 0px -8% 0px",
-    });
+  const sectionInView = useInView(sectionRef, {
+    amount: 0.12,
+    margin: "0px 0px -8% 0px",
+  });
 
   /* =======================================================
      MOBILE / TABLET AUTO SLIDER
@@ -203,19 +185,16 @@ export default function StartupPackages() {
       return;
     }
 
-    const interval =
-      window.setInterval(() => {
-        setActiveIndex(
-          (current) =>
-            (current + 1) %
-            packages.length,
-        );
-      }, 5600);
-
-    return () =>
-      window.clearInterval(
-        interval,
+    const interval = window.setInterval(() => {
+      setActiveIndex(
+        (current) =>
+          (current + 1) % packages.length,
       );
+    }, 5600);
+
+    return () => {
+      window.clearInterval(interval);
+    };
   }, [
     reduceMotion,
     sectionInView,
@@ -229,9 +208,7 @@ export default function StartupPackages() {
   const previousSlide = () => {
     setActiveIndex(
       (current) =>
-        (current -
-          1 +
-          packages.length) %
+        (current - 1 + packages.length) %
         packages.length,
     );
   };
@@ -239,8 +216,7 @@ export default function StartupPackages() {
   const nextSlide = () => {
     setActiveIndex(
       (current) =>
-        (current + 1) %
-        packages.length,
+        (current + 1) % packages.length,
     );
   };
 
@@ -250,13 +226,9 @@ export default function StartupPackages() {
       className="
         relative
         isolate
-
         w-full
-
         overflow-hidden
-
         bg-white
-
         py-3
       "
     >
@@ -267,9 +239,7 @@ export default function StartupPackages() {
       <div
         className="
           relative
-
           h-[330px]
-
           overflow-hidden
 
           sm:h-[345px]
@@ -278,10 +248,7 @@ export default function StartupPackages() {
           xl:h-[375px]
         "
       >
-        {/* =================================================
-            BLUE BACKGROUND
-            NO GRID / NO WHITE LINES
-        ================================================= */}
+        {/* BLUE BACKGROUND */}
 
         <div
           aria-hidden="true"
@@ -305,7 +272,7 @@ export default function StartupPackages() {
         />
 
         {/* =================================================
-            VERY SOFT CENTER LIGHT
+            SOFT CENTER LIGHT
         ================================================= */}
 
         <motion.div
@@ -314,11 +281,7 @@ export default function StartupPackages() {
             reduceMotion
               ? undefined
               : {
-                  x: [
-                    -25,
-                    28,
-                    -25,
-                  ],
+                  x: [-25, 28, -25],
 
                   scale: [
                     1,
@@ -354,10 +317,7 @@ export default function StartupPackages() {
           "
         />
 
-        {/* =================================================
-            SIDE GLASS BLOCKS
-            REBUILT TO MATCH REFERENCE
-        ================================================= */}
+        {/* SIDE GLASS BLOCKS */}
 
         <PricingGlassBlocks />
 
@@ -453,7 +413,7 @@ export default function StartupPackages() {
 
                 tracking-[0.17em]
 
-                text-white
+                !text-white
 
                 sm:text-[8.5px]
               "
@@ -463,7 +423,7 @@ export default function StartupPackages() {
           </motion.div>
 
           {/* =================================================
-              HEADING — FULL WHITE
+              HEADING
           ================================================= */}
 
           <motion.h2
@@ -472,6 +432,7 @@ export default function StartupPackages() {
               mx-auto
 
               mt-4
+              pt-3
 
               max-w-[650px]
 
@@ -481,15 +442,15 @@ export default function StartupPackages() {
               leading-[1.06]
               tracking-[-0.045em]
 
-              !text-white pt-3
+              !text-white
 
               sm:text-[34px]
               md:text-[38px]
               lg:text-[41px]
             "
           >
-            Launch Your Business in
-            Tamil Nadu. Pick Your Plan.
+            Launch Your Business in Tamil Nadu.
+            Pick Your Plan.
           </motion.h2>
 
           {/* DESCRIPTION */}
@@ -506,24 +467,21 @@ export default function StartupPackages() {
               text-[10px]
               leading-[1.65]
 
-              text-white/75
+              !text-white/75
 
               sm:text-[10.5px]
               md:text-[11px]
             "
           >
-            Pre-built bundles for the most
-            common business setups in
-            Chennai. Affordable,
-            expert-handled and delivered
-            on time.
+            Pre-built bundles for the most common
+            business setups in Chennai. Affordable,
+            expert-handled and delivered on time.
           </motion.p>
         </motion.div>
       </div>
 
       {/* =====================================================
           DESKTOP CARDS
-          ALL EXACTLY SAME HEIGHT + ALIGNMENT
       ===================================================== */}
 
       <motion.div
@@ -555,6 +513,7 @@ export default function StartupPackages() {
           -mt-[116px]
 
           hidden
+
           w-full
           max-w-[1050px]
 
@@ -566,8 +525,8 @@ export default function StartupPackages() {
           px-6
 
           lg:grid
-
           lg:-mt-[92px]
+
           xl:max-w-[1090px]
           xl:gap-[17px]
         "
@@ -584,9 +543,7 @@ export default function StartupPackages() {
                   ? undefined
                   : cardReveal
               }
-              className="
-                h-full
-              "
+              className="h-full"
             >
               <PricingCard
                 item={item}
@@ -631,7 +588,6 @@ export default function StartupPackages() {
         <div
           className="
             overflow-hidden
-
             pt-4
           "
         >
@@ -645,8 +601,7 @@ export default function StartupPackages() {
                   ? 0
                   : 0.68,
 
-              ease:
-                smoothEase,
+              ease: smoothEase,
             }}
             drag={
               reduceMotion
@@ -660,8 +615,7 @@ export default function StartupPackages() {
             dragElastic={0.035}
             dragMomentum={false}
             style={{
-              touchAction:
-                "pan-y",
+              touchAction: "pan-y",
 
               willChange:
                 reduceMotion
@@ -673,15 +627,13 @@ export default function StartupPackages() {
               info,
             ) => {
               if (
-                info.offset.x <
-                -55
+                info.offset.x < -55
               ) {
                 nextSlide();
               }
 
               if (
-                info.offset.x >
-                55
+                info.offset.x > 55
               ) {
                 previousSlide();
               }
@@ -697,9 +649,7 @@ export default function StartupPackages() {
                 index,
               ) => (
                 <div
-                  key={
-                    item.title
-                  }
+                  key={item.title}
                   className="
                     min-w-full
                     shrink-0
@@ -751,9 +701,7 @@ export default function StartupPackages() {
         >
           <SliderButton
             label="Previous package"
-            onClick={
-              previousSlide
-            }
+            onClick={previousSlide}
           >
             <ArrowLeft
               size={15}
@@ -773,15 +721,11 @@ export default function StartupPackages() {
                 index,
               ) => (
                 <button
-                  key={
-                    item.title
-                  }
+                  key={item.title}
                   type="button"
                   aria-label={`Show ${item.title}`}
                   onClick={() =>
-                    setActiveIndex(
-                      index,
-                    )
+                    setActiveIndex(index)
                   }
                   className="
                     flex
@@ -802,15 +746,11 @@ export default function StartupPackages() {
                           : 6,
                     }}
                     transition={{
-                      duration:
-                        0.3,
-
-                      ease:
-                        smoothEase,
+                      duration: 0.3,
+                      ease: smoothEase,
                     }}
                     className={`
                       h-[6px]
-
                       rounded-full
 
                       ${
@@ -828,9 +768,7 @@ export default function StartupPackages() {
 
           <SliderButton
             label="Next package"
-            onClick={
-              nextSlide
-            }
+            onClick={nextSlide}
           >
             <ArrowRight
               size={15}
@@ -839,7 +777,7 @@ export default function StartupPackages() {
         </div>
       </div>
 
-      {/* bottom breathing space */}
+      {/* BOTTOM SPACE */}
 
       <div
         className="
@@ -886,7 +824,6 @@ function PricingCard({
     >
       {/* =====================================================
           POPULAR BADGE
-          FLOATS ONLY — DOES NOT CHANGE CARD ALIGNMENT
       ===================================================== */}
 
       {item.popular && (
@@ -926,7 +863,7 @@ function PricingCard({
             <Sparkles
               size={9}
               className="
-                text-[#1768E7]
+                !text-[#1768E7]
               "
             />
 
@@ -938,7 +875,7 @@ function PricingCard({
 
                 tracking-[0.13em]
 
-                text-[#1768E7]
+                !text-[#1768E7]
               "
             >
               Most Popular
@@ -948,13 +885,13 @@ function PricingCard({
       )}
 
       {/* =====================================================
-          ALL DESKTOP CARDS:
-          SAME HEIGHT EXACTLY
+          CARD
       ===================================================== */}
 
       <div
         className={`
           group/card
+
           relative
 
           flex
@@ -1012,7 +949,7 @@ function PricingCard({
         `}
       >
         {/* =================================================
-            VERY SUBTLE CARD TOP LIGHT
+            SUBTLE CARD TOP LIGHT
         ================================================= */}
 
         <div
@@ -1037,7 +974,7 @@ function PricingCard({
           }}
         />
 
-        {/* popular top edge */}
+        {/* POPULAR TOP EDGE */}
 
         {item.popular && (
           <div
@@ -1068,13 +1005,13 @@ function PricingCard({
             className="
               flex
               items-center
-
               gap-2.5
             "
           >
             <span
               className="
                 flex
+
                 h-[25px]
                 w-[25px]
 
@@ -1090,17 +1027,13 @@ function PricingCard({
                 text-[9px]
                 font-bold
 
-                text-white
+                !text-white
               "
             >
               {index + 1}
             </span>
 
-            <div
-              className="
-                min-w-0
-              "
-            >
+            <div className="min-w-0">
               <p
                 className="
                   text-[6.5px]
@@ -1109,7 +1042,7 @@ function PricingCard({
 
                   tracking-[0.14em]
 
-                  text-[#9AA8B8]
+                  !text-[#9AA8B8]
                 "
               >
                 Package
@@ -1125,7 +1058,7 @@ function PricingCard({
                   leading-[1.15]
                   tracking-[-0.025em]
 
-                  text-[#172A43]
+                  !text-[#172A43]
 
                   sm:text-[16px]
                 "
@@ -1144,7 +1077,7 @@ function PricingCard({
               text-[8.5px]
               leading-[1.5]
 
-              text-[#74859A]
+              !text-[#74859A]
 
               sm:text-[9px]
             "
@@ -1153,7 +1086,7 @@ function PricingCard({
           </p>
         </div>
 
-        {/* divider */}
+        {/* DIVIDER */}
 
         <div
           className="
@@ -1189,7 +1122,6 @@ function PricingCard({
                 className="
                   flex
                   items-start
-
                   gap-2
                 "
               >
@@ -1198,6 +1130,7 @@ function PricingCard({
                     mt-[1px]
 
                     flex
+
                     h-[14px]
                     w-[14px]
 
@@ -1210,14 +1143,12 @@ function PricingCard({
 
                     bg-[#EAF2FF]
 
-                    text-[#1768E7]
+                    !text-[#1768E7]
                   "
                 >
                   <Check
                     size={8}
-                    strokeWidth={
-                      2.8
-                    }
+                    strokeWidth={2.8}
                   />
                 </span>
 
@@ -1226,7 +1157,7 @@ function PricingCard({
                     text-[8.5px]
                     leading-[1.42]
 
-                    text-[#56697E]
+                    !text-[#56697E]
 
                     sm:text-[9px]
 
@@ -1241,7 +1172,13 @@ function PricingCard({
         </ul>
 
         {/* =================================================
-            CTA
+            CTA BUTTON
+
+            FIX:
+            - POPULAR BUTTON TEXT ALWAYS WHITE
+            - NORMAL BUTTON TEXT BLUE
+            - NORMAL BUTTON HOVER TEXT WHITE
+            - ARROW ALSO CHANGES WHITE
         ================================================= */}
 
         <div
@@ -1258,8 +1195,8 @@ function PricingCard({
               group/button
 
               flex
-              min-h-[35px]
 
+              min-h-[35px]
               w-full
 
               items-center
@@ -1279,8 +1216,9 @@ function PricingCard({
               text-[8px]
               font-semibold
 
-              transition-all
+              transition-[background-color,border-color,color,box-shadow,transform]
               duration-300
+              ease-out
 
               sm:text-[8.5px]
 
@@ -1291,41 +1229,62 @@ function PricingCard({
 
                       bg-[#1768E7]
 
-                      text-white
+                      !text-white
 
                       shadow-[0_8px_20px_-13px_rgba(23,104,231,.50)]
 
                       hover:border-[#0F58C7]
                       hover:bg-[#0F58C7]
+                      hover:!text-white
                     `
                   : `
                       border-[#BAD0EC]
 
                       bg-white
 
-                      text-[#1768E7]
+                      !text-[#1768E7]
 
                       hover:border-[#1768E7]
                       hover:bg-[#1768E7]
-                      hover:text-white
+                      hover:!text-white
                     `
               }
             `}
           >
-            <span>
+            <span
+              className={
+                item.popular
+                  ? "!text-white"
+                  : `
+                      !text-[#1768E7]
+                      transition-colors
+                      duration-300
+                      group-hover/button:!text-white
+                    `
+              }
+            >
               {item.cta}
             </span>
 
             <ArrowRight
               size={11}
-              className="
+              className={`
                 shrink-0
 
-                transition-transform
+                transition-[transform,color]
                 duration-300
 
                 group-hover/button:translate-x-[2px]
-              "
+
+                ${
+                  item.popular
+                    ? "!text-white"
+                    : `
+                        !text-[#1768E7]
+                        group-hover/button:!text-white
+                      `
+                }
+              `}
             />
           </Link>
         </div>
@@ -1364,7 +1323,7 @@ function PricingGlassBlocks() {
           xl:w-[300px]
         "
       >
-        {/* outer tallest */}
+        {/* OUTER */}
 
         <GlassBlock
           className="
@@ -1378,7 +1337,7 @@ function PricingGlassBlocks() {
           "
         />
 
-        {/* middle */}
+        {/* MIDDLE */}
 
         <GlassBlock
           className="
@@ -1392,7 +1351,7 @@ function PricingGlassBlocks() {
           "
         />
 
-        {/* inside smaller */}
+        {/* INNER */}
 
         <GlassBlock
           className="
@@ -1430,7 +1389,7 @@ function PricingGlassBlocks() {
           xl:w-[300px]
         "
       >
-        {/* outer tallest */}
+        {/* OUTER */}
 
         <GlassBlock
           className="
@@ -1444,7 +1403,7 @@ function PricingGlassBlocks() {
           "
         />
 
-        {/* middle */}
+        {/* MIDDLE */}
 
         <GlassBlock
           className="
@@ -1458,7 +1417,7 @@ function PricingGlassBlocks() {
           "
         />
 
-        {/* inside */}
+        {/* INNER */}
 
         <GlassBlock
           className="
@@ -1512,9 +1471,8 @@ function GlassBlock({
         `,
       }}
     >
-      {/* top soft highlight */}
-
       <div
+        aria-hidden="true"
         className="
           absolute
           inset-x-0
@@ -1554,6 +1512,7 @@ function SliderButton({
       }}
       className="
         flex
+
         h-9
         w-9
 
@@ -1567,7 +1526,7 @@ function SliderButton({
 
         bg-white
 
-        text-[#1768E7]
+        !text-[#1768E7]
 
         shadow-[0_8px_20px_-16px_rgba(25,63,115,.45)]
 
@@ -1576,7 +1535,7 @@ function SliderButton({
 
         hover:border-[#1768E7]
         hover:bg-[#1768E7]
-        hover:text-white
+        hover:!text-white
       "
     >
       {children}

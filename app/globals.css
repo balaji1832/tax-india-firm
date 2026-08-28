@@ -14,26 +14,29 @@
   --menu-active: #266ef1;
   --header-background: #d9dfe8;
   --contact-green: #0e998d;
+
+  /*
+   * Inter is loaded locally through
+   * @fontsource/inter in layout.tsx.
+   */
+  --font-inter: "Inter", Arial, Helvetica, sans-serif;
 }
 
 /* ========================================
-   TAILWIND THEME
+   TAILWIND V4 THEME
 ======================================== */
 
 @theme inline {
+  /* Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
 
-  /* Heading */
+  /* Fonts */
   --font-heading: var(--font-inter);
-
-  /* Body */
   --font-body: var(--font-inter);
-
-  /* Default sans */
   --font-sans: var(--font-inter);
 }
 
@@ -41,25 +44,30 @@
    GLOBAL RESET
 ======================================== */
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
+  min-height: 100vh;
 
   background: var(--background);
   color: var(--foreground);
 
-  font-family:
-    var(--font-inter),
-    sans-serif;
-
+  font-family: var(--font-inter);
   font-weight: 400;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ========================================
@@ -75,16 +83,14 @@ h5,
 h6 {
   margin: 0;
 
-  font-family:
-    var(--font-inter),
-    sans-serif;
-
+  font-family: var(--font-inter);
   font-weight: 700;
 
   color: var(--primary);
 }
 
-/* Larger headings */
+/* Main large headings */
+
 h1,
 h2 {
   font-weight: 800;
@@ -92,14 +98,13 @@ h2 {
 
 /* ========================================
    PARAGRAPHS
-   INTER REGULAR / LIGHT
+   INTER REGULAR
 ======================================== */
 
 p {
-  font-family:
-    var(--font-inter),
-    sans-serif;
+  margin-top: 0;
 
+  font-family: var(--font-inter);
   font-weight: 400;
 }
 
@@ -108,9 +113,8 @@ p {
 ======================================== */
 
 a {
-  font-family:
-    var(--font-inter),
-    sans-serif;
+  font-family: var(--font-inter);
+  color: inherit;
 
   -webkit-tap-highlight-color: transparent;
 }
@@ -120,9 +124,7 @@ a {
 ======================================== */
 
 button {
-  font-family:
-    var(--font-inter),
-    sans-serif;
+  font-family: var(--font-inter);
 
   cursor: pointer;
 
@@ -135,60 +137,106 @@ button {
 
 input,
 textarea,
+select,
+option {
+  font-family: var(--font-inter);
+}
+
+/* Prevent iPhone input zoom where possible */
+
+input,
+textarea,
 select {
-  font-family:
-    var(--font-inter),
-    sans-serif;
+  font-size: 16px;
+}
+
+/* ========================================
+   MEDIA
+======================================== */
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
 }
 
 /* ========================================
    FONT UTILITIES
 ======================================== */
 
-.font-heading {
-  font-family:
-    var(--font-inter),
-    sans-serif;
+/* Heading */
 
+.font-heading {
+  font-family: var(--font-inter);
   font-weight: 700;
 }
 
-.font-body {
-  font-family:
-    var(--font-inter),
-    sans-serif;
+/* Body */
 
+.font-body {
+  font-family: var(--font-inter);
   font-weight: 400;
 }
 
-.font-light {
-  font-family:
-    var(--font-inter),
-    sans-serif;
+/* Light */
 
+.font-light {
+  font-family: var(--font-inter);
   font-weight: 300;
 }
 
-.font-regular {
-  font-family:
-    var(--font-inter),
-    sans-serif;
+/* Regular */
 
+.font-regular {
+  font-family: var(--font-inter);
   font-weight: 400;
 }
 
-.font-bold {
-  font-family:
-    var(--font-inter),
-    sans-serif;
+/* Medium */
 
+.font-medium {
+  font-family: var(--font-inter);
+  font-weight: 500;
+}
+
+/* Semibold */
+
+.font-semibold {
+  font-family: var(--font-inter);
+  font-weight: 600;
+}
+
+/* Bold */
+
+.font-bold {
+  font-family: var(--font-inter);
   font-weight: 700;
 }
 
-.font-extrabold {
-  font-family:
-    var(--font-inter),
-    sans-serif;
+/* Extra Bold */
 
+.font-extrabold {
+  font-family: var(--font-inter);
   font-weight: 800;
+}
+
+/* ========================================
+   ACCESSIBILITY / REDUCED MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

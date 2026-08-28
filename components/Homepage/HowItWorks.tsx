@@ -113,8 +113,8 @@ export default function HowItWorksCollisionFixedFinal() {
               transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
               className="inline-flex items-center gap-2 rounded-full border border-[#2D8CFF]/15 bg-white/88 px-3.5 py-1.5 shadow-[0_8px_24px_rgba(45,140,255,0.07)] backdrop-blur-xl"
             >
-              <span className="h-2 w-2 rounded-full bg-[#2D8CFF] shadow-[0_0_12px_rgba(45,140,255,0.6)]" />
-              <span className="font-body text-[10px] font-extrabold uppercase tracking-[0.17em] text-[#2D8CFF] xl:text-[10.5px]">
+              <span className="h-2 w-2 rounded-full bg-[#2563EB] shadow-[0_0_12px_rgba(45,130,255,0.6)]" />
+              <span className="font-body text-[10px] font-extrabold uppercase tracking-[0.17em] text-[#2563EB] xl:text-[10.5px]">
                 Simple Process
               </span>
             </motion.div>
@@ -246,7 +246,7 @@ export default function HowItWorksCollisionFixedFinal() {
           >
             <Link
               href="/contact-us"
-              className="group inline-flex min-h-[50px] items-center justify-center gap-3 whitespace-nowrap rounded-full bg-[#102C49] px-7 py-3 text-center font-body text-[12.5px] font-bold text-white shadow-[0_14px_34px_rgba(16,44,73,0.16)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#2D8CFF] hover:shadow-[0_18px_40px_rgba(45,140,255,0.24)]"
+              className="group inline-flex min-h-[50px] items-center justify-center gap-3 whitespace-nowrap rounded-full bg-[#102C49] px-7 py-3 text-center font-body text-[12.5px] font-bold !text-white shadow-[0_14px_34px_rgba(16,44,73,0.16)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#2D8CFF] hover:shadow-[0_18px_40px_rgba(45,140,255,0.24)]"
             >
               Speak to a Chartered Accountant for Free
               <ArrowRight
