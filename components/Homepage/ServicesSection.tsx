@@ -177,7 +177,7 @@ export default function ServicesSection() {
         relative
         isolate
         overflow-hidden
-        bg-[#0753B0]
+        bg-[#1766D6]
         py-7
         sm:py-8
         lg:py-10
@@ -222,8 +222,8 @@ export default function ServicesSection() {
               gap-2
               rounded-full
               border
-              border-white/[0.18]
-              bg-white/[0.10]
+              border-[#B9DEFF]/20
+              bg-[#0B5FC2]/35
               px-3
               py-1.5
               shadow-[0_10px_30px_rgba(2,32,76,0.12)]
@@ -238,8 +238,8 @@ export default function ServicesSection() {
                 items-center
                 justify-center
                 rounded-full
-                bg-white/[0.14]
-                text-white
+                bg-[#8FD2FF]/20
+                text-[#D8F0FF]
               "
             >
               <SparkGlyph />
@@ -250,7 +250,7 @@ export default function ServicesSection() {
                 font-body
                 text-[10px]
                 font-semibold
-                !text-white
+                !text-[#D8EAFF]
                 sm:text-[11px]
               "
             >
@@ -266,13 +266,13 @@ export default function ServicesSection() {
               font-bold
               leading-[1.04]
               tracking-[-0.045em]
-              !text-white
+              !text-[#F6FAFF]
               sm:text-[34px]
               md:text-[38px]
               lg:text-[42px]
               xl:text-[44px]
             "
-            style={{ color: "#FFFFFF" }}
+            style={{ color: "#F6FAFF" }}
           >
             Our Expertise
           </h2>
@@ -285,7 +285,7 @@ export default function ServicesSection() {
               font-body
               text-[12px]
               leading-5
-              !text-white/75
+              !text-[#C8DCF4]
               sm:text-[13px]
               sm:leading-6
             "
@@ -393,11 +393,14 @@ function ServiceRow({
           gap-3
           overflow-hidden
           rounded-[18px]
-          bg-white/[0.045]
+          bg-[#0A58B4]/[0.18]
+          ring-1
+          ring-inset
+          ring-white/[0.055]
           px-3
           py-[14px]
           outline-none
-          transition-[box-shadow,transform]
+          transition-[box-shadow,transform,background-color]
           duration-500
           focus-visible:ring-2
           focus-visible:ring-white/50
@@ -410,7 +413,7 @@ function ServiceRow({
           lg:px-[18px]
           xl:gap-4
           xl:px-4
-          hover:shadow-[0_24px_65px_rgba(1,31,76,0.30)]
+          hover:shadow-[0_22px_54px_rgba(6,61,137,0.22)]
         "
       >
         {/* =====================================================
@@ -443,7 +446,7 @@ function ServiceRow({
           "
           style={{
             background:
-              "linear-gradient(135deg, rgba(4,42,99,0.97) 0%, rgba(7,84,180,0.97) 54%, rgba(17,124,226,0.98) 100%)",
+              "linear-gradient(135deg, rgba(79,171,255,0.30) 0%, rgba(37,126,236,0.36) 48%, rgba(12,83,184,0.44) 100%)",
           }}
         />
 
@@ -463,8 +466,8 @@ function ServiceRow({
             blur-[70px]
             transition-colors
             duration-500
-            group-hover:bg-[#93D4FF]/30
-            group-focus-visible:bg-[#93D4FF]/30
+            group-hover:bg-[#9BD8FF]/14
+            group-focus-visible:bg-[#9BD8FF]/14
           "
         />
 
@@ -485,7 +488,7 @@ function ServiceRow({
             blur-[48px]
             transition-colors
             duration-500
-            group-hover:bg-white/[0.06]
+            group-hover:bg-[#BCE6FF]/[0.025]
           "
         />
 
@@ -503,11 +506,11 @@ function ServiceRow({
             w-[50px]
             items-center
             justify-center
-            text-[#DDF3FF]
+            text-[#BFE4FF]
             transition-colors
             duration-300
-            group-hover:!text-white
-            group-focus-visible:!text-white
+            group-hover:!text-[#DDF2FF]
+            group-focus-visible:!text-[#DDF2FF]
             sm:h-[54px]
             sm:w-[54px]
           "
@@ -538,11 +541,11 @@ function ServiceRow({
               text-[9px]
               font-semibold
               tracking-[0.12em]
-              text-white/45
+              text-[#8FBCEA]
               transition-colors
               duration-300
-              group-hover:!text-white
-              group-focus-visible:!text-white
+              group-hover:!text-[#A9D2F7]
+              group-focus-visible:!text-[#A9D2F7]
             "
           >
             {String(index + 1).padStart(2, "0")}
@@ -556,11 +559,11 @@ function ServiceRow({
               font-bold
               leading-[1.16]
               tracking-[-0.032em]
-              !text-white
+              !text-[#EAF3FF]
               transition-colors
               duration-300
-              group-hover:!text-white
-              group-focus-visible:!text-white
+              group-hover:!text-[#F0F7FF]
+              group-focus-visible:!text-[#F0F7FF]
               sm:text-[17px]
               xl:text-[18px]
             "
@@ -575,11 +578,11 @@ function ServiceRow({
               font-body
               text-[10.5px]
               leading-[1.5]
-              !text-white/75
+              !text-[#BDD1E8]
               transition-colors
               duration-300
-              group-hover:!text-white
-              group-focus-visible:!text-white
+              group-hover:!text-[#C7DDF2]
+              group-focus-visible:!text-[#C7DDF2]
               sm:text-[10.5px]
             "
           >
@@ -595,11 +598,11 @@ function ServiceRow({
               font-body
               text-[11.5px]
               font-semibold
-              !text-[#DDF3FF]
+              !text-[#C8E2FF]
               transition-colors
               duration-300
-              group-hover:!text-white
-              group-focus-visible:!text-white
+              group-hover:!text-[#D4E9FF]
+              group-focus-visible:!text-[#D4E9FF]
               sm:text-[11px]
             "
           >
@@ -609,13 +612,13 @@ function ServiceRow({
               className="
                 h-px
                 w-5
-                bg-white/35
+                bg-[#B7D9F8]/45
                 transition-[width,background-color]
                 duration-300
                 group-hover:w-8
-                group-hover:!bg-white/60
+                group-hover:!bg-[#BFDFFF]/55
                 group-focus-visible:w-8
-                group-focus-visible:!bg-white/60
+                group-focus-visible:!bg-[#BFDFFF]/55
               "
             />
           </span>
@@ -637,16 +640,16 @@ function ServiceRow({
             justify-center
             rounded-full
             border
-            border-white/[0.20]
-            bg-white/[0.12]
-            text-white
+            border-[#A9D7FF]/25
+            bg-[#084A99]/30
+            text-[#D8EDFF]
             shadow-[0_8px_24px_rgba(2,31,76,0.16)]
             transition-all
             duration-350
             group-hover:translate-x-1
-            group-hover:border-white/25
-            group-hover:bg-white
-            group-hover:text-[#0753B0]
+            group-hover:border-[#B8DFFF]/45
+            group-hover:bg-[#B9DFFF]/20
+            group-hover:text-[#E8F5FF]
             group-focus-visible:translate-x-1
             sm:h-9
             sm:w-9
@@ -675,9 +678,28 @@ function SectionBackground() {
       "
       style={{
         background:
-          "radial-gradient(circle at 7% 0%, rgba(85,184,255,0.72) 0%, rgba(56,156,245,0.26) 24%, transparent 50%), radial-gradient(circle at 91% 8%, rgba(32,134,238,0.22) 0%, transparent 42%), radial-gradient(circle at 50% 116%, rgba(5,35,89,0.62) 0%, transparent 48%), linear-gradient(112deg, #1687EE 0%, #0B6AD3 34%, #0753B0 65%, #043B82 100%)",
+          `
+          linear-gradient(
+            125deg,
+            #3989F7 0%,
+            #2B7CF1 28%,
+            #1D6DE5 58%,
+            #155FD2 78%,
+            #1055BF 100%
+          )
+        `,
       }}
     >
+      {/* SUBTLE CONTRAST VEIL */}
+
+      <div
+        className="
+          absolute
+          inset-0
+          bg-[linear-gradient(180deg,rgba(4,48,116,0.03)_0%,rgba(5,56,128,0.08)_52%,rgba(3,42,99,0.14)_100%)]
+        "
+      />
+
       {/* =====================================================
           SOFT DEPTH LIGHTS
       ===================================================== */}
@@ -690,7 +712,7 @@ function SectionBackground() {
           h-[620px]
           w-[620px]
           rounded-full
-          bg-[#9ADFFF]/[0.13]
+          bg-white/[0.10]
           blur-[120px]
         "
       />
@@ -703,7 +725,7 @@ function SectionBackground() {
           h-[620px]
           w-[620px]
           rounded-full
-          bg-[#3EA6FF]/[0.10]
+          bg-[#75C2FF]/[0.10]
           blur-[135px]
         "
       />
@@ -717,7 +739,7 @@ function SectionBackground() {
           w-[980px]
           -translate-x-1/2
           rounded-[50%]
-          bg-[#021F54]/35
+          bg-[#073F99]/22
           blur-[110px]
         "
       />
@@ -870,8 +892,8 @@ function SectionBackground() {
           bottom-0
           h-[260px]
           bg-gradient-to-t
-          from-[#032B67]/30
-          via-[#064A97]/[0.06]
+          from-[#0B4EAC]/20
+          via-[#1769D2]/[0.04]
           to-transparent
         "
       />
