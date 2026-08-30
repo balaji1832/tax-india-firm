@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import {
   motion,
@@ -60,32 +60,21 @@ const headingVariant: Variants = {
 };
 
 const cardVariant: Variants = {
-  hidden: (index: number) => ({
+  hidden: {
     opacity: 0,
-    y: 34,
-    x:
-      index === 0
-        ? -22
-        : index === 1
-          ? 22
-          : index === 2
-            ? -18
-            : 18,
-    scale: 0.97,
-  }),
+    y: 20,
+  },
 
-  show: (index: number) => ({
+  show: {
     opacity: 1,
     y: 0,
-    x: 0,
-    scale: 1,
 
     transition: {
-      duration: 0.95,
-      delay: 0.08 + index * 0.1,
+      duration: 0.58,
+      delay: 0.02,
       ease: smoothEase,
     },
-  }),
+  },
 };
 
 /* =========================================================
@@ -94,6 +83,42 @@ const cardVariant: Variants = {
 
 export default function WhyTaxIndiaFirm() {
   const reduceMotion = useReducedMotion();
+
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+
+    const updateMobileState = () => {
+      setIsMobile(mediaQuery.matches);
+    };
+
+    updateMobileState();
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", updateMobileState);
+
+      return () => {
+        mediaQuery.removeEventListener(
+          "change",
+          updateMobileState,
+        );
+      };
+    }
+
+    mediaQuery.addListener(updateMobileState);
+
+    return () => {
+      mediaQuery.removeListener(updateMobileState);
+    };
+  }, []);
+
+  /*
+   * Continuous decorative animation is disabled on mobile.
+   * Entry animations still run card-by-card.
+   */
+  const pauseDecorativeMotion =
+    Boolean(reduceMotion) || isMobile;
 
   return (
     <section
@@ -148,7 +173,7 @@ export default function WhyTaxIndiaFirm() {
       <motion.div
         aria-hidden="true"
         animate={
-          reduceMotion
+          pauseDecorativeMotion
             ? undefined
             : {
                 x: [0, 35, -12, 0],
@@ -177,7 +202,7 @@ export default function WhyTaxIndiaFirm() {
 
           blur-[135px]
 
-          will-change-transform
+          md:will-change-transform
         "
       />
 
@@ -188,7 +213,7 @@ export default function WhyTaxIndiaFirm() {
       <motion.div
         aria-hidden="true"
         animate={
-          reduceMotion
+          pauseDecorativeMotion
             ? undefined
             : {
                 x: [0, -40, 15, 0],
@@ -217,7 +242,7 @@ export default function WhyTaxIndiaFirm() {
 
           blur-[145px]
 
-          will-change-transform
+          md:will-change-transform
         "
       />
 
@@ -228,7 +253,7 @@ export default function WhyTaxIndiaFirm() {
       <motion.div
         aria-hidden="true"
         animate={
-          reduceMotion
+          pauseDecorativeMotion
             ? undefined
             : {
                 x: [-18, 20, -18],
@@ -259,7 +284,7 @@ export default function WhyTaxIndiaFirm() {
 
           blur-[130px]
 
-          will-change-transform
+          md:will-change-transform
         "
       />
 
@@ -416,14 +441,14 @@ export default function WhyTaxIndiaFirm() {
 
               shadow-[0_12px_34px_-22px_rgba(36,102,190,0.38)]
 
-              backdrop-blur-xl
+              sm:backdrop-blur-xl
             "
           >
             <motion.span
               animate={
-                reduceMotion
-                  ? undefined
-                  : {
+                    pauseDecorativeMotion
+                      ? undefined
+                      : {
                       scale: [1, 1.28, 1],
                       opacity: [0.65, 1, 0.65],
                     }
@@ -531,6 +556,7 @@ export default function WhyTaxIndiaFirm() {
 
             grid
             grid-cols-1
+            justify-items-stretch
 
             gap-5
 
@@ -547,6 +573,7 @@ export default function WhyTaxIndiaFirm() {
           <BentoCard
             index={0}
             reduceMotion={!!reduceMotion}
+            isMobile={isMobile}
             className="
               min-h-[520px]
 
@@ -589,10 +616,14 @@ export default function WhyTaxIndiaFirm() {
 
                   overflow-hidden
 
-                  rounded-[24px]
+                  w-full
+
+                  rounded-[20px]
 
                   border
                   border-[#CFE0F4]
+
+                  sm:rounded-[24px]
 
                   bg-[#EAF3FF]
                 "
@@ -604,8 +635,8 @@ export default function WhyTaxIndiaFirm() {
                 <motion.div
                   aria-hidden="true"
                   animate={
-                    reduceMotion
-                      ? undefined
+          pauseDecorativeMotion
+            ? undefined
                       : {
                           rotate: 360,
                         }
@@ -630,15 +661,15 @@ export default function WhyTaxIndiaFirm() {
                     border
                     border-[#2D8CFF]/10
 
-                    will-change-transform
+                    md:will-change-transform
                   "
                 />
 
                 <motion.div
                   aria-hidden="true"
                   animate={
-                    reduceMotion
-                      ? undefined
+          pauseDecorativeMotion
+            ? undefined
                       : {
                           rotate: -360,
                         }
@@ -664,7 +695,7 @@ export default function WhyTaxIndiaFirm() {
                     border-dashed
                     border-[#2D8CFF]/10
 
-                    will-change-transform
+                    md:will-change-transform
                   "
                 />
 
@@ -672,8 +703,8 @@ export default function WhyTaxIndiaFirm() {
 
                 <motion.div
                   animate={
-                    reduceMotion
-                      ? undefined
+          pauseDecorativeMotion
+            ? undefined
                       : {
                           y: [0, -7, 0],
                         }
@@ -686,13 +717,16 @@ export default function WhyTaxIndiaFirm() {
                   className="
                     absolute
 
-                    bottom-[-22px]
+                    bottom-[-12px]
                     left-1/2
 
-                    w-[88%]
+                    w-[calc(100%-24px)]
                     max-w-[540px]
 
                     -translate-x-1/2
+
+                    sm:bottom-[-22px]
+                    sm:w-[88%]
 
                     rounded-[25px]
 
@@ -701,13 +735,13 @@ export default function WhyTaxIndiaFirm() {
 
                     bg-white/90
 
-                    p-4
+                    p-3.5
 
                     shadow-[0_30px_70px_-35px_rgba(50,100,170,0.35)]
 
-                    backdrop-blur-xl
+                    sm:backdrop-blur-xl
 
-                    will-change-transform
+                    md:will-change-transform
 
                     sm:p-5
                   "
@@ -763,7 +797,7 @@ export default function WhyTaxIndiaFirm() {
                         p-4
                       "
                     >
-                      <div className="flex items-center gap-3">
+                      <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
                         <div
                           className="
                             flex
@@ -860,7 +894,7 @@ export default function WhyTaxIndiaFirm() {
                 </motion.div>
 
                 <FloatingBubble
-                  reduceMotion={!!reduceMotion}
+                  reduceMotion={pauseDecorativeMotion}
                   duration={6.2}
                   delay={0}
                   className="
@@ -872,7 +906,7 @@ export default function WhyTaxIndiaFirm() {
                 </FloatingBubble>
 
                 <FloatingBubble
-                  reduceMotion={!!reduceMotion}
+                  reduceMotion={pauseDecorativeMotion}
                   duration={7}
                   delay={0.8}
                   className="
@@ -893,6 +927,7 @@ export default function WhyTaxIndiaFirm() {
           <BentoCard
             index={1}
             reduceMotion={!!reduceMotion}
+            isMobile={isMobile}
             className="
               min-h-[520px]
 
@@ -935,10 +970,14 @@ export default function WhyTaxIndiaFirm() {
 
                   overflow-hidden
 
-                  rounded-[24px]
+                  w-full
+
+                  rounded-[20px]
 
                   border
                   border-[#CFE0F4]
+
+                  sm:rounded-[24px]
 
                   bg-[#EAF2FF]
                 "
@@ -948,8 +987,8 @@ export default function WhyTaxIndiaFirm() {
                 <motion.div
                   aria-hidden="true"
                   animate={
-                    reduceMotion
-                      ? undefined
+          pauseDecorativeMotion
+            ? undefined
                       : {
                           x: [-20, 25, -20],
                           y: [-10, 22, -10],
@@ -976,14 +1015,14 @@ export default function WhyTaxIndiaFirm() {
 
                     blur-[70px]
 
-                    will-change-transform
+                    md:will-change-transform
                   "
                 />
 
                 <motion.div
                   animate={
-                    reduceMotion
-                      ? undefined
+          pauseDecorativeMotion
+            ? undefined
                       : {
                           y: [0, -8, 0],
                         }
@@ -998,11 +1037,13 @@ export default function WhyTaxIndiaFirm() {
                     left-1/2
                     top-1/2
 
-                    w-[84%]
+                    w-[calc(100%-24px)]
                     max-w-[390px]
 
                     -translate-x-1/2
                     -translate-y-1/2
+
+                    sm:w-[84%]
 
                     rounded-[24px]
 
@@ -1015,9 +1056,9 @@ export default function WhyTaxIndiaFirm() {
 
                     shadow-[0_30px_65px_-34px_rgba(52,98,162,0.36)]
 
-                    backdrop-blur-xl
+                    sm:backdrop-blur-xl
 
-                    will-change-transform
+                    md:will-change-transform
                   "
                 >
                   <div
@@ -1026,7 +1067,9 @@ export default function WhyTaxIndiaFirm() {
                       items-start
                       justify-between
 
-                      gap-4
+                      gap-2.5
+
+                      sm:gap-4
                     "
                   >
                     <div className="flex items-center gap-3">
@@ -1055,8 +1098,8 @@ export default function WhyTaxIndiaFirm() {
 
                         <motion.span
                           animate={
-                            reduceMotion
-                              ? undefined
+          pauseDecorativeMotion
+            ? undefined
                               : {
                                   scale: [1, 1.28, 1],
                                   opacity: [0.7, 1, 0.7],
@@ -1117,10 +1160,15 @@ export default function WhyTaxIndiaFirm() {
 
                         bg-[#EDF4FF]
 
-                        px-2.5
+                        shrink-0
+
+                        px-2
                         py-1.5
 
-                        text-[8.5px]
+                        text-[8px]
+
+                        sm:px-2.5
+                        sm:text-[8.5px]
                         font-semibold
 
                         text-[#2D8CFF]
@@ -1203,7 +1251,7 @@ export default function WhyTaxIndiaFirm() {
                 </motion.div>
 
                 <FloatingBubble
-                  reduceMotion={!!reduceMotion}
+                  reduceMotion={pauseDecorativeMotion}
                   duration={6.7}
                   delay={0.3}
                   className="
@@ -1215,7 +1263,7 @@ export default function WhyTaxIndiaFirm() {
                 </FloatingBubble>
 
                 <FloatingBubble
-                  reduceMotion={!!reduceMotion}
+                  reduceMotion={pauseDecorativeMotion}
                   duration={7.3}
                   delay={1}
                   className="
@@ -1236,6 +1284,7 @@ export default function WhyTaxIndiaFirm() {
           <BentoCard
             index={2}
             reduceMotion={!!reduceMotion}
+            isMobile={isMobile}
             className="
               min-h-[515px]
 
@@ -1278,10 +1327,14 @@ export default function WhyTaxIndiaFirm() {
 
                   overflow-hidden
 
-                  rounded-[24px]
+                  w-full
+
+                  rounded-[20px]
 
                   border
                   border-[#CFE0F4]
+
+                  sm:rounded-[24px]
 
                   bg-[#EAF3FF]
                 "
@@ -1290,8 +1343,8 @@ export default function WhyTaxIndiaFirm() {
 
                 <motion.div
                   animate={
-                    reduceMotion
-                      ? undefined
+          pauseDecorativeMotion
+            ? undefined
                       : {
                           y: [0, -7, 0],
                         }
@@ -1307,10 +1360,12 @@ export default function WhyTaxIndiaFirm() {
                     bottom-[-20px]
                     left-1/2
 
-                    w-[86%]
+                    w-[calc(100%-24px)]
                     max-w-[400px]
 
                     -translate-x-1/2
+
+                    sm:w-[86%]
 
                     rounded-[24px]
 
@@ -1323,9 +1378,9 @@ export default function WhyTaxIndiaFirm() {
 
                     shadow-[0_30px_65px_-34px_rgba(52,98,162,0.38)]
 
-                    backdrop-blur-xl
+                    sm:backdrop-blur-xl
 
-                    will-change-transform
+                    md:will-change-transform
                   "
                 >
                   <div
@@ -1417,7 +1472,7 @@ export default function WhyTaxIndiaFirm() {
                 </motion.div>
 
                 <FloatingBubble
-                  reduceMotion={!!reduceMotion}
+                  reduceMotion={pauseDecorativeMotion}
                   duration={6.4}
                   delay={0}
                   className="
@@ -1429,7 +1484,7 @@ export default function WhyTaxIndiaFirm() {
                 </FloatingBubble>
 
                 <FloatingBubble
-                  reduceMotion={!!reduceMotion}
+                  reduceMotion={pauseDecorativeMotion}
                   duration={7}
                   delay={0.8}
                   className="
@@ -1454,11 +1509,11 @@ export default function WhyTaxIndiaFirm() {
             whileInView={reduceMotion ? undefined : "show"}
             viewport={{
               once: true,
-              amount: 0.18,
-              margin: "0px 0px -6% 0px",
+              amount: 0.12,
+              margin: "0px 0px -4% 0px",
             }}
             whileHover={
-              reduceMotion
+              reduceMotion || isMobile
                 ? undefined
                 : {
                     y: -5,
@@ -1471,6 +1526,10 @@ export default function WhyTaxIndiaFirm() {
             className="
               group
               relative
+
+              mx-auto
+              w-full
+              max-w-full
 
               min-h-[515px]
 
@@ -1486,6 +1545,8 @@ export default function WhyTaxIndiaFirm() {
               p-6
 
               shadow-[0_32px_70px_-44px_rgba(35,105,220,0.52)]
+
+              transform-gpu
 
               sm:p-7
 
@@ -1517,9 +1578,9 @@ export default function WhyTaxIndiaFirm() {
             <motion.div
               aria-hidden="true"
               animate={
-                reduceMotion
-                  ? undefined
-                  : {
+                    pauseDecorativeMotion
+                      ? undefined
+                      : {
                       x: [-50, 85, -50],
                       y: [-25, 45, -25],
                       scale: [1, 1.12, 1],
@@ -1546,7 +1607,7 @@ export default function WhyTaxIndiaFirm() {
 
                 blur-[100px]
 
-                will-change-transform
+                md:will-change-transform
               "
             />
 
@@ -1555,9 +1616,9 @@ export default function WhyTaxIndiaFirm() {
             <motion.div
               aria-hidden="true"
               animate={
-                reduceMotion
-                  ? undefined
-                  : {
+                    pauseDecorativeMotion
+                      ? undefined
+                      : {
                       rotate: 360,
                     }
               }
@@ -1581,7 +1642,7 @@ export default function WhyTaxIndiaFirm() {
                 border
                 border-white/[0.17]
 
-                will-change-transform
+                md:will-change-transform
               "
             >
               <span
@@ -1603,9 +1664,9 @@ export default function WhyTaxIndiaFirm() {
             <motion.div
               aria-hidden="true"
               animate={
-                reduceMotion
-                  ? undefined
-                  : {
+                    pauseDecorativeMotion
+                      ? undefined
+                      : {
                       rotate: -360,
                     }
               }
@@ -1630,7 +1691,7 @@ export default function WhyTaxIndiaFirm() {
                 border-dashed
                 border-white/[0.18]
 
-                will-change-transform
+                md:will-change-transform
               "
             />
 
@@ -1690,7 +1751,7 @@ export default function WhyTaxIndiaFirm() {
                     px-3
                     py-2
 
-                    backdrop-blur-xl
+                    sm:backdrop-blur-xl
                   "
                 >
                   <Sparkles
@@ -1886,11 +1947,13 @@ function BentoCard({
   children,
   index,
   reduceMotion,
+  isMobile,
   className = "",
 }: {
   children: ReactNode;
   index: number;
   reduceMotion: boolean;
+  isMobile: boolean;
   className?: string;
 }) {
   return (
@@ -1901,11 +1964,11 @@ function BentoCard({
       whileInView={reduceMotion ? undefined : "show"}
       viewport={{
         once: true,
-        amount: 0.18,
-        margin: "0px 0px -6% 0px",
+        amount: 0.12,
+        margin: "0px 0px -4% 0px",
       }}
       whileHover={
-        reduceMotion
+        reduceMotion || isMobile
           ? undefined
           : {
               y: -5,
@@ -1918,6 +1981,10 @@ function BentoCard({
       className={`
         group
         relative
+
+        mx-auto
+        w-full
+        max-w-full
 
         overflow-hidden
 
@@ -1932,7 +1999,9 @@ function BentoCard({
 
         shadow-[0_26px_70px_-48px_rgba(33,91,162,0.42)]
 
-        backdrop-blur-xl
+        sm:backdrop-blur-xl
+
+        transform-gpu
 
         transition-[border-color,box-shadow,background-color]
         duration-300
@@ -1970,8 +2039,11 @@ function CardHeader({
     <div
       className="
         flex
+        w-full
         items-start
-        gap-4
+        gap-3
+
+        sm:gap-4
       "
     >
       <div
@@ -2291,9 +2363,9 @@ function FloatingBubble({
 
         shadow-[0_14px_35px_-17px_rgba(49,94,153,0.35)]
 
-        backdrop-blur-md
+        sm:backdrop-blur-md
 
-        will-change-transform
+        md:will-change-transform
 
         ${className}
       `}

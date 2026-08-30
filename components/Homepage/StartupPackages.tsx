@@ -512,20 +512,20 @@ export default function StartupPackages() {
           hidden
 
           w-full
-          max-w-[1050px]
+          max-w-[1160px]
 
           grid-cols-3
           items-stretch
 
-          gap-[14px]
+          gap-[18px]
 
           px-6
 
           lg:grid
           lg:-mt-[92px]
 
-          xl:max-w-[1090px]
-          xl:gap-[17px]
+          xl:max-w-[1210px]
+          xl:gap-[20px]
         "
       >
         {packages.map(
@@ -792,6 +792,57 @@ export default function StartupPackages() {
    PRICING CARD
 ========================================================= */
 
+const pricingCardThemes = [
+  {
+    accent: "#0F766E",
+    accentDark: "#0B5F59",
+    accentSoft: "#EAFBF7",
+    accentSoftStrong: "#D8F5EE",
+    border: "#B8E6DB",
+    divider: "#D9EEE9",
+    title: "#123C39",
+    body: "#4F6E6B",
+    label: "#6B8C88",
+    glow: "rgba(15,118,110,.16)",
+    top:
+      "linear-gradient(180deg, rgba(228,250,245,.95) 0%, rgba(255,255,255,0) 100%)",
+    surface:
+      "linear-gradient(145deg, #FFFFFF 0%, #FBFFFE 54%, #F0FBF8 100%)",
+  },
+  {
+    accent: "#2563EB",
+    accentDark: "#174FC7",
+    accentSoft: "#EEF4FF",
+    accentSoftStrong: "#DCE9FF",
+    border: "#B9CEF8",
+    divider: "#DAE5F7",
+    title: "#173A72",
+    body: "#526A8A",
+    label: "#7890B0",
+    glow: "rgba(37,99,235,.18)",
+    top:
+      "linear-gradient(180deg, rgba(235,243,255,.98) 0%, rgba(255,255,255,0) 100%)",
+    surface:
+      "linear-gradient(145deg, #FFFFFF 0%, #FCFDFF 52%, #F0F5FF 100%)",
+  },
+  {
+    accent: "#6D5BD0",
+    accentDark: "#5847B5",
+    accentSoft: "#F3F0FF",
+    accentSoftStrong: "#E7E1FF",
+    border: "#CFC7F4",
+    divider: "#E5E0F5",
+    title: "#40336E",
+    body: "#665E80",
+    label: "#8A80A8",
+    glow: "rgba(109,91,208,.17)",
+    top:
+      "linear-gradient(180deg, rgba(244,241,255,.98) 0%, rgba(255,255,255,0) 100%)",
+    surface:
+      "linear-gradient(145deg, #FFFFFF 0%, #FEFDFF 52%, #F7F4FF 100%)",
+  },
+] as const;
+
 function PricingCard({
   item,
   index,
@@ -801,17 +852,21 @@ function PricingCard({
   index: number;
   mobile: boolean;
 }) {
+  const theme =
+    pricingCardThemes[index] ??
+    pricingCardThemes[1];
+
   return (
     <motion.article
       whileHover={
         mobile
           ? undefined
           : {
-              y: -4,
+              y: -6,
             }
       }
       transition={{
-        duration: 0.28,
+        duration: 0.34,
         ease: smoothEase,
       }}
       className="
@@ -827,11 +882,9 @@ function PricingCard({
         <div
           className="
             absolute
-
             left-1/2
             top-0
             z-40
-
             -translate-x-1/2
             -translate-y-1/2
           "
@@ -841,39 +894,32 @@ function PricingCard({
               inline-flex
               items-center
               gap-1.5
-
               whitespace-nowrap
-
               rounded-full
-
               border
-              border-[#C5D9F8]
-
               bg-white
-
-              px-3
-              py-[5px]
-
-              shadow-[0_8px_22px_-14px_rgba(18,91,210,.45)]
+              px-3.5
+              py-[6px]
+              shadow-[0_10px_26px_-15px_rgba(18,91,210,.52)]
             "
+            style={{
+              borderColor: theme.border,
+            }}
           >
             <Sparkles
-              size={9}
-              className="
-                !text-[#1768E7]
-              "
+              size={11}
+              style={{ color: theme.accent }}
             />
 
             <span
               className="
-                text-[7px]
+                text-[8px]
                 font-bold
                 uppercase
-
-                tracking-[0.13em]
-
-                !text-[#1768E7]
+                tracking-[0.14em]
+                sm:text-[8.5px]
               "
+              style={{ color: theme.accent }}
             >
               Most Popular
             </span>
@@ -888,177 +934,192 @@ function PricingCard({
       <div
         className={`
           group/card
-
           relative
-
           flex
           h-full
           flex-col
-
           overflow-hidden
-
-          rounded-[15px]
-
+          rounded-[20px]
           border
-
-          bg-white
-
-          px-[18px]
-          pb-[17px]
-          pt-[19px]
-
-          transition-all
+          px-5
+          pb-5
+          pt-6
+          transition-[transform,border-color,box-shadow]
           duration-300
+          ease-out
 
-          sm:px-5
-          sm:pb-5
-          sm:pt-5
+          sm:px-6
+          sm:pb-6
+          sm:pt-6
 
           ${
             mobile
               ? `
-                  min-h-[420px]
-
-                  sm:min-h-[400px]
+                  min-h-[465px]
+                  sm:min-h-[450px]
+                  md:min-h-[455px]
                 `
               : `
-                  lg:h-[360px]
-
-                  xl:h-[372px]
-                `
-          }
-
-          ${
-            item.popular
-              ? `
-                  border-[#A7C8F8]
-
-                  shadow-[0_22px_50px_-27px_rgba(20,96,220,.38)]
-                `
-              : `
-                  border-[#D9E3EF]
-
-                  shadow-[0_15px_42px_-29px_rgba(25,61,108,.30)]
-
-                  hover:border-[#BED1E7]
+                  lg:h-[430px]
+                  xl:h-[444px]
                 `
           }
         `}
+        style={{
+          borderColor: theme.border,
+          background: theme.surface,
+          boxShadow: item.popular
+            ? `0 26px 58px -30px ${theme.glow}`
+            : `0 18px 44px -30px ${theme.glow}`,
+        }}
       >
         {/* =================================================
-            SUBTLE CARD TOP LIGHT
+            SOFT CARD ATMOSPHERE
         ================================================= */}
 
         <div
           aria-hidden="true"
           className="
             pointer-events-none
-
             absolute
             inset-x-0
             top-0
-
-            h-[78px]
+            h-[118px]
           "
           style={{
-            background: `
-              linear-gradient(
-                180deg,
-                rgba(239,245,255,.82) 0%,
-                rgba(255,255,255,0) 100%
-              )
-            `,
+            background: theme.top,
           }}
         />
 
-        {/* POPULAR TOP EDGE */}
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            -right-[52px]
+            -top-[56px]
+            h-[150px]
+            w-[150px]
+            rounded-full
+            blur-[4px]
+          "
+          style={{
+            background: theme.accentSoft,
+            opacity: 0.76,
+          }}
+        />
 
-        {item.popular && (
-          <div
-            aria-hidden="true"
-            className="
-              absolute
-              inset-x-0
-              top-0
-
-              h-[2px]
-
-              bg-[#2475ED]
-            "
-          />
-        )}
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            inset-x-0
+            top-0
+            h-[3px]
+          "
+          style={{
+            background: `linear-gradient(90deg, transparent 0%, ${theme.accent} 18%, ${theme.accent} 82%, transparent 100%)`,
+            opacity: item.popular ? 1 : 0.72,
+          }}
+        />
 
         {/* =================================================
             CARD HEADER
         ================================================= */}
 
-        <div
-          className="
-            relative
-            z-10
-          "
-        >
+        <div className="relative z-10">
           <div
             className="
               flex
-              items-center
-              gap-2.5
+              items-start
+              gap-3
             "
           >
             <span
               className="
                 flex
-
-                h-[25px]
-                w-[25px]
-
+                h-[34px]
+                w-[34px]
                 shrink-0
-
                 items-center
                 justify-center
-
                 rounded-full
-
-                bg-[#1768E7]
-
-                text-[9px]
+                text-[11px]
                 font-bold
-
-                !text-white
+                text-white
+                shadow-[0_8px_20px_-12px_rgba(0,0,0,.30)]
+                sm:h-[36px]
+                sm:w-[36px]
+                sm:text-[12px]
               "
+              style={{
+                background: theme.accent,
+              }}
             >
               {index + 1}
             </span>
 
-            <div className="min-w-0">
-              <p
-                className="
-                  text-[6.5px]
-                  font-semibold
-                  uppercase
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-3">
+                <p
+                  className="
+                    text-[8px]
+                    font-bold
+                    uppercase
+                    tracking-[0.16em]
+                    sm:text-[8.5px]
+                  "
+                  style={{
+                    color: theme.label,
+                  }}
+                >
+                  Package
+                </p>
 
-                  tracking-[0.14em]
-
-                  !text-[#9AA8B8]
-                "
-              >
-                Package
-              </p>
+                <span
+                  className="
+                    hidden
+                    rounded-full
+                    border
+                    px-2.5
+                    py-1
+                    text-[7px]
+                    font-bold
+                    uppercase
+                    tracking-[0.10em]
+                    sm:inline-flex
+                  "
+                  style={{
+                    color: theme.accent,
+                    borderColor: theme.border,
+                    background: theme.accentSoft,
+                  }}
+                >
+                  {index === 0
+                    ? "Starter"
+                    : index === 1
+                      ? "Company"
+                      : "Annual"}
+                </span>
+              </div>
 
               <h3
                 className="
-                  mt-[1px]
-
-                  text-[15px]
+                  mt-1
+                  text-[19px]
                   font-semibold
-
                   leading-[1.15]
-                  tracking-[-0.025em]
+                  tracking-[-0.03em]
 
-                  !text-[#172A43]
+                  sm:text-[20px]
 
-                  sm:text-[16px]
+                  lg:text-[20px]
+                  xl:text-[21px]
                 "
+                style={{
+                  color: theme.title,
+                }}
               >
                 {item.title}
               </h3>
@@ -1067,17 +1128,20 @@ function PricingCard({
 
           <p
             className="
-              mt-3
+              mt-4
+              min-h-[38px]
+              max-w-[95%]
+              text-[11px]
+              leading-[1.6]
 
-              min-h-[29px]
+              sm:text-[11.5px]
 
-              text-[8.5px]
-              leading-[1.5]
-
-              !text-[#74859A]
-
-              sm:text-[9px]
+              lg:text-[11px]
+              xl:text-[11.5px]
             "
+            style={{
+              color: theme.body,
+            }}
           >
             {item.subtitle}
           </p>
@@ -1089,13 +1153,12 @@ function PricingCard({
           className="
             relative
             z-10
-
-            my-3
-
+            my-4
             h-px
-
-            bg-[#E6ECF4]
           "
+          style={{
+            background: theme.divider,
+          }}
         />
 
         {/* =================================================
@@ -1106,182 +1169,133 @@ function PricingCard({
           className="
             relative
             z-10
-
             flex-1
+            space-y-[10px]
 
-            space-y-[8px]
+            sm:space-y-[11px]
+
+            lg:space-y-[9px]
+            xl:space-y-[10px]
           "
         >
-          {item.features.map(
-            (feature) => (
-              <li
-                key={feature}
+          {item.features.map((feature) => (
+            <li
+              key={feature}
+              className="
+                flex
+                items-start
+                gap-2.5
+              "
+            >
+              <span
                 className="
+                  mt-[1px]
                   flex
-                  items-start
-                  gap-2
+                  h-[18px]
+                  w-[18px]
+                  shrink-0
+                  items-center
+                  justify-center
+                  rounded-full
+
+                  sm:h-[19px]
+                  sm:w-[19px]
                 "
+                style={{
+                  background: theme.accentSoftStrong,
+                  color: theme.accent,
+                }}
               >
-                <span
-                  className="
-                    mt-[1px]
+                <Check
+                  size={10}
+                  strokeWidth={2.9}
+                />
+              </span>
 
-                    flex
+              <span
+                className="
+                  pt-[1px]
+                  text-[11px]
+                  font-medium
+                  leading-[1.52]
 
-                    h-[14px]
-                    w-[14px]
+                  sm:text-[11.5px]
 
-                    shrink-0
-
-                    items-center
-                    justify-center
-
-                    rounded-full
-
-                    bg-[#EAF2FF]
-
-                    !text-[#1768E7]
-                  "
-                >
-                  <Check
-                    size={8}
-                    strokeWidth={2.8}
-                  />
-                </span>
-
-                <span
-                  className="
-                    text-[8.5px]
-                    leading-[1.42]
-
-                    !text-[#56697E]
-
-                    sm:text-[9px]
-
-                    xl:text-[9.5px]
-                  "
-                >
-                  {feature}
-                </span>
-              </li>
-            ),
-          )}
+                  lg:text-[10.5px]
+                  xl:text-[11px]
+                "
+                style={{
+                  color: theme.body,
+                }}
+              >
+                {feature}
+              </span>
+            </li>
+          ))}
         </ul>
 
         {/* =================================================
             CTA BUTTON
-
-            FIX:
-            - POPULAR BUTTON TEXT ALWAYS WHITE
-            - NORMAL BUTTON TEXT BLUE
-            - NORMAL BUTTON HOVER TEXT WHITE
-            - ARROW ALSO CHANGES WHITE
         ================================================= */}
 
         <div
           className="
             relative
             z-10
-
-            mt-4
+            mt-5
           "
         >
           <Link
             href="/contact-us"
-            className={`
+            className="
               group/button
-
               flex
-
-              min-h-[35px]
+              min-h-[44px]
               w-full
-
               items-center
               justify-center
-
-              gap-1.5
-
-              rounded-[8px]
-
+              gap-2
+              rounded-[11px]
               border
-
-              px-2.5
-              py-2
-
+              px-3
+              py-2.5
               text-center
-
-              text-[8px]
+              text-[10px]
               font-semibold
-
-              transition-[background-color,border-color,color,box-shadow,transform]
+              transition-[transform,box-shadow,filter]
               duration-300
               ease-out
-
-              sm:text-[8.5px]
-
-              ${
-                item.popular
-                  ? `
-                      border-[#1768E7]
-
-                      bg-[#1768E7]
-
-                      !text-white
-
-                      shadow-[0_8px_20px_-13px_rgba(23,104,231,.50)]
-
-                      hover:border-[#0F58C7]
-                      hover:bg-[#0F58C7]
-                      hover:!text-white
-                    `
-                  : `
-                      border-[#BAD0EC]
-
-                      bg-white
-
-                      !text-[#1768E7]
-
-                      hover:border-[#1768E7]
-                      hover:bg-[#1768E7]
-                      hover:!text-white
-                    `
-              }
-            `}
+              hover:-translate-y-[1px]
+              hover:brightness-[0.97]
+              sm:min-h-[46px]
+              sm:text-[10.5px]
+              xl:text-[11px]
+            "
+            style={{
+              borderColor: item.popular
+                ? theme.accent
+                : theme.border,
+              background: item.popular
+                ? theme.accent
+                : theme.accentSoft,
+              color: item.popular
+                ? "#FFFFFF"
+                : theme.accentDark,
+              boxShadow: item.popular
+                ? `0 12px 24px -16px ${theme.glow}`
+                : "none",
+            }}
           >
-            <span
-              className={
-                item.popular
-                  ? "!text-white"
-                  : `
-                      !text-[#1768E7]
-                      transition-colors
-                      duration-300
-                      group-hover/button:!text-white
-                    `
-              }
-            >
-              {item.cta}
-            </span>
+            <span>{item.cta}</span>
 
             <ArrowRight
-              size={11}
-              className={`
+              size={14}
+              className="
                 shrink-0
-
-                transition-[transform,color]
+                transition-transform
                 duration-300
-
-                group-hover/button:translate-x-[2px]
-
-                ${
-                  item.popular
-                    ? "!text-white"
-                    : `
-                        !text-[#1768E7]
-                        group-hover/button:!text-white
-                      `
-                }
-              `}
+                group-hover/button:translate-x-[3px]
+              "
             />
           </Link>
         </div>
@@ -1289,6 +1303,7 @@ function PricingCard({
     </motion.article>
   );
 }
+
 
 /* =========================================================
    GLASS BLOCK PATTERN

@@ -2,417 +2,189 @@
 
 import Link from "next/link";
 import {
-  ArrowLeft,
-  ArrowRight,
-  BadgeCheck,
-  BriefcaseBusiness,
-  Calculator,
-  FileCheck2,
-  FileSignature,
-  Landmark,
-  ReceiptText,
-  ShieldCheck,
-} from "lucide-react";
-import {
   motion,
-  useInView,
   useReducedMotion,
+  type Variants,
 } from "framer-motion";
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import type { ComponentType, SVGProps } from "react";
 
 /* =========================================================
    TYPES
 ========================================================= */
 
+type GlyphProps = SVGProps<SVGSVGElement>;
+
 type ServiceItem = {
-  category: string;
   title: string;
   description: string;
   cta: string;
   href: string;
-  image: string;
+  glyph: ComponentType<GlyphProps>;
 };
 
-type LayoutMode =
-  | "mobile"
-  | "tablet"
-  | "desktop";
-
 /* =========================================================
-   DATA
+   SERVICES
 ========================================================= */
 
 const services: ServiceItem[] = [
   {
-    category: "BUSINESS",
     title: "Company Registration in Chennai",
     description:
-      "Pvt Ltd, LLP, OPC, Partnership, Sole Proprietorship, Section 8 and more — registered in days.",
-    cta: "Register your company",
+      "Pvt Ltd, LLP, OPC and business registrations handled end-to-end.",
+    cta: "Register Company",
     href: "/business/registration",
-    image: "/images/company-registration.png",
+    glyph: CompanyGlyph,
   },
   {
-    category: "LICENSES",
     title: "Business License Registration",
     description:
-      "FSSAI, MSME Udyam, ISO, DSC, IEC, ESI, PF, Professional Tax and Shop Act in Tamil Nadu.",
-    cta: "Get your business licensed",
+      "FSSAI, MSME, IEC, DSC and essential licences for your business.",
+    cta: "Get Licensed",
     href: "/business/license",
-    image: "/images/business-license.png",
+    glyph: LicenseGlyph,
   },
   {
-    category: "COMPLIANCE",
     title: "Company Compliance & ROC Filing",
     description:
-      "ROC filings, director changes, MOA amendments, eKYC and all MCA compliance handled.",
-    cta: "Stay MCA compliant",
+      "ROC, MCA, eKYC and ongoing compliance managed on time.",
+    cta: "Stay Compliant",
     href: "/business/compliance",
-    image: "/images/company-compliance.png",
+    glyph: ComplianceGlyph,
   },
   {
-    category: "GST",
     title: "GST Registration & Filing in Chennai",
     description:
-      "New GSTIN, GSTR-1, GSTR-3B, GSTR-9, LUT filing, GST notice reply and advisory services.",
-    cta: "Sort your GST today",
+      "GST registration, returns, LUT, notices and advisory support.",
+    cta: "Manage GST",
     href: "/taxation/gst",
-    image: "/images/gst-registration.png",
+    glyph: GstGlyph,
   },
   {
-    category: "INCOME TAX",
     title: "Income Tax Return Filing in Chennai",
     description:
-      "ITR for salaried, freelancers, business owners, HUFs and NRIs — filed accurately and on time.",
-    cta: "File your ITR now",
+      "Accurate ITR filing for individuals, professionals and businesses.",
+    cta: "File ITR",
     href: "/itr/income-tax-return-filing",
-    image: "/images/income-tax.png",
+    glyph: IncomeTaxGlyph,
   },
   {
-    category: "TAX & ACCOUNTING",
     title: "TDS, Bookkeeping & Tax Advisory",
     description:
-      "TDS returns, PAN, TAN, bookkeeping, capital gains advisory and year-round tax planning.",
-    cta: "Explore tax filing services",
+      "TDS, bookkeeping, PAN/TAN and year-round tax planning support.",
+    cta: "Explore Tax Services",
     href: "/taxation/tax-filing",
-    image: "/images/tax-accounting.png",
+    glyph: AccountingGlyph,
   },
   {
-    category: "IP REGISTRATION",
     title: "Trademark, Copyright & Patent in India",
     description:
-      "Protect your brand name, logo, creative work and invention with IP India registration.",
-    cta: "Protect your brand",
+      "Protect your brand, creative work and inventions across India.",
+    cta: "Protect Your Brand",
     href: "/legal/ip",
-    image: "/images/ip-registration.png",
+    glyph: IpGlyph,
   },
   {
-    category: "LEGAL CONTRACTS",
     title: "Business Contract Drafting in India",
     description:
-      "NDA, MOU, franchise, employment, shareholders, vendor and master service agreements.",
-    cta: "Draft your contracts",
+      "NDA, MOU, employment and commercial agreements drafted clearly.",
+    cta: "Draft Contracts",
     href: "/legal/contracts",
-    image: "/images/legal-contracts.png",
+    glyph: ContractGlyph,
   },
 ];
 
-const icons = [
-  BriefcaseBusiness,
-  BadgeCheck,
-  FileCheck2,
-  ReceiptText,
-  Landmark,
-  Calculator,
-  ShieldCheck,
-  FileSignature,
-];
-
 /* =========================================================
-   HELPERS
+   MOTION
 ========================================================= */
 
-function wrapIndex(index: number) {
-  return (
-    (index + services.length) %
-    services.length
-  );
-}
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-function shortestOffset(
-  index: number,
-  activeIndex: number,
-) {
-  let diff = index - activeIndex;
+const headingReveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 18,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.82,
+      ease: EASE,
+    },
+  },
+};
 
-  if (
-    diff >
-    services.length / 2
-  ) {
-    diff -= services.length;
-  }
+const gridReveal: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.06,
+      staggerChildren: 0.065,
+    },
+  },
+};
 
-  if (
-    diff <
-    -services.length / 2
-  ) {
-    diff += services.length;
-  }
+const rowReveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 22,
+    scale: 0.99,
+    filter: "blur(4px)",
+  },
 
-  return diff;
-}
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
 
-function getLayoutMode(
-  width: number,
-): LayoutMode {
-  if (width < 640) {
-    return "mobile";
-  }
+    transition: {
+      duration: 0.68,
+      ease: EASE,
+      delayChildren: 0.08,
+      staggerChildren: 0.065,
+    },
+  },
+};
 
-  if (width < 1100) {
-    return "tablet";
-  }
+const rowPartReveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 10,
+  },
 
-  return "desktop";
-}
+  visible: {
+    opacity: 1,
+    y: 0,
 
-const smoothEase = [
-  0.16,
-  1,
-  0.3,
-  1,
-] as const;
+    transition: {
+      duration: 0.52,
+      ease: EASE,
+    },
+  },
+};
 
 /* =========================================================
-   SECTION
+   MAIN SECTION
 ========================================================= */
 
 export default function ServicesSection() {
-  const reduceMotion =
-    useReducedMotion();
-
-  const sectionRef =
-    useRef<HTMLElement | null>(
-      null,
-    );
-
-  const isSectionInView =
-    useInView(sectionRef, {
-      amount: 0.12,
-      margin:
-        "0px 0px -8% 0px",
-    });
-
-  const [
-    activeIndex,
-    setActiveIndex,
-  ] = useState(0);
-
-  const [
-    hoveredIndex,
-    setHoveredIndex,
-  ] = useState<
-    number | null
-  >(null);
-
-  const [
-    layoutMode,
-    setLayoutMode,
-  ] =
-    useState<LayoutMode>(
-      "desktop",
-    );
-
-  const [
-    paused,
-    setPaused,
-  ] = useState(false);
-
-  const touchStartX =
-    useRef<
-      number | null
-    >(null);
-
-  /* =======================================================
-     RESPONSIVE
-  ======================================================= */
-
-  useEffect(() => {
-    const update = () => {
-      setLayoutMode(
-        getLayoutMode(
-          window.innerWidth,
-        ),
-      );
-    };
-
-    update();
-
-    window.addEventListener(
-      "resize",
-      update,
-    );
-
-    return () => {
-      window.removeEventListener(
-        "resize",
-        update,
-      );
-    };
-  }, []);
-
-  /* =======================================================
-     AUTO SLIDE
-     3.5 SECONDS
-  ======================================================= */
-
-  useEffect(() => {
-    if (
-      reduceMotion ||
-      !isSectionInView ||
-      paused ||
-      hoveredIndex !== null
-    ) {
-      return;
-    }
-
-    const timer =
-      window.setInterval(
-        () => {
-          setActiveIndex(
-            (current) =>
-              wrapIndex(
-                current + 1,
-              ),
-          );
-        },
-
-        /* 3.5 SECOND AUTO SLIDE */
-        2500,
-      );
-
-    return () => {
-      window.clearInterval(
-        timer,
-      );
-    };
-  }, [
-    reduceMotion,
-    isSectionInView,
-    paused,
-    hoveredIndex,
-  ]);
-
-  const goNext = () => {
-    setActiveIndex(
-      (current) =>
-        wrapIndex(
-          current + 1,
-        ),
-    );
-  };
-
-  const goPrev = () => {
-    setActiveIndex(
-      (current) =>
-        wrapIndex(
-          current - 1,
-        ),
-    );
-  };
-
-  /* =======================================================
-     SWIPE
-  ======================================================= */
-
-  const handleTouchStart = (
-    event: React.TouchEvent<HTMLDivElement>,
-  ) => {
-    touchStartX.current =
-      event.touches[0]
-        ?.clientX ?? null;
-
-    setPaused(true);
-  };
-
-  const handleTouchEnd = (
-    event: React.TouchEvent<HTMLDivElement>,
-  ) => {
-    const start =
-      touchStartX.current;
-
-    const end =
-      event.changedTouches[0]
-        ?.clientX;
-
-    touchStartX.current =
-      null;
-
-    window.setTimeout(
-      () =>
-        setPaused(false),
-      700,
-    );
-
-    if (
-      start == null ||
-      end == null
-    ) {
-      return;
-    }
-
-    const distance =
-      start - end;
-
-    if (
-      Math.abs(distance) <
-      45
-    ) {
-      return;
-    }
-
-    if (distance > 0) {
-      goNext();
-    } else {
-      goPrev();
-    }
-  };
-
-  const visibleRange =
-    layoutMode === "mobile"
-      ? 1
-      : 2;
+  const reduceMotion = useReducedMotion();
 
   return (
     <section
-      ref={sectionRef}
       className="
         relative
         isolate
         overflow-hidden
-
-        pt-10
-        pb-20
+        bg-[#0753B0]
+        py-7
+        sm:py-8
+        lg:py-10
+        xl:py-12
       "
-      style={{
-        background: "#FFFFFF",
-      }}
     >
-      <TopRightCurveDecoration
-        reduceMotion={Boolean(
-          reduceMotion,
-        )}
-      />
-
-      <BottomLeftCurveDecoration
-        reduceMotion={Boolean(
-          reduceMotion,
-        )}
-      />
+      <SectionBackground />
 
       <div
         className="
@@ -420,1609 +192,1070 @@ export default function ServicesSection() {
           z-10
           mx-auto
           w-full
-          max-w-[1536px]
-
-          px-5
-          sm:px-8
-          md:px-10
-          lg:px-14
-          xl:px-20
-          2xl:px-24
+          max-w-[1460px]
+          px-4
+          sm:px-6
+          md:px-8
+          lg:px-10
+          xl:px-12
         "
       >
-        {/* INTRO */}
+        {/* =====================================================
+            TOP HEADING
+        ===================================================== */}
 
-        <div
-          className="
-            mx-auto
-            max-w-[820px]
-            text-center
-          "
+        <motion.div
+          variants={headingReveal}
+          initial={reduceMotion ? false : "hidden"}
+          whileInView="visible"
+          viewport={{
+            once: true,
+            amount: 0.35,
+            margin: "0px 0px -8% 0px",
+          }}
+          className="mx-auto max-w-[760px] text-center"
         >
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: reduceMotion
-                ? 0
-                : 12,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            viewport={{
-              once: true,
-              amount: 0.45,
-              margin:
-                "0px 0px -8% 0px",
-            }}
-            transition={{
-              duration:
-                reduceMotion
-                  ? 0
-                  : 0.85,
-              ease: smoothEase,
-            }}
+          <div
             className="
-              mx-auto
               inline-flex
               items-center
               gap-2
-
               rounded-full
-
               border
-              border-[#246EF1]/20
-
-              bg-white/90
-
+              border-white/[0.18]
+              bg-white/[0.10]
               px-3
-              py-[7px]
-
-              shadow-[0_5px_18px_rgba(36,110,241,.07)]
-
-              backdrop-blur-md
+              py-1.5
+              shadow-[0_10px_30px_rgba(2,32,76,0.12)]
+              backdrop-blur-xl
             "
           >
             <span
               className="
                 flex
-                h-[18px]
-                w-[18px]
+                h-5
+                w-5
                 items-center
                 justify-center
                 rounded-full
-                bg-[#246EF1]
+                bg-white/[0.14]
                 text-white
               "
             >
-              <ServiceBadgeIcon />
+              <SparkGlyph />
             </span>
 
             <span
               className="
                 font-body
-                text-[11px]
-                font-bold
-                text-[#246EF1]
-                sm:text-[12px]
+                text-[10px]
+                font-semibold
+                !text-white
+                sm:text-[11px]
               "
             >
               300+ Services
             </span>
-          </motion.div>
+          </div>
 
-          <motion.h2
-            initial={{
-              opacity: 0,
-              y: reduceMotion
-                ? 0
-                : 18,
-              scale:
-                reduceMotion
-                  ? 1
-                  : 0.985,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-              scale: 1,
-            }}
-            viewport={{
-              once: true,
-              amount: 0.4,
-              margin:
-                "0px 0px -8% 0px",
-            }}
-            transition={{
-              duration:
-                reduceMotion
-                  ? 0
-                  : 1.05,
-              delay:
-                reduceMotion
-                  ? 0
-                  : 0.08,
-              ease: smoothEase,
-            }}
+          <h2
             className="
-              mt-5
-              pt-3
-
+              mt-3
               font-heading
-
-              text-[28px]
+              text-[30px]
               font-bold
-
-              leading-[1.16]
-
-              tracking-[-0.035em]
-
-              text-[#0D1F45]
-
+              leading-[1.04]
+              tracking-[-0.045em]
+              !text-white
               sm:text-[34px]
-              md:text-[40px]
-              lg:text-[46px]
-              xl:text-[50px]
+              md:text-[38px]
+              lg:text-[42px]
+              xl:text-[44px]
             "
+            style={{ color: "#FFFFFF" }}
           >
             Our Expertise
+          </h2>
 
-            <br className="hidden sm:block" />
-
-            <span className="sm:hidden">
-              {" "}
-            </span>
-          </motion.h2>
-
-          <motion.p
-            initial={{
-              opacity: 0,
-              y: reduceMotion
-                ? 0
-                : 20,
-              scale:
-                reduceMotion
-                  ? 1
-                  : 0.99,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-              scale: 1,
-            }}
-            viewport={{
-              once: true,
-              amount: 0.4,
-              margin:
-                "0px 0px -8% 0px",
-            }}
-            transition={{
-              duration:
-                reduceMotion
-                  ? 0
-                  : 1,
-              delay:
-                reduceMotion
-                  ? 0
-                  : 0.16,
-              ease: smoothEase,
-            }}
+          <p
             className="
               mx-auto
-
-              mt-6
-              pt-3
-
-              max-w-[650px]
-
+              mt-2
+              max-w-[560px]
               font-body
-
-              text-[13px]
-
-              leading-[1.75]
-
-              text-[#5C6F84]
-
-              sm:text-[14px]
-              md:text-[15px]
-              lg:text-[16px]
+              text-[12px]
+              leading-5
+              !text-white/75
+              sm:text-[13px]
+              sm:leading-6
             "
           >
-            We Provide Best Quality
-            Services.
-          </motion.p>
-        </div>
+            We Provide Best Quality Services.
+          </p>
+        </motion.div>
 
-        {/* =================================================
-            CAROUSEL
-        ================================================= */}
+        {/* =====================================================
+            SERVICES
+        ===================================================== */}
 
-        <div
+        <motion.div
+          variants={gridReveal}
           className="
-            relative
+            mt-6
 
-            mt-12
+            grid
+            grid-cols-1
 
-            sm:mt-14
-            md:mt-16
-            lg:mt-18
+            gap-x-6
+            gap-y-3
+
+            sm:mt-7
+            sm:gap-y-[14px]
+
+            lg:mt-8
+            lg:grid-cols-2
+            lg:gap-x-8
+            lg:gap-y-4
+
+            xl:gap-x-10
+            xl:gap-y-5
           "
-          onMouseEnter={() =>
-            setPaused(true)
-          }
-          onMouseLeave={() =>
-            setPaused(false)
-          }
-          onFocusCapture={() =>
-            setPaused(true)
-          }
-          onBlurCapture={() =>
-            setPaused(false)
-          }
-          onTouchStart={
-            handleTouchStart
-          }
-          onTouchEnd={
-            handleTouchEnd
-          }
         >
-          {/* CARD STAGE */}
-
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: reduceMotion
-                ? 0
-                : 26,
-            }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            viewport={{
-              once: true,
-              amount: 0.2,
-              margin:
-                "0px 0px -6% 0px",
-            }}
-            transition={{
-              duration:
-                reduceMotion
-                  ? 0
-                  : 1.05,
-              ease: smoothEase,
-            }}
-            className="
-              relative
-
-              mx-auto
-
-              h-[430px]
-
-              w-full
-
-              max-w-[1480px]
-
-              overflow-hidden
-
-              sm:h-[470px]
-              md:h-[500px]
-              lg:h-[545px]
-              xl:h-[565px]
-            "
-          >
-            {services.map(
-              (
-                service,
-                index,
-              ) => {
-                const offset =
-                  shortestOffset(
-                    index,
-                    activeIndex,
-                  );
-
-                if (
-                  Math.abs(
-                    offset,
-                  ) >
-                  visibleRange
-                ) {
-                  return null;
-                }
-
-                return (
-                  <CarouselCard
-                    key={
-                      service.href
-                    }
-                    service={
-                      service
-                    }
-                    index={index}
-                    offset={offset}
-                    active={
-                      offset === 0
-                    }
-                    hovered={
-                      hoveredIndex ===
-                      index
-                    }
-                    layoutMode={
-                      layoutMode
-                    }
-                    reduceMotion={Boolean(
-                      reduceMotion,
-                    )}
-                    onHover={() =>
-                      setHoveredIndex(
-                        index,
-                      )
-                    }
-                    onLeave={() =>
-                      setHoveredIndex(
-                        null,
-                      )
-                    }
-                    onSelect={() =>
-                      setActiveIndex(
-                        index,
-                      )
-                    }
-                  />
-                );
-              },
-            )}
-          </motion.div>
-
-          {/* CONTROLS */}
-
-          <div
-            className="
-              mx-auto
-
-              mt-5
-
-              flex
-
-              w-full
-
-              max-w-[1240px]
-
-              items-center
-              justify-end
-
-              gap-6
-
-              px-1
-            "
-          >
-            <div
-              className="
-                flex
-                items-center
-                gap-2.5
-              "
-            >
-              <ControlButton
-                label="Previous service"
-                direction="left"
-                onClick={
-                  goPrev
-                }
-              />
-
-              <ControlButton
-                label="Next service"
-                direction="right"
-                onClick={
-                  goNext
-                }
-              />
-            </div>
-          </div>
-        </div>
+          {services.map((service, index) => (
+            <ServiceRow
+              key={service.href}
+              service={service}
+              index={index}
+              reduceMotion={Boolean(reduceMotion)}
+            />
+          ))}
+        </motion.div>
       </div>
     </section>
   );
 }
 
 /* =========================================================
-   CAROUSEL CARD
+   SERVICE ROW
 ========================================================= */
 
-function CarouselCard({
+function ServiceRow({
   service,
   index,
-  offset,
-  active,
-  hovered,
-  layoutMode,
   reduceMotion,
-  onHover,
-  onLeave,
-  onSelect,
 }: {
   service: ServiceItem;
   index: number;
-  offset: number;
-  active: boolean;
-  hovered: boolean;
-  layoutMode: LayoutMode;
   reduceMotion: boolean;
-  onHover: () => void;
-  onLeave: () => void;
-  onSelect: () => void;
 }) {
-  const Icon =
-    icons[index] ??
-    BriefcaseBusiness;
-
-  const highlighted =
-    active || hovered;
-
-  const xByMode: Record<
-    LayoutMode,
-    Record<number, number>
-  > = {
-    mobile: {
-      [-1]: -235,
-      [0]: 0,
-      [1]: 235,
-    },
-
-    tablet: {
-      [-2]: -650,
-      [-1]: -330,
-      [0]: 0,
-      [1]: 330,
-      [2]: 650,
-    },
-
-    desktop: {
-      [-2]: -830,
-      [-1]: -410,
-      [0]: 0,
-      [1]: 410,
-      [2]: 830,
-    },
-  };
-
-  const scaleByMode: Record<
-    LayoutMode,
-    Record<number, number>
-  > = {
-    mobile: {
-      [-1]: 0.8,
-      [0]: 1.035,
-      [1]: 0.8,
-    },
-
-    tablet: {
-      [-2]: 0.76,
-      [-1]: 0.89,
-      [0]: 1.045,
-      [1]: 0.89,
-      [2]: 0.76,
-    },
-
-    desktop: {
-      [-2]: 0.76,
-      [-1]: 1,
-      [0]: 1.055,
-      [1]: 1,
-      [2]: 0.76,
-    },
-  };
-
-  const opacityByMode: Record<
-    LayoutMode,
-    Record<number, number>
-  > = {
-    mobile: {
-      [-1]: 0.72,
-      [0]: 1,
-      [1]: 0.72,
-    },
-
-    tablet: {
-      [-2]: 0.48,
-      [-1]: 0.86,
-      [0]: 1,
-      [1]: 0.86,
-      [2]: 0.48,
-    },
-
-    desktop: {
-      [-2]: 0.5,
-      [-1]: 0.88,
-      [0]: 1,
-      [1]: 0.88,
-      [2]: 0.5,
-    },
-  };
-
-  const zByOffset: Record<
-    number,
-    number
-  > = {
-    [-2]: 1,
-    [-1]: 3,
-    [0]: 10,
-    [1]: 3,
-    [2]: 1,
-  };
+  const Glyph = service.glyph;
 
   return (
-    <motion.article
-      onMouseEnter={
-        onHover
-      }
-      onMouseLeave={
-        onLeave
-      }
-      onClick={
-        onSelect
-      }
-      initial={false}
-      animate={{
-        x:
-          xByMode[
-            layoutMode
-          ][offset] ?? 0,
-
-        scale:
-          scaleByMode[
-            layoutMode
-          ][offset] ??
-          0.76,
-
-        opacity:
-          opacityByMode[
-            layoutMode
-          ][offset] ?? 0,
-
-        y:
-          active
-            ? -2
-            : 10,
+    <motion.div
+      variants={rowReveal}
+      initial={reduceMotion ? false : "hidden"}
+      whileInView="visible"
+      viewport={{
+        once: true,
+        amount: 0.38,
+        margin: "0px 0px -10% 0px",
       }}
-      transition={
+      whileHover={
         reduceMotion
-          ? {
-              duration: 0,
-            }
+          ? undefined
           : {
-              duration: 0.82,
-              ease: smoothEase,
+              y: -3,
+
+              transition: {
+                duration: 0.28,
+                ease: EASE,
+              },
             }
       }
-      style={{
-        left: "50%",
-
-        zIndex:
-          zByOffset[
-            offset
-          ] ?? 0,
-
-        willChange:
-          reduceMotion
-            ? "auto"
-            : "transform, opacity",
-
-        backfaceVisibility:
-          "hidden",
-
-        WebkitBackfaceVisibility:
-          "hidden",
-      }}
-      className={`
-        group
-        transform-gpu
-
-        absolute
-
-        top-[48%]
-
-        h-[350px]
-        w-[245px]
-
-        -translate-x-1/2
-        -translate-y-1/2
-
-        cursor-pointer
-
-        overflow-hidden
-
-        rounded-[24px]
-
-        border
-
-        bg-[#12304F]
-
-        sm:h-[380px]
-        sm:w-[280px]
-
-        md:h-[405px]
-        md:w-[300px]
-
-        lg:h-[455px]
-        lg:w-[345px]
-
-        xl:h-[470px]
-        xl:w-[360px]
-
-        ${
-          active
-            ? "border-[#75B4F2]/90"
-            : "border-white/35"
-        }
-      `}
+      className="
+        relative
+        min-w-0
+      "
     >
-      {/* IMAGE BACKGROUND */}
-
-      <motion.div
-        aria-hidden="true"
+      <Link
+        href={service.href}
+        aria-label={`${service.title} – ${service.cta}`}
         className="
-          absolute
-          inset-0
-
-          bg-cover
-          bg-center
-          bg-no-repeat
-        "
-        initial={false}
-        animate={{
-          scale:
-            highlighted &&
-            !reduceMotion
-              ? 1.035
-              : 1,
-        }}
-        transition={{
-          duration:
-            reduceMotion
-              ? 0
-              : 0.75,
-          ease: smoothEase,
-        }}
-        style={{
-          backgroundImage:
-            `url("${service.image}")`,
-
-          willChange:
-            reduceMotion
-              ? "auto"
-              : "transform",
-        }}
-      />
-
-      {/* OVERLAY */}
-
-      <motion.div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-        "
-        initial={false}
-        animate={{
-          background:
-            active
-              ? "linear-gradient(180deg, rgba(4,20,38,.02) 0%, rgba(4,20,38,.06) 28%, rgba(4,20,38,.26) 58%, rgba(4,20,38,.84) 100%)"
-              : hovered
-                ? "linear-gradient(180deg, rgba(4,20,38,.10) 0%, rgba(4,20,38,.18) 28%, rgba(4,20,38,.44) 60%, rgba(4,20,38,.91) 100%)"
-                : "linear-gradient(180deg, rgba(4,20,38,.18) 0%, rgba(4,20,38,.26) 32%, rgba(4,20,38,.56) 65%, rgba(4,20,38,.94) 100%)",
-        }}
-        transition={{
-          duration:
-            reduceMotion
-              ? 0
-              : 0.65,
-          ease: smoothEase,
-        }}
-      />
-
-      {/* READABILITY FADE */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-        "
-        style={{
-          background:
-            "linear-gradient(110deg, rgba(4,20,38,.26) 0%, rgba(4,20,38,.08) 44%, transparent 72%)",
-        }}
-      />
-
-      {/* ACTIVE EDGE */}
-
-      <motion.div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          rounded-[inherit]
-        "
-        initial={false}
-        animate={{
-          boxShadow:
-            active
-              ? "inset 0 0 0 1px rgba(178,218,255,.55)"
-              : "inset 0 0 0 1px rgba(255,255,255,.10)",
-        }}
-        transition={{
-          duration:
-            reduceMotion
-              ? 0
-              : 0.55,
-          ease: smoothEase,
-        }}
-      />
-
-      {/* CONTENT */}
-
-      <div
-        className="
+          group
           relative
-          z-10
-
-          flex
-          h-full
-          flex-col
-
-          p-5
-
-          sm:p-6
-
-          lg:p-7
+          isolate
+          grid
+          min-h-[126px]
+          w-full
+          min-w-0
+          grid-cols-[54px_minmax(0,1fr)_38px]
+          items-start
+          gap-3
+          overflow-hidden
+          rounded-[18px]
+          bg-white/[0.045]
+          px-3
+          py-[14px]
+          outline-none
+          transition-[box-shadow,transform]
+          duration-500
+          focus-visible:ring-2
+          focus-visible:ring-white/50
+          focus-visible:ring-offset-2
+          sm:grid-cols-[58px_minmax(0,1fr)_40px]
+          sm:gap-[14px]
+          sm:px-[14px]
+          sm:py-4
+          md:min-h-[132px]
+          lg:px-[18px]
+          xl:gap-4
+          xl:px-4
+          hover:shadow-[0_24px_65px_rgba(1,31,76,0.30)]
         "
       >
-        {/* TOP */}
+        {/* =====================================================
+            FULL HOVER BACKGROUND
+        ===================================================== */}
 
         <div
+          aria-hidden="true"
           className="
+            pointer-events-none
+            absolute
+            inset-0
+            -z-20
+            bg-transparent
+          "
+        />
+
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+            -z-10
+            opacity-0
+            transition-opacity
+            duration-500
+            group-hover:opacity-100
+            group-focus-visible:opacity-100
+          "
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(4,42,99,0.97) 0%, rgba(7,84,180,0.97) 54%, rgba(17,124,226,0.98) 100%)",
+          }}
+        />
+
+        {/* soft blue light */}
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            -right-[70px]
+            -top-[90px]
+            -z-10
+            h-[240px]
+            w-[240px]
+            rounded-full
+            bg-[#93D4FF]/0
+            blur-[70px]
+            transition-colors
+            duration-500
+            group-hover:bg-[#93D4FF]/30
+            group-focus-visible:bg-[#93D4FF]/30
+          "
+        />
+
+        {/* diagonal highlight */}
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            -bottom-24
+            left-[30%]
+            -z-10
+            h-[190px]
+            w-[320px]
+            rotate-[-18deg]
+            rounded-[50%]
+            bg-white/0
+            blur-[48px]
+            transition-colors
+            duration-500
+            group-hover:bg-white/[0.06]
+          "
+        />
+
+        {/* =====================================================
+            GLYPH
+        ===================================================== */}
+
+        <motion.div
+          variants={rowPartReveal}
+          className="
+            relative
+            mt-0.5
             flex
-            items-start
-            justify-between
-            gap-4
+            h-[50px]
+            w-[50px]
+            items-center
+            justify-center
+            text-[#DDF3FF]
+            transition-colors
+            duration-300
+            group-hover:!text-white
+            group-focus-visible:!text-white
+            sm:h-[54px]
+            sm:w-[54px]
           "
         >
-          <motion.div
-            initial={false}
-            animate={{
-              opacity:
-                active
-                  ? 1
-                  : 0.92,
-
-              scale:
-                active &&
-                !reduceMotion
-                  ? 1.03
-                  : 1,
-            }}
-            transition={{
-              duration:
-                reduceMotion
-                  ? 0
-                  : 0.4,
-
-              ease: smoothEase,
-            }}
+          <Glyph
             className="
-              flex
-
-              h-10
-              w-10
-
-              items-center
-              justify-center
-
-              text-white
-
-              [filter:drop-shadow(0_2px_6px_rgba(0,0,0,.28))]
+              h-full
+              w-full
+              overflow-visible
+              transition-transform
+              duration-500
+              group-hover:-translate-y-1
+              group-hover:scale-[1.03]
+              group-focus-visible:-translate-y-1
             "
-          >
-            <Icon
-              size={21}
-              strokeWidth={2.2}
-            />
-          </motion.div>
+          />
+        </motion.div>
 
-          <span
-            className="
-              font-body
+        {/* =====================================================
+            CONTENT
+        ===================================================== */}
 
-              text-[11px]
-              font-extrabold
-
-              tracking-[0.08em]
-
-              text-white
-
-              [text-shadow:0_2px_8px_rgba(0,0,0,.38)]
-            "
-          >
-            {String(
-              index + 1,
-            ).padStart(
-              2,
-              "0",
-            )}
-          </span>
-        </div>
-
-        {/* CONTENT BLOCK */}
-
-        <div className="mt-auto">
-          {/* CATEGORY */}
-
+        <motion.div variants={rowPartReveal} className="min-w-0">
           <div
             className="
-              inline-flex
-              items-center
-              gap-2
-
-              px-3
-              py-1.5
+              mb-1.5
+              font-body
+              text-[9px]
+              font-semibold
+              tracking-[0.12em]
+              text-white/45
+              transition-colors
+              duration-300
+              group-hover:!text-white
+              group-focus-visible:!text-white
             "
           >
-            <span
-              className="
-                h-[5px]
-                w-[5px]
-
-                rounded-full
-
-                bg-[#D9EEFF]
-              "
-            />
-
-            <span
-              style={{
-                color:
-                  "#FFFFFF",
-              }}
-              className="
-                font-body
-
-                text-[9px]
-
-                font-extrabold
-
-                uppercase
-
-                tracking-[0.13em]
-
-                text-white
-
-                sm:text-[9.5px]
-                lg:text-[10px]
-              "
-            >
-              {service.category}
-            </span>
+            {String(index + 1).padStart(2, "0")}
           </div>
 
-          {/* TITLE */}
-
-          <motion.h3
-            style={{
-              color: "#FFFFFF",
-            }}
-            initial={false}
-            animate={{
-              y:
-                highlighted &&
-                !reduceMotion
-                  ? -2
-                  : 0,
-            }}
+          <h3
             className="
-              mt-3
-
-              max-w-[315px]
-
+              max-w-[450px]
               font-heading
-
-              text-[20px]
-
+              text-[16px]
               font-bold
-
-              leading-[1.11]
-
-              tracking-[-0.03em]
-
-              text-white
-
-              [text-shadow:0_2px_12px_rgba(0,0,0,.60)]
-
-              sm:text-[21px]
-              md:text-[22px]
-              lg:text-[25px]
-              xl:text-[26px]
+              leading-[1.16]
+              tracking-[-0.032em]
+              !text-white
+              transition-colors
+              duration-300
+              group-hover:!text-white
+              group-focus-visible:!text-white
+              sm:text-[17px]
+              xl:text-[18px]
             "
           >
             {service.title}
-          </motion.h3>
-
-          {/* DESCRIPTION */}
+          </h3>
 
           <p
-            style={{
-              color: "#FFFFFF",
-            }}
             className="
-              mt-3
-
-              max-w-[320px]
-
+              mt-1
+              max-w-[470px]
               font-body
-
-              text-[11px]
-
-              font-semibold
-
-              leading-[1.65]
-
-              text-white/95
-
-              [text-shadow:0_2px_8px_rgba(0,0,0,.58)]
-
-              sm:text-[11.5px]
-              md:text-[12px]
-              lg:text-[12.5px]
+              text-[10.5px]
+              leading-[1.5]
+              !text-white/75
+              transition-colors
+              duration-300
+              group-hover:!text-white
+              group-focus-visible:!text-white
+              sm:text-[10.5px]
             "
           >
             {service.description}
           </p>
 
-          {/* CTA */}
+          <span
+            className="
+              mt-2
+              inline-flex
+              items-center
+              gap-2
+              font-body
+              text-[11.5px]
+              font-semibold
+              !text-[#DDF3FF]
+              transition-colors
+              duration-300
+              group-hover:!text-white
+              group-focus-visible:!text-white
+              sm:text-[11px]
+            "
+          >
+            {service.cta}
 
-          <div className="mt-6">
-            <Link
-              href={
-                service.href
-              }
-              onClick={(event) =>
-                event.stopPropagation()
-              }
-              style={{
-                color: "#FFFFFF",
-              }}
+            <span
               className="
-                group/link
-
-                inline-flex
-
-                items-center
-
-                gap-2.5
-
-                font-body
-
-                text-[11px]
-
-                font-bold
-
-                text-white
-
-                transition-all
+                h-px
+                w-5
+                bg-white/35
+                transition-[width,background-color]
                 duration-300
-
-                hover:opacity-90
-
-                sm:text-[11.5px]
-                lg:text-[12px]
+                group-hover:w-8
+                group-hover:!bg-white/60
+                group-focus-visible:w-8
+                group-focus-visible:!bg-white/60
               "
-            >
-              <span>
-                {service.cta}
-              </span>
-
-              <span
-                className="
-                  flex
-
-                  h-7
-                  w-7
-
-                  items-center
-                  justify-center
-
-                  rounded-full
-
-                  bg-white
-
-                  text-[#173B61]
-
-                  shadow-[0_3px_10px_rgba(10,35,65,.08)]
-
-                  transition-transform
-                  duration-300
-
-                  group-hover/link:translate-x-1
-                "
-              >
-                <ArrowRight
-                  size={14}
-                  strokeWidth={2}
-                />
-              </span>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </motion.article>
-  );
-}
-
-/* =========================================================
-   TOP-RIGHT CURVE DECORATION
-========================================================= */
-
-function TopRightCurveDecoration({
-  reduceMotion,
-}: {
-  reduceMotion: boolean;
-}) {
-  return (
-    <motion.div
-      aria-hidden="true"
-      animate={
-        reduceMotion
-          ? undefined
-          : {
-              x: [0, -5, 0],
-              y: [0, 3, 0],
-            }
-      }
-      transition={{
-        duration: 12,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-      className="
-        pointer-events-none
-
-        absolute
-        right-0
-        top-0
-        z-0
-
-        h-[72px]
-        w-[210px]
-
-        overflow-hidden
-
-        sm:h-[92px]
-        sm:w-[285px]
-
-        md:h-[112px]
-        md:w-[360px]
-
-        lg:h-[138px]
-        lg:w-[450px]
-
-        xl:h-[154px]
-        xl:w-[520px]
-
-        2xl:h-[168px]
-        2xl:w-[590px]
-
-        will-change-transform
-      "
-      style={{
-        backfaceVisibility:
-          "hidden",
-
-        WebkitBackfaceVisibility:
-          "hidden",
-      }}
-    >
-      <svg
-        viewBox="0 0 680 190"
-        preserveAspectRatio="none"
-        className="
-          h-full
-          w-full
-        "
-      >
-        <defs>
-          <linearGradient
-            id="services-curve-light"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="0.9"
-          >
-            <stop
-              offset="0%"
-              stopColor="#2AA7F4"
             />
+          </span>
+        </motion.div>
 
-            <stop
-              offset="55%"
-              stopColor="#1888E9"
-            />
+        {/* =====================================================
+            ARROW
+        ===================================================== */}
 
-            <stop
-              offset="100%"
-              stopColor="#0C69D8"
-            />
-          </linearGradient>
-
-          <linearGradient
-            id="services-curve-mid"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="1"
-          >
-            <stop
-              offset="0%"
-              stopColor="#0E91EA"
-            />
-
-            <stop
-              offset="52%"
-              stopColor="#0877DD"
-            />
-
-            <stop
-              offset="100%"
-              stopColor="#075CC6"
-            />
-          </linearGradient>
-
-          <linearGradient
-            id="services-curve-main"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="0.85"
-          >
-            <stop
-              offset="0%"
-              stopColor="#0879DE"
-            />
-
-            <stop
-              offset="52%"
-              stopColor="#075FCB"
-            />
-
-            <stop
-              offset="100%"
-              stopColor="#084AAE"
-            />
-          </linearGradient>
-
-          <linearGradient
-            id="services-curve-highlight"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="0"
-          >
-            <stop
-              offset="0%"
-              stopColor="#68C3FF"
-              stopOpacity="0.85"
-            />
-
-            <stop
-              offset="100%"
-              stopColor="#2C92F1"
-              stopOpacity="0.15"
-            />
-          </linearGradient>
-
-          <pattern
-            id="services-curve-dots"
-            width="15"
-            height="15"
-            patternUnits="userSpaceOnUse"
-          >
-            <circle
-              cx="2"
-              cy="2"
-              r="1.45"
-              fill="white"
-              opacity="0.72"
-            />
-          </pattern>
-
-          <clipPath id="services-main-curve-clip">
-            <path d="M74 0H680V159C610 121 541 101 458 90C362 78 277 81 202 67C143 56 99 35 74 0Z" />
-          </clipPath>
-        </defs>
-
-        <path
-          d="M0 0H680V190C614 150 543 129 456 117C356 104 263 108 174 89C99 73 39 43 0 0Z"
-          fill="url(#services-curve-light)"
-        />
-
-        <path
-          d="M36 0H680V177C613 138 544 117 459 106C361 93 272 97 191 80C126 67 77 40 36 0Z"
-          fill="url(#services-curve-mid)"
-        />
-
-        <path
-          d="M74 0H680V159C610 121 541 101 458 90C362 78 277 81 202 67C143 56 99 35 74 0Z"
-          fill="url(#services-curve-main)"
-        />
-
-        <path
-          d="M22 3C75 47 129 70 195 83C278 100 369 96 463 109C548 120 617 142 680 179"
-          fill="none"
-          stroke="url(#services-curve-highlight)"
-          strokeWidth="5"
-          strokeLinecap="round"
-          opacity="0.82"
-        />
-
-        <rect
-          x="420"
-          y="7"
-          width="190"
-          height="64"
-          fill="url(#services-curve-dots)"
-          clipPath="url(#services-main-curve-clip)"
-          opacity="0.56"
-        />
-
-        <path
-          d="M460 18C518 25 578 42 633 69"
-          fill="none"
-          stroke="rgba(255,255,255,.22)"
-          strokeWidth="1.5"
-          strokeDasharray="2 7"
-          strokeLinecap="round"
-        />
-      </svg>
+        <motion.div
+          variants={rowPartReveal}
+          className="
+            mt-1
+            flex
+            h-8
+            w-8
+            shrink-0
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-white/[0.20]
+            bg-white/[0.12]
+            text-white
+            shadow-[0_8px_24px_rgba(2,31,76,0.16)]
+            transition-all
+            duration-350
+            group-hover:translate-x-1
+            group-hover:border-white/25
+            group-hover:bg-white
+            group-hover:text-[#0753B0]
+            group-focus-visible:translate-x-1
+            sm:h-9
+            sm:w-9
+          "
+        >
+          <ArrowGlyph />
+        </motion.div>
+      </Link>
     </motion.div>
   );
 }
 
 /* =========================================================
-   BOTTOM-LEFT CURVE DECORATION
+   BACKGROUND
 ========================================================= */
 
-function BottomLeftCurveDecoration({
-  reduceMotion,
-}: {
-  reduceMotion: boolean;
-}) {
+function SectionBackground() {
   return (
-    <motion.div
+    <div
       aria-hidden="true"
-      animate={
-        reduceMotion
-          ? undefined
-          : {
-              x: [0, 5, 0],
-              y: [0, -3, 0],
-            }
-      }
-      transition={{
-        duration: 13.5,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
       className="
         pointer-events-none
-
         absolute
-        bottom-0
-        left-0
-        z-0
-
-        h-[72px]
-        w-[210px]
-
+        inset-0
         overflow-hidden
-
-        sm:h-[92px]
-        sm:w-[285px]
-
-        md:h-[112px]
-        md:w-[360px]
-
-        lg:h-[138px]
-        lg:w-[450px]
-
-        xl:h-[154px]
-        xl:w-[520px]
-
-        2xl:h-[168px]
-        2xl:w-[590px]
-
-        will-change-transform
       "
       style={{
-        backfaceVisibility:
-          "hidden",
-
-        WebkitBackfaceVisibility:
-          "hidden",
+        background:
+          "radial-gradient(circle at 7% 0%, rgba(85,184,255,0.72) 0%, rgba(56,156,245,0.26) 24%, transparent 50%), radial-gradient(circle at 91% 8%, rgba(32,134,238,0.22) 0%, transparent 42%), radial-gradient(circle at 50% 116%, rgba(5,35,89,0.62) 0%, transparent 48%), linear-gradient(112deg, #1687EE 0%, #0B6AD3 34%, #0753B0 65%, #043B82 100%)",
       }}
     >
-      <svg
-        viewBox="0 0 680 190"
-        preserveAspectRatio="none"
+      {/* =====================================================
+          SOFT DEPTH LIGHTS
+      ===================================================== */}
+
+      <div
         className="
+          absolute
+          -left-[240px]
+          -top-[230px]
+          h-[620px]
+          w-[620px]
+          rounded-full
+          bg-[#9ADFFF]/[0.13]
+          blur-[120px]
+        "
+      />
+
+      <div
+        className="
+          absolute
+          -right-[250px]
+          top-[180px]
+          h-[620px]
+          w-[620px]
+          rounded-full
+          bg-[#3EA6FF]/[0.10]
+          blur-[135px]
+        "
+      />
+
+      <div
+        className="
+          absolute
+          bottom-[-280px]
+          left-1/2
+          h-[520px]
+          w-[980px]
+          -translate-x-1/2
+          rounded-[50%]
+          bg-[#021F54]/35
+          blur-[110px]
+        "
+      />
+
+      {/* =====================================================
+          PREMIUM CURVED LINES
+      ===================================================== */}
+
+      <svg
+        viewBox="0 0 1600 900"
+        preserveAspectRatio="none"
+        fill="none"
+        className="
+          absolute
+          inset-0
+          hidden
           h-full
           w-full
+          lg:block
+        "
+      >
+        <defs>
+          <linearGradient
+            id="service-blue-line-left"
+            x1="0"
+            y1="0"
+            x2="1"
+            y2="1"
+          >
+            <stop stopColor="#E6F8FF" stopOpacity=".24" />
+            <stop offset=".56" stopColor="#BEEBFF" stopOpacity=".055" />
+            <stop offset="1" stopColor="#BEEBFF" stopOpacity="0" />
+          </linearGradient>
+
+          <linearGradient
+            id="service-blue-line-right"
+            x1="1"
+            y1="0"
+            x2="0"
+            y2="1"
+          >
+            <stop stopColor="#DDF6FF" stopOpacity=".20" />
+            <stop offset=".60" stopColor="#B9E8FF" stopOpacity=".045" />
+            <stop offset="1" stopColor="#B9E8FF" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+
+        <path
+          d="M-100 735C92 674 181 560 266 410C350 262 458 184 620 130"
+          stroke="url(#service-blue-line-left)"
+          strokeWidth="1.15"
+        />
+
+        <path
+          d="M-84 795C122 723 216 607 305 455C393 304 491 230 650 174"
+          stroke="url(#service-blue-line-left)"
+          strokeWidth=".7"
+          opacity=".7"
+        />
+
+        <path
+          d="M1710 142C1512 211 1423 326 1338 475C1263 610 1156 713 986 783"
+          stroke="url(#service-blue-line-right)"
+          strokeWidth="1.1"
+        />
+
+        <path
+          d="M1726 98C1518 168 1425 281 1335 432C1252 575 1139 678 963 747"
+          stroke="url(#service-blue-line-right)"
+          strokeWidth=".7"
+          opacity=".66"
+        />
+      </svg>
+
+      {/* =====================================================
+          MICRO DOT TEXTURE
+      ===================================================== */}
+
+      <div
+        className="
+          absolute
+          left-[3%]
+          top-[38%]
+          hidden
+          h-[190px]
+          w-[230px]
+          opacity-[0.11]
+          lg:block
         "
         style={{
-          transform:
-            "rotate(180deg)",
-
-          transformOrigin:
-            "50% 50%",
+          backgroundImage:
+            "radial-gradient(circle, rgba(225,248,255,.92) 1px, transparent 1.2px)",
+          backgroundSize: "18px 18px",
+          WebkitMaskImage:
+            "radial-gradient(ellipse at center, black 0%, rgba(0,0,0,.66) 40%, transparent 78%)",
+          maskImage:
+            "radial-gradient(ellipse at center, black 0%, rgba(0,0,0,.66) 40%, transparent 78%)",
         }}
-      >
-        <defs>
-          <linearGradient
-            id="services-bottom-curve-light"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="0.9"
-          >
-            <stop
-              offset="0%"
-              stopColor="#2AA7F4"
-            />
-
-            <stop
-              offset="55%"
-              stopColor="#1888E9"
-            />
-
-            <stop
-              offset="100%"
-              stopColor="#0C69D8"
-            />
-          </linearGradient>
-
-          <linearGradient
-            id="services-bottom-curve-mid"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="1"
-          >
-            <stop
-              offset="0%"
-              stopColor="#0E91EA"
-            />
-
-            <stop
-              offset="52%"
-              stopColor="#0877DD"
-            />
-
-            <stop
-              offset="100%"
-              stopColor="#075CC6"
-            />
-          </linearGradient>
-
-          <linearGradient
-            id="services-bottom-curve-main"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="0.85"
-          >
-            <stop
-              offset="0%"
-              stopColor="#0879DE"
-            />
-
-            <stop
-              offset="52%"
-              stopColor="#075FCB"
-            />
-
-            <stop
-              offset="100%"
-              stopColor="#084AAE"
-            />
-          </linearGradient>
-
-          <linearGradient
-            id="services-bottom-curve-highlight"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="0"
-          >
-            <stop
-              offset="0%"
-              stopColor="#68C3FF"
-              stopOpacity="0.85"
-            />
-
-            <stop
-              offset="100%"
-              stopColor="#2C92F1"
-              stopOpacity="0.15"
-            />
-          </linearGradient>
-
-          <pattern
-            id="services-bottom-curve-dots"
-            width="15"
-            height="15"
-            patternUnits="userSpaceOnUse"
-          >
-            <circle
-              cx="2"
-              cy="2"
-              r="1.45"
-              fill="white"
-              opacity="0.72"
-            />
-          </pattern>
-
-          <clipPath id="services-bottom-main-curve-clip">
-            <path d="M74 0H680V159C610 121 541 101 458 90C362 78 277 81 202 67C143 56 99 35 74 0Z" />
-          </clipPath>
-        </defs>
-
-        <path
-          d="M0 0H680V190C614 150 543 129 456 117C356 104 263 108 174 89C99 73 39 43 0 0Z"
-          fill="url(#services-bottom-curve-light)"
-        />
-
-        <path
-          d="M36 0H680V177C613 138 544 117 459 106C361 93 272 97 191 80C126 67 77 40 36 0Z"
-          fill="url(#services-bottom-curve-mid)"
-        />
-
-        <path
-          d="M74 0H680V159C610 121 541 101 458 90C362 78 277 81 202 67C143 56 99 35 74 0Z"
-          fill="url(#services-bottom-curve-main)"
-        />
-
-        <path
-          d="M22 3C75 47 129 70 195 83C278 100 369 96 463 109C548 120 617 142 680 179"
-          fill="none"
-          stroke="url(#services-bottom-curve-highlight)"
-          strokeWidth="5"
-          strokeLinecap="round"
-          opacity="0.82"
-        />
-
-        <rect
-          x="420"
-          y="7"
-          width="190"
-          height="64"
-          fill="url(#services-bottom-curve-dots)"
-          clipPath="url(#services-bottom-main-curve-clip)"
-          opacity="0.56"
-        />
-
-        <path
-          d="M460 18C518 25 578 42 633 69"
-          fill="none"
-          stroke="rgba(255,255,255,.22)"
-          strokeWidth="1.5"
-          strokeDasharray="2 7"
-          strokeLinecap="round"
-        />
-      </svg>
-    </motion.div>
-  );
-}
-
-/* =========================================================
-   CONTROL BUTTON
-========================================================= */
-
-function ControlButton({
-  label,
-  direction,
-  onClick,
-}: {
-  label: string;
-  direction:
-    | "left"
-    | "right";
-  onClick: () => void;
-}) {
-  const Icon =
-    direction === "left"
-      ? ArrowLeft
-      : ArrowRight;
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={label}
-      className="
-        group
-
-        flex
-
-        h-12
-        w-12
-
-        items-center
-        justify-center
-
-        rounded-full
-
-        border
-        border-[#C5D7E9]
-
-        bg-white/95
-
-        text-[#102A43]
-
-        backdrop-blur-md
-
-        transition-all
-        duration-300
-
-        hover:-translate-y-0.5
-
-        hover:border-[#246EF1]/40
-
-        hover:bg-[#246EF1]
-
-        hover:text-white
-      "
-    >
-      <Icon
-        size={18}
-        className={`
-          transition-transform
-          duration-300
-
-          ${
-            direction ===
-            "left"
-              ? "group-hover:-translate-x-0.5"
-              : "group-hover:translate-x-0.5"
-          }
-        `}
       />
-    </button>
+
+      <div
+        className="
+          absolute
+          bottom-[12%]
+          right-[3%]
+          hidden
+          h-[190px]
+          w-[230px]
+          opacity-[0.09]
+          lg:block
+        "
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, rgba(207,242,255,.92) 1px, transparent 1.2px)",
+          backgroundSize: "18px 18px",
+          WebkitMaskImage:
+            "radial-gradient(ellipse at center, black 0%, rgba(0,0,0,.66) 40%, transparent 78%)",
+          maskImage:
+            "radial-gradient(ellipse at center, black 0%, rgba(0,0,0,.66) 40%, transparent 78%)",
+        }}
+      />
+
+      {/* =====================================================
+          VERY SUBTLE GRID
+      ===================================================== */}
+
+      <div
+        className="
+          absolute
+          inset-0
+          opacity-[0.075]
+        "
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,.16) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.16) 1px, transparent 1px)",
+          backgroundSize: "82px 82px",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, black 20%, black 84%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, black 20%, black 84%, transparent 100%)",
+        }}
+      />
+
+      {/* BOTTOM DEPTH */}
+
+      <div
+        className="
+          absolute
+          inset-x-0
+          bottom-0
+          h-[260px]
+          bg-gradient-to-t
+          from-[#032B67]/30
+          via-[#064A97]/[0.06]
+          to-transparent
+        "
+      />
+    </div>
   );
 }
 
 /* =========================================================
-   BADGE ICON
+   SMALL SVGs
 ========================================================= */
 
-function ServiceBadgeIcon() {
+function SparkGlyph() {
   return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
-      className="
-        h-[11px]
-        w-[11px]
-      "
+      className="h-[12px] w-[12px]"
       aria-hidden="true"
     >
       <path
-        d="M12 3L14.3 7.66L19.45 8.41L15.72 12.04L16.6 17.17L12 14.75L7.4 17.17L8.28 12.04L4.55 8.41L9.7 7.66L12 3Z"
+        d="M12 3.5 13.5 9l5.5 1.5-5.5 1.5L12 17.5 10.5 12 5 10.5 10.5 9 12 3.5Z"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ArrowGlyph() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      className="h-[16px] w-[16px]"
+      aria-hidden="true"
+    >
+      <path
+        d="M5 12h13M13 7l5 5-5 5"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/* =========================================================
+   SERVICE GLYPHS
+========================================================= */
+
+function CompanyGlyph(props: GlyphProps) {
+  return (
+    <svg viewBox="0 0 84 84" fill="none" {...props}>
+      <rect
+        x="8"
+        y="8"
+        width="68"
+        height="68"
+        rx="22"
+        fill="currentColor"
+        fillOpacity=".055"
+        stroke="currentColor"
+        strokeOpacity=".16"
+      />
+      <path
+        d="M24 58V34l18-9 18 9v24"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M20 59h44M31 39h3M50 39h3M31 47h3M50 47h3M38 59v-8h8v8"
+        stroke="currentColor"
+        strokeWidth="2.1"
+        strokeLinecap="round"
+      />
+      <circle
+        cx="60"
+        cy="23"
+        r="8"
+        fill="currentColor"
+        fillOpacity=".12"
+      />
+      <path
+        d="m56.5 23 2.2 2.2 4.5-4.7"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function LicenseGlyph(props: GlyphProps) {
+  return (
+    <svg viewBox="0 0 84 84" fill="none" {...props}>
+      <rect
+        x="8"
+        y="8"
+        width="68"
+        height="68"
+        rx="22"
+        fill="currentColor"
+        fillOpacity=".055"
+        stroke="currentColor"
+        strokeOpacity=".16"
+      />
+      <rect
+        x="22"
+        y="26"
+        width="36"
+        height="27"
+        rx="7"
+        stroke="currentColor"
+        strokeWidth="2.1"
+      />
+      <path
+        d="M29 35h18M29 41h23M29 47h12"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity=".72"
+      />
+      <path
+        d="M58 48c5 3 9 3.3 14 0v8c0 7-4.3 11.2-7 12.5-2.7-1.3-7-5.5-7-12.5v-8Z"
+        fill="currentColor"
+        fillOpacity=".09"
         stroke="currentColor"
         strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
+
+function ComplianceGlyph(props: GlyphProps) {
+  return (
+    <svg viewBox="0 0 84 84" fill="none" {...props}>
+      <rect
+        x="8"
+        y="8"
+        width="68"
+        height="68"
+        rx="22"
+        fill="currentColor"
+        fillOpacity=".055"
+        stroke="currentColor"
+        strokeOpacity=".16"
+      />
+      <path
+        d="M25 21h23l11 11v30H25V21Z"
+        stroke="currentColor"
+        strokeWidth="2.1"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M48 21v12h11M32 40h18M32 47h14"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity=".72"
+      />
+      <circle
+        cx="59"
+        cy="57"
+        r="10"
+        fill="currentColor"
+        fillOpacity=".09"
+      />
+      <path
+        d="m54.5 57 3 3 6-6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function GstGlyph(props: GlyphProps) {
+  return (
+    <svg viewBox="0 0 84 84" fill="none" {...props}>
+      <rect
+        x="8"
+        y="8"
+        width="68"
+        height="68"
+        rx="22"
+        fill="currentColor"
+        fillOpacity=".055"
+        stroke="currentColor"
+        strokeOpacity=".16"
+      />
+      <path
+        d="M26 22h31v40l-4-3-4 3-4-3-4 3-4-3-4 3-3-3-4 3V22Z"
+        stroke="currentColor"
+        strokeWidth="2.1"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M33 33h17M33 40h12"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity=".7"
+      />
+      <circle cx="58" cy="51" r="10" fill="currentColor" fillOpacity=".08" />
+      <path
+        d="m54 55 8-8"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function IncomeTaxGlyph(props: GlyphProps) {
+  return (
+    <svg viewBox="0 0 84 84" fill="none" {...props}>
+      <rect
+        x="8"
+        y="8"
+        width="68"
+        height="68"
+        rx="22"
+        fill="currentColor"
+        fillOpacity=".055"
+        stroke="currentColor"
+        strokeOpacity=".16"
+      />
+      <path
+        d="M24 61V28h33v33"
+        stroke="currentColor"
+        strokeWidth="2.1"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M31 37h18M31 44h14M31 51h10"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity=".7"
+      />
+      <circle cx="59" cy="56" r="10" fill="currentColor" fillOpacity=".09" />
+      <path
+        d="M55 51h8M55 54h8M56 51c4 0 5.5.8 5.5 2.4 0 1.6-1.5 2.6-5 2.6H55l6 5"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function AccountingGlyph(props: GlyphProps) {
+  return (
+    <svg viewBox="0 0 84 84" fill="none" {...props}>
+      <rect
+        x="8"
+        y="8"
+        width="68"
+        height="68"
+        rx="22"
+        fill="currentColor"
+        fillOpacity=".055"
+        stroke="currentColor"
+        strokeOpacity=".16"
+      />
+      <rect
+        x="23"
+        y="22"
+        width="29"
+        height="39"
+        rx="7"
+        stroke="currentColor"
+        strokeWidth="2.1"
+      />
+      <rect
+        x="29"
+        y="28"
+        width="17"
+        height="7"
+        rx="2"
+        fill="currentColor"
+        fillOpacity=".09"
+      />
+      {[0, 1, 2].map((r) =>
+        [0, 1, 2].map((c) => (
+          <circle
+            key={`${r}-${c}`}
+            cx={31 + c * 7}
+            cy={43 + r * 7}
+            r="1.7"
+            fill="currentColor"
+            fillOpacity=".65"
+          />
+        )),
+      )}
+      <path
+        d="M57 55V45m6 10V39m6 16V34"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function IpGlyph(props: GlyphProps) {
+  return (
+    <svg viewBox="0 0 84 84" fill="none" {...props}>
+      <rect
+        x="8"
+        y="8"
+        width="68"
+        height="68"
+        rx="22"
+        fill="currentColor"
+        fillOpacity=".055"
+        stroke="currentColor"
+        strokeOpacity=".16"
+      />
+      <path
+        d="M32 23c7 4 12 4.5 19 0v11c0 10-6.1 16-9.5 17.5C38.1 50 32 44 32 34V23Z"
+        stroke="currentColor"
+        strokeWidth="2.1"
+      />
+      <path
+        d="m36.5 35 3.2 3.2 6.2-6.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="58" cy="57" r="10" fill="currentColor" fillOpacity=".09" />
+      <path
+        d="M54 53.5h8M58 53.5v8"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function ContractGlyph(props: GlyphProps) {
+  return (
+    <svg viewBox="0 0 84 84" fill="none" {...props}>
+      <rect
+        x="8"
+        y="8"
+        width="68"
+        height="68"
+        rx="22"
+        fill="currentColor"
+        fillOpacity=".055"
+        stroke="currentColor"
+        strokeOpacity=".16"
+      />
+      <path
+        d="M24 21h25l10 10v31H24V21Z"
+        stroke="currentColor"
+        strokeWidth="2.1"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M49 21v11h10M31 39h18M31 46h14"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity=".7"
+      />
+      <path
+        d="m50 57 2-6 8-8a2.7 2.7 0 0 1 3.8 3.8l-8 8-5.8 2.2Z"
+        fill="currentColor"
+        fillOpacity=".07"
+        stroke="currentColor"
+        strokeWidth="1.9"
         strokeLinejoin="round"
       />
     </svg>

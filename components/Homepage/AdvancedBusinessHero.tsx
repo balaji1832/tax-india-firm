@@ -1049,22 +1049,13 @@ export default function BusinessHero() {
       ===================================================== */}
 
       <div
-        className="relative mt-18"
+        className="relative isolate mt-18 overflow-hidden"
         style={{
           background:
-            "radial-gradient(circle at 8% -8%, rgba(55,153,255,0.98) 0%, rgba(26,116,226,0.62) 24%, rgba(17,91,181,0.12) 47%, transparent 62%), radial-gradient(circle at 92% 94%, rgba(27,115,226,0.38) 0%, rgba(11,71,151,0.16) 35%, transparent 58%), linear-gradient(135deg, #0A6CDD 0%, #0759B6 42%, #063C79 100%)",
+            "radial-gradient(circle at 7% 0%, rgba(85,184,255,0.72) 0%, rgba(56,156,245,0.26) 24%, transparent 50%), radial-gradient(circle at 91% 8%, rgba(32,134,238,0.22) 0%, transparent 42%), radial-gradient(circle at 50% 116%, rgba(5,35,89,0.62) 0%, transparent 48%), linear-gradient(112deg, #1687EE 0%, #0B6AD3 34%, #0753B0 65%, #043B82 100%)",
         }}
       >
-        {/* Refined gradient depth inspired by the supplied reference.
-            No decorative lines, so the hero remains clean and professional. */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 overflow-hidden"
-        >
-          <div className="absolute -left-[170px] -top-[220px] h-[520px] w-[520px] rounded-full bg-[#61B6FF]/[0.16] blur-3xl" />
-          <div className="absolute -right-[190px] bottom-[-230px] h-[520px] w-[520px] rounded-full bg-[#1883EE]/[0.12] blur-3xl" />
-          <div className="absolute inset-x-0 bottom-0 h-[220px] bg-gradient-to-t from-[#042E65]/25 to-transparent" />
-        </div>
+        <PremiumHeroBackdrop reduceMotion={Boolean(reduceMotion)} />
         <div
           className="
             relative
@@ -1072,27 +1063,23 @@ export default function BusinessHero() {
             mx-auto
             flex
             w-full
-            max-w-[1440px]
+            max-w-[1480px]
             flex-col
             items-center
             px-4
-            pb-14
-            pt-[44px]
+            pb-[clamp(34px,5vh,64px)]
+            pt-[clamp(38px,5.2vh,64px)]
             text-center
 
             min-[420px]:px-5
 
             sm:px-6
-            sm:pb-16
-            sm:pt-[56px]
 
             md:px-8
-            md:pb-[72px]
-            md:pt-[64px]
 
             lg:px-10
-            lg:pb-20
-            lg:pt-[72px]
+
+            xl:px-12
           "
         >
           {/* ===============================================
@@ -1116,10 +1103,12 @@ export default function BusinessHero() {
                 gap-2
                 rounded-full
                 border
-                border-white/20
-                bg-white/[0.10]
+                border-white/[0.18]
+                bg-white/[0.09]
                 px-3
                 py-2
+                shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_10px_30px_rgba(2,42,96,0.08)]
+                backdrop-blur-[8px]
                 font-body
                 text-[10px]
                 font-semibold
@@ -1141,8 +1130,9 @@ export default function BusinessHero() {
                   items-center
                   justify-center
                   rounded-full 
-                  bg-white
+                  bg-white/[0.96]
                   text-[#0B68AE]
+                  shadow-[0_5px_16px_rgba(1,55,118,0.12)]
                 "
               >
                 <ShieldCheckIcon className="h-[14px] w-[14px]" />
@@ -1156,15 +1146,16 @@ export default function BusinessHero() {
               className="
                 mt-5
                 w-full
-                max-w-[1080px]
+                max-w-[1120px]
                 break-words
                 px-0
-                font-heading pt-3
+                font-heading pt-5
                 text-[32px]
                 font-bold
-                leading-[1.12]
-                tracking-[-0.035em]
-                !text-[#EAF6FF]
+                leading-[1.08]
+                tracking-[-0.045em]
+                !text-[#F4FAFF]
+                [text-shadow:0_8px_34px_rgba(0,38,91,0.12)]
 
                 min-[400px]:text-[36px]
                 min-[500px]:text-[40px]
@@ -1174,9 +1165,11 @@ export default function BusinessHero() {
 
                 md:text-[40px]
 
-                lg:text-[45px]
+                lg:text-[clamp(44px,5.8vh,52px)]
 
-                xl:text-[52px]
+                xl:text-[clamp(46px,6vh,56px)]
+
+                2xl:text-[clamp(48px,6.1vh,58px)]
               "
             >
               Helping You Build Your Business{" "}
@@ -1187,7 +1180,7 @@ export default function BusinessHero() {
                 {/* Invisible word keeps the headline width stable while words change. */}
                 <span
                   aria-hidden="true"
-                  className="invisible col-start-1 row-start-1 !text-[#AEE4FF]"
+                  className="invisible col-start-1 row-start-1 !text-[#BFEAFF]"
                 >
                   Successfully
                 </span>
@@ -1210,7 +1203,7 @@ export default function BusinessHero() {
                       duration: reduceMotion ? 0.01 : 0.58,
                       ease: EASE,
                     }}
-                    className="col-start-1 row-start-1 inline-block !text-[#AEE4FF]"
+                    className="col-start-1 row-start-1 inline-block !text-[#BFEAFF] [text-shadow:0_0_30px_rgba(136,218,255,0.16)]"
                   >
                     {rotatingHeadlineWords[headlineWordIndex]}
                   </motion.span>
@@ -1223,21 +1216,23 @@ export default function BusinessHero() {
               className="
                 mt-5
                 w-full
-                max-w-[820px]
+                max-w-[860px]
                 px-1
                 font-body
                 text-[14px]
                 leading-7
-                !text-[#D7EBF8]
+                !text-[#DCEFFF]
 
                 min-[420px]:px-2
 
-                sm:mt-6
+                sm:mt-5
                 sm:text-[15px]
                 sm:leading-7
 
                 md:text-[16px]
-                md:leading-8
+                md:leading-7
+
+                lg:mt-4 pt-5
               "
             >
               Start your dream business with us! We turn your idea into reality with expert support at every stage. Whether you’re launching a startup or growing a business, we ensure a smooth journey to success! 
@@ -1256,7 +1251,7 @@ export default function BusinessHero() {
             viewport={{ once: true, amount: 0.3, margin: "0px 0px -5% 0px" }}
             onMouseEnter={() => setSearchHovered(true)}
             onMouseLeave={() => setSearchHovered(false)}
-            className="relative z-50 mt-8 w-full max-w-[920px] md:mt-9"
+            className="relative z-50 mt-7 w-full max-w-[980px] md:mt-8 lg:mt-7"
           >
             <div
               className="
@@ -1265,14 +1260,18 @@ export default function BusinessHero() {
                 w-full
                 items-center
                 overflow-hidden
-                rounded-[18px]
-                bg-white
+                rounded-[20px]
+                border
+                border-white/70
+                bg-white/[0.97]
                 p-[5px]
-                shadow-[0_16px_42px_rgba(4,42,77,0.18)]
+                shadow-[0_22px_55px_rgba(1,35,86,0.20),inset_0_1px_0_rgba(255,255,255,0.95)]
 
                 sm:min-h-[68px]
                 sm:rounded-full
                 sm:p-[6px]
+
+                lg:min-h-[64px]
               "
             >
               <div
@@ -1285,8 +1284,11 @@ export default function BusinessHero() {
                   items-center
                   justify-center
                   rounded-full
-                  bg-[#EEF7FF]
+                  border
+                  border-[#E2F0FB]
+                  bg-[#F1F8FE]
                   text-[#096DC1]
+                  shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]
 
                   sm:ml-1
                   sm:h-[48px]
@@ -1376,13 +1378,13 @@ export default function BusinessHero() {
                   justify-center
                   gap-2
                   rounded-full
-                  bg-[#0A74C9]
-                  px-6
+                  bg-[linear-gradient(135deg,#0B7BDD_0%,#0864C2_100%)]
+                  px-7
                   font-body
                   text-[13px]
                   font-semibold
                   text-white
-                  shadow-[0_7px_18px_rgba(8,111,195,0.20)]
+                  shadow-[0_12px_28px_rgba(5,91,176,0.26)]
                   transition-[background-color,transform]
                   duration-300
                   hover:-translate-y-[1px]
@@ -1497,7 +1499,7 @@ export default function BusinessHero() {
 
                   <div
                     className="
-                      max-h-[min(360px,52vh)]
+                      max-h-[min(360px,82vh)]
                       overflow-y-auto
                       overscroll-contain
                       p-2
@@ -1647,7 +1649,7 @@ export default function BusinessHero() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
             className="
-              mt-6
+              mt-4
               grid
               w-full
               max-w-[500px]
@@ -1693,15 +1695,21 @@ export default function BusinessHero() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.35 }}
             className="
-              mt-5
+              mt-4
               flex
-              w-full
-              max-w-[620px]
+              w-auto
+              max-w-[680px]
               items-start
               justify-center
               gap-2
-              px-2
+              rounded-full
+              border
+              border-white/[0.08]
+              bg-white/[0.035]
+              px-3.5
+              py-1.5
               text-center
+              backdrop-blur-[6px]
               font-body
               text-[11px]
               font-medium
@@ -1728,17 +1736,24 @@ export default function BusinessHero() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.12, margin: "0px 0px -8% 0px" }}
             className="
-              mt-8
+              mt-6
               grid
               w-full
-              max-w-[1040px]
+              max-w-[1080px]
               grid-cols-1
               gap-2
+              rounded-[24px]
+              border
+              border-white/[0.10]
+              bg-white/[0.035]
+              p-1.5
+              shadow-[0_22px_60px_rgba(1,30,76,0.10)]
+              backdrop-blur-[8px]
 
               sm:grid-cols-3
-              sm:gap-3
+              sm:gap-1.5
 
-              lg:mt-9
+              lg:mt-6
             "
           >
             <StatItem
@@ -1931,6 +1946,332 @@ export default function BusinessHero() {
 }
 
 /* =========================================================
+   PREMIUM HERO BACKDROP
+   ---------------------------------------------------------
+   Modern tax / business visual language without cartoon icons:
+   - abstract ledger/document forms
+   - certification seal geometry
+   - soft aurora mesh
+   - subtle grid + light paths
+   - desktop-only slow float for performance
+========================================================= */
+
+function PremiumHeroBackdrop({
+  reduceMotion,
+}: {
+  reduceMotion: boolean;
+}) {
+  const floatTransition = {
+    duration: 11,
+    repeat: Infinity,
+    repeatType: "mirror" as const,
+    ease: "easeInOut" as const,
+  };
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+    >
+      {/* =====================================================
+          QUIET PREMIUM GRID
+          Keeps the hero polished without looking technical.
+      ===================================================== */}
+      <div
+        className="absolute inset-0 hidden opacity-[0.14] lg:block"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px)",
+          backgroundSize: "84px 84px",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, black 16%, black 70%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, black 16%, black 70%, transparent 100%)",
+        }}
+      />
+
+      {/* top light */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-[190px] bg-gradient-to-b from-white/[0.045] to-transparent" />
+
+      {/* =====================================================
+          AURORA DEPTH
+      ===================================================== */}
+      <div className="absolute -left-[235px] -top-[260px] h-[680px] w-[680px] rounded-full bg-[#9DDEFF]/[0.20] blur-[105px]" />
+      <div className="absolute -right-[215px] top-[22px] h-[610px] w-[610px] rounded-full bg-[#2C9AF4]/[0.16] blur-[118px]" />
+      <div className="absolute bottom-[-255px] left-1/2 h-[510px] w-[980px] -translate-x-1/2 rounded-[50%] bg-[#022E75]/40 blur-[115px]" />
+
+      {/* A very subtle center glow protects readability. */}
+      <div className="absolute left-1/2 top-[60px] hidden h-[430px] w-[860px] -translate-x-1/2 rounded-[50%] bg-[#0B64C6]/[0.07] blur-[90px] lg:block" />
+
+      {/* =====================================================
+          LEFT — PREMIUM BUSINESS FILING FOLIO
+          Slightly stronger visibility than previous version.
+      ===================================================== */}
+      <motion.div
+        initial={false}
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+                y: [0, -7],
+                rotate: [-7.2, -6.5],
+              }
+        }
+        transition={floatTransition}
+        className="
+          absolute
+          hidden
+          h-[326px]
+          w-[404px]
+          origin-left
+
+          lg:left-[22px]
+          lg:top-[108px]
+          lg:block
+          lg:scale-[0.72]
+
+          xl:left-[28px]
+          xl:top-[104px]
+          xl:scale-[0.84]
+
+          2xl:left-[42px]
+          2xl:top-[104px]
+          2xl:scale-[0.94]
+        "
+      >
+        {/* rear layer */}
+        <div className="absolute -right-[24px] top-[26px] h-[286px] w-[360px] rounded-[34px] border border-white/[0.085] bg-white/[0.016]" />
+
+        {/* main glass folio */}
+        <div className="absolute inset-0 overflow-hidden rounded-[36px] border border-white/[0.16] bg-[linear-gradient(145deg,rgba(255,255,255,0.075),rgba(255,255,255,0.024)_58%,rgba(255,255,255,0.012))] shadow-[inset_0_1px_0_rgba(255,255,255,0.13),0_30px_90px_rgba(1,38,88,0.10)] backdrop-blur-[3px]">
+          <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/[0.22] to-transparent" />
+          <div className="absolute left-[26px] top-0 h-px w-[180px] bg-gradient-to-r from-white/[0.30] to-transparent" />
+          <div className="absolute -left-[40px] -top-[70px] h-[190px] w-[190px] rounded-full bg-white/[0.055] blur-[36px]" />
+
+          {/* title + section number */}
+          <div className="absolute left-[43px] top-[37px] flex items-center gap-3">
+            <span className="h-[7px] w-[7px] rounded-full bg-[#DDF6FF]/70 shadow-[0_0_16px_rgba(189,235,255,.48)]" />
+            <span className="font-body text-[8.5px] font-semibold uppercase tracking-[0.28em] text-white/[0.30]">
+              Filing workspace
+            </span>
+          </div>
+
+          <div className="absolute right-[40px] top-[34px] font-body text-[8px] font-semibold tracking-[0.18em] text-white/[0.18]">
+            01
+          </div>
+
+          {/* document lines */}
+          <div className="absolute left-[43px] top-[82px]">
+            <div className="h-[6px] w-[104px] rounded-full bg-white/[0.24]" />
+            <div className="mt-[13px] h-[3px] w-[205px] rounded-full bg-white/[0.14]" />
+          </div>
+
+          <div className="absolute left-[43px] top-[139px] space-y-[16px]">
+            <div className="flex items-center gap-4">
+              <span className="h-[6px] w-[6px] rounded-full border border-white/[0.24] bg-white/[0.06]" />
+              <span className="h-[3px] w-[214px] rounded-full bg-white/[0.13]" />
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="h-[6px] w-[6px] rounded-full border border-white/[0.22] bg-white/[0.05]" />
+              <span className="h-[3px] w-[178px] rounded-full bg-white/[0.11]" />
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="h-[6px] w-[6px] rounded-full border border-white/[0.20] bg-white/[0.045]" />
+              <span className="h-[3px] w-[225px] rounded-full bg-white/[0.12]" />
+            </div>
+          </div>
+
+          {/* service tags */}
+          <div className="absolute bottom-[43px] left-[43px] flex items-center gap-2">
+            {['GST', 'ROC', 'ITR'].map((item) => (
+              <span
+                key={item}
+                className="rounded-full border border-white/[0.13] bg-white/[0.045] px-2.5 py-1 font-body text-[7.5px] font-semibold tracking-[0.12em] text-white/[0.28]"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+
+          {/* verification seal */}
+          <div className="absolute bottom-[33px] right-[42px] flex h-[82px] w-[82px] items-center justify-center rounded-full border border-white/[0.18] bg-white/[0.025]">
+            <div className="flex h-[58px] w-[58px] items-center justify-center rounded-full border border-dashed border-white/[0.20]">
+              <ShieldCheckIcon className="h-[24px] w-[24px] text-white/[0.38]" />
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* =====================================================
+          RIGHT — MODERN COMPLIANCE LEDGER
+      ===================================================== */}
+      <motion.div
+        initial={false}
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+                y: [0, 8],
+                rotate: [6.8, 6.1],
+              }
+        }
+        transition={{ ...floatTransition, duration: 12.5 }}
+        className="
+          absolute
+          hidden
+          h-[330px]
+          w-[410px]
+          origin-right
+
+          lg:right-[22px]
+          lg:top-[104px]
+          lg:block
+          lg:scale-[0.72]
+
+          xl:right-[28px]
+          xl:top-[100px]
+          xl:scale-[0.84]
+
+          2xl:right-[42px]
+          2xl:top-[100px]
+          2xl:scale-[0.94]
+        "
+      >
+        {/* rear layer */}
+        <div className="absolute -left-[24px] top-[28px] h-[286px] w-[360px] rounded-[34px] border border-white/[0.075] bg-white/[0.014]" />
+
+        {/* ledger glass */}
+        <div className="absolute inset-0 overflow-hidden rounded-[37px] border border-white/[0.15] bg-[linear-gradient(145deg,rgba(255,255,255,0.068),rgba(255,255,255,0.022)_58%,rgba(255,255,255,0.01))] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_30px_90px_rgba(1,31,77,0.10)] backdrop-blur-[3px]">
+          <div className="absolute right-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/[0.20] to-transparent" />
+          <div className="absolute right-[26px] top-0 h-px w-[185px] bg-gradient-to-l from-white/[0.28] to-transparent" />
+          <div className="absolute -right-[44px] -top-[74px] h-[195px] w-[195px] rounded-full bg-white/[0.045] blur-[38px]" />
+
+          <div className="absolute left-[43px] top-[38px] flex items-center gap-3">
+            <span className="h-[7px] w-[7px] rounded-full bg-[#DDF6FF]/65 shadow-[0_0_16px_rgba(189,235,255,.45)]" />
+            <span className="font-body text-[8.5px] font-semibold uppercase tracking-[0.28em] text-white/[0.30]">
+              Compliance ledger
+            </span>
+          </div>
+
+          <div className="absolute right-[42px] top-[35px] rounded-full border border-white/[0.14] bg-white/[0.04] px-2.5 py-1 font-body text-[7.5px] font-semibold uppercase tracking-[0.15em] text-white/[0.26]">
+            Active
+          </div>
+
+          <div className="absolute left-[43px] right-[43px] top-[89px] space-y-[17px]">
+            {[
+              ['GST Return', 'Filed'],
+              ['ROC Annual', 'Ready'],
+              ['ITR Review', 'Checked'],
+              ['Legal Docs', 'Secure'],
+            ].map(([label, state], row) => (
+              <div
+                key={label}
+                className="grid grid-cols-[18px_1fr_auto] items-center gap-3"
+              >
+                <span className="flex h-[15px] w-[15px] items-center justify-center rounded-full border border-white/[0.18] bg-white/[0.045]">
+                  <span className="h-[4px] w-[4px] rounded-full bg-white/[0.38]" />
+                </span>
+
+                <div>
+                  <span
+                    className="block h-[3px] rounded-full bg-white/[0.13]"
+                    style={{ width: row % 2 === 0 ? '78%' : '62%' }}
+                  />
+                  <span className="mt-[7px] block h-[2px] w-[48%] rounded-full bg-white/[0.055]" />
+                </div>
+
+                <span className="min-w-[49px] rounded-full border border-white/[0.12] bg-white/[0.04] px-2 py-1 text-center font-body text-[7px] font-semibold tracking-[0.08em] text-white/[0.25]">
+                  {state}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="absolute bottom-[38px] left-[43px] right-[43px] flex items-center justify-between border-t border-white/[0.10] pt-[17px]">
+            <span className="font-body text-[7.5px] font-semibold uppercase tracking-[0.22em] text-white/[0.20]">
+              Due dates monitored
+            </span>
+            <span className="h-[5px] w-[52px] rounded-full bg-gradient-to-r from-white/[0.06] to-white/[0.20]" />
+          </div>
+        </div>
+      </motion.div>
+
+      {/* =====================================================
+          OUTER EDGE LINES — visible but restrained
+      ===================================================== */}
+      <svg
+        viewBox="0 0 1600 760"
+        preserveAspectRatio="none"
+        className="absolute inset-0 hidden h-full w-full lg:block"
+        fill="none"
+      >
+        <defs>
+          <linearGradient id="heroEdgePathLeftV2" x1="0" y1="0" x2="1" y2="1">
+            <stop stopColor="#E8F9FF" stopOpacity="0.30" />
+            <stop offset="0.55" stopColor="#CDEEFF" stopOpacity="0.075" />
+            <stop offset="1" stopColor="#DDF6FF" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="heroEdgePathRightV2" x1="1" y1="0" x2="0" y2="1">
+            <stop stopColor="#E9FAFF" stopOpacity="0.28" />
+            <stop offset="0.60" stopColor="#D5F2FF" stopOpacity="0.07" />
+            <stop offset="1" stopColor="#E6F8FF" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+
+        <path
+          d="M-90 640C44 594 104 514 158 399C201 307 246 226 362 156"
+          stroke="url(#heroEdgePathLeftV2)"
+          strokeWidth="1.3"
+        />
+        <path
+          d="M-110 674C35 626 101 550 167 432C222 334 272 276 407 197"
+          stroke="url(#heroEdgePathLeftV2)"
+          strokeWidth="0.8"
+          opacity="0.45"
+        />
+
+        <path
+          d="M1680 74C1526 130 1468 222 1417 338C1372 440 1312 524 1204 590"
+          stroke="url(#heroEdgePathRightV2)"
+          strokeWidth="1.25"
+        />
+        <path
+          d="M1700 110C1555 159 1497 244 1444 363C1398 466 1340 548 1242 617"
+          stroke="url(#heroEdgePathRightV2)"
+          strokeWidth="0.8"
+          opacity="0.42"
+        />
+      </svg>
+
+      {/* tiny disciplined reference labels */}
+      <div className="absolute left-[4.5%] top-[76px] hidden items-center gap-2 font-body text-[8px] font-semibold uppercase tracking-[0.28em] text-white/[0.24] 2xl:flex">
+        <span className="h-1 w-1 rounded-full bg-[#D6F4FF]/70" />
+        GST · ROC · ITR
+      </div>
+
+      <div className="absolute right-[4.5%] bottom-[78px] hidden items-center gap-2 font-body text-[8px] font-semibold uppercase tracking-[0.28em] text-white/[0.20] 2xl:flex">
+        Legal · IP · Compliance
+        <span className="h-1 w-1 rounded-full bg-[#D6F4FF]/60" />
+      </div>
+
+      {/* =====================================================
+          MOBILE / TABLET
+          No heavy cards or movement; just polished glass arcs.
+      ===================================================== */}
+      <div className="absolute -right-[132px] top-[145px] h-[270px] w-[270px] rotate-[11deg] rounded-[46px] border border-white/[0.07] bg-white/[0.012] md:h-[320px] md:w-[320px] lg:hidden" />
+      <div className="absolute -left-[152px] bottom-[72px] h-[250px] w-[250px] rotate-[-11deg] rounded-[44px] border border-white/[0.06] bg-white/[0.01] md:h-[300px] md:w-[300px] lg:hidden" />
+
+      <div className="absolute right-[8px] top-[220px] h-[90px] w-[90px] rounded-full border border-white/[0.035] md:right-[40px] lg:hidden" />
+      <div className="absolute right-[29px] top-[241px] h-[48px] w-[48px] rounded-full border border-white/[0.055] md:right-[61px] lg:hidden" />
+
+      {/* bottom depth */}
+      <div className="absolute inset-x-0 bottom-0 h-[245px] bg-gradient-to-t from-[#032E70]/40 via-[#064D9B]/[0.08] to-transparent" />
+    </div>
+  );
+}
+
+/* =========================================================
    QUICK LINK
 ========================================================= */
 
@@ -1953,8 +2294,8 @@ function QuickLink({
           justify-center
           rounded-full
           border
-          border-white/90
-          bg-white/95
+          border-white/[0.22]
+          bg-white/[0.13]
           px-3
           py-2
           text-center
@@ -1962,16 +2303,17 @@ function QuickLink({
           text-[10.5px]
           font-medium
           leading-[1.25]
-          text-[#0B64AD]
-          shadow-[0_7px_18px_rgba(2,45,91,0.08)]
+          !text-white
+          shadow-[inset_0_1px_0_rgba(255,255,255,0.10),0_7px_18px_rgba(2,45,91,0.05)]
+          backdrop-blur-[8px]
           transition-[border-color,background-color,color,box-shadow,transform]
           duration-[400ms]
           ease-out
           hover:-translate-y-[2px]
-          hover:border-white
-          hover:bg-white
-          hover:text-[#075698]
-          hover:shadow-[0_12px_28px_rgba(2,45,91,0.14)]
+          hover:border-white/[0.34]
+          hover:bg-white/[0.19]
+          hover:text-white
+          hover:shadow-[0_12px_28px_rgba(2,45,91,0.10)]
 
           min-[420px]:text-[11px]
 
@@ -2028,25 +2370,30 @@ function StatItem({
         justify-start
         gap-4
         overflow-hidden
-        rounded-[18px]
+        rounded-[20px]
         border
-        border-white/[0.13]
-        bg-white/[0.08]
+        border-white/[0.055]
+        bg-white/[0.055]
         px-5
         py-5
-        shadow-[0_10px_30px_rgba(2,34,76,0.06)]
+        shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]
         transition-[border-color,background-color,box-shadow]
         duration-500
         ease-out
-        hover:border-white/[0.30]
-        hover:bg-white/[0.12]
-        hover:shadow-[0_18px_42px_rgba(2,34,76,0.16)]
+        hover:border-white/[0.16]
+        hover:bg-white/[0.085]
+        hover:shadow-[0_16px_36px_rgba(2,34,76,0.10)]
 
-        sm:min-h-[116px]
+        sm:min-h-[108px]
         sm:justify-center
         sm:px-4
+        sm:py-4
 
+        lg:min-h-[100px]
         lg:px-5
+        lg:py-4
+
+        2xl:min-h-[108px]
       "
     >
       {/* Soft white glass layer appears gently on hover. */}
@@ -2104,8 +2451,10 @@ function StatItem({
           shrink-0
           items-center
           justify-center
-          rounded-[13px]
-          bg-white/[0.11]
+          rounded-[14px]
+          border
+          border-white/[0.08]
+          bg-white/[0.10]
           text-white
           transition-[background-color,box-shadow,transform]
           duration-500
@@ -2128,7 +2477,8 @@ function StatItem({
             !text-[#F4FAFF]
 
             md:text-[25px]
-            lg:text-[27px]
+            lg:text-[25px]
+            2xl:text-[27px]
           "
         >
           {value}

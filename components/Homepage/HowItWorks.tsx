@@ -315,7 +315,7 @@ export default function HowItWorksCollisionFixedFinal() {
         >
           <Link
             href="https://taxindiafirm.com/contact-us"
-            className="group inline-flex min-h-[52px] w-full max-w-[390px] items-center justify-center gap-3 rounded-full bg-[#102C49] px-5 py-3.5 text-center font-body text-[12.5px] font-bold text-white shadow-[0_12px_28px_rgba(16,44,73,0.14)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#2D8CFF] sm:w-auto sm:px-7 sm:text-[13px]"
+            className="group inline-flex min-h-[52px] w-full max-w-[390px] items-center justify-center gap-3 rounded-full bg-[#102C49] px-5 py-3.5 text-center font-body text-[12.5px] font-bold !text-white shadow-[0_12px_28px_rgba(16,44,73,0.14)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#2D8CFF] sm:w-auto sm:px-7 sm:text-[13px]"
           >
             <span>Speak to a Chartered Accountant for Free</span>
             <ArrowRight
