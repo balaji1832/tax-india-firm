@@ -2,434 +2,357 @@
 
 import Link from "next/link";
 import {
+  AnimatePresence,
   motion,
   useReducedMotion,
-  type Variants,
 } from "framer-motion";
-import type { ComponentType, SVGProps } from "react";
+import { useState } from "react";
 
 /* =========================================================
    TYPES
 ========================================================= */
 
-type GlyphProps = SVGProps<SVGSVGElement>;
-
 type ServiceItem = {
   title: string;
+  category: string;
   description: string;
   cta: string;
   href: string;
-  glyph: ComponentType<GlyphProps>;
+  image: string;
+  tone: string;
+  tabSide: "left" | "right";
 };
 
 /* =========================================================
-   SERVICES
+   DATA
 ========================================================= */
 
 const services: ServiceItem[] = [
   {
-    title: "Company Registration in Chennai",
+    title: "Company Registration",
+    category: "Business Setup",
     description:
-      "Pvt Ltd, LLP, OPC and business registrations handled end-to-end.",
+      "Start your company with complete support for Private Limited, LLP, OPC and other business registrations. Our team handles documentation, filing and registration from start to finish.",
     cta: "Register Company",
     href: "/business/registration",
-    glyph: CompanyGlyph,
+    image: "/images/company-registration.png",
+    tone: "#F5FAFF",
+    tabSide: "left",
   },
   {
-    title: "Business License Registration",
+    title: "Business License",
+    category: "Licensing",
     description:
-      "FSSAI, MSME, IEC, DSC and essential licences for your business.",
+      "Get essential registrations and licences including FSSAI, MSME, IEC and DSC with complete documentation and filing support.",
     cta: "Get Licensed",
     href: "/business/license",
-    glyph: LicenseGlyph,
+    image: "/images/business-license.png",
+    tone: "#EAF4FF",
+    tabSide: "left",
   },
   {
-    title: "Company Compliance & ROC Filing",
+    title: "Company Compliance",
+    category: "ROC & MCA",
     description:
-      "ROC, MCA, eKYC and ongoing compliance managed on time.",
+      "Stay compliant with ROC filings, MCA requirements, annual compliance, eKYC and other statutory obligations handled by professionals.",
     cta: "Stay Compliant",
     href: "/business/compliance",
-    glyph: ComplianceGlyph,
+    image: "/images/company-compliance.png",
+    tone: "#DCEEFF",
+    tabSide: "right",
   },
   {
-    title: "GST Registration & Filing in Chennai",
+    title: "GST Registration",
+    category: "GST Services",
     description:
-      "GST registration, returns, LUT, notices and advisory support.",
+      "From GST registration to return filing, LUT, notices and ongoing GST advisory, our team manages your complete GST requirements.",
     cta: "Manage GST",
     href: "/taxation/gst",
-    glyph: GstGlyph,
+    image: "/images/gst-registration.png",
+    tone: "#CFE6FF",
+    tabSide: "right",
   },
   {
-    title: "Income Tax Return Filing in Chennai",
+    title: "Income Tax Filing",
+    category: "Income Tax",
     description:
-      "Accurate ITR filing for individuals, professionals and businesses.",
+      "Accurate income tax return filing for individuals, professionals and businesses with expert review before submission.",
     cta: "File ITR",
     href: "/itr/income-tax-return-filing",
-    glyph: IncomeTaxGlyph,
+    image: "/images/income-tax.png",
+    tone: "#F1F7FF",
+    tabSide: "right",
   },
   {
-    title: "TDS, Bookkeeping & Tax Advisory",
+    title: "Tax & Accounting",
+    category: "Finance Support",
     description:
-      "TDS, bookkeeping, PAN/TAN and year-round tax planning support.",
+      "TDS, bookkeeping, PAN, TAN and year-round accounting and tax advisory services designed to keep your business organised.",
     cta: "Explore Tax Services",
     href: "/taxation/tax-filing",
-    glyph: AccountingGlyph,
+    image: "/images/tax-accounting.png",
+    tone: "#E4F1FF",
+    tabSide: "left",
   },
   {
-    title: "Trademark, Copyright & Patent in India",
+    title: "IP Registration",
+    category: "Brand Protection",
     description:
-      "Protect your brand, creative work and inventions across India.",
+      "Protect your business identity and intellectual property through trademark, copyright and patent registration support across India.",
     cta: "Protect Your Brand",
     href: "/legal/ip",
-    glyph: IpGlyph,
+    image: "/images/ip-registration.png",
+    tone: "#D6EBFF",
+    tabSide: "left",
   },
   {
-    title: "Business Contract Drafting in India",
+    title: "Legal Contracts",
+    category: "Legal Services",
     description:
-      "NDA, MOU, employment and commercial agreements drafted clearly.",
+      "Professional drafting of NDAs, MOUs, employment contracts, commercial agreements and other business legal documents.",
     cta: "Draft Contracts",
     href: "/legal/contracts",
-    glyph: ContractGlyph,
+    image: "/images/legal-contracts.png",
+    tone: "#EAF3FF",
+    tabSide: "right",
   },
 ];
 
 /* =========================================================
-   MOTION
-========================================================= */
-
-const EASE = [0.16, 1, 0.3, 1] as const;
-
-const headingReveal: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 18,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.82,
-      ease: EASE,
-    },
-  },
-};
-
-const gridReveal: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      delayChildren: 0.06,
-      staggerChildren: 0.065,
-    },
-  },
-};
-
-const rowReveal: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 22,
-    scale: 0.99,
-    filter: "blur(4px)",
-  },
-
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: "blur(0px)",
-
-    transition: {
-      duration: 0.68,
-      ease: EASE,
-      delayChildren: 0.08,
-      staggerChildren: 0.065,
-    },
-  },
-};
-
-const rowPartReveal: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 10,
-  },
-
-  visible: {
-    opacity: 1,
-    y: 0,
-
-    transition: {
-      duration: 0.52,
-      ease: EASE,
-    },
-  },
-};
-
-/* =========================================================
-   MAIN SECTION
+   MAIN COMPONENT
 ========================================================= */
 
 export default function ServicesSection() {
   const reduceMotion = useReducedMotion();
 
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const handleToggle = (index: number) => {
+    setActiveIndex((current) => (current === index ? null : index));
+  };
+
   return (
-    <section
-      className="
-        relative
-        isolate
-        overflow-hidden
-        bg-[#1766D6]
-        py-7
-        sm:py-8
-        lg:py-10
-        xl:py-12
-      "
-    >
-      <SectionBackground />
+    <section className="relative overflow-hidden bg-[#F7FBFF] py-10">
+      
+      
+      {/* ===================================================== 
+          HEADING
+      ===================================================== */}
 
-      <div
-        className="
-          relative
-          z-10
-          mx-auto
-          w-full
-          max-w-[1460px]
-          px-4
-          sm:px-6
-          md:px-8
-          lg:px-10
-          xl:px-12
-        "
-      >
-        {/* =====================================================
-            TOP HEADING
-        ===================================================== */}
-
+      <div className="relative z-10 mx-auto mb-12 max-w-[1460px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
         <motion.div
-          variants={headingReveal}
-          initial={reduceMotion ? false : "hidden"}
-          whileInView="visible"
+          initial={
+            reduceMotion
+              ? false
+              : {
+                  opacity: 0,
+                  y: 20,
+                }
+          }
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 0.8,
+            ease: [0.16, 1, 0.3, 1],
+          }}
           viewport={{
             once: true,
             amount: 0.35,
-            margin: "0px 0px -8% 0px",
           }}
-          className="mx-auto max-w-[760px] text-center"
+          className="max-w-[720px]"
         >
-          <div
+          <span
             className="
               inline-flex
-              items-center
-              gap-2
               rounded-full
-              border
-              border-[#B9DEFF]/20
-              bg-[#0B5FC2]/35
-              px-3
-              py-1.5
-              shadow-[0_10px_30px_rgba(2,32,76,0.12)]
-              backdrop-blur-xl
+              border border-[#D4E7FF]
+              bg-white/90
+              px-3.5 py-1.5
+              text-[10px]
+              font-semibold
+              uppercase
+              tracking-[0.15em]
+              text-[#1766D6]
             "
           >
-            <span
-              className="
-                flex
-                h-5
-                w-5
-                items-center
-                justify-center
-                rounded-full
-                bg-[#8FD2FF]/20
-                text-[#D8F0FF]
-              "
-            >
-              <SparkGlyph />
-            </span>
-
-            <span
-              className="
-                font-body
-                text-[10px]
-                font-semibold
-                !text-[#D8EAFF]
-                sm:text-[11px]
-              "
-            >
-              300+ Services
-            </span>
-          </div>
+            300+ Professional Services
+          </span>
 
           <h2
             className="
-              mt-3
-              font-heading
-              text-[30px]
-              font-bold
-              leading-[1.04]
+              mt-5
+              text-[34px]
+              font-semibold
+              leading-[1]
               tracking-[-0.045em]
-              !text-[#F6FAFF]
-              sm:text-[34px]
-              md:text-[38px]
-              lg:text-[42px]
-              xl:text-[44px]
+              text-[#0A2F5E]
+              sm:text-[42px]
+              md:text-[48px]
+              lg:text-[56px] pt-3
             "
-            style={{ color: "#F6FAFF" }}
           >
             Our Expertise
           </h2>
 
           <p
             className="
-              mx-auto
-              mt-2
-              max-w-[560px]
-              font-body
-              text-[12px]
-              leading-5
-              !text-[#C8DCF4]
-              sm:text-[13px]
-              sm:leading-6
+              mt-4
+              max-w-[600px]
+              text-[14px]
+              leading-6
+              text-[#607491]
+              sm:text-[15px] pt-3
             "
           >
-            We Provide Best Quality Services.
+            Business, taxation, compliance and legal services handled by
+            experienced professionals from documentation to final filing.
           </p>
         </motion.div>
+      </div>
 
-        {/* =====================================================
-            SERVICES
-        ===================================================== */}
+      {/* =====================================================
+          STACKED CASE FILES
+      ===================================================== */}
 
-        <motion.div
-          variants={gridReveal}
-          className="
-            mt-6
+      <motion.div
+        initial={reduceMotion ? false : "hidden"}
+        whileInView="visible"
+        viewport={{
+          once: true,
+          amount: 0.06,
+        }}
+        variants={{
+          hidden: {},
+          visible: {
+            transition: {
+              staggerChildren: 0.06,
+            },
+          },
+        }}
+        className="relative z-10 mx-auto w-full"
+      >
+        {services.map((service, index) => {
+          const active = activeIndex === index;
 
-            grid
-            grid-cols-1
-
-            gap-x-6
-            gap-y-3
-
-            sm:mt-7
-            sm:gap-y-[14px]
-
-            lg:mt-8
-            lg:grid-cols-2
-            lg:gap-x-8
-            lg:gap-y-4
-
-            xl:gap-x-10
-            xl:gap-y-5
-          "
-        >
-          {services.map((service, index) => (
-            <ServiceRow
+          return (
+            <ServiceCase
               key={service.href}
               service={service}
               index={index}
+              active={active}
               reduceMotion={Boolean(reduceMotion)}
+              onOpen={() => setActiveIndex(index)}
+              onClose={() => setActiveIndex(null)}
+              onToggle={() => handleToggle(index)}
             />
-          ))}
-        </motion.div>
-      </div>
+          );
+        })}
+      </motion.div>
     </section>
   );
 }
 
 /* =========================================================
-   SERVICE ROW
+   SERVICE CASE ROW
 ========================================================= */
 
-function ServiceRow({
+function ServiceCase({
   service,
   index,
+  active,
   reduceMotion,
+  onOpen,
+  onClose,
+  onToggle,
 }: {
   service: ServiceItem;
   index: number;
+  active: boolean;
   reduceMotion: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+  onToggle: () => void;
 }) {
-  const Glyph = service.glyph;
-
   return (
-    <motion.div
-      variants={rowReveal}
-      initial={reduceMotion ? false : "hidden"}
-      whileInView="visible"
-      viewport={{
-        once: true,
-        amount: 0.38,
-        margin: "0px 0px -10% 0px",
-      }}
-      whileHover={
-        reduceMotion
-          ? undefined
-          : {
-              y: -3,
+    <motion.article
+      layout={!reduceMotion}
+      variants={{
+        hidden: {
+          opacity: 0,
+          y: 22,
+        },
 
-              transition: {
-                duration: 0.28,
-                ease: EASE,
-              },
-            }
-      }
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.65,
+            ease: [0.16, 1, 0.3, 1],
+          },
+        },
+      }}
+      onMouseEnter={onOpen}
+      onMouseLeave={onClose}
       className="
+        group
         relative
-        min-w-0
+        -mt-[3px]
+        w-full
+        overflow-visible
       "
     >
-      <Link
-        href={service.href}
-        aria-label={`${service.title} – ${service.cta}`}
-        className="
-          group
+      {/* =====================================================
+          TAB / FOLDER SHAPE
+      ===================================================== */}
+
+      <FolderTab
+        side={service.tabSide}
+        background={service.tone}
+        active={active}
+      />
+
+      {/* =====================================================
+          MAIN CASE
+      ===================================================== */}
+
+      <motion.div
+        layout={!reduceMotion}
+        style={{
+          backgroundColor: service.tone,
+        }}
+        className={`
           relative
-          isolate
-          grid
-          min-h-[126px]
-          w-full
-          min-w-0
-          grid-cols-[54px_minmax(0,1fr)_38px]
-          items-start
-          gap-3
           overflow-hidden
-          rounded-[18px]
-          bg-[#0A58B4]/[0.18]
-          ring-1
-          ring-inset
-          ring-white/[0.055]
-          px-3
-          py-[14px]
-          outline-none
-          transition-[box-shadow,transform,background-color]
+          rounded-[16px]
+          border-[3px]
+          border-white
+          transition-[box-shadow,filter]
           duration-500
-          focus-visible:ring-2
-          focus-visible:ring-white/50
-          focus-visible:ring-offset-2
-          sm:grid-cols-[58px_minmax(0,1fr)_40px]
-          sm:gap-[14px]
-          sm:px-[14px]
-          sm:py-4
-          md:min-h-[132px]
-          lg:px-[18px]
-          xl:gap-4
-          xl:px-4
-          hover:shadow-[0_22px_54px_rgba(6,61,137,0.22)]
-        "
+          ${active ? "shadow-[0_22px_55px_rgba(23,102,214,0.16)]" : ""}
+        `}
       >
-        {/* =====================================================
-            FULL HOVER BACKGROUND
-        ===================================================== */}
+        {/* CLICK LAYER FOR MOBILE */}
 
-        <div
-          aria-hidden="true"
+        <button
+          type="button"
+          aria-expanded={active}
+          onClick={onToggle}
           className="
-            pointer-events-none
             absolute
             inset-0
-            -z-20
-            bg-transparent
+            z-[5]
+            cursor-pointer
+            lg:hidden
           "
-        />
+        >
+          <span className="sr-only">
+            Toggle details for {service.title}
+          </span>
+        </button>
+
+        {/* subtle texture */}
 
         <div
           aria-hidden="true"
@@ -437,464 +360,444 @@ function ServiceRow({
             pointer-events-none
             absolute
             inset-0
-            -z-10
-            opacity-0
-            transition-opacity
-            duration-500
-            group-hover:opacity-100
-            group-focus-visible:opacity-100
+            opacity-[0.12]
           "
           style={{
-            background:
-              "linear-gradient(135deg, rgba(79,171,255,0.30) 0%, rgba(37,126,236,0.36) 48%, rgba(12,83,184,0.44) 100%)",
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, rgba(23,102,214,.16) 0.65px, transparent 0.7px)",
+            backgroundSize: "18px 18px",
           }}
         />
 
-        {/* soft blue light */}
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            -right-[70px]
-            -top-[90px]
-            -z-10
-            h-[240px]
-            w-[240px]
-            rounded-full
-            bg-[#93D4FF]/0
-            blur-[70px]
-            transition-colors
-            duration-500
-            group-hover:bg-[#9BD8FF]/14
-            group-focus-visible:bg-[#9BD8FF]/14
-          "
-        />
-
-        {/* diagonal highlight */}
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            -bottom-24
-            left-[30%]
-            -z-10
-            h-[190px]
-            w-[320px]
-            rotate-[-18deg]
-            rounded-[50%]
-            bg-white/0
-            blur-[48px]
-            transition-colors
-            duration-500
-            group-hover:bg-[#BCE6FF]/[0.025]
-          "
-        />
-
         {/* =====================================================
-            GLYPH
+            COLLAPSED TOP ROW
         ===================================================== */}
 
-        <motion.div
-          variants={rowPartReveal}
+        <div
           className="
             relative
-            mt-0.5
-            flex
-            h-[50px]
-            w-[50px]
+            z-10
+            grid
+            min-h-[104px]
+            grid-cols-[minmax(0,1fr)_auto]
             items-center
-            justify-center
-            text-[#BFE4FF]
-            transition-colors
-            duration-300
-            group-hover:!text-[#DDF2FF]
-            group-focus-visible:!text-[#DDF2FF]
-            sm:h-[54px]
-            sm:w-[54px]
+            gap-4
+            px-5
+            py-6
+
+            sm:min-h-[110px]
+            sm:px-8
+
+            md:grid-cols-[1fr_0.65fr_auto]
+            md:px-10
+
+            lg:min-h-[112px]
+            lg:grid-cols-[1fr_0.85fr_1fr]
+            lg:px-[5%]
           "
         >
-          <Glyph
-            className="
-              h-full
-              w-full
-              overflow-visible
-              transition-transform
-              duration-500
-              group-hover:-translate-y-1
-              group-hover:scale-[1.03]
-              group-focus-visible:-translate-y-1
-            "
-          />
-        </motion.div>
+          {/* TITLE */}
 
-        {/* =====================================================
-            CONTENT
-        ===================================================== */}
+          <div className="min-w-0">
+            <div
+              className="
+                mb-1
+                text-[9px]
+                font-semibold
+                uppercase
+                tracking-[0.14em]
+                text-[#1766D6]/55
+                sm:text-[10px]
+              "
+            >
+              {String(index + 1).padStart(2, "0")}
+            </div>
 
-        <motion.div variants={rowPartReveal} className="min-w-0">
-          <div
-            className="
-              mb-1.5
-              font-body
-              text-[9px]
-              font-semibold
-              tracking-[0.12em]
-              text-[#8FBCEA]
-              transition-colors
-              duration-300
-              group-hover:!text-[#A9D2F7]
-              group-focus-visible:!text-[#A9D2F7]
-            "
-          >
-            {String(index + 1).padStart(2, "0")}
+            <h3
+              className="
+                text-[20px]
+                font-medium
+                leading-[1.15]
+                tracking-[-0.035em]
+                text-[#0A2F5E]
+
+                sm:text-[23px]
+                lg:text-[25px]
+              "
+            >
+              {service.title}
+            </h3>
           </div>
 
-          <h3
+          {/* CATEGORY */}
+
+          <div
             className="
-              max-w-[450px]
-              font-heading
+              hidden
               text-[16px]
-              font-bold
-              leading-[1.16]
-              tracking-[-0.032em]
-              !text-[#EAF3FF]
-              transition-colors
-              duration-300
-              group-hover:!text-[#F0F7FF]
-              group-focus-visible:!text-[#F0F7FF]
-              sm:text-[17px]
-              xl:text-[18px]
+              font-normal
+              tracking-[-0.025em]
+              text-[#285F9F]
+
+              md:block
+              lg:text-[19px]
             "
           >
-            {service.title}
-          </h3>
+            {service.category}
+          </div>
 
-          <p
-            className="
-              mt-1
-              max-w-[470px]
-              font-body
-              text-[10.5px]
-              leading-[1.5]
-              !text-[#BDD1E8]
-              transition-colors
-              duration-300
-              group-hover:!text-[#C7DDF2]
-              group-focus-visible:!text-[#C7DDF2]
-              sm:text-[10.5px]
-            "
-          >
-            {service.description}
-          </p>
+          {/* CTA / RESULT */}
 
-          <span
+          <div
             className="
-              mt-2
-              inline-flex
+              flex
               items-center
-              gap-2
-              font-body
-              text-[11.5px]
-              font-semibold
-              !text-[#C8E2FF]
-              transition-colors
-              duration-300
-              group-hover:!text-[#D4E9FF]
-              group-focus-visible:!text-[#D4E9FF]
-              sm:text-[11px]
+              justify-end
+              gap-3
+              text-right
             "
           >
-            {service.cta}
-
             <span
               className="
-                h-px
-                w-5
-                bg-[#B7D9F8]/45
-                transition-[width,background-color]
-                duration-300
-                group-hover:w-8
-                group-hover:!bg-[#BFDFFF]/55
-                group-focus-visible:w-8
-                group-focus-visible:!bg-[#BFDFFF]/55
+                hidden
+                text-[14px]
+                font-semibold
+                tracking-[-0.025em]
+                text-[#0A2F5E]
+
+                sm:block
+                text-[#1766D6]
+                lg:text-[18px]
               "
-            />
-          </span>
-        </motion.div>
+            >
+              {service.cta}
+            </span>
+
+            <span
+              className={`
+                flex
+                h-10
+                w-10
+                shrink-0
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-[#1766D6]/20
+                bg-white/30
+                text-[#0A2F5E]
+                backdrop-blur-sm
+                transition-all
+                duration-500
+
+                ${
+                  active
+                    ? "rotate-45 bg-white/75"
+                    : "rotate-0"
+                }
+              `}
+            >
+              <PlusIcon />
+            </span>
+          </div>
+        </div>
 
         {/* =====================================================
-            ARROW
+            EXPANDED CONTENT
         ===================================================== */}
 
-        <motion.div
-          variants={rowPartReveal}
-          className="
-            mt-1
-            flex
-            h-8
-            w-8
-            shrink-0
-            items-center
-            justify-center
-            rounded-full
-            border
-            border-[#A9D7FF]/25
-            bg-[#084A99]/30
-            text-[#D8EDFF]
-            shadow-[0_8px_24px_rgba(2,31,76,0.16)]
-            transition-all
-            duration-350
-            group-hover:translate-x-1
-            group-hover:border-[#B8DFFF]/45
-            group-hover:bg-[#B9DFFF]/20
-            group-hover:text-[#E8F5FF]
-            group-focus-visible:translate-x-1
-            sm:h-9
-            sm:w-9
-          "
-        >
-          <ArrowGlyph />
-        </motion.div>
-      </Link>
-    </motion.div>
+        <AnimatePresence initial={false}>
+          {active && (
+            <motion.div
+              key="details"
+              initial={
+                reduceMotion
+                  ? false
+                  : {
+                      height: 0,
+                      opacity: 0,
+                    }
+              }
+              animate={{
+                height: "auto",
+                opacity: 1,
+              }}
+              exit={{
+                height: 0,
+                opacity: 0,
+              }}
+              transition={{
+                height: {
+                  duration: 0.58,
+                  ease: [0.16, 1, 0.3, 1],
+                },
+                opacity: {
+                  duration: 0.32,
+                },
+              }}
+              className="relative z-20 overflow-hidden"
+            >
+              <div
+                className="
+                  grid
+                  gap-7
+                  px-5
+                  pb-8
+                  pt-1
+
+                  sm:px-8
+                  sm:pb-10
+
+                  md:grid-cols-[minmax(0,1fr)_300px]
+                  md:items-end
+                  md:px-10
+
+                  lg:min-h-[230px]
+                  lg:grid-cols-[minmax(0,0.9fr)_minmax(320px,0.7fr)]
+                  lg:px-[5%]
+                  lg:pb-10
+                "
+              >
+                {/* DESCRIPTION */}
+
+                <motion.div
+                  initial={
+                    reduceMotion
+                      ? false
+                      : {
+                          opacity: 0,
+                          y: 16,
+                      }
+                  }
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    delay: 0.08,
+                    duration: 0.5,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  className="
+                    max-w-[620px]
+                    self-center
+                  "
+                >
+                  <p
+                    className="
+                      text-[13px]
+                      leading-[1.65]
+                      text-[#405977]
+
+                      sm:text-[14px]
+                      md:text-[15px]
+                      lg:text-[16px]
+                    "
+                  >
+                    {service.description}
+                  </p>
+
+                  <Link
+                    href={service.href}
+                    onClick={(event) => event.stopPropagation()}
+                    className="
+                      relative
+                      z-30
+                      mt-6
+                      inline-flex
+                      items-center
+                      gap-3
+                      text-[12px]
+                      font-semibold
+                      text-[#0A2F5E]
+
+                      sm:text-[13px]
+                    "
+                  >
+                    {service.cta}
+
+                    <span
+                      className="
+                        flex
+                        h-8
+                        w-8
+                        items-center
+                        justify-center
+                        rounded-full
+                        bg-[#1766D6]
+                        text-white
+                        transition-transform
+                        duration-300
+                        hover:translate-x-1
+                      "
+                    >
+                      <ArrowIcon />
+                    </span>
+                  </Link>
+                </motion.div>
+
+                {/* IMAGE */}
+
+                <motion.div
+                  initial={
+                    reduceMotion
+                      ? false
+                      : {
+                          opacity: 0,
+                          y: 28,
+                          rotate: 2,
+                          scale: 0.96,
+                        }
+                  }
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    rotate: -1.5,
+                    scale: 1,
+                  }}
+                  transition={{
+                    delay: 0.06,
+                    duration: 0.65,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  className="
+                    relative
+                    ml-auto
+                    w-full
+                    max-w-[360px]
+                  "
+                >
+                  <div
+                    className="
+                      relative
+                      aspect-[16/9]
+                      overflow-hidden
+                      bg-[#DCEBFF]
+                      shadow-[0_18px_40px_rgba(0,0,0,0.16)]
+                    "
+                  >
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      loading="lazy"
+                      draggable={false}
+                      className="
+                        h-full
+                        w-full
+                        object-cover
+                        transition-transform
+                        duration-700
+                        ease-out
+                        group-hover:scale-[1.035]
+                      "
+                    />
+
+                    <div
+                      className="
+                        pointer-events-none
+                        absolute
+                        inset-0
+                        bg-gradient-to-t
+                        from-black/15
+                        via-transparent
+                        to-transparent
+                      "
+                    />
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.article>
   );
 }
 
 /* =========================================================
-   BACKGROUND
+   FOLDER TAB
 ========================================================= */
 
-function SectionBackground() {
+function FolderTab({
+  side,
+  background,
+  active,
+}: {
+  side: "left" | "right";
+  background: string;
+  active: boolean;
+}) {
   return (
     <div
       aria-hidden="true"
-      className="
+      style={{
+        backgroundColor: background,
+      }}
+      className={`
         pointer-events-none
         absolute
-        inset-0
-        overflow-hidden
-      "
-      style={{
-        background:
-          `
-          linear-gradient(
-            125deg,
-            #3989F7 0%,
-            #2B7CF1 28%,
-            #1D6DE5 58%,
-            #155FD2 78%,
-            #1055BF 100%
-          )
-        `,
-      }}
+        top-[-27px]
+        z-20
+        h-[32px]
+        w-[150px]
+        border-[3px]
+        border-white
+        transition-all
+        duration-500
+
+        sm:w-[160px]
+        lg:w-[170px]
+
+        ${
+          side === "left"
+            ? `
+                left-[11%]
+                rounded-tl-[14px]
+                rounded-tr-[14px]
+              `
+            : `
+                right-[16%]
+                rounded-tl-[14px]
+                rounded-tr-[14px]
+              `
+        }
+
+        ${active ? "top-[-31px]" : ""}
+      `}
     >
-      {/* SUBTLE CONTRAST VEIL */}
+      {/* LEFT CONNECTOR */}
 
-      <div
-        className="
-          absolute
-          inset-0
-          bg-[linear-gradient(180deg,rgba(4,48,116,0.03)_0%,rgba(5,56,128,0.08)_52%,rgba(3,42,99,0.14)_100%)]
-        "
-      />
-
-      {/* =====================================================
-          SOFT DEPTH LIGHTS
-      ===================================================== */}
-
-      <div
-        className="
-          absolute
-          -left-[240px]
-          -top-[230px]
-          h-[620px]
-          w-[620px]
-          rounded-full
-          bg-white/[0.10]
-          blur-[120px]
-        "
-      />
-
-      <div
-        className="
-          absolute
-          -right-[250px]
-          top-[180px]
-          h-[620px]
-          w-[620px]
-          rounded-full
-          bg-[#75C2FF]/[0.10]
-          blur-[135px]
-        "
-      />
-
-      <div
-        className="
-          absolute
-          bottom-[-280px]
-          left-1/2
-          h-[520px]
-          w-[980px]
-          -translate-x-1/2
-          rounded-[50%]
-          bg-[#073F99]/22
-          blur-[110px]
-        "
-      />
-
-      {/* =====================================================
-          PREMIUM CURVED LINES
-      ===================================================== */}
-
-      <svg
-        viewBox="0 0 1600 900"
-        preserveAspectRatio="none"
-        fill="none"
-        className="
-          absolute
-          inset-0
-          hidden
-          h-full
-          w-full
-          lg:block
-        "
-      >
-        <defs>
-          <linearGradient
-            id="service-blue-line-left"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="1"
-          >
-            <stop stopColor="#E6F8FF" stopOpacity=".24" />
-            <stop offset=".56" stopColor="#BEEBFF" stopOpacity=".055" />
-            <stop offset="1" stopColor="#BEEBFF" stopOpacity="0" />
-          </linearGradient>
-
-          <linearGradient
-            id="service-blue-line-right"
-            x1="1"
-            y1="0"
-            x2="0"
-            y2="1"
-          >
-            <stop stopColor="#DDF6FF" stopOpacity=".20" />
-            <stop offset=".60" stopColor="#B9E8FF" stopOpacity=".045" />
-            <stop offset="1" stopColor="#B9E8FF" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-
-        <path
-          d="M-100 735C92 674 181 560 266 410C350 262 458 184 620 130"
-          stroke="url(#service-blue-line-left)"
-          strokeWidth="1.15"
-        />
-
-        <path
-          d="M-84 795C122 723 216 607 305 455C393 304 491 230 650 174"
-          stroke="url(#service-blue-line-left)"
-          strokeWidth=".7"
-          opacity=".7"
-        />
-
-        <path
-          d="M1710 142C1512 211 1423 326 1338 475C1263 610 1156 713 986 783"
-          stroke="url(#service-blue-line-right)"
-          strokeWidth="1.1"
-        />
-
-        <path
-          d="M1726 98C1518 168 1425 281 1335 432C1252 575 1139 678 963 747"
-          stroke="url(#service-blue-line-right)"
-          strokeWidth=".7"
-          opacity=".66"
-        />
-      </svg>
-
-      {/* =====================================================
-          MICRO DOT TEXTURE
-      ===================================================== */}
-
-      <div
-        className="
-          absolute
-          left-[3%]
-          top-[38%]
-          hidden
-          h-[190px]
-          w-[230px]
-          opacity-[0.11]
-          lg:block
-        "
+      <span
         style={{
-          backgroundImage:
-            "radial-gradient(circle, rgba(225,248,255,.92) 1px, transparent 1.2px)",
-          backgroundSize: "18px 18px",
-          WebkitMaskImage:
-            "radial-gradient(ellipse at center, black 0%, rgba(0,0,0,.66) 40%, transparent 78%)",
-          maskImage:
-            "radial-gradient(ellipse at center, black 0%, rgba(0,0,0,.66) 40%, transparent 78%)",
+          backgroundColor: background,
         }}
-      />
-
-      <div
         className="
           absolute
-          bottom-[12%]
-          right-[3%]
-          hidden
-          h-[190px]
-          w-[230px]
-          opacity-[0.09]
-          lg:block
+          -left-[22px]
+          bottom-[-3px]
+          h-[18px]
+          w-[28px]
+          rotate-[-48deg]
+          border-l-[3px]
+          border-white
         "
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, rgba(207,242,255,.92) 1px, transparent 1.2px)",
-          backgroundSize: "18px 18px",
-          WebkitMaskImage:
-            "radial-gradient(ellipse at center, black 0%, rgba(0,0,0,.66) 40%, transparent 78%)",
-          maskImage:
-            "radial-gradient(ellipse at center, black 0%, rgba(0,0,0,.66) 40%, transparent 78%)",
-        }}
       />
 
-      {/* =====================================================
-          VERY SUBTLE GRID
-      ===================================================== */}
+      {/* RIGHT CONNECTOR */}
 
-      <div
-        className="
-          absolute
-          inset-0
-          opacity-[0.075]
-        "
+      <span
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,.16) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.16) 1px, transparent 1px)",
-          backgroundSize: "82px 82px",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, transparent 0%, black 20%, black 84%, transparent 100%)",
-          maskImage:
-            "linear-gradient(to bottom, transparent 0%, black 20%, black 84%, transparent 100%)",
+          backgroundColor: background,
         }}
-      />
-
-      {/* BOTTOM DEPTH */}
-
-      <div
         className="
           absolute
-          inset-x-0
-          bottom-0
-          h-[260px]
-          bg-gradient-to-t
-          from-[#0B4EAC]/20
-          via-[#1769D2]/[0.04]
-          to-transparent
+          -right-[22px]
+          bottom-[-3px]
+          h-[18px]
+          w-[28px]
+          rotate-[48deg]
+          border-r-[3px]
+          border-white
         "
       />
     </div>
@@ -902,28 +805,10 @@ function SectionBackground() {
 }
 
 /* =========================================================
-   SMALL SVGs
+   ICONS
 ========================================================= */
 
-function SparkGlyph() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className="h-[12px] w-[12px]"
-      aria-hidden="true"
-    >
-      <path
-        d="M12 3.5 13.5 9l5.5 1.5-5.5 1.5L12 17.5 10.5 12 5 10.5 10.5 9 12 3.5Z"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function ArrowGlyph() {
+function PlusIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -932,352 +817,28 @@ function ArrowGlyph() {
       aria-hidden="true"
     >
       <path
-        d="M5 12h13M13 7l5 5-5 5"
-        stroke="currentColor"
-        strokeWidth="1.9"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-/* =========================================================
-   SERVICE GLYPHS
-========================================================= */
-
-function CompanyGlyph(props: GlyphProps) {
-  return (
-    <svg viewBox="0 0 84 84" fill="none" {...props}>
-      <rect
-        x="8"
-        y="8"
-        width="68"
-        height="68"
-        rx="22"
-        fill="currentColor"
-        fillOpacity=".055"
-        stroke="currentColor"
-        strokeOpacity=".16"
-      />
-      <path
-        d="M24 58V34l18-9 18 9v24"
-        stroke="currentColor"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M20 59h44M31 39h3M50 39h3M31 47h3M50 47h3M38 59v-8h8v8"
-        stroke="currentColor"
-        strokeWidth="2.1"
-        strokeLinecap="round"
-      />
-      <circle
-        cx="60"
-        cy="23"
-        r="8"
-        fill="currentColor"
-        fillOpacity=".12"
-      />
-      <path
-        d="m56.5 23 2.2 2.2 4.5-4.7"
-        stroke="currentColor"
-        strokeWidth="1.9"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function LicenseGlyph(props: GlyphProps) {
-  return (
-    <svg viewBox="0 0 84 84" fill="none" {...props}>
-      <rect
-        x="8"
-        y="8"
-        width="68"
-        height="68"
-        rx="22"
-        fill="currentColor"
-        fillOpacity=".055"
-        stroke="currentColor"
-        strokeOpacity=".16"
-      />
-      <rect
-        x="22"
-        y="26"
-        width="36"
-        height="27"
-        rx="7"
-        stroke="currentColor"
-        strokeWidth="2.1"
-      />
-      <path
-        d="M29 35h18M29 41h23M29 47h12"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        opacity=".72"
-      />
-      <path
-        d="M58 48c5 3 9 3.3 14 0v8c0 7-4.3 11.2-7 12.5-2.7-1.3-7-5.5-7-12.5v-8Z"
-        fill="currentColor"
-        fillOpacity=".09"
+        d="M12 5v14M5 12h14"
         stroke="currentColor"
         strokeWidth="1.8"
-      />
-    </svg>
-  );
-}
-
-function ComplianceGlyph(props: GlyphProps) {
-  return (
-    <svg viewBox="0 0 84 84" fill="none" {...props}>
-      <rect
-        x="8"
-        y="8"
-        width="68"
-        height="68"
-        rx="22"
-        fill="currentColor"
-        fillOpacity=".055"
-        stroke="currentColor"
-        strokeOpacity=".16"
-      />
-      <path
-        d="M25 21h23l11 11v30H25V21Z"
-        stroke="currentColor"
-        strokeWidth="2.1"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M48 21v12h11M32 40h18M32 47h14"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        opacity=".72"
-      />
-      <circle
-        cx="59"
-        cy="57"
-        r="10"
-        fill="currentColor"
-        fillOpacity=".09"
-      />
-      <path
-        d="m54.5 57 3 3 6-6"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function GstGlyph(props: GlyphProps) {
-  return (
-    <svg viewBox="0 0 84 84" fill="none" {...props}>
-      <rect
-        x="8"
-        y="8"
-        width="68"
-        height="68"
-        rx="22"
-        fill="currentColor"
-        fillOpacity=".055"
-        stroke="currentColor"
-        strokeOpacity=".16"
-      />
-      <path
-        d="M26 22h31v40l-4-3-4 3-4-3-4 3-4-3-4 3-3-3-4 3V22Z"
-        stroke="currentColor"
-        strokeWidth="2.1"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M33 33h17M33 40h12"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        opacity=".7"
-      />
-      <circle cx="58" cy="51" r="10" fill="currentColor" fillOpacity=".08" />
-      <path
-        d="m54 55 8-8"
-        stroke="currentColor"
-        strokeWidth="1.9"
         strokeLinecap="round"
       />
     </svg>
   );
 }
 
-function IncomeTaxGlyph(props: GlyphProps) {
+function ArrowIcon() {
   return (
-    <svg viewBox="0 0 84 84" fill="none" {...props}>
-      <rect
-        x="8"
-        y="8"
-        width="68"
-        height="68"
-        rx="22"
-        fill="currentColor"
-        fillOpacity=".055"
-        stroke="currentColor"
-        strokeOpacity=".16"
-      />
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      className="h-[14px] w-[14px]"
+      aria-hidden="true"
+    >
       <path
-        d="M24 61V28h33v33"
+        d="M5 12h13M13 7l5 5-5 5"
         stroke="currentColor"
-        strokeWidth="2.1"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M31 37h18M31 44h14M31 51h10"
-        stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth="1.8"
         strokeLinecap="round"
-        opacity=".7"
-      />
-      <circle cx="59" cy="56" r="10" fill="currentColor" fillOpacity=".09" />
-      <path
-        d="M55 51h8M55 54h8M56 51c4 0 5.5.8 5.5 2.4 0 1.6-1.5 2.6-5 2.6H55l6 5"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function AccountingGlyph(props: GlyphProps) {
-  return (
-    <svg viewBox="0 0 84 84" fill="none" {...props}>
-      <rect
-        x="8"
-        y="8"
-        width="68"
-        height="68"
-        rx="22"
-        fill="currentColor"
-        fillOpacity=".055"
-        stroke="currentColor"
-        strokeOpacity=".16"
-      />
-      <rect
-        x="23"
-        y="22"
-        width="29"
-        height="39"
-        rx="7"
-        stroke="currentColor"
-        strokeWidth="2.1"
-      />
-      <rect
-        x="29"
-        y="28"
-        width="17"
-        height="7"
-        rx="2"
-        fill="currentColor"
-        fillOpacity=".09"
-      />
-      {[0, 1, 2].map((r) =>
-        [0, 1, 2].map((c) => (
-          <circle
-            key={`${r}-${c}`}
-            cx={31 + c * 7}
-            cy={43 + r * 7}
-            r="1.7"
-            fill="currentColor"
-            fillOpacity=".65"
-          />
-        )),
-      )}
-      <path
-        d="M57 55V45m6 10V39m6 16V34"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function IpGlyph(props: GlyphProps) {
-  return (
-    <svg viewBox="0 0 84 84" fill="none" {...props}>
-      <rect
-        x="8"
-        y="8"
-        width="68"
-        height="68"
-        rx="22"
-        fill="currentColor"
-        fillOpacity=".055"
-        stroke="currentColor"
-        strokeOpacity=".16"
-      />
-      <path
-        d="M32 23c7 4 12 4.5 19 0v11c0 10-6.1 16-9.5 17.5C38.1 50 32 44 32 34V23Z"
-        stroke="currentColor"
-        strokeWidth="2.1"
-      />
-      <path
-        d="m36.5 35 3.2 3.2 6.2-6.5"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="58" cy="57" r="10" fill="currentColor" fillOpacity=".09" />
-      <path
-        d="M54 53.5h8M58 53.5v8"
-        stroke="currentColor"
-        strokeWidth="1.9"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function ContractGlyph(props: GlyphProps) {
-  return (
-    <svg viewBox="0 0 84 84" fill="none" {...props}>
-      <rect
-        x="8"
-        y="8"
-        width="68"
-        height="68"
-        rx="22"
-        fill="currentColor"
-        fillOpacity=".055"
-        stroke="currentColor"
-        strokeOpacity=".16"
-      />
-      <path
-        d="M24 21h25l10 10v31H24V21Z"
-        stroke="currentColor"
-        strokeWidth="2.1"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M49 21v11h10M31 39h18M31 46h14"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        opacity=".7"
-      />
-      <path
-        d="m50 57 2-6 8-8a2.7 2.7 0 0 1 3.8 3.8l-8 8-5.8 2.2Z"
-        fill="currentColor"
-        fillOpacity=".07"
-        stroke="currentColor"
-        strokeWidth="1.9"
         strokeLinejoin="round"
       />
     </svg>
