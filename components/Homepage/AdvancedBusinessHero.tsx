@@ -1048,13 +1048,7 @@ export default function BusinessHero() {
           HERO
       ===================================================== */}
 
-      <div
-        className="relative isolate mt-18 overflow-hidden"
-        style={{
-          background:
-            "radial-gradient(circle at 7% 0%, rgba(85,184,255,0.72) 0%, rgba(56,156,245,0.26) 24%, transparent 50%), radial-gradient(circle at 91% 8%, rgba(32,134,238,0.22) 0%, transparent 42%), radial-gradient(circle at 50% 116%, rgba(5,35,89,0.62) 0%, transparent 48%), linear-gradient(112deg, #1687EE 0%, #0B6AD3 34%, #0753B0 65%, #043B82 100%)",
-        }}
-      >
+      <div className="relative isolate mt-18 overflow-hidden bg-[#063B78] lg:min-h-[760px]">
         <PremiumHeroBackdrop reduceMotion={Boolean(reduceMotion)} />
         <div
           className="
@@ -1961,314 +1955,62 @@ function PremiumHeroBackdrop({
 }: {
   reduceMotion: boolean;
 }) {
-  const floatTransition = {
-    duration: 11,
-    repeat: Infinity,
-    repeatType: "mirror" as const,
-    ease: "easeInOut" as const,
-  };
-
   return (
     <div
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden"
     >
       {/* =====================================================
-          QUIET PREMIUM GRID
-          Keeps the hero polished without looking technical.
+          BACKGROUND VIDEO
+          Put the file inside:
+          public/videos/Homepage.mp4
       ===================================================== */}
+      <video
+        className="
+          absolute
+          inset-0
+          h-full
+          w-full
+          scale-[1.015]
+          object-cover
+          object-center
+        "
+        autoPlay={!reduceMotion}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        tabIndex={-1}
+      >
+        <source src="/videos/Homepage.mp4" type="video/mp4" />
+      </video>
+
+      {/* =====================================================
+          READABILITY OVERLAYS
+          Keeps the video visible while protecting white text.
+      ===================================================== */}
+
+      {/* Main premium blue tint */}
       <div
-        className="absolute inset-0 hidden opacity-[0.14] lg:block"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px)",
-          backgroundSize: "84px 84px",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, transparent 0%, black 16%, black 70%, transparent 100%)",
-          maskImage:
-            "linear-gradient(to bottom, transparent 0%, black 16%, black 70%, transparent 100%)",
-        }}
+        className="
+          absolute
+          inset-0
+          bg-[linear-gradient(110deg,rgba(1,27,67,0.82)_0%,rgba(3,55,116,0.70)_38%,rgba(3,48,101,0.66)_65%,rgba(1,24,59,0.80)_100%)]
+        "
       />
 
-      {/* top light */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
-      <div className="absolute inset-x-0 top-0 h-[190px] bg-gradient-to-b from-white/[0.045] to-transparent" />
-
-      {/* =====================================================
-          AURORA DEPTH
-      ===================================================== */}
-      <div className="absolute -left-[235px] -top-[260px] h-[680px] w-[680px] rounded-full bg-[#9DDEFF]/[0.20] blur-[105px]" />
-      <div className="absolute -right-[215px] top-[22px] h-[610px] w-[610px] rounded-full bg-[#2C9AF4]/[0.16] blur-[118px]" />
-      <div className="absolute bottom-[-255px] left-1/2 h-[510px] w-[980px] -translate-x-1/2 rounded-[50%] bg-[#022E75]/40 blur-[115px]" />
-
-      {/* A very subtle center glow protects readability. */}
-      <div className="absolute left-1/2 top-[60px] hidden h-[430px] w-[860px] -translate-x-1/2 rounded-[50%] bg-[#0B64C6]/[0.07] blur-[90px] lg:block" />
-
-      {/* =====================================================
-          LEFT — PREMIUM BUSINESS FILING FOLIO
-          Slightly stronger visibility than previous version.
-      ===================================================== */}
-      <motion.div
-        initial={false}
-        animate={
-          reduceMotion
-            ? undefined
-            : {
-                y: [0, -7],
-                rotate: [-7.2, -6.5],
-              }
-        }
-        transition={floatTransition}
+      {/* Slightly darker center behind headline/search */}
+      <div
         className="
           absolute
-          hidden
-          h-[326px]
-          w-[404px]
-          origin-left
-
-          lg:left-[22px]
-          lg:top-[108px]
-          lg:block
-          lg:scale-[0.72]
-
-          xl:left-[28px]
-          xl:top-[104px]
-          xl:scale-[0.84]
-
-          2xl:left-[42px]
-          2xl:top-[104px]
-          2xl:scale-[0.94]
+          inset-0
+          bg-[radial-gradient(circle_at_50%_34%,rgba(8,78,155,0.03)_0%,rgba(3,38,86,0.10)_40%,rgba(1,23,58,0.22)_100%)]
         "
-      >
-        {/* rear layer */}
-        <div className="absolute -right-[24px] top-[26px] h-[286px] w-[360px] rounded-[34px] border border-white/[0.085] bg-white/[0.016]" />
+      />
 
-        {/* main glass folio */}
-        <div className="absolute inset-0 overflow-hidden rounded-[36px] border border-white/[0.16] bg-[linear-gradient(145deg,rgba(255,255,255,0.075),rgba(255,255,255,0.024)_58%,rgba(255,255,255,0.012))] shadow-[inset_0_1px_0_rgba(255,255,255,0.13),0_30px_90px_rgba(1,38,88,0.10)] backdrop-blur-[3px]">
-          <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/[0.22] to-transparent" />
-          <div className="absolute left-[26px] top-0 h-px w-[180px] bg-gradient-to-r from-white/[0.30] to-transparent" />
-          <div className="absolute -left-[40px] -top-[70px] h-[190px] w-[190px] rounded-full bg-white/[0.055] blur-[36px]" />
-
-          {/* title + section number */}
-          <div className="absolute left-[43px] top-[37px] flex items-center gap-3">
-            <span className="h-[7px] w-[7px] rounded-full bg-[#DDF6FF]/70 shadow-[0_0_16px_rgba(189,235,255,.48)]" />
-            <span className="font-body text-[8.5px] font-semibold uppercase tracking-[0.28em] text-white/[0.30]">
-              Filing workspace
-            </span>
-          </div>
-
-          <div className="absolute right-[40px] top-[34px] font-body text-[8px] font-semibold tracking-[0.18em] text-white/[0.18]">
-            01
-          </div>
-
-          {/* document lines */}
-          <div className="absolute left-[43px] top-[82px]">
-            <div className="h-[6px] w-[104px] rounded-full bg-white/[0.24]" />
-            <div className="mt-[13px] h-[3px] w-[205px] rounded-full bg-white/[0.14]" />
-          </div>
-
-          <div className="absolute left-[43px] top-[139px] space-y-[16px]">
-            <div className="flex items-center gap-4">
-              <span className="h-[6px] w-[6px] rounded-full border border-white/[0.24] bg-white/[0.06]" />
-              <span className="h-[3px] w-[214px] rounded-full bg-white/[0.13]" />
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="h-[6px] w-[6px] rounded-full border border-white/[0.22] bg-white/[0.05]" />
-              <span className="h-[3px] w-[178px] rounded-full bg-white/[0.11]" />
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="h-[6px] w-[6px] rounded-full border border-white/[0.20] bg-white/[0.045]" />
-              <span className="h-[3px] w-[225px] rounded-full bg-white/[0.12]" />
-            </div>
-          </div>
-
-          {/* service tags */}
-          <div className="absolute bottom-[43px] left-[43px] flex items-center gap-2">
-            {['GST', 'ROC', 'ITR'].map((item) => (
-              <span
-                key={item}
-                className="rounded-full border border-white/[0.13] bg-white/[0.045] px-2.5 py-1 font-body text-[7.5px] font-semibold tracking-[0.12em] text-white/[0.28]"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
-
-          {/* verification seal */}
-          <div className="absolute bottom-[33px] right-[42px] flex h-[82px] w-[82px] items-center justify-center rounded-full border border-white/[0.18] bg-white/[0.025]">
-            <div className="flex h-[58px] w-[58px] items-center justify-center rounded-full border border-dashed border-white/[0.20]">
-              <ShieldCheckIcon className="h-[24px] w-[24px] text-white/[0.38]" />
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* =====================================================
-          RIGHT — MODERN COMPLIANCE LEDGER
-      ===================================================== */}
-      <motion.div
-        initial={false}
-        animate={
-          reduceMotion
-            ? undefined
-            : {
-                y: [0, 8],
-                rotate: [6.8, 6.1],
-              }
-        }
-        transition={{ ...floatTransition, duration: 12.5 }}
-        className="
-          absolute
-          hidden
-          h-[330px]
-          w-[410px]
-          origin-right
-
-          lg:right-[22px]
-          lg:top-[104px]
-          lg:block
-          lg:scale-[0.72]
-
-          xl:right-[28px]
-          xl:top-[100px]
-          xl:scale-[0.84]
-
-          2xl:right-[42px]
-          2xl:top-[100px]
-          2xl:scale-[0.94]
-        "
-      >
-        {/* rear layer */}
-        <div className="absolute -left-[24px] top-[28px] h-[286px] w-[360px] rounded-[34px] border border-white/[0.075] bg-white/[0.014]" />
-
-        {/* ledger glass */}
-        <div className="absolute inset-0 overflow-hidden rounded-[37px] border border-white/[0.15] bg-[linear-gradient(145deg,rgba(255,255,255,0.068),rgba(255,255,255,0.022)_58%,rgba(255,255,255,0.01))] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_30px_90px_rgba(1,31,77,0.10)] backdrop-blur-[3px]">
-          <div className="absolute right-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/[0.20] to-transparent" />
-          <div className="absolute right-[26px] top-0 h-px w-[185px] bg-gradient-to-l from-white/[0.28] to-transparent" />
-          <div className="absolute -right-[44px] -top-[74px] h-[195px] w-[195px] rounded-full bg-white/[0.045] blur-[38px]" />
-
-          <div className="absolute left-[43px] top-[38px] flex items-center gap-3">
-            <span className="h-[7px] w-[7px] rounded-full bg-[#DDF6FF]/65 shadow-[0_0_16px_rgba(189,235,255,.45)]" />
-            <span className="font-body text-[8.5px] font-semibold uppercase tracking-[0.28em] text-white/[0.30]">
-              Compliance ledger
-            </span>
-          </div>
-
-          <div className="absolute right-[42px] top-[35px] rounded-full border border-white/[0.14] bg-white/[0.04] px-2.5 py-1 font-body text-[7.5px] font-semibold uppercase tracking-[0.15em] text-white/[0.26]">
-            Active
-          </div>
-
-          <div className="absolute left-[43px] right-[43px] top-[89px] space-y-[17px]">
-            {[
-              ['GST Return', 'Filed'],
-              ['ROC Annual', 'Ready'],
-              ['ITR Review', 'Checked'],
-              ['Legal Docs', 'Secure'],
-            ].map(([label, state], row) => (
-              <div
-                key={label}
-                className="grid grid-cols-[18px_1fr_auto] items-center gap-3"
-              >
-                <span className="flex h-[15px] w-[15px] items-center justify-center rounded-full border border-white/[0.18] bg-white/[0.045]">
-                  <span className="h-[4px] w-[4px] rounded-full bg-white/[0.38]" />
-                </span>
-
-                <div>
-                  <span
-                    className="block h-[3px] rounded-full bg-white/[0.13]"
-                    style={{ width: row % 2 === 0 ? '78%' : '62%' }}
-                  />
-                  <span className="mt-[7px] block h-[2px] w-[48%] rounded-full bg-white/[0.055]" />
-                </div>
-
-                <span className="min-w-[49px] rounded-full border border-white/[0.12] bg-white/[0.04] px-2 py-1 text-center font-body text-[7px] font-semibold tracking-[0.08em] text-white/[0.25]">
-                  {state}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          <div className="absolute bottom-[38px] left-[43px] right-[43px] flex items-center justify-between border-t border-white/[0.10] pt-[17px]">
-            <span className="font-body text-[7.5px] font-semibold uppercase tracking-[0.22em] text-white/[0.20]">
-              Due dates monitored
-            </span>
-            <span className="h-[5px] w-[52px] rounded-full bg-gradient-to-r from-white/[0.06] to-white/[0.20]" />
-          </div>
-        </div>
-      </motion.div>
-
-      {/* =====================================================
-          OUTER EDGE LINES — visible but restrained
-      ===================================================== */}
-      <svg
-        viewBox="0 0 1600 760"
-        preserveAspectRatio="none"
-        className="absolute inset-0 hidden h-full w-full lg:block"
-        fill="none"
-      >
-        <defs>
-          <linearGradient id="heroEdgePathLeftV2" x1="0" y1="0" x2="1" y2="1">
-            <stop stopColor="#E8F9FF" stopOpacity="0.30" />
-            <stop offset="0.55" stopColor="#CDEEFF" stopOpacity="0.075" />
-            <stop offset="1" stopColor="#DDF6FF" stopOpacity="0" />
-          </linearGradient>
-          <linearGradient id="heroEdgePathRightV2" x1="1" y1="0" x2="0" y2="1">
-            <stop stopColor="#E9FAFF" stopOpacity="0.28" />
-            <stop offset="0.60" stopColor="#D5F2FF" stopOpacity="0.07" />
-            <stop offset="1" stopColor="#E6F8FF" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-
-        <path
-          d="M-90 640C44 594 104 514 158 399C201 307 246 226 362 156"
-          stroke="url(#heroEdgePathLeftV2)"
-          strokeWidth="1.3"
-        />
-        <path
-          d="M-110 674C35 626 101 550 167 432C222 334 272 276 407 197"
-          stroke="url(#heroEdgePathLeftV2)"
-          strokeWidth="0.8"
-          opacity="0.45"
-        />
-
-        <path
-          d="M1680 74C1526 130 1468 222 1417 338C1372 440 1312 524 1204 590"
-          stroke="url(#heroEdgePathRightV2)"
-          strokeWidth="1.25"
-        />
-        <path
-          d="M1700 110C1555 159 1497 244 1444 363C1398 466 1340 548 1242 617"
-          stroke="url(#heroEdgePathRightV2)"
-          strokeWidth="0.8"
-          opacity="0.42"
-        />
-      </svg>
-
-      {/* tiny disciplined reference labels */}
-      <div className="absolute left-[4.5%] top-[76px] hidden items-center gap-2 font-body text-[8px] font-semibold uppercase tracking-[0.28em] text-white/[0.24] 2xl:flex">
-        <span className="h-1 w-1 rounded-full bg-[#D6F4FF]/70" />
-        GST · ROC · ITR
-      </div>
-
-      <div className="absolute right-[4.5%] bottom-[78px] hidden items-center gap-2 font-body text-[8px] font-semibold uppercase tracking-[0.28em] text-white/[0.20] 2xl:flex">
-        Legal · IP · Compliance
-        <span className="h-1 w-1 rounded-full bg-[#D6F4FF]/60" />
-      </div>
-
-      {/* =====================================================
-          MOBILE / TABLET
-          No heavy cards or movement; just polished glass arcs.
-      ===================================================== */}
-      <div className="absolute -right-[132px] top-[145px] h-[270px] w-[270px] rotate-[11deg] rounded-[46px] border border-white/[0.07] bg-white/[0.012] md:h-[320px] md:w-[320px] lg:hidden" />
-      <div className="absolute -left-[152px] bottom-[72px] h-[250px] w-[250px] rotate-[-11deg] rounded-[44px] border border-white/[0.06] bg-white/[0.01] md:h-[300px] md:w-[300px] lg:hidden" />
-
-      <div className="absolute right-[8px] top-[220px] h-[90px] w-[90px] rounded-full border border-white/[0.035] md:right-[40px] lg:hidden" />
-      <div className="absolute right-[29px] top-[241px] h-[48px] w-[48px] rounded-full border border-white/[0.055] md:right-[61px] lg:hidden" />
-
-      {/* bottom depth */}
-      <div className="absolute inset-x-0 bottom-0 h-[245px] bg-gradient-to-t from-[#032E70]/40 via-[#064D9B]/[0.08] to-transparent" />
+      
     </div>
-  );
+  );  
 }
 
 /* =========================================================
