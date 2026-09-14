@@ -1,12 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-} from "framer-motion";
-import { useState } from "react";
+  ArrowUpRight,
+  Building2,
+  Calculator,
+  FileCheck2,
+  Landmark,
+  ReceiptText,
+  Scale,
+  ShieldCheck,
+  WalletCards,
+  type LucideIcon,
+} from "lucide-react";
 
 /* =========================================================
    TYPES
@@ -19,8 +26,9 @@ type ServiceItem = {
   cta: string;
   href: string;
   image: string;
-  tone: string;
-  tabSide: "left" | "right";
+  icon: LucideIcon;
+  accent: string;
+  soft: string;
 };
 
 /* =========================================================
@@ -32,91 +40,130 @@ const services: ServiceItem[] = [
     title: "Company Registration",
     category: "Business Setup",
     description:
-      "Start your company with complete support for Private Limited, LLP, OPC and other business registrations. Our team handles documentation, filing and registration from start to finish.",
+      "Private Limited, LLP, OPC and other business registrations handled from documentation to final approval.",
     cta: "Register Company",
     href: "/business/registration",
     image: "/images/company-registration.png",
-    tone: "#F5FAFF",
-    tabSide: "left",
+    icon: Building2,
+    accent: "#1766D6",
+    soft: "#EDF5FF",
   },
   {
     title: "Business License",
     category: "Licensing",
     description:
-      "Get essential registrations and licences including FSSAI, MSME, IEC and DSC with complete documentation and filing support.",
+      "FSSAI, MSME, IEC, DSC and other essential licences with complete documentation and filing support.",
     cta: "Get Licensed",
     href: "/business/license",
     image: "/images/business-license.png",
-    tone: "#EAF4FF",
-    tabSide: "left",
+    icon: FileCheck2,
+    accent: "#0A7C88",
+    soft: "#ECF9FA",
   },
   {
     title: "Company Compliance",
     category: "ROC & MCA",
     description:
-      "Stay compliant with ROC filings, MCA requirements, annual compliance, eKYC and other statutory obligations handled by professionals.",
+      "ROC filings, MCA requirements, annual compliance, eKYC and statutory obligations managed by professionals.",
     cta: "Stay Compliant",
     href: "/business/compliance",
     image: "/images/company-compliance.png",
-    tone: "#DCEEFF",
-    tabSide: "right",
+    icon: ShieldCheck,
+    accent: "#5A63D8",
+    soft: "#F0F1FF",
   },
   {
     title: "GST Registration",
     category: "GST Services",
     description:
-      "From GST registration to return filing, LUT, notices and ongoing GST advisory, our team manages your complete GST requirements.",
+      "GST registration, returns, LUT, notices and ongoing advisory for smooth and compliant operations.",
     cta: "Manage GST",
     href: "/taxation/gst",
     image: "/images/gst-registration.png",
-    tone: "#CFE6FF",
-    tabSide: "right",
+    icon: ReceiptText,
+    accent: "#2369D8",
+    soft: "#EEF5FF",
   },
   {
     title: "Income Tax Filing",
     category: "Income Tax",
     description:
-      "Accurate income tax return filing for individuals, professionals and businesses with expert review before submission.",
+      "Accurate ITR filing for individuals, professionals and businesses with expert review before submission.",
     cta: "File ITR",
     href: "/itr/income-tax-return-filing",
     image: "/images/income-tax.png",
-    tone: "#F1F7FF",
-    tabSide: "right",
+    icon: Calculator,
+    accent: "#8059CF",
+    soft: "#F5F0FF",
   },
   {
     title: "Tax & Accounting",
     category: "Finance Support",
     description:
-      "TDS, bookkeeping, PAN, TAN and year-round accounting and tax advisory services designed to keep your business organised.",
+      "TDS, bookkeeping, PAN, TAN and year-round accounting and tax advisory for organised business finances.",
     cta: "Explore Tax Services",
     href: "/taxation/tax-filing",
     image: "/images/tax-accounting.png",
-    tone: "#E4F1FF",
-    tabSide: "left",
+    icon: WalletCards,
+    accent: "#14755F",
+    soft: "#EEF9F5",
   },
   {
     title: "IP Registration",
     category: "Brand Protection",
     description:
-      "Protect your business identity and intellectual property through trademark, copyright and patent registration support across India.",
+      "Trademark, copyright and patent registration support to protect your business identity and intellectual property.",
     cta: "Protect Your Brand",
     href: "/legal/ip",
     image: "/images/ip-registration.png",
-    tone: "#D6EBFF",
-    tabSide: "left",
+    icon: Landmark,
+    accent: "#C66D1A",
+    soft: "#FFF5E9",
   },
   {
     title: "Legal Contracts",
     category: "Legal Services",
     description:
-      "Professional drafting of NDAs, MOUs, employment contracts, commercial agreements and other business legal documents.",
+      "Professional drafting of NDAs, MOUs, employment contracts and commercial agreements for your business.",
     cta: "Draft Contracts",
     href: "/legal/contracts",
     image: "/images/legal-contracts.png",
-    tone: "#EAF3FF",
-    tabSide: "right",
+    icon: Scale,
+    accent: "#A14E77",
+    soft: "#FFF1F7",
   },
 ];
+
+/* =========================================================
+   MOTION
+========================================================= */
+
+const ease = [0.16, 1, 0.3, 1] as const;
+
+const listVariants: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.07,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const rowVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 18,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.65,
+      ease,
+    },
+  },
+};
 
 /* =========================================================
    MAIN COMPONENT
@@ -125,722 +172,346 @@ const services: ServiceItem[] = [
 export default function ServicesSection() {
   const reduceMotion = useReducedMotion();
 
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  const handleToggle = (index: number) => {
-    setActiveIndex((current) => (current === index ? null : index));
-  };
-
   return (
-    <section className="relative overflow-hidden bg-[#F7FBFF] py-10">
-      
-      
-      {/* ===================================================== 
-          HEADING
-      ===================================================== */}
+    <section className="relative overflow-hidden bg-[#F7FAFF] py-16 sm:py-20 lg:py-24">
+      {/* BACKGROUND */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-[-240px] h-[520px] w-[980px] -translate-x-1/2 rounded-full bg-[#DDEBFF]/55 blur-[120px]" />
+        <div className="absolute -left-[180px] top-[36%] h-[380px] w-[380px] rounded-full bg-[#E9F2FF]/70 blur-[115px]" />
+        <div className="absolute -right-[180px] bottom-[8%] h-[380px] w-[380px] rounded-full bg-[#EEF0FF]/70 blur-[115px]" />
 
-      <div className="relative z-10 mx-auto mb-12 max-w-[1460px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
-        <motion.div
-          initial={
-            reduceMotion
-              ? false
-              : {
-                  opacity: 0,
-                  y: 20,
-                }
-          }
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.8,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          viewport={{
-            once: true,
-            amount: 0.35,
-          }}
-          className="max-w-[720px]"
-        >
-          <span
-            className="
-              inline-flex
-              rounded-full
-              border border-[#D4E7FF]
-              bg-white/90
-              px-3.5 py-1.5
-              text-[10px]
-              font-semibold
-              uppercase
-              tracking-[0.15em]
-              text-[#1766D6]
-            "
-          >
-            300+ Professional Services
-          </span>
-
-          <h2
-            className="
-              mt-5
-              text-[34px]
-              font-semibold
-              leading-[1]
-              tracking-[-0.045em]
-              text-[#0A2F5E]
-              sm:text-[42px]
-              md:text-[48px]
-              lg:text-[56px] pt-3
-            "
-          >
-            Our Expertise
-          </h2>
-
-          <p
-            className="
-              mt-4
-              max-w-[600px]
-              text-[14px]
-              leading-6
-              text-[#607491]
-              sm:text-[15px] pt-3
-            "
-          >
-            Business, taxation, compliance and legal services handled by
-            experienced professionals from documentation to final filing.
-          </p>
-        </motion.div>
+        <div
+          className="
+            absolute inset-0 opacity-[0.24]
+            [background-image:linear-gradient(rgba(36,84,140,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(36,84,140,0.05)_1px,transparent_1px)]
+            [background-size:54px_54px]
+          "
+        />
       </div>
 
-      {/* =====================================================
-          STACKED CASE FILES
-      ===================================================== */}
+      <div className="relative z-10 mx-auto w-full max-w-[1480px] px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        {/* =====================================================
+            HEADER
+        ===================================================== */}
 
-      <motion.div
-        initial={reduceMotion ? false : "hidden"}
-        whileInView="visible"
-        viewport={{
-          once: true,
-          amount: 0.06,
-        }}
-        variants={{
-          hidden: {},
-          visible: {
-            transition: {
-              staggerChildren: 0.06,
-            },
-          },
-        }}
-        className="relative z-10 mx-auto w-full"
-      >
-        {services.map((service, index) => {
-          const active = activeIndex === index;
+        <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#D3E3F5] bg-white/90 px-4 py-2 shadow-[0_10px_30px_-22px_rgba(23,102,214,.38)] backdrop-blur-xl">
+              <span className="h-[7px] w-[7px] rounded-full bg-[#1766D6]" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.17em] text-[#1766D6] sm:text-[11px]">
+                300+ Professional Services
+              </span>
+            </div>
 
-          return (
-            <ServiceCase
+            <h2 className="mt-5 max-w-[800px] pt-2 text-[38px] font-semibold leading-[0.98] tracking-[-0.055em] text-[#0B2A4C] sm:text-[46px] md:text-[54px] lg:text-[60px]">
+              One place for every{" "}
+              <span className="text-[#1766D6]">business essential.</span>
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.08, ease }}
+            viewport={{ once: true, amount: 0.3 }}
+            className="lg:justify-self-end"
+          >
+            <p className="max-w-[560px] text-[14px] leading-7 text-[#647991] sm:text-[15px] lg:text-[16px]">
+              Setup, licensing, tax, compliance and legal work — managed by
+              experienced professionals with clear timelines and end-to-end support.
+            </p>
+
+            <Link
+              href="/contact-us"
+              className="
+                group mt-5 inline-flex items-center gap-2.5
+                text-[13px] font-semibold text-[#0B2A4C]
+                sm:text-[14px]
+              "
+            >
+              Need help choosing?
+              <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#CBDCEB] bg-white text-[#1766D6] transition-all duration-300 group-hover:translate-x-1 group-hover:border-[#1766D6] group-hover:bg-[#1766D6] group-hover:text-white">
+                <ArrowUpRight size={14} />
+              </span>
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* =====================================================
+            PREMIUM SERVICE INDEX
+        ===================================================== */}
+
+        <motion.div
+          variants={reduceMotion ? undefined : listVariants}
+          initial={reduceMotion ? false : "hidden"}
+          whileInView={reduceMotion ? undefined : "show"}
+          viewport={{ once: true, amount: 0.06 }}
+          className="
+            mt-12
+            overflow-hidden
+            rounded-[30px]
+            border border-[#D9E4F0]
+            bg-white/82
+            shadow-[0_30px_90px_-58px_rgba(17,58,105,.34)]
+            backdrop-blur-xl
+            sm:mt-14
+          "
+        >
+          {services.map((service, index) => (
+            <ServiceRow
               key={service.href}
               service={service}
               index={index}
-              active={active}
+              last={index === services.length - 1}
               reduceMotion={Boolean(reduceMotion)}
-              onOpen={() => setActiveIndex(index)}
-              onClose={() => setActiveIndex(null)}
-              onToggle={() => handleToggle(index)}
             />
-          );
-        })}
-      </motion.div>
+          ))}
+        </motion.div>
+
+        {/* =====================================================
+            BOTTOM INFO BAR
+        ===================================================== */}
+
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease }}
+          viewport={{ once: true, amount: 0.3 }}
+          className="
+            mt-7
+            flex
+            flex-col
+            gap-4
+            rounded-[22px]
+            border border-[#DCE6F2]
+            bg-white/70
+            px-5 py-4
+            shadow-[0_18px_50px_-40px_rgba(20,63,110,.28)]
+            backdrop-blur-xl
+            sm:flex-row
+            sm:items-center
+            sm:justify-between
+            sm:px-6
+          "
+        >
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] font-medium text-[#74869A] sm:text-[12px]">
+            <span>✓ Clear documentation</span>
+            <span>✓ Professional filing</span>
+            <span>✓ End-to-end support</span>
+          </div>
+
+          <Link
+            href="/contact-us"
+            className="inline-flex shrink-0 items-center gap-2 text-[12px] font-semibold text-[#1766D6] sm:text-[13px]"
+          >
+            View all services
+            <ArrowUpRight size={14} />
+          </Link>
+        </motion.div>
+      </div>
     </section>
   );
 }
 
 /* =========================================================
-   SERVICE CASE ROW
+   SERVICE ROW
 ========================================================= */
 
-function ServiceCase({
+function ServiceRow({
   service,
   index,
-  active,
+  last,
   reduceMotion,
-  onOpen,
-  onClose,
-  onToggle,
 }: {
   service: ServiceItem;
   index: number;
-  active: boolean;
+  last: boolean;
   reduceMotion: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-  onToggle: () => void;
 }) {
+  const Icon = service.icon;
+
   return (
     <motion.article
-      layout={!reduceMotion}
-      variants={{
-        hidden: {
-          opacity: 0,
-          y: 22,
-        },
-
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.65,
-            ease: [0.16, 1, 0.3, 1],
-          },
-        },
-      }}
-      onMouseEnter={onOpen}
-      onMouseLeave={onClose}
-      className="
+      variants={reduceMotion ? undefined : rowVariants}
+      className={`
         group
         relative
-        -mt-[3px]
-        w-full
-        overflow-visible
-      "
-    >
-      {/* =====================================================
-          TAB / FOLDER SHAPE
-      ===================================================== */}
+        overflow-hidden
+        transition-colors
+        duration-500
 
-      <FolderTab
-        side={service.tabSide}
-        background={service.tone}
-        active={active}
+        hover:bg-[#FBFDFF]
+
+        ${last ? "" : "border-b border-[#E4EAF1]"}
+      `}
+    >
+      {/* HOVER ACCENT */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          bottom-0
+          left-0
+          top-0
+          w-[3px]
+          scale-y-0
+          origin-center
+          transition-transform
+          duration-500
+          group-hover:scale-y-100
+        "
+        style={{ backgroundColor: service.accent }}
       />
 
-      {/* =====================================================
-          MAIN CASE
-      ===================================================== */}
-
-      <motion.div
-        layout={!reduceMotion}
-        style={{
-          backgroundColor: service.tone,
-        }}
-        className={`
-          relative
-          overflow-hidden
-          rounded-[16px]
-          border-[3px]
-          border-white
-          transition-[box-shadow,filter]
+      {/* HOVER GLOW */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute
+          -left-24
+          top-1/2
+          h-[180px]
+          w-[180px]
+          -translate-y-1/2
+          rounded-full
+          opacity-0
+          blur-[65px]
+          transition-opacity
           duration-500
-          ${active ? "shadow-[0_22px_55px_rgba(23,102,214,0.16)]" : ""}
-        `}
+          group-hover:opacity-100
+        "
+        style={{ backgroundColor: service.soft }}
+      />
+
+      <div
+        className="
+          relative
+          z-10
+          grid
+          grid-cols-[auto_minmax(0,1fr)_auto]
+          items-center
+          gap-4
+          px-5
+          py-5
+
+          sm:gap-5
+          sm:px-6
+          sm:py-6
+
+          md:grid-cols-[58px_1fr_1.2fr_auto]
+
+          lg:grid-cols-[70px_1.05fr_1.35fr_210px_48px]
+          lg:gap-7
+          lg:px-8
+          lg:py-5
+        "
       >
-        {/* CLICK LAYER FOR MOBILE */}
+        {/* NUMBER */}
+        <div className="hidden text-[11px] font-semibold tracking-[0.15em] text-[#A1ADBA] md:block">
+          {String(index + 1).padStart(2, "0")}
+        </div>
 
-        <button
-          type="button"
-          aria-expanded={active}
-          onClick={onToggle}
-          className="
-            absolute
-            inset-0
-            z-[5]
-            cursor-pointer
-            lg:hidden
-          "
-        >
-          <span className="sr-only">
-            Toggle details for {service.title}
-          </span>
-        </button>
-
-        {/* subtle texture */}
-
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            inset-0
-            opacity-[0.12]
-          "
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(23,102,214,.16) 0.65px, transparent 0.7px)",
-            backgroundSize: "18px 18px",
-          }}
-        />
-
-        {/* =====================================================
-            COLLAPSED TOP ROW
-        ===================================================== */}
-
-        <div
-          className="
-            relative
-            z-10
-            grid
-            min-h-[104px]
-            grid-cols-[minmax(0,1fr)_auto]
-            items-center
-            gap-4
-            px-5
-            py-6
-
-            sm:min-h-[110px]
-            sm:px-8
-
-            md:grid-cols-[1fr_0.65fr_auto]
-            md:px-10
-
-            lg:min-h-[112px]
-            lg:grid-cols-[1fr_0.85fr_1fr]
-            lg:px-[5%]
-          "
-        >
-          {/* TITLE */}
+        {/* TITLE BLOCK */}
+        <div className="flex min-w-0 items-center gap-3">
+          <div
+            className="
+              flex h-11 w-11 shrink-0 items-center justify-center
+              rounded-[14px] border
+              shadow-[0_10px_24px_-18px_rgba(20,50,90,.30)]
+              transition-transform duration-300
+              group-hover:scale-105
+            "
+            style={{
+              backgroundColor: service.soft,
+              borderColor: `${service.accent}22`,
+              color: service.accent,
+            }}
+          >
+            <Icon size={19} strokeWidth={1.9} />
+          </div>
 
           <div className="min-w-0">
-            <div
-              className="
-                mb-1
-                text-[9px]
-                font-semibold
-                uppercase
-                tracking-[0.14em]
-                text-[#1766D6]/55
-                sm:text-[10px]
-              "
+            <p
+              className="text-[9px] font-bold uppercase tracking-[0.15em] sm:text-[9.5px]"
+              style={{ color: service.accent }}
             >
-              {String(index + 1).padStart(2, "0")}
-            </div>
+              {service.category}
+            </p>
 
-            <h3
-              className="
-                text-[20px]
-                font-medium
-                leading-[1.15]
-                tracking-[-0.035em]
-                text-[#0A2F5E]
-
-                sm:text-[23px]
-                lg:text-[25px]
-              "
-            >
+            <h3 className="mt-1 truncate text-[18px] font-semibold tracking-[-0.03em] text-[#102A45] sm:text-[20px] lg:text-[21px]">
               {service.title}
             </h3>
           </div>
+        </div>
 
-          {/* CATEGORY */}
+        {/* DESCRIPTION */}
+        <p className="hidden text-[12px] leading-[1.65] text-[#6D8095] md:block lg:text-[13px]">
+          {service.description}
+        </p>
 
-          <div
-            className="
-              hidden
-              text-[16px]
-              font-normal
-              tracking-[-0.025em]
-              text-[#285F9F]
-
-              md:block
-              lg:text-[19px]
-            "
-          >
-            {service.category}
-          </div>
-
-          {/* CTA / RESULT */}
-
-          <div
-            className="
-              flex
-              items-center
-              justify-end
-              gap-3
-              text-right
-            "
-          >
-            <span
+        {/* IMAGE */}
+        <div className="hidden lg:block">
+          <div className="relative h-[86px] w-[190px] overflow-hidden rounded-[16px] bg-[#EDF3F9]">
+            <img
+              src={service.image}
+              alt={service.title}
+              loading="lazy"
+              draggable={false}
               className="
-                hidden
-                text-[14px]
-                font-semibold
-                tracking-[-0.025em]
-                text-[#0A2F5E]
-
-                sm:block
-                text-[#1766D6]
-                lg:text-[18px]
+                h-full w-full object-cover
+                transition-transform duration-700 ease-out
+                group-hover:scale-[1.07]
               "
-            >
-              {service.cta}
-            </span>
+            />
 
-            <span
-              className={`
-                flex
-                h-10
-                w-10
-                shrink-0
-                items-center
-                justify-center
-                rounded-full
-                border
-                border-[#1766D6]/20
-                bg-white/30
-                text-[#0A2F5E]
-                backdrop-blur-sm
-                transition-all
-                duration-500
-
-                ${
-                  active
-                    ? "rotate-45 bg-white/75"
-                    : "rotate-0"
-                }
-              `}
-            >
-              <PlusIcon />
-            </span>
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-transparent" />
           </div>
         </div>
 
-        {/* =====================================================
-            EXPANDED CONTENT
-        ===================================================== */}
+        {/* ARROW */}
+        <Link
+          href={service.href}
+          aria-label={service.cta}
+          className="
+            flex h-10 w-10 shrink-0 items-center justify-center
+            rounded-full border border-[#D1DDE9]
+            bg-white
+            text-[#1766D6]
+            shadow-[0_8px_20px_-16px_rgba(17,58,105,.28)]
+            transition-all duration-300
 
-        <AnimatePresence initial={false}>
-          {active && (
-            <motion.div
-              key="details"
-              initial={
-                reduceMotion
-                  ? false
-                  : {
-                      height: 0,
-                      opacity: 0,
-                    }
-              }
-              animate={{
-                height: "auto",
-                opacity: 1,
-              }}
-              exit={{
-                height: 0,
-                opacity: 0,
-              }}
-              transition={{
-                height: {
-                  duration: 0.58,
-                  ease: [0.16, 1, 0.3, 1],
-                },
-                opacity: {
-                  duration: 0.32,
-                },
-              }}
-              className="relative z-20 overflow-hidden"
-            >
-              <div
-                className="
-                  grid
-                  gap-7
-                  px-5
-                  pb-8
-                  pt-1
+            group-hover:translate-x-1
+            group-hover:border-[#1766D6]
+            group-hover:bg-[#1766D6]
+            group-hover:text-white
+          "
+        >
+          <ArrowUpRight size={15} />
+        </Link>
+      </div>
 
-                  sm:px-8
-                  sm:pb-10
+      {/* MOBILE DESCRIPTION + CTA */}
+      <div className="relative z-10 px-5 pb-5 md:hidden">
+        <p className="text-[12.5px] leading-[1.65] text-[#6D8095]">
+          {service.description}
+        </p>
 
-                  md:grid-cols-[minmax(0,1fr)_300px]
-                  md:items-end
-                  md:px-10
-
-                  lg:min-h-[230px]
-                  lg:grid-cols-[minmax(0,0.9fr)_minmax(320px,0.7fr)]
-                  lg:px-[5%]
-                  lg:pb-10
-                "
-              >
-                {/* DESCRIPTION */}
-
-                <motion.div
-                  initial={
-                    reduceMotion
-                      ? false
-                      : {
-                          opacity: 0,
-                          y: 16,
-                      }
-                  }
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    delay: 0.08,
-                    duration: 0.5,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  className="
-                    max-w-[620px]
-                    self-center
-                  "
-                >
-                  <p
-                    className="
-                      text-[13px]
-                      leading-[1.65]
-                      text-[#405977]
-
-                      sm:text-[14px]
-                      md:text-[15px]
-                      lg:text-[16px]
-                    "
-                  >
-                    {service.description}
-                  </p>
-
-                  <Link
-                    href={service.href}
-                    onClick={(event) => event.stopPropagation()}
-                    className="
-                      relative
-                      z-30
-                      mt-6
-                      inline-flex
-                      items-center
-                      gap-3
-                      text-[12px]
-                      font-semibold
-                      text-[#0A2F5E]
-
-                      sm:text-[13px]
-                    "
-                  >
-                    {service.cta}
-
-                    <span
-                      className="
-                        flex
-                        h-8
-                        w-8
-                        items-center
-                        justify-center
-                        rounded-full
-                        bg-[#1766D6]
-                        text-white
-                        transition-transform
-                        duration-300
-                        hover:translate-x-1
-                      "
-                    >
-                      <ArrowIcon />
-                    </span>
-                  </Link>
-                </motion.div>
-
-                {/* IMAGE */}
-
-                <motion.div
-                  initial={
-                    reduceMotion
-                      ? false
-                      : {
-                          opacity: 0,
-                          y: 28,
-                          rotate: 2,
-                          scale: 0.96,
-                        }
-                  }
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                    rotate: -1.5,
-                    scale: 1,
-                  }}
-                  transition={{
-                    delay: 0.06,
-                    duration: 0.65,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  className="
-                    relative
-                    ml-auto
-                    w-full
-                    max-w-[360px]
-                  "
-                >
-                  <div
-                    className="
-                      relative
-                      aspect-[16/9]
-                      overflow-hidden
-                      bg-[#DCEBFF]
-                      shadow-[0_18px_40px_rgba(0,0,0,0.16)]
-                    "
-                  >
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                      loading="lazy"
-                      draggable={false}
-                      className="
-                        h-full
-                        w-full
-                        object-cover
-                        transition-transform
-                        duration-700
-                        ease-out
-                        group-hover:scale-[1.035]
-                      "
-                    />
-
-                    <div
-                      className="
-                        pointer-events-none
-                        absolute
-                        inset-0
-                        bg-gradient-to-t
-                        from-black/15
-                        via-transparent
-                        to-transparent
-                      "
-                    />
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+        <Link
+          href={service.href}
+          className="mt-3 inline-flex items-center gap-2 text-[12px] font-semibold"
+          style={{ color: service.accent }}
+        >
+          {service.cta}
+          <ArrowUpRight size={13} />
+        </Link>
+      </div>
     </motion.article>
-  );
-}
-
-/* =========================================================
-   FOLDER TAB
-========================================================= */
-
-function FolderTab({
-  side,
-  background,
-  active,
-}: {
-  side: "left" | "right";
-  background: string;
-  active: boolean;
-}) {
-  return (
-    <div
-      aria-hidden="true"
-      style={{
-        backgroundColor: background,
-      }}
-      className={`
-        pointer-events-none
-        absolute
-        top-[-27px]
-        z-20
-        h-[32px]
-        w-[150px]
-        border-[3px]
-        border-white
-        transition-all
-        duration-500
-
-        sm:w-[160px]
-        lg:w-[170px]
-
-        ${
-          side === "left"
-            ? `
-                left-[11%]
-                rounded-tl-[14px]
-                rounded-tr-[14px]
-              `
-            : `
-                right-[16%]
-                rounded-tl-[14px]
-                rounded-tr-[14px]
-              `
-        }
-
-        ${active ? "top-[-31px]" : ""}
-      `}
-    >
-      {/* LEFT CONNECTOR */}
-
-      <span
-        style={{
-          backgroundColor: background,
-        }}
-        className="
-          absolute
-          -left-[22px]
-          bottom-[-3px]
-          h-[18px]
-          w-[28px]
-          rotate-[-48deg]
-          border-l-[3px]
-          border-white
-        "
-      />
-
-      {/* RIGHT CONNECTOR */}
-
-      <span
-        style={{
-          backgroundColor: background,
-        }}
-        className="
-          absolute
-          -right-[22px]
-          bottom-[-3px]
-          h-[18px]
-          w-[28px]
-          rotate-[48deg]
-          border-r-[3px]
-          border-white
-        "
-      />
-    </div>
-  );
-}
-
-/* =========================================================
-   ICONS
-========================================================= */
-
-function PlusIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className="h-[16px] w-[16px]"
-      aria-hidden="true"
-    >
-      <path
-        d="M12 5v14M5 12h14"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function ArrowIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className="h-[14px] w-[14px]"
-      aria-hidden="true"
-    >
-      <path
-        d="M5 12h13M13 7l5 5-5 5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }

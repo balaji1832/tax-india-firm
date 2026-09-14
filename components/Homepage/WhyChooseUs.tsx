@@ -5,12 +5,6 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 /* =========================================================
    FEATURE DATA
-
-   PUT YOUR ICONS HERE:
-   public/images/why-choose-us/
-
-   Example:
-   public/images/why-choose-us/services.png
 ========================================================= */
 
 const leftFeatures = [
@@ -71,7 +65,6 @@ const containerVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
-      // Slightly slower stagger so every item has time to settle naturally.
       staggerChildren: 0.18,
       delayChildren: 0.16,
     },
@@ -131,8 +124,18 @@ const centerVariants: Variants = {
 };
 
 const reducedItemVariants: Variants = {
-  hidden: { opacity: 1, x: 0, y: 0, scale: 1 },
-  visible: { opacity: 1, x: 0, y: 0, scale: 1 },
+  hidden: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    scale: 1,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    scale: 1,
+  },
 };
 
 /* =========================================================
@@ -166,17 +169,28 @@ function FeatureItem({
       }
       whileHover={reduceMotion ? undefined : { y: -4 }}
       transition={{
-        y: { duration: 0.52, ease: PREMIUM_EASE },
+        y: {
+          duration: 0.52,
+          ease: PREMIUM_EASE,
+        },
       }}
       className={`
-        group relative flex w-full items-center gap-4
+        group
+        relative
+        flex
+        w-full
+        items-center
+        gap-4
         rounded-[24px]
-        border border-white/70
+        border
+        border-white/70
         bg-white/45
-        px-4 py-4
+        px-4
+        py-4
         backdrop-blur-md
         transform-gpu
         will-change-transform
+
         transition-[border-color,background-color,box-shadow]
         duration-700
         ease-[cubic-bezier(0.16,1,0.3,1)]
@@ -198,23 +212,28 @@ function FeatureItem({
         }
       `}
     >
-      {/* ======================================
-          ICON
-
-          These are your custom icon images.
-      ====================================== */}
+      {/* ICON */}
 
       <div
         className={`
-          relative flex h-[62px] w-[62px] shrink-0
-          items-center justify-center
+          relative
+          flex
+          h-[62px]
+          w-[62px]
+          shrink-0
+          items-center
+          justify-center
           rounded-[19px]
-          border border-white
+          border
+          border-white
           bg-white
           shadow-[0_10px_35px_rgba(25,62,118,0.08)]
           transform-gpu
-          transition-transform duration-700
+
+          transition-transform
+          duration-700
           ease-[cubic-bezier(0.16,1,0.3,1)]
+
           group-hover:scale-[1.06]
 
           sm:h-[68px]
@@ -223,7 +242,16 @@ function FeatureItem({
           ${isLeft ? "lg:order-2" : ""}
         `}
       >
-        <div className="absolute inset-2 rounded-[14px] bg-gradient-to-br from-blue-50 to-indigo-50" />
+        <div
+          className="
+            absolute
+            inset-2
+            rounded-[14px]
+            bg-gradient-to-br
+            from-blue-50
+            to-indigo-50
+          "
+        />
 
         <Image
           src={icon}
@@ -231,10 +259,12 @@ function FeatureItem({
           width={46}
           height={46}
           className="
-            relative z-10
+            relative
+            z-10
             h-[40px]
             w-[40px]
             object-contain
+
             sm:h-[44px]
             sm:w-[44px]
           "
@@ -245,7 +275,9 @@ function FeatureItem({
 
       <div
         className={`
-          min-w-0 flex-1
+          min-w-0
+          flex-1
+
           ${isLeft ? "lg:order-1" : ""}
         `}
       >
@@ -256,6 +288,7 @@ function FeatureItem({
             leading-[1.2]
             tracking-[-0.02em]
             text-[#10233D]
+
             sm:text-[20px]
           "
         >
@@ -269,6 +302,7 @@ function FeatureItem({
             font-normal
             leading-[1.7]
             text-[#66758A]
+
             sm:text-[14px]
           "
         >
@@ -281,16 +315,20 @@ function FeatureItem({
       <div
         className="
           pointer-events-none
-          absolute inset-x-7 bottom-0
+          absolute
+          inset-x-7
+          bottom-0
           h-px
           scale-x-0
           bg-gradient-to-r
           from-transparent
           via-[#2563EB]/55
           to-transparent
+
           transition-transform
           duration-700
           ease-[cubic-bezier(0.16,1,0.3,1)]
+
           group-hover:scale-x-100
         "
       />
@@ -299,7 +337,7 @@ function FeatureItem({
 }
 
 /* =========================================================
-   CENTER PREMIUM ANIMATION
+   CENTER PREMIUM VISUAL
 ========================================================= */
 
 function PremiumCenterVisual() {
@@ -325,9 +363,7 @@ function PremiumCenterVisual() {
         lg:max-w-[460px]
       "
     >
-      {/* =====================================================
-          BACKGROUND GLOW
-      ===================================================== */}
+      {/* BACKGROUND GLOW */}
 
       <motion.div
         animate={
@@ -364,7 +400,8 @@ function PremiumCenterVisual() {
           h-[290px]
           w-[290px]
           rounded-full
-          border border-[#2563EB]/10
+          border
+          border-[#2563EB]/10
 
           sm:h-[350px]
           sm:w-[350px]
@@ -382,7 +419,9 @@ function PremiumCenterVisual() {
           h-[235px]
           w-[235px]
           rounded-full
-          border border-dashed border-[#2563EB]/20
+          border
+          border-dashed
+          border-[#2563EB]/20
 
           sm:h-[280px]
           sm:w-[280px]
@@ -392,9 +431,7 @@ function PremiumCenterVisual() {
         "
       />
 
-      {/* =====================================================
-          ROTATING ORBIT 1
-      ===================================================== */}
+      {/* ROTATING ORBIT 1 */}
 
       <motion.div
         animate={
@@ -422,8 +459,6 @@ function PremiumCenterVisual() {
           lg:w-[400px]
         "
       >
-        {/* orbit point */}
-
         <div
           className="
             absolute
@@ -452,9 +487,7 @@ function PremiumCenterVisual() {
         />
       </motion.div>
 
-      {/* =====================================================
-          ROTATING ORBIT 2 - REVERSE
-      ===================================================== */}
+      {/* ROTATING ORBIT 2 */}
 
       <motion.div
         animate={
@@ -497,9 +530,7 @@ function PremiumCenterVisual() {
         />
       </motion.div>
 
-      {/* =====================================================
-          FLOATING GLASS BADGE - TOP LEFT
-      ===================================================== */}
+      {/* FLOATING BADGE - TOP LEFT */}
 
       <motion.div
         animate={
@@ -522,18 +553,25 @@ function PremiumCenterVisual() {
           z-20
           hidden
           rounded-2xl
-          border border-white/80
+          border
+          border-white/80
           bg-white/75
-          px-3.5 py-2.5
+          px-3.5
+          py-2.5
           shadow-[0_14px_35px_rgba(27,63,117,0.10)]
           backdrop-blur-xl
+
           sm:block
         "
       >
         <div className="flex items-center gap-2.5">
           <div
             className="
-              flex h-8 w-8 items-center justify-center
+              flex
+              h-8
+              w-8
+              items-center
+              justify-center
               rounded-xl
               bg-[#ECF4FF]
             "
@@ -566,9 +604,7 @@ function PremiumCenterVisual() {
         </div>
       </motion.div>
 
-      {/* =====================================================
-          FLOATING GLASS BADGE - BOTTOM RIGHT
-      ===================================================== */}
+      {/* FLOATING BADGE - BOTTOM RIGHT */}
 
       <motion.div
         animate={
@@ -592,18 +628,25 @@ function PremiumCenterVisual() {
           z-20
           hidden
           rounded-2xl
-          border border-white/80
+          border
+          border-white/80
           bg-white/75
-          px-3.5 py-2.5
+          px-3.5
+          py-2.5
           shadow-[0_14px_35px_rgba(27,63,117,0.10)]
           backdrop-blur-xl
+
           sm:block
         "
       >
         <div className="flex items-center gap-2.5">
           <div
             className="
-              flex h-8 w-8 items-center justify-center
+              flex
+              h-8
+              w-8
+              items-center
+              justify-center
               rounded-xl
               bg-[#EEF9F5]
             "
@@ -659,17 +702,20 @@ function PremiumCenterVisual() {
           justify-center
           overflow-hidden
           rounded-[48px]
-          border border-white/90
+          border
+          border-white/90
           bg-white/70
+          px-4
           shadow-[0_30px_90px_rgba(28,68,128,0.14)]
           backdrop-blur-2xl
 
           sm:h-[205px]
           sm:w-[205px]
           sm:rounded-[58px]
+          sm:px-5
         "
       >
-        {/* blue top glow */}
+        {/* BLUE GLOW */}
 
         <div
           className="
@@ -684,57 +730,92 @@ function PremiumCenterVisual() {
           "
         />
 
-        {/* icon */}
+        {/* =========================================
+            TAX INDIA LOGO
+        ========================================= */}
 
-        <div
+        <motion.div
+          whileHover={
+            reduceMotion
+              ? undefined
+              : {
+                  scale: 1.06,
+                }
+          }
+          transition={{
+            duration: 0.45,
+            ease: PREMIUM_EASE,
+          }}
           className="
             relative
+            z-10
             flex
-            h-[62px]
-            w-[62px]
+            h-[64px]
+            w-[64px]
+            shrink-0
             items-center
             justify-center
-            rounded-[20px]
-            bg-gradient-to-br
-            from-[#2563EB]
-            to-[#497CF4]
-            shadow-[0_16px_35px_rgba(37,99,235,0.25)]
+            overflow-hidden
+            rounded-[18px]
+            border
+            border-white/90
+            bg-white
+            p-[6px]
+            shadow-[0_12px_32px_rgba(30,64,120,0.14)]
 
-            sm:h-[70px]
-            sm:w-[70px]
+            sm:h-[74px]
+            sm:w-[74px]
+            sm:rounded-[20px]
+            sm:p-[7px]
+
+            lg:h-[78px]
+            lg:w-[78px]
           "
         >
-          <svg
-            width="34"
-            height="34"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M12 3L19 6V11C19 15.6 16.1 19.3 12 21C7.9 19.3 5 15.6 5 11V6L12 3Z"
-              stroke="white"
-              strokeWidth="1.7"
-              strokeLinejoin="round"
-            />
+          <div
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              bg-gradient-to-br
+              from-[#F8FBFF]
+              via-white
+              to-[#EDF4FF]
+            "
+          />
 
-            <path
-              d="M8.6 12L10.8 14.2L15.7 9.3"
-              stroke="white"
-              strokeWidth="1.9"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
+          <Image
+            src="/icons/taxindia-logo.png"
+            alt="Tax India Firm"
+            width={100}
+            height={100}
+            priority
+            className="
+              relative
+              z-10
+              h-full
+              w-full
+              object-contain
+            "
+          />
+        </motion.div>
 
         <p
           className="
-            mt-4
-            text-[10px]
+            relative
+            z-10
+            mt-3
+            text-center
+            text-[8px]
             font-semibold
             uppercase
-            tracking-[0.2em]
+            leading-[1.4]
+            tracking-[0.16em]
             text-[#7D8CA1]
+
+            sm:mt-4
+            sm:text-[10px]
+            sm:tracking-[0.2em] p-2
           "
         >
           Why Tax India Firm
@@ -742,12 +823,17 @@ function PremiumCenterVisual() {
 
         <p
           className="
-            mt-1.5
+            relative
+            z-10
+            mt-1
             text-center
-            text-[17px]
+            text-[15px]
             font-bold
+            leading-[1.15]
             tracking-[-0.03em]
             text-[#10233D]
+
+            sm:mt-1.5
             sm:text-[19px]
           "
         >
@@ -756,11 +842,16 @@ function PremiumCenterVisual() {
 
         <p
           className="
+            relative
+            z-10
             mt-1
             text-center
-            text-[11px]
+            text-[9px]
             font-medium
+            leading-[1.4]
             text-[#718197]
+
+            sm:text-[11px]
           "
         >
           Simple. Reliable. Professional.
@@ -788,12 +879,10 @@ export default function WhyChooseUs() {
         xl:py-32
       "
     >
-      {/* =====================================================
-          PREMIUM BACKGROUND
-      ===================================================== */}
+      {/* PREMIUM BACKGROUND */}
 
       <div className="pointer-events-none absolute inset-0">
-        {/* top glow */}
+        {/* TOP GLOW */}
 
         <div
           className="
@@ -809,7 +898,7 @@ export default function WhyChooseUs() {
           "
         />
 
-        {/* left glow */}
+        {/* LEFT GLOW */}
 
         <div
           className="
@@ -824,7 +913,7 @@ export default function WhyChooseUs() {
           "
         />
 
-        {/* right glow */}
+        {/* RIGHT GLOW */}
 
         <div
           className="
@@ -839,22 +928,24 @@ export default function WhyChooseUs() {
           "
         />
 
-        {/* tiny grid */}
+        {/* GRID */}
 
         <div
           className="
-            absolute inset-0
+            absolute
+            inset-0
             opacity-[0.22]
             [background-image:linear-gradient(rgba(58,91,145,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(58,91,145,0.06)_1px,transparent_1px)]
             [background-size:46px_46px]
           "
         />
 
-        {/* fade */}
+        {/* FADE */}
 
         <div
           className="
-            absolute inset-0
+            absolute
+            inset-0
             bg-gradient-to-b
             from-white/15
             via-transparent
@@ -877,9 +968,7 @@ export default function WhyChooseUs() {
           xl:px-16
         "
       >
-        {/* =====================================================
-            SECTION HEADING
-        ===================================================== */}
+        {/* SECTION HEADING */}
 
         <motion.div
           initial={{
@@ -904,7 +993,7 @@ export default function WhyChooseUs() {
             text-center
           "
         >
-          {/* small label */}
+          {/* SMALL LABEL */}
 
           <div className="flex items-center justify-center gap-4">
             <span
@@ -913,6 +1002,7 @@ export default function WhyChooseUs() {
                 h-px
                 w-[50px]
                 bg-[#23446E]/30
+
                 sm:block
               "
             />
@@ -935,6 +1025,7 @@ export default function WhyChooseUs() {
                 h-px
                 w-[50px]
                 bg-[#23446E]/30
+
                 sm:block
               "
             />
@@ -949,17 +1040,14 @@ export default function WhyChooseUs() {
               tracking-[-0.045em]
               text-[#10233D]
 
-              sm:text-[38px] pt-3
+              sm:pt-3
+              sm:text-[38px]
+
               lg:text-[44px]
             "
           >
             What Makes Us{" "}
-            <span
-              className="
-                
-                text-[#2D8CFF] 
-              "
-            >
+            <span className="text-[#2D8CFF]">
               Different
             </span>
           </h2>
@@ -970,9 +1058,10 @@ export default function WhyChooseUs() {
               mt-4
               max-w-[590px]
               text-[14px]
-              leading-[1.75] pt-3
+              leading-[1.75]
               text-[#6B798D]
 
+              sm:pt-3
               sm:text-[15px]
             "
           >
@@ -981,9 +1070,7 @@ export default function WhyChooseUs() {
           </p>
         </motion.div>
 
-        {/* =====================================================
-            DESKTOP / TABLET CONTENT
-        ===================================================== */}
+        {/* MAIN CONTENT */}
 
         <motion.div
           variants={containerVariants}
@@ -995,7 +1082,6 @@ export default function WhyChooseUs() {
           }}
           className="
             mt-14
-
             grid
             grid-cols-1
             items-center
@@ -1009,9 +1095,7 @@ export default function WhyChooseUs() {
             xl:gap-10
           "
         >
-          {/* ===================================================
-              LEFT FEATURES
-          =================================================== */}
+          {/* LEFT FEATURES */}
 
           <div
             className="
@@ -1038,17 +1122,13 @@ export default function WhyChooseUs() {
             ))}
           </div>
 
-          {/* ===================================================
-              CENTER PREMIUM ANIMATION
-          =================================================== */}
+          {/* CENTER */}
 
           <div className="order-1 lg:order-2">
             <PremiumCenterVisual />
           </div>
 
-          {/* ===================================================
-              RIGHT FEATURES
-          =================================================== */}
+          {/* RIGHT FEATURES */}
 
           <div
             className="

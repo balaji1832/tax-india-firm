@@ -218,6 +218,7 @@ export default function FinalCtaBanner() {
           justify-center
 
           overflow-hidden
+          [transform:translateZ(0)]
 
           rounded-[28px]
 
@@ -265,7 +266,17 @@ export default function FinalCtaBanner() {
           }}
         />
 
-        {/* blue subtle center glow */}
+        {/* =====================================================
+            DESKTOP / TABLET BLUE CENTER GLOW
+
+            IMPORTANT:
+            Heavy animated CSS blur can render as a visible blue
+            rectangle / gradient block on some mobile browsers,
+            especially mobile Safari and lower-end Android devices.
+
+            Keep the exact same visual on md+ screens and do not
+            render the GPU-heavy blur below 768px.
+        ===================================================== */}
 
         <motion.div
           aria-hidden="true"
@@ -289,6 +300,9 @@ export default function FinalCtaBanner() {
             left-1/2
             top-1/2
 
+            hidden
+            md:block
+
             h-[320px]
             w-[500px]
 
@@ -300,7 +314,43 @@ export default function FinalCtaBanner() {
             bg-[#2563EB]
 
             blur-[120px]
+
+            transform-gpu
+            will-change-transform
           "
+        />
+
+        {/* =====================================================
+            MOBILE-SAFE SOFT LIGHT
+
+            Uses a normal radial gradient instead of filter: blur,
+            so there is no blue rectangle / gradient rendering bug.
+        ===================================================== */}
+
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+
+            absolute
+            left-1/2
+            top-1/2
+
+            block
+            md:hidden
+
+            h-[300px]
+            w-[min(92vw,420px)]
+
+            -translate-x-1/2
+            -translate-y-1/2
+
+            rounded-full
+          "
+          style={{
+            background:
+              "radial-gradient(circle at center, rgba(37,99,235,0.055) 0%, rgba(37,99,235,0.025) 34%, rgba(37,99,235,0) 72%)",
+          }}
         />
 
         {/* =====================================================

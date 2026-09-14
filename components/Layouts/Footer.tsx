@@ -246,26 +246,26 @@ export default function Footer({
             TOP SERVICES
         ===================================================== */}
 
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 py-12 sm:grid-cols-2 sm:py-14 lg:grid-cols-4 lg:gap-x-10 lg:py-16">
+        <div className="grid grid-cols-2 gap-x-5 gap-y-10 py-10 sm:gap-x-8 sm:py-14 lg:grid-cols-4 lg:gap-x-10 lg:py-16">
           {footerSections.map((section) => (
             <section key={section.title} className="min-w-0">
               <Link
                 href={section.href}
-                className="group inline-flex items-center gap-2 font-heading text-[15px] font-bold tracking-[-0.015em] !text-white transition-colors duration-300 hover:!text-[#AEE1FF] sm:text-[16px]"
+                className="group inline-flex items-start gap-1.5 font-heading text-[13px] font-bold leading-[1.35] tracking-[-0.015em] !text-white transition-colors duration-300 hover:!text-[#AEE1FF] sm:items-center sm:gap-2 sm:text-[16px]"
               >
                 {section.title}
 
                 <span className="h-[5px] w-[5px] rounded-full bg-[#2D93E5] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               </Link>
 
-              <ul className="mt-5 space-y-3">
+              <ul className="mt-4 space-y-2.5 sm:mt-5 sm:space-y-3">
                 {section.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="group inline-flex max-w-full items-start gap-2.5 font-body text-[12.5px] leading-[1.55] !text-white/80 transition-colors duration-300 hover:!text-white sm:text-[13px]"
+                      className="group inline-flex max-w-full items-start gap-1.5 font-body text-[10.5px] leading-[1.55] !text-white/80 transition-colors duration-300 hover:!text-white min-[400px]:text-[11px] sm:gap-2.5 sm:text-[13px]"
                     >
-                      <ChevronIcon className="mt-[3px] h-[13px] w-[13px] shrink-0 text-[#2995EA] transition-transform duration-300 group-hover:translate-x-1" />
+                      <ChevronIcon className="mt-[3px] h-[11px] w-[11px] shrink-0 text-[#2995EA] transition-transform duration-300 group-hover:translate-x-1 sm:h-[13px] sm:w-[13px]" />
 
                       <span className="break-words transition-transform duration-300 group-hover:translate-x-[2px]">
                         {link.name}

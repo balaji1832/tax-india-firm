@@ -19,14 +19,14 @@ export default function Home() {
 
    <WhyChooseUs />
 
+   <WhyTaxIndiaFirm />
+
     <ServicesSection />
+    
 
-    <HowItWorks />
-
+    {/* <HowItWorks /> */}
 
     <StartupPackages />
-
-    <WhyTaxIndiaFirm />
 
    <ClientTestimonials />
 

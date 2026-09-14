@@ -239,13 +239,13 @@ export default function StartupPackages() {
       <div
         className="
           relative
-          h-[330px]
+          h-[360px]
           overflow-hidden
 
-          sm:h-[345px]
-          md:h-[355px]
-          lg:h-[365px]
-          xl:h-[375px]
+          sm:h-[380px]
+          md:h-[395px]
+          lg:h-[410px]
+          xl:h-[425px]
         "
       >
         {/* BLUE BACKGROUND */}
@@ -407,7 +407,7 @@ export default function StartupPackages() {
 
             <span
               className="
-                text-[8px]
+                text-[11px]
                 font-bold
                 uppercase
 
@@ -415,7 +415,7 @@ export default function StartupPackages() {
 
                 !text-white
 
-                sm:text-[8.5px]
+                sm:text-[14px]
               "
             >
               Startup Packages
@@ -434,9 +434,9 @@ export default function StartupPackages() {
               mt-4
               pt-3
 
-              max-w-[650px]
+              max-w-[750px]
 
-              text-[28px]
+              text-[32px]
               font-semibold
 
               leading-[1.06]
@@ -444,9 +444,9 @@ export default function StartupPackages() {
 
               !text-white
 
-              sm:text-[34px]
-              md:text-[38px]
-              lg:text-[41px]
+              sm:text-[40px]
+              md:text-[46px]
+              lg:text-[52px]
             "
           >
             Launch Your Business with us 
@@ -463,13 +463,13 @@ export default function StartupPackages() {
 
               max-w-[550px]
 
-              text-[10px]
-              leading-[1.65]
+              text-[14px]
+              leading-[1.7]
 
               !text-white/75
 
-              sm:text-[10.5px]
-              md:text-[11px] pt-3
+              sm:text-[13px]
+              md:text-[16px] pt-3
             "
           >
            Choose your perfect plan. Pre built bundles for business peoples
@@ -512,20 +512,22 @@ export default function StartupPackages() {
           hidden
 
           w-full
-          max-w-[1160px]
+          max-w-[1280px]
 
           grid-cols-3
           items-stretch
 
-          gap-[18px]
+          gap-[24px]
 
-          px-6
+          px-5
 
           lg:grid
           lg:-mt-[92px]
 
-          xl:max-w-[1210px]
-          xl:gap-[20px]
+          xl:max-w-[1380px]
+          2xl:max-w-[1460px]
+          xl:gap-[28px]
+          2xl:gap-[30px]
         "
       >
         {packages.map(
@@ -653,15 +655,15 @@ export default function StartupPackages() {
 
                     px-4
 
-                    sm:px-14
+                    sm:px-10
 
-                    md:px-[100px]
+                    md:px-[64px]
                   "
                 >
                   <div
                     className="
                       mx-auto
-                      max-w-[430px]
+                      max-w-[500px]
                     "
                   >
                     <PricingCard
@@ -686,7 +688,7 @@ export default function StartupPackages() {
             mt-5
 
             flex
-            max-w-[430px]
+            max-w-[500px]
 
             items-center
             justify-between
@@ -913,11 +915,11 @@ function PricingCard({
 
             <span
               className="
-                text-[8px]
+                text-[11px]
                 font-bold
                 uppercase
                 tracking-[0.14em]
-                sm:text-[8.5px]
+                sm:text-[12px]
               "
               style={{ color: theme.accent }}
             >
@@ -955,13 +957,14 @@ function PricingCard({
           ${
             mobile
               ? `
-                  min-h-[465px]
-                  sm:min-h-[450px]
-                  md:min-h-[455px]
+                  min-h-[500px]
+                  sm:min-h-[500px]
+                  md:min-h-[500px]
                 `
               : `
-                  lg:h-[430px]
-                  xl:h-[444px]
+                  lg:h-[500px]
+                  xl:h-[500px]
+                  2xl:h-[500px]
                 `
           }
         `}
@@ -1045,13 +1048,13 @@ function PricingCard({
                 items-center
                 justify-center
                 rounded-full
-                text-[11px]
+                text-[13px]
                 font-bold
                 text-white
                 shadow-[0_8px_20px_-12px_rgba(0,0,0,.30)]
                 sm:h-[36px]
                 sm:w-[36px]
-                sm:text-[12px]
+                sm:text-[14px]
               "
               style={{
                 background: theme.accent,
@@ -1064,11 +1067,11 @@ function PricingCard({
               <div className="flex items-center justify-between gap-3">
                 <p
                   className="
-                    text-[8px]
+                    text-[10px]
                     font-bold
                     uppercase
                     tracking-[0.16em]
-                    sm:text-[8.5px]
+                    sm:text-[12px]
                   "
                   style={{
                     color: theme.label,
@@ -1084,7 +1087,7 @@ function PricingCard({
                     border
                     px-2.5
                     py-1
-                    text-[7px]
+                    text-[9px]
                     font-bold
                     uppercase
                     tracking-[0.10em]
@@ -1107,15 +1110,15 @@ function PricingCard({
               <h3
                 className="
                   mt-1
-                  text-[19px]
+                  text-[20px]
                   font-semibold
                   leading-[1.15]
                   tracking-[-0.03em]
 
                   sm:text-[20px]
 
-                  lg:text-[20px]
-                  xl:text-[21px]
+                  lg:text-[22px]
+                  xl:text-[24px]
                 "
                 style={{
                   color: theme.title,
@@ -1131,13 +1134,13 @@ function PricingCard({
               mt-4
               min-h-[38px]
               max-w-[95%]
-              text-[11px]
-              leading-[1.6]
+              text-[12px]
+              leading-[1.65]
 
-              sm:text-[11.5px]
+              sm:text-[14px]
 
-              lg:text-[11px]
-              xl:text-[11.5px]
+              lg:text-[14px]
+              xl:text-[14px]
             "
             style={{
               color: theme.body,
@@ -1215,14 +1218,14 @@ function PricingCard({
               <span
                 className="
                   pt-[1px]
-                  text-[11px]
+                  text-[13px]
                   font-medium
                   leading-[1.52]
 
-                  sm:text-[11.5px]
+                  sm:text-[14px]
 
-                  lg:text-[10.5px]
-                  xl:text-[11px]
+                  lg:text-[14px]
+                  xl:text-[14px]
                 "
                 style={{
                   color: theme.body,
@@ -1260,7 +1263,7 @@ function PricingCard({
               px-3
               py-2.5
               text-center
-              text-[10px]
+              text-[12px]
               font-semibold
               transition-[transform,box-shadow,filter]
               duration-300
@@ -1268,8 +1271,8 @@ function PricingCard({
               hover:-translate-y-[1px]
               hover:brightness-[0.97]
               sm:min-h-[46px]
-              sm:text-[10.5px]
-              xl:text-[11px]
+              sm:text-[13px]
+              xl:text-[14px]
             "
             style={{
               borderColor: item.popular

@@ -481,7 +481,7 @@ export default function WhyTaxIndiaFirm() {
                 sm:text-[10.5px]
               "
             >
-              Why Tax India Firm
+              Simple Process
             </span>
           </motion.div>
 
@@ -493,12 +493,12 @@ export default function WhyTaxIndiaFirm() {
               mx-auto
               mt-5
 
-              max-w-[790px]
+              max-w-[1400px]
 
               text-[32px]
               font-semibold
 
-              leading-[1.07]
+              leading-[1.00]
               tracking-[-0.045em]
 
               text-[#10233F]
@@ -507,16 +507,14 @@ export default function WhyTaxIndiaFirm() {
 
               md:text-[46px]
 
-              lg:text-[50px]
+              lg:text-[44px] pt-2
             "
           >
-            Built Around How Modern
+            Start Your Business or File Your Taxes in
             <br className="hidden sm:block" />
 
-            Businesses{" "}
-
-            <span className="text-[#2D8CFF]">
-              Actually Work.
+            <span className="text-[#2D8CFF] ps-2">
+               3 Steps.
             </span>
           </motion.h2>
 
@@ -540,9 +538,8 @@ export default function WhyTaxIndiaFirm() {
               md:text-[14.5px]
             "
           >
-            Clear communication, accountable professionals
-            and proactive compliance support — brought
-            together in one seamless experience.
+            No government portals, no paperwork confusion. Our CA team
+            handles everything from document collection to final submission.
           </motion.p>
         </div>
 
@@ -599,9 +596,9 @@ export default function WhyTaxIndiaFirm() {
                     strokeWidth={1.9}
                   />
                 }
-                eyebrow="Clear Communication"
-                title="Plain Language, Always"
-                description="We explain every process, document and timeline clearly before work begins."
+                eyebrow="Step 01"
+                title="Tell Us What Your Business Needs"
+                description="Pick a service or speak directly with a Chartered Accountant. We assess your requirement and explain the exact process, documents needed and timeline, clearly, with no jargon."
               />
 
               <div
@@ -774,7 +771,7 @@ export default function WhyTaxIndiaFirm() {
                         text-[#8A98A9]
                       "
                     >
-                      Process overview
+                      Your Requirement
                     </div>
                   </div>
 
@@ -828,7 +825,7 @@ export default function WhyTaxIndiaFirm() {
                               text-[#31465D]
                             "
                           >
-                            GST Registration
+                            Choose Your Service
                           </p>
 
                           <p
@@ -840,7 +837,7 @@ export default function WhyTaxIndiaFirm() {
                               text-[#8997A7]
                             "
                           >
-                            Explained step by step
+                            Speak with our CA team
                           </p>
                         </div>
                       </div>
@@ -865,10 +862,10 @@ export default function WhyTaxIndiaFirm() {
                             text-[#697A8D]
                           "
                         >
-                          Share PAN, Aadhaar and
-                          business address proof.
-                          We handle the government
-                          submission for you.
+                          Tell us what service you need.
+                          We assess your requirement,
+                          explain the documents needed
+                          and confirm the timeline.
                         </p>
                       </div>
                     </div>
@@ -876,18 +873,18 @@ export default function WhyTaxIndiaFirm() {
                     <div className="space-y-2.5">
                       <ProcessRow
                         number="01"
-                        title="Documents"
+                        title="Requirement"
                         active
                       />
 
                       <ProcessRow
                         number="02"
-                        title="Verification"
+                        title="Discussion"
                       />
 
                       <ProcessRow
                         number="03"
-                        title="Submission"
+                        title="Next Steps"
                       />
                     </div>
                   </div>
@@ -953,9 +950,9 @@ export default function WhyTaxIndiaFirm() {
                     strokeWidth={1.9}
                   />
                 }
-                eyebrow="Accountability"
-                title="One Expert, Not a Queue"
-                description="A dedicated professional owns your case from start to finish."
+                eyebrow="Step 02"
+                title="We Handle All Documents & Government Filings"
+                description="From MCA portals to GST dashboard to IP India, our team submits everything on your behalf. You share documents once; we do the rest, end to end."
               />
 
               <div
@@ -1137,7 +1134,7 @@ export default function WhyTaxIndiaFirm() {
                             text-[#2E4257]
                           "
                         >
-                          Your dedicated expert
+                          Documents & Filings
                         </p>
 
                         <p
@@ -1149,7 +1146,7 @@ export default function WhyTaxIndiaFirm() {
                             text-[#8795A5]
                           "
                         >
-                          Direct professional support
+                          Handled end to end
                         </p>
                       </div>
                     </div>
@@ -1174,7 +1171,7 @@ export default function WhyTaxIndiaFirm() {
                         text-[#2D8CFF]
                       "
                     >
-                      ACTIVE
+                      IN PROGRESS
                     </span>
                   </div>
 
@@ -1189,13 +1186,13 @@ export default function WhyTaxIndiaFirm() {
                     "
                   >
                     <MiniMetric
-                      label="Response"
-                      value="< 2 hrs"
+                      label="Documents"
+                      value="Share once"
                     />
 
                     <MiniMetric
-                      label="Ownership"
-                      value="100%"
+                      label="Filing"
+                      value="Handled by us"
                     />
                   </div>
 
@@ -1225,7 +1222,7 @@ export default function WhyTaxIndiaFirm() {
                             text-[#8B99A9]
                           "
                         >
-                          Current case
+                          Current process
                         </p>
 
                         <p
@@ -1238,7 +1235,7 @@ export default function WhyTaxIndiaFirm() {
                             text-[#405367]
                           "
                         >
-                          Company Incorporation
+                          Government Filing
                         </p>
                       </div>
 
@@ -1310,9 +1307,9 @@ export default function WhyTaxIndiaFirm() {
                     strokeWidth={1.9}
                   />
                 }
-                eyebrow="Proactive Compliance"
-                title="Deadlines Stay On Our Radar"
-                description="We keep track of recurring filings, renewals and compliance dates."
+                eyebrow="Step 03"
+                title="Receive Your Certificate. Stay Compliant Forever."
+                description="Get your incorporation certificate, GSTIN, FSSAI license or any other outcome directly. We also track your renewal and compliance deadlines so you never miss a date."
               />
 
               <div
@@ -1421,7 +1418,7 @@ export default function WhyTaxIndiaFirm() {
                             text-[#30455B]
                           "
                         >
-                          Compliance Calendar
+                          Certificate & Compliance
                         </p>
 
                         <p
@@ -1433,7 +1430,7 @@ export default function WhyTaxIndiaFirm() {
                             text-[#8C99A8]
                           "
                         >
-                          Upcoming obligations
+                          Completed and tracked
                         </p>
                       </div>
                     </div>
@@ -1446,26 +1443,26 @@ export default function WhyTaxIndiaFirm() {
                         text-[#2D8CFF]
                       "
                     >
-                      AUG
+                      LIVE
                     </span>
                   </div>
 
                   <div className="mt-5 space-y-2.5">
                     <DeadlineItem
-                      label="GST Return"
-                      date="18 Aug"
+                      label="Certificate / License"
+                      date="Received"
                       progress="85%"
                     />
 
                     <DeadlineItem
-                      label="TDS Return"
-                      date="22 Aug"
+                      label="Renewal Tracking"
+                      date="Tracked"
                       progress="65%"
                     />
 
                     <DeadlineItem
-                      label="ROC Filing"
-                      date="28 Aug"
+                      label="Compliance Support"
+                      date="Ongoing"
                       progress="42%"
                     />
                   </div>
@@ -1770,7 +1767,7 @@ export default function WhyTaxIndiaFirm() {
                       text-white/85
                     "
                   >
-                    Since 2013
+                    Simple Process
                   </span>
                 </div>
 
@@ -1793,10 +1790,10 @@ export default function WhyTaxIndiaFirm() {
                     lg:text-[40px]
                   "
                 >
-                  One professional team.
+                  Start once.
                   <br />
 
-                  Every business need.
+                  We handle the rest.
                 </h3>
 
                 <p
@@ -1812,9 +1809,9 @@ export default function WhyTaxIndiaFirm() {
                     sm:text-[13.5px]
                   "
                 >
-                  From registration and taxation to
-                  ongoing compliance, work with one
-                  team that understands your business.
+                  From document collection and government filing to
+                  final approval and ongoing compliance, our CA team
+                  manages the entire process for you.
                 </p>
               </div>
 
@@ -1829,18 +1826,18 @@ export default function WhyTaxIndiaFirm() {
                   "
                 >
                   <StatBlock
-                    value="2,760+"
-                    label="Businesses served"
+                    value="Step 01"
+                    label="Tell us what you need"
                   />
 
                   <StatBlock
-                    value="300+"
-                    label="Professional services"
+                    value="Step 02"
+                    label="We handle the filings"
                   />
 
                   <StatBlock
-                    value="2013"
-                    label="Serving since"
+                    value="Step 03"
+                    label="Receive & stay compliant"
                     className="
                       col-span-2
 
@@ -1898,7 +1895,7 @@ export default function WhyTaxIndiaFirm() {
                       sm:px-6
                     "
                   >
-                    Discover our approach
+                    Speak to a Chartered Accountant for Free
 
                     <ArrowRight
                       size={15}
@@ -1927,7 +1924,7 @@ export default function WhyTaxIndiaFirm() {
                       size={14}
                     />
 
-                    Professional support across Tamil Nadu
+                    End-to-end professional support
                   </div>
                 </div>
               </div>
