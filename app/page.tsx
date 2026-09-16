@@ -1,6 +1,6 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+
 import ServicesSection from "../components/Homepage/ServicesSection";
-import HowItWorks from "../components/Homepage/HowItWorks";
 import StartupPackages from "../components/Homepage/StartupPackages";
 import WhyTaxIndiaFirm from "../components/Homepage/WhyTaxIndiaFirm";
 import ClientTestimonials from "../components/Homepage/ClientTestimonials";
@@ -10,29 +10,32 @@ import AdvancedBusinessHero from "../components/Homepage/AdvancedBusinessHero";
 import VideoSection from "../components/Homepage/VideoSection";
 import WhyChooseUs from "../components/Homepage/WhyChooseUs";
 
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://taxindiafirm.com/",
+  },
+};
+
 export default function Home() {
   return (
     <>
-    <AdvancedBusinessHero />
+      <AdvancedBusinessHero />
 
-    <VideoSection />
+      <VideoSection />
 
-   <WhyChooseUs />
+      <WhyChooseUs />
 
-   <WhyTaxIndiaFirm />
+      <WhyTaxIndiaFirm />
 
-    <ServicesSection />
-    
+      <ServicesSection />
 
-    {/* <HowItWorks /> */}
+      <StartupPackages />
 
-    <StartupPackages />
+      <ClientTestimonials />
 
-   <ClientTestimonials />
+      <ExpertGuides />
 
-   <ExpertGuides />
-
-   <FinalCtaBanner /> 
+      <FinalCtaBanner />
     </>
   );
 }

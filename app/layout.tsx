@@ -29,6 +29,8 @@ import PageLoader from "../components/Layouts/PageLoader";
 ======================================== */
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://taxindiafirm.com"),
+
   title: {
     default: "Tax India Firm",
     template: "%s | Tax India Firm",
@@ -36,6 +38,10 @@ export const metadata: Metadata = {
 
   description:
     "Professional tax, business, income tax and legal services in India.",
+
+  alternates: {
+    canonical: "/",
+  },
 };
 
 /* ========================================
@@ -97,3 +103,4 @@ export default function RootLayout({
     </html>
   );
 }
+
