@@ -7,9 +7,9 @@ import { motion, MotionConfig, useReducedMotion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  ArrowDown, ArrowRight, ArrowUpRight, BriefcaseBusiness, Check, ChevronRight,
-  CircleCheck, FileCheck2, FileText, MapPin, Plus, ShieldCheck,
-  Store, Users, Factory, ShoppingBag, Building2, Globe2, ScanLine,
+  AlertTriangle, ArrowDown, ArrowRight, ArrowUpRight, BriefcaseBusiness, CalendarCheck2,
+  Check, ChevronRight, CircleCheck, FileCheck2, FileText, MapPin, Plus, RefreshCw,
+  ShieldCheck, Store, UserCheck, Users, Factory, ShoppingBag, Building2, Globe2, ScanLine,
 } from "lucide-react";
 
 export type ServiceInnerItem = { title: string; paragraphs: string[] };
@@ -124,11 +124,22 @@ function Accordion({ items, variant = "faq" }: { items: ServiceInnerItem[]; vari
 
 const audienceIcons = [Store, BriefcaseBusiness, Factory, ShoppingBag, Globe2, Building2];
 
+function EligibilityIcon({ section }: { section: ServiceInnerSection }) {
+  const content = `${section.id} ${section.eyebrow} ${section.title}`.toLowerCase();
+
+  if (/consequence|penalt|late fee|incorrect|missed|delay|risk/.test(content)) return <AlertTriangle size={58} strokeWidth={1} />;
+  if (/reconcil|difference|mismatch/.test(content)) return <RefreshCw size={58} strokeWidth={1} />;
+  if (/when|required|deadline|timeline|financial year|annual/.test(content)) return <CalendarCheck2 size={58} strokeWidth={1} />;
+  if (/eligib|who can|qualif/.test(content)) return <UserCheck size={58} strokeWidth={1} />;
+  return <ShieldCheck size={58} strokeWidth={1} />;
+}
+
 function Section({ section, index, data }: { section: ServiceInnerSection; index: number; data: ServiceInnerPageData }) {
   const items = section.items ?? [];
   const reduced = useReducedMotion();
   const heading = <Heading section={section} index={index} />;
   const footer = <><Copy texts={section.footer ?? []} className="sip-section-footnote" /><RelatedLinks links={section.links} /></>;
+  const overviewSplitIndex = 1 + Math.ceil((section.paragraphs.length - 1) / 2);
   let content: ReactNode;
 
   switch (section.layout) {
@@ -136,7 +147,7 @@ function Section({ section, index, data }: { section: ServiceInnerSection; index
       content = <>
         {heading}
         <div className="sip-overview-lead" data-sip-reveal><span className="sip-overview-mark"><ScanLine size={33} strokeWidth={1.2} aria-hidden="true" /></span><Copy texts={section.paragraphs.slice(0, 1)} /></div>
-        <div className="sip-overview-columns"><div data-sip-reveal><Copy texts={section.paragraphs.slice(1, 3)} /></div><div data-sip-reveal><Copy texts={section.paragraphs.slice(3)} /></div></div>
+        <div className="sip-overview-columns"><div data-sip-reveal><Copy texts={section.paragraphs.slice(1, overviewSplitIndex)} /></div><div data-sip-reveal><Copy texts={section.paragraphs.slice(overviewSplitIndex)} /></div></div>
         {footer}
       </>;
       break;
@@ -153,7 +164,7 @@ function Section({ section, index, data }: { section: ServiceInnerSection; index
       break;
     case "eligibility":
       content = <div className="sip-eligibility-panel">
-        <div>{heading}<div className="sip-eligibility-symbol" aria-hidden="true"><ShieldCheck size={58} strokeWidth={1} /></div></div>
+        <div>{heading}<div className="sip-eligibility-symbol" aria-hidden="true"><EligibilityIcon section={section} /></div></div>
         <div className="sip-eligibility-points">{section.paragraphs.map((text, i) => <div key={i} data-sip-reveal><span>{String(i + 1).padStart(2, "0")}</span><p><Rich text={text} /></p></div>)}{footer}</div>
       </div>;
       break;
