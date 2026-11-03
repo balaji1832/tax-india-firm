@@ -127,11 +127,11 @@ const navigation: NavigationItem[] = [
     matchPath: "/about-us",
   },
 
-  {
-    name: "Blogs",
-    href: "/blogs",
-    matchPath: "/blogs",
-  },
+  // {
+  //   name: "Blogs",
+  //   href: "/blogs",
+  //   matchPath: "/blogs",
+  // },
 ];
 
 /* =========================================================

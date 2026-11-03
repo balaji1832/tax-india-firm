@@ -37,6 +37,7 @@ export type ServiceInnerPageData = {
     subtitle: string;
     paragraphs: string[];
     benefits: string[];
+    ctaLabel?: string;
     image: { src: string; alt: string };
   };
   cta: { label: string; href: string };
@@ -207,7 +208,7 @@ function Section({ section, index, data }: { section: ServiceInnerSection; index
       break;
     case "cta":
       content = <div className="sip-consult-panel"><div className="sip-consult-heading">{heading}<Action href={data.cta.href}>{data.cta.label}</Action></div>
-        <div className="sip-consult-copy"><Copy texts={section.paragraphs} />{footer}</div></div>;
+        <div className={`sip-consult-copy ${section.paragraphs.length === 1 ? "is-single" : ""}`}><Copy texts={section.paragraphs} />{footer}</div></div>;
       break;
     case "faq":
       content = <>{heading}<Copy texts={section.paragraphs} /><Accordion items={items} />{footer}</>;
@@ -280,7 +281,7 @@ export default function DynamicServiceInnerPages({ data, headerOffset = 88 }: Pr
         <p className="sip-eyebrow"><span className="sip-dot" />{data.hero.eyebrow}</p>
         <h1>{data.hero.title}</h1><p className="sip-hero-subtitle">{data.hero.subtitle}</p>
         <Copy texts={data.hero.paragraphs} />
-        <div className="sip-hero-actions"><Action href={data.cta.href}>{data.cta.label}</Action>{processId && <a className="sip-text-link" href={`#${processId}`}>See the process<ArrowDown size={15} aria-hidden="true" /></a>}</div>
+        <div className="sip-hero-actions"><Action href={data.cta.href}>{data.hero.ctaLabel ?? data.cta.label}</Action>{processId && <a className="sip-text-link" href={`#${processId}`}>See the process<ArrowDown size={15} aria-hidden="true" /></a>}</div>
       </div><HeroVisual data={data} /></div>
       <ul className="sip-hero-benefits">{data.hero.benefits.map((benefit) => <li key={benefit}><span><Check size={15} aria-hidden="true" /></span>{benefit}</li>)}</ul>
     </div></section>
@@ -513,6 +514,7 @@ const STYLES = `
 .sip-consult-heading>.sip-action{font-size:11px;max-width:225px;line-height:1.65;margin:0;padding-left:16px}
 .sip-consult-copy{padding-top:25px;margin-top:25px;border-top:1px solid #dae6f6}
 .sip-consult-copy .sip-copy{columns:2;column-gap:28px;color:#627b9c;font-size:13px}
+.sip-consult-copy.is-single .sip-copy{columns:1}
 .sip-consult-copy .sip-copy p{break-inside:avoid}
 .sip-consult-copy .sip-copy p:last-child{color:#264f86;font-weight:500}
 

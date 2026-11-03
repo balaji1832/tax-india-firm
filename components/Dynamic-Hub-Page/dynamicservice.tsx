@@ -586,7 +586,11 @@ function SectionView({
       <section id={section.id} className="gst-section gst-support">
         <div className="gst-container">
           <SectionTop section={section} number={number} />
-          <div className="gst-support-grid">
+          <div
+            className={`gst-support-grid ${
+              items.length === 4 ? "gst-support-grid-four" : ""
+            }`}
+          >
             {items.map((item, index) => (
               <article
                 key={item.title}
@@ -1083,6 +1087,7 @@ const STYLES = `
 
 /* SUPPORT TIMELINE */
 .gst-support-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px}
+.gst-support-grid-four{width:min(100%,1240px);margin-inline:auto;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
 .gst-support-step{--line-fill:0;--step-color:#2463ef;position:relative;padding-top:28px}
 .gst-support-step:nth-child(2){--step-color:#397be9}
 .gst-support-step:nth-child(3){--step-color:#1b93d9}
@@ -1152,6 +1157,7 @@ const STYLES = `
   .gst-service-grid-ten .gst-service-wide{grid-column:1/-1}
   .gst-service-card{padding:24px}
   .gst-support-grid{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:30px}
+  .gst-support-grid-four{width:min(100%,860px);grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}
   .gst-industry-row{gap:18px}
   .gst-benefit-card{grid-template-columns:36px 1fr}
   .gst-benefit-check{display:none}
@@ -1206,6 +1212,7 @@ const STYLES = `
   .gst-lead{font-size:21px}
   .gst-compliance-art{height:230px;margin:20px auto 0;transform:scale(.85);transform-origin:center top;margin-bottom:-25px}
   .gst-support-grid{grid-template-columns:1fr;gap:0}
+  .gst-support-grid-four{width:100%;grid-template-columns:1fr;gap:0}
   .gst-support-step{padding:22px 0 24px 26px}
   .gst-support-step::before,.gst-support-step::after{top:0;left:0;width:3px;height:100%}
   .gst-support-step::after{transform:scaleY(var(--line-fill));transform-origin:top;background:linear-gradient(180deg,var(--step-color),#9bc5ff)}

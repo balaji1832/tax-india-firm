@@ -23,6 +23,7 @@ import Header from "../components/Layouts/Header";
 import Footer from "../components/Layouts/Footer";
 import ScrollToTopButton from "../components/Layouts/Scrolltotopbutton";
 import PageLoader from "../components/Layouts/PageLoader";
+import PageScrollReset from "../components/Layouts/PageScrollReset";
 
 /* ========================================
    METADATA
@@ -64,6 +65,7 @@ export default function RootLayout({
           antialiased
         "
       >
+        <PageScrollReset />
         {/* =====================================
             INITIAL PAGE LOADER
 
