@@ -1,12 +1,20 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import {
   AnimatePresence,
   motion,
   useReducedMotion,
 } from "framer-motion";
-import { useEffect, useState } from "react";
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 /* =========================================================
    SETTINGS
@@ -18,10 +26,61 @@ import { useEffect, useState } from "react";
 
 const DISPLAY_TIME = 1150;
 const EXIT_DURATION = 0.35;
+const NAVIGATION_TIMEOUT = 10000;
 
-export default function PageLoader() {
+export default function PageLoader({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const [visible, setVisible] = useState(true);
+  const [animationCycle, setAnimationCycle] = useState(0);
   const reduceMotion = useReducedMotion();
+  const pathname = usePathname();
+  const previousPathname = useRef(pathname);
+  const navigationActive = useRef(false);
+  const navigationComplete = useRef(false);
+  const minimumTimeElapsed = useRef(false);
+  const navigationTimer = useRef<number | null>(null);
+  const safetyTimer = useRef<number | null>(null);
+
+  const clearNavigationTimers = useCallback(() => {
+    if (navigationTimer.current !== null) {
+      window.clearTimeout(navigationTimer.current);
+      navigationTimer.current = null;
+    }
+
+    if (safetyTimer.current !== null) {
+      window.clearTimeout(safetyTimer.current);
+      safetyTimer.current = null;
+    }
+  }, []);
+
+  const finishNavigation = useCallback(() => {
+    clearNavigationTimers();
+    navigationActive.current = false;
+    setVisible(false);
+  }, [clearNavigationTimers]);
+
+  const beginNavigation = useCallback(() => {
+    clearNavigationTimers();
+    navigationActive.current = true;
+    navigationComplete.current = false;
+    minimumTimeElapsed.current = false;
+    setVisible(true);
+
+    navigationTimer.current = window.setTimeout(() => {
+      minimumTimeElapsed.current = true;
+
+      if (navigationComplete.current) {
+        finishNavigation();
+      }
+    }, reduceMotion ? 150 : DISPLAY_TIME);
+
+    safetyTimer.current = window.setTimeout(() => {
+      finishNavigation();
+    }, NAVIGATION_TIMEOUT);
+  }, [clearNavigationTimers, finishNavigation, reduceMotion]);
 
   /* =======================================================
      REMOVE LOADER
@@ -43,6 +102,78 @@ export default function PageLoader() {
   }, [reduceMotion]);
 
   /* =======================================================
+     SHOW LOADER BEFORE INTERNAL PAGE NAVIGATION
+  ======================================================= */
+
+  useEffect(() => {
+    const handleDocumentClick = (event: MouseEvent) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const anchor = target.closest<HTMLAnchorElement>("a[href]");
+      if (
+        !anchor ||
+        anchor.target === "_blank" ||
+        anchor.hasAttribute("download")
+      ) {
+        return;
+      }
+
+      const destination = new URL(anchor.href, window.location.href);
+
+      if (
+        destination.origin !== window.location.origin ||
+        destination.pathname === window.location.pathname
+      ) {
+        return;
+      }
+
+      beginNavigation();
+    };
+
+    document.addEventListener("click", handleDocumentClick, true);
+
+    return () => {
+      document.removeEventListener("click", handleDocumentClick, true);
+    };
+  }, [beginNavigation]);
+
+  /* =======================================================
+     FINISH AFTER THE DESTINATION ROUTE HAS RENDERED
+  ======================================================= */
+
+  useEffect(() => {
+    if (previousPathname.current === pathname) return;
+
+    previousPathname.current = pathname;
+
+    if (!navigationActive.current) {
+      beginNavigation();
+    }
+
+    navigationComplete.current = true;
+
+    if (minimumTimeElapsed.current) {
+      finishNavigation();
+    }
+  }, [beginNavigation, finishNavigation, pathname]);
+
+  useEffect(() => {
+    return clearNavigationTimers;
+  }, [clearNavigationTimers]);
+
+  /* =======================================================
      PREVENT SCROLL ONLY WHILE LOADER IS SHOWING
   ======================================================= */
 
@@ -62,7 +193,12 @@ export default function PageLoader() {
   }, [visible]);
 
   return (
-    <AnimatePresence>
+    <>
+    <AnimatePresence
+      onExitComplete={() => {
+        setAnimationCycle((cycle) => cycle + 1);
+      }}
+    >
       {visible && (
         <motion.div
           key="tax-india-loader"
@@ -835,5 +971,15 @@ export default function PageLoader() {
         </motion.div>
       )}
     </AnimatePresence>
+
+    {/*
+      The page remains server-rendered behind the loader. Once the loader has
+      fully exited, changing this key remounts the page experience one time so
+      component entrance animations begin while the page is visible.
+    */}
+    <Fragment key={`page-animation-cycle-${animationCycle}`}>
+      {children}
+    </Fragment>
+    </>
   );
 }
