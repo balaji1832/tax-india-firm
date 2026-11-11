@@ -20,6 +20,7 @@ export type ServiceInnerSection = {
   layout: "overview" | "audience" | "eligibility" | "documents" | "checklist" |
     "process" | "tracking" | "mistakes" | "aftercare" | "locations" | "benefits" | "cta" | "faq";
   paragraphs: string[];
+  ctaLabel?: string;
   items?: ServiceInnerItem[];
   checklist?: string[];
   footer?: string[];
@@ -81,12 +82,12 @@ function RelatedLinks({ links }: { links?: ServiceInnerSection["links"] }) {
 }
 
 function Photo({ src, alt }: { src: string; alt: string }) {
-  const [failed, setFailed] = useState(false);
-  useEffect(() => { setFailed(false); }, [src]);
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const failed = failedSrc === src;
   return failed || !src ? <div className="sip-photo-fallback" role="img" aria-label={alt}>
     <Building2 size={100} strokeWidth={0.7} aria-hidden="true" />
   </div> : <Image src={src} alt={alt} fill unoptimized priority sizes="(min-width: 1024px) 520px, 100vw"
-    className="sip-photo" onError={() => setFailed(true)} />;
+    className="sip-photo" onError={() => setFailedSrc(src)} />;
 }
 
 function HeroVisual({ data }: { data: ServiceInnerPageData }) {
@@ -113,7 +114,7 @@ function HeroVisual({ data }: { data: ServiceInnerPageData }) {
 function Accordion({ items, variant = "faq" }: { items: ServiceInnerItem[]; variant?: "faq" | "documents" }) {
   const id = useId();
   return <div className={`sip-accordion is-${variant}`}>
-    {items.map((item, i) => <details key={item.title} className="sip-detail" data-sip-reveal>
+    {items.map((item, i) => <details key={`${item.title}-${i}`} className="sip-detail" data-sip-reveal>
       <summary aria-controls={`${id}-${i}`}>
         <span className="sip-detail-index">{variant === "documents" ? <FileText size={18} aria-hidden="true" /> : String(i + 1).padStart(2, "0")}</span>
         <h3>{item.title}</h3><span className="sip-detail-toggle"><Plus size={17} aria-hidden="true" /></span>
@@ -156,7 +157,7 @@ function Section({ section, index, data }: { section: ServiceInnerSection; index
       content = <>{heading}<Copy texts={section.paragraphs} />
         <div className="sip-audience-grid">{items.map((item, i) => {
           const Icon = audienceIcons[i % audienceIcons.length];
-          return <div data-sip-reveal key={item.title}><motion.article className="sip-audience-card"
+          return <div data-sip-reveal key={`${item.title}-${i}`}><motion.article className="sip-audience-card"
             whileHover={reduced ? undefined : { y: -4 }} transition={{ duration: 0.25 }}>
             <div className="sip-card-top"><Icon size={22} strokeWidth={1.3} aria-hidden="true" /><span>{String(i + 1).padStart(2, "0")}</span></div>
             <h3>{item.title}</h3><Copy texts={item.paragraphs} />
@@ -179,7 +180,7 @@ function Section({ section, index, data }: { section: ServiceInnerSection; index
       break;
     case "process":
       content = <>{heading}<Copy texts={section.paragraphs} />
-        <ol className="sip-process-list">{items.map((item, i) => <li className="sip-process-step" key={item.title}>
+        <ol className="sip-process-list">{items.map((item, i) => <li className="sip-process-step" key={`${item.title}-${i}`}>
           <span className="sip-process-number">{String(i + 1).padStart(2, "0")}</span>
           <div data-sip-reveal><h3>{item.title}</h3><Copy texts={item.paragraphs} /></div>
         </li>)}</ol>{footer}</>;
@@ -191,7 +192,7 @@ function Section({ section, index, data }: { section: ServiceInnerSection; index
       </div><div data-sip-reveal><Copy texts={section.paragraphs} /></div></div>{footer}</>;
       break;
     case "mistakes":
-      content = <>{heading}<Copy texts={section.paragraphs} /><div className="sip-mistakes-grid">{items.map((item, i) => <article key={item.title} data-sip-reveal>
+      content = <>{heading}<Copy texts={section.paragraphs} /><div className="sip-mistakes-grid">{items.map((item, i) => <article key={`${item.title}-${i}`} data-sip-reveal>
         <span className="sip-mistake-index">{String(i + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><Copy texts={item.paragraphs} /></div>
       </article>)}</div>{footer}</>;
       break;
@@ -202,12 +203,12 @@ function Section({ section, index, data }: { section: ServiceInnerSection; index
       content = <>{heading}<div className="sip-location-layout"><div className="sip-location-mark" data-sip-reveal><div className="sip-city-line" aria-hidden="true"><Building2 size={53} strokeWidth={.8} /><Building2 size={81} strokeWidth={.8} /><Building2 size={61} strokeWidth={.8} /></div><span className="sip-city-label"><MapPin size={15} aria-hidden="true" />{data.location}</span></div><div data-sip-reveal><Copy texts={section.paragraphs} /></div></div>{footer}</>;
       break;
     case "benefits":
-      content = <>{heading}<Copy texts={section.paragraphs} /><div className="sip-benefit-list">{items.map((item, i) => <article key={item.title} data-sip-reveal>
+      content = <>{heading}<Copy texts={section.paragraphs} /><div className="sip-benefit-list">{items.map((item, i) => <article key={`${item.title}-${i}`} data-sip-reveal>
         <div className="sip-benefit-icon"><CircleCheck size={23} strokeWidth={1.4} aria-hidden="true" /><span>{String(i + 1).padStart(2, "0")}</span></div><div><h3>{item.title}</h3><Copy texts={item.paragraphs} /></div>
       </article>)}</div>{footer}</>;
       break;
     case "cta":
-      content = <div className="sip-consult-panel"><div className="sip-consult-heading">{heading}<Action href={data.cta.href}>{data.cta.label}</Action></div>
+      content = <div className="sip-consult-panel"><div className="sip-consult-heading">{heading}<Action href={data.cta.href}>{section.ctaLabel ?? data.cta.label}</Action></div>
         <div className={`sip-consult-copy ${section.paragraphs.length === 1 ? "is-single" : ""}`}><Copy texts={section.paragraphs} />{footer}</div></div>;
       break;
     case "faq":

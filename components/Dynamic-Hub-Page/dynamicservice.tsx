@@ -42,6 +42,7 @@ export type ServiceSection = {
   eyebrow: string;
   title: string;
   paragraphs: string[];
+  ctaLabel?: string;
   items?: ServiceItem[];
   layout:
     | "intro"
@@ -659,12 +660,18 @@ function SectionView({
             <Heading section={section} number={number} />
             <div className="gst-consultation-action" data-gst-reveal>
               <p>{data.hero.tagline}</p>
-              <Button href={data.cta.href}>{data.cta.label}</Button>
+              <Button href={data.cta.href}>
+                {section.ctaLabel ?? data.cta.label}
+              </Button>
               <span>{data.location}</span>
             </div>
           </div>
 
-          <div className="gst-consultation-copy">
+          <div
+            className={`gst-consultation-copy ${
+              section.paragraphs.length <= 2 ? "is-compact" : ""
+            }`}
+          >
             <div data-gst-reveal>
               <Copy texts={section.paragraphs.slice(0, 2)} />
             </div>
@@ -1124,6 +1131,7 @@ const STYLES = `
 .gst-consultation-action .gst-button-icon{background:#edf3ff}
 .gst-consultation-action>span{display:block;margin-top:13px;color:#9cb5d7;font-size:10px}
 .gst-consultation-copy{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:28px;padding-top:24px;border-top:1px solid #8faed32b}
+.gst-consultation-copy.is-compact{grid-template-columns:1fr}
 .gst-consultation-copy .gst-copy{color:#b4cae8;font-size:14px}
 .gst-consultation-copy strong{color:#f0f6ff}
 
