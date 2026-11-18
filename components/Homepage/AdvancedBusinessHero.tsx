@@ -358,12 +358,7 @@ const searchItems: SearchItem[] = [
     keywords: ["esi", "pf", "epf"],
   },
 
-  {
-    title: "PF Registration",
-    href: "/business/license/pf-registration",
-    category: "Business License",
-    keywords: ["pf", "provident fund"],
-  },
+ 
 
   {
     title: "ISO Certification",
@@ -411,12 +406,7 @@ const searchItems: SearchItem[] = [
     keywords: ["compliance", "business compliance"],
   },
 
-  {
-    title: "Add or Remove Designated Partners LLP",
-    href: "/business/compliance/add-remove-designated-partners-llp",
-    category: "Compliance",
-    keywords: ["designated partner", "llp partner"],
-  },
+  
 
   {
     title: "Appointment of Director",

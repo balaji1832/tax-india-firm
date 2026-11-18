@@ -49,7 +49,7 @@ const guides: Guide[] = [
     linkText:
       "Read the GST filing guide",
     href:
-      "/blogs/taxation/top-10-things-to-know-about-gst-filing",
+      "#",
     image: "/images/b1.png",
   },
 
@@ -63,7 +63,7 @@ const guides: Guide[] = [
     linkText:
       "Read the company registration guide",
     href:
-      "/blogs/business/how-to-register-your-company-in-india",
+      "#",
     image: "/images/b2.png",
   },
 
@@ -77,7 +77,7 @@ const guides: Guide[] = [
     linkText:
       "Read the ITR filing checklist",
     href:
-      "/blogs/taxation/things-to-consider-before-filing-income-tax-return",
+      "#",
     image: "/images/b3.png",
   },
 ];

@@ -87,7 +87,7 @@ const navigation: NavigationItem[] = [
 
   {
     name: "Income Tax",
-    href: "/itr/income-tax-return-filing",
+    href: "/itr",
     matchPath: "/itr",
     submenu: [
       {

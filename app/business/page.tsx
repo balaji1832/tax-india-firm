@@ -256,10 +256,7 @@ const businessHubData: DynamicHubData = {
             name: "Director eKYC (DIR-3 KYC)",
             href: `${compliance}/annual-ekyc-for-directors`,
           },
-          {
-            name: "Add or Remove Designated Partners in LLP",
-            href: `${compliance}/add-remove-designated-partners-llp`,
-          },
+         
           {
             name: "Change in Authorised Capital",
             href: `${compliance}/change-in-authorized-capital`,

@@ -172,14 +172,14 @@ const bottomLinks: FooterLink[] = [
     name: "About Us",
     href: "/about-us",
   },
-  {
-    name: "Privacy Policy",
-    href: "/privacy-policy",
-  },
-  {
-    name: "Sitemap",
-    href: "/sitemap",
-  },
+  // {
+  //   name: "Privacy Policy",
+  //   href: "/privacy-policy",
+  // },
+  // {
+  //   name: "Sitemap",
+  //   href: "/sitemap",
+  // },
   {
     name: "Contact Us",
     href: "/contact-us",
