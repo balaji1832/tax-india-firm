@@ -363,7 +363,7 @@ const STYLES = `
 .sip-hero .sip-breadcrumb a{color:#a9c0de}
 .sip-hero .sip-eyebrow{color:#9dc6ff}
 .sip-hero .sip-dot{background:#78aeff;box-shadow:0 0 0 5px #3b83f31a}
-.sip-root .sip-hero h1{color:#fff!important;font-size:clamp(37px,3.8vw,53px);line-height:1.07;letter-spacing:-.047em}
+.sip-root .sip-hero h1{color:#fff!important;font-size:clamp(35px,3.45vw,48px);line-height:1.07;letter-spacing:-.047em}
 .sip-hero-grid{grid-template-columns:1.1fr .9fr;gap:55px;align-items:center}
 .sip-hero-subtitle{color:#a4c9ff;font-size:17px;line-height:1.65}
 .sip-hero-copy>.sip-copy{color:#aec1dc;font-size:13px;line-height:1.9}
@@ -374,7 +374,7 @@ const STYLES = `
 .sip-visual-image .sip-photo{filter:saturate(.6);transition:transform 1.1s cubic-bezier(.2,.75,.25,1)}
 .sip-hero-visual:hover .sip-photo{transform:scale(1.035)}
 .sip-photo-shade{background:linear-gradient(0deg,#061c3df0,transparent 95%),linear-gradient(90deg,#0a274633,transparent)}
-.sip-root .sip-visual-image>p{font-size:35px;bottom:103px;left:29px;right:29px;max-width:340px;line-height:1.14}
+.sip-root .sip-visual-image>p{font-size:28px;bottom:103px;left:29px;right:29px;max-width:340px;line-height:1.14}
 .sip-image-location{bottom:76px;left:29px;color:#c1d5f0}
 .sip-visual-label{border-radius:5px;background:#f4f8ffed;left:28px;top:27px;color:#305886}
 .sip-registration-note{position:relative;z-index:1;margin:-49px 22px 0 -16px;padding:22px 24px;background:#fff;border:1px solid #e4ebf5;border-radius:12px;box-shadow:0 23px 40px -28px #000b}
@@ -530,17 +530,17 @@ const STYLES = `
 .sip-accordion.is-faq .sip-detail-answer .sip-copy{font-size:14px}
 
 @media(max-width:1199px){
-  .sip-hero-grid{gap:35px}.sip-root .sip-hero h1{font-size:46px}.sip-hero-visual{padding-left:8px}.sip-visual-image{height:455px}.sip-registration-note{margin-left:-8px;margin-right:12px;padding:20px}.sip-root .sip-visual-image>p{font-size:31px;left:25px;right:25px}.sip-registration-note p{font-size:21px}.sip-registration-note>svg{display:none}
+  .sip-hero-grid{gap:35px}.sip-root .sip-hero h1{font-size:43px}.sip-hero-visual{padding-left:8px}.sip-visual-image{height:455px}.sip-registration-note{margin-left:-8px;margin-right:12px;padding:20px}.sip-root .sip-visual-image>p{font-size:27px;left:25px;right:25px}.sip-registration-note p{font-size:21px}.sip-registration-note>svg{display:none}
   .sip-eligibility-panel{grid-template-columns:1fr;gap:3px;padding:27px}.sip-eligibility-symbol{display:none}.sip-eligibility-points{margin-top:4px}.sip-eligibility-points>div:first-child{padding-top:17px!important;border-top:1px solid #dce7f7!important}
   .sip-tracking-layout{grid-template-columns:200px 1fr;gap:25px}.sip-arn-note{padding:25px}.sip-consult-heading{grid-template-columns:1fr;gap:22px}.sip-consult-heading>.sip-action{max-width:100%;justify-self:start}.sip-location-layout{grid-template-columns:.9fr 1.1fr}
 }
 @media(max-width:1023px){
-  .sip-content-layout{gap:32px;padding-top:35px}.sip-hero-grid{grid-template-columns:1fr 1fr;gap:28px}.sip-root .sip-hero h1{font-size:40px}.sip-hero-copy>.sip-copy{font-size:12px}.sip-hero-subtitle{font-size:15px}.sip-visual-image{height:445px}.sip-root .sip-visual-image>p{font-size:29px}.sip-registration-note{padding:18px 17px;gap:12px}.sip-registration-note p{font-size:19px}.sip-note-icon{width:37px;height:46px}.sip-visual-footer{padding-inline:0;font-size:9px}
+  .sip-content-layout{gap:32px;padding-top:35px}.sip-hero-grid{grid-template-columns:1fr 1fr;gap:28px}.sip-root .sip-hero h1{font-size:38px}.sip-hero-copy>.sip-copy{font-size:12px}.sip-hero-subtitle{font-size:15px}.sip-visual-image{height:445px}.sip-root .sip-visual-image>p{font-size:25px}.sip-registration-note{padding:18px 17px;gap:12px}.sip-registration-note p{font-size:19px}.sip-note-icon{width:37px;height:46px}.sip-visual-footer{padding-inline:0;font-size:9px}
   .sip-eligibility-panel{grid-template-columns:.8fr 1.2fr;gap:26px}.sip-eligibility-symbol{display:grid}.sip-eligibility-points{margin:0}.sip-eligibility-points>div:first-child{padding-top:0!important;border-top:0!important}
   .sip-consult-heading{grid-template-columns:1fr auto;gap:25px}.sip-consult-heading>.sip-action{max-width:225px}
 }
 @media(max-width:767px){
-  .sip-section{padding-bottom:37px;margin-bottom:37px}.sip-root h2{font-size:29px}.sip-hero-grid{grid-template-columns:1fr;gap:31px}.sip-root .sip-hero h1{font-size:39px}.sip-hero-copy>.sip-copy{font-size:13px}.sip-hero-subtitle{font-size:16px}.sip-hero-visual{padding:0 0 0 9px;margin:0}.sip-visual-image{height:367px;border-top-right-radius:57px}.sip-root .sip-visual-image>p{font-size:31px;bottom:105px;left:25px;right:25px}.sip-image-location{left:25px;bottom:76px}.sip-visual-label{left:24px;top:24px}.sip-registration-note{margin-left:-9px;margin-right:14px;padding:21px 18px;gap:13px}.sip-registration-note p{font-size:21px}.sip-note-icon{width:43px;height:49px}.sip-registration-note>svg{display:block}.sip-visual-footer{font-size:10px;padding:20px 20px 0 0}.sip-hero-benefits{padding-block:23px;margin-top:26px;gap:15px}.sip-hero-benefits li{font-size:10px}
+  .sip-section{padding-bottom:37px;margin-bottom:37px}.sip-root h2{font-size:29px}.sip-hero-grid{grid-template-columns:1fr;gap:31px}.sip-root .sip-hero h1{font-size:36px}.sip-hero-copy>.sip-copy{font-size:13px}.sip-hero-subtitle{font-size:16px}.sip-hero-visual{padding:0 0 0 9px;margin:0}.sip-visual-image{height:367px;border-top-right-radius:57px}.sip-root .sip-visual-image>p{font-size:26px;bottom:105px;left:25px;right:25px}.sip-image-location{left:25px;bottom:76px}.sip-visual-label{left:24px;top:24px}.sip-registration-note{margin-left:-9px;margin-right:14px;padding:21px 18px;gap:13px}.sip-registration-note p{font-size:21px}.sip-note-icon{width:43px;height:49px}.sip-registration-note>svg{display:block}.sip-visual-footer{font-size:10px;padding:20px 20px 0 0}.sip-hero-benefits{padding-block:23px;margin-top:26px;gap:15px}.sip-hero-benefits li{font-size:10px}
   .sip-content-layout{padding-top:29px;gap:31px}.sip-overview-lead{padding:24px 22px;gap:17px;margin-top:26px;margin-bottom:24px}.sip-overview-lead .sip-copy{font-size:18px}.sip-overview-mark svg{width:25px;height:25px}.sip-overview-columns{gap:18px}.sip-overview-columns>div+div{border:0;padding:0}.sip-audience-grid{grid-template-columns:1fr;gap:15px}.sip-audience-card{padding:25px}.sip-card-top{margin-bottom:18px}.sip-audience-card h3{font-size:24px}.sip-audience-card .sip-copy{font-size:14px}
   .sip-eligibility-panel{grid-template-columns:1fr;gap:0;padding:25px 23px}.sip-root .sip-eligibility h2{font-size:28px}.sip-eligibility-symbol{display:none}.sip-eligibility-points>div:first-child{border-top:1px solid #dce7f7!important;padding-top:17px!important}.sip-eligibility-points p{font-size:14px}.sip-eligibility-points>div:not(.sip-copy):not(.sip-related-links){gap:12px;grid-template-columns:18px 1fr;padding:17px 0}
   .sip-document-emblem{display:none}.sip-accordion.is-documents{grid-template-columns:1fr;gap:24px;margin-top:33px}.sip-accordion.is-documents .sip-detail summary{min-height:88px;padding:20px}.sip-accordion.is-documents .sip-detail h3{font-size:18px}.sip-accordion.is-documents .sip-detail-answer{padding:0 23px 23px}.sip-accordion.is-documents .sip-detail-answer .sip-copy{font-size:14px}
@@ -553,6 +553,6 @@ const STYLES = `
   .sip-accordion.is-faq .sip-detail summary{padding:19px 17px;gap:10px;align-items:flex-start}.sip-accordion.is-faq .sip-detail h3{font-size:16px}.sip-accordion.is-faq .sip-detail-index{margin-top:0;width:20px;height:27px}.sip-accordion.is-faq .sip-detail-toggle{width:25px;height:25px}.sip-accordion.is-faq .sip-detail-answer{padding:0 22px 23px}
 }
 @media(max-width:359px){
-  .sip-root .sip-hero h1{font-size:35px}.sip-root .sip-visual-image>p{font-size:28px}.sip-registration-note{padding:20px 16px}.sip-registration-note>svg{display:none}.sip-registration-note p{font-size:20px}.sip-overview-lead{padding:23px 18px;gap:13px}.sip-overview-lead .sip-copy{font-size:17px}.sip-audience-card,.sip-process-step,.sip-benefit-list article{padding:23px}.sip-eligibility-panel,.sip-checklist-panel,.sip-aftercare-panel,.sip-consult-panel{padding:24px 20px}.sip-root .sip-consult-panel h2{font-size:28px}.sip-consult-heading>.sip-action{font-size:11px}
+  .sip-root .sip-hero h1{font-size:33px}.sip-root .sip-visual-image>p{font-size:24px}.sip-registration-note{padding:20px 16px}.sip-registration-note>svg{display:none}.sip-registration-note p{font-size:20px}.sip-overview-lead{padding:23px 18px;gap:13px}.sip-overview-lead .sip-copy{font-size:17px}.sip-audience-card,.sip-process-step,.sip-benefit-list article{padding:23px}.sip-eligibility-panel,.sip-checklist-panel,.sip-aftercare-panel,.sip-consult-panel{padding:24px 20px}.sip-root .sip-consult-panel h2{font-size:28px}.sip-consult-heading>.sip-action{font-size:11px}
 }
 `;

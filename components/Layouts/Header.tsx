@@ -582,7 +582,7 @@ export default function Header() {
                                             ? `
                                               bg-[#246EF1]
 
-                                              text-white
+                                              !text-white
 
                                               shadow-[0_7px_20px_rgba(36,110,241,0.22)]
                                             `
@@ -1153,7 +1153,7 @@ export default function Header() {
                                               ? `
                                                 bg-[#246EF1]
 
-                                                text-white
+                                                !text-white
                                               `
                                               : `
                                                 bg-white

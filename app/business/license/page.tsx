@@ -182,16 +182,7 @@ const pageData: DynamicServiceData = {
             href: `${licenseBase}/esi-pf-registration`,
           },
         },
-        {
-          title: "PF Registration",
-          paragraphs: [
-            "Complete Provident Fund registration for eligible establishments and organise the employer details required for ongoing EPFO compliance.",
-          ],
-          link: {
-            label: "PF Registration",
-            href: `${licenseBase}/pf-registration`,
-          },
-        },
+        
         {
           title: "ISO Certification Assistance",
           paragraphs: [

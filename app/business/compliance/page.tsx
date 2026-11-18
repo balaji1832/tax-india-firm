@@ -68,11 +68,7 @@ const pageData: DynamicServiceData = {
         "Every business has unique compliance requirements depending on its structure, growth stage and regulatory obligations. Our compliance services are designed to support businesses from incorporation through every significant corporate change.",
       ],
       items: [
-        {
-          title: "Add or Remove Designated Partners in LLP",
-          paragraphs: ["Keep LLP partner records current when designated partners join or leave the business."],
-          link: { label: "Explore LLP partner changes", href: "/business/compliance/add-remove-designated-partners-llp" },
-        },
+        
         {
           title: "Appointment of Director",
           paragraphs: ["As businesses grow, additional directors are often appointed to strengthen leadership, meet governance requirements or bring specialised expertise. We assist with DIN verification, board resolutions, MCA documentation and statutory filings required for appointing directors in compliance with the Companies Act."],
