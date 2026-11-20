@@ -50,7 +50,7 @@ const fadeUp: Variants = {
 
 const avatars = [
   {
-    src: "https://images.latestaiprompts.com/blog/ai-image-prompts-for-profile-picture/professional-corporate-dp.webp",
+    src: "images/cta-1.jpg",
     alt: "Indian professional consultant",
     position:
       "left-[4%] top-[15%] sm:left-[5%] sm:top-[16%] lg:left-[7%] lg:top-[17%]",
@@ -62,7 +62,7 @@ const avatars = [
   },
 
   {
-    src: "https://i.pinimg.com/736x/26/1d/09/261d09ebc9989a2dd442152d89c4d54f.jpg?nii=t",
+    src: "images/cta-2.jpg",
     alt: "Indian female business professional",
     position:
       "left-[23%] top-[6%] hidden sm:block lg:left-[22%] lg:top-[7%]",
@@ -74,7 +74,7 @@ const avatars = [
   },
 
   {
-    src: "https://distil.webcraftstudio.site/indian-male-entrepreneur-ceo-professional-headshot.jpg",
+    src: "images/cta-3.jpg",
     alt: "Indian business professional",
     position:
       "right-[21%] top-[8%] hidden sm:block lg:right-[22%] lg:top-[8%]",
@@ -86,7 +86,7 @@ const avatars = [
   },
 
   {
-    src: "https://images.squarespace-cdn.com/content/v1/560f4999e4b09e1a44e8acea/1449559953594-DAUKUIRGB2XB0YEC01MA/_RMK2882-Edit.jpg",
+    src: "images/cta-4.jpg",
     alt: "Indian business consultant",
     position:
       "right-[4%] top-[18%] sm:right-[5%] lg:right-[7%] lg:top-[18%]",
@@ -98,7 +98,7 @@ const avatars = [
   },
 
   {
-    src: "https://newhouse.syracuse.edu/wp-content/uploads/2025/05/Unknown.jpeg",
+    src: "images/cta-5.jpg",
     alt: "Indian female tax professional",
     position:
       "left-[9%] top-[54%] hidden md:block lg:left-[11%] lg:top-[53%]",
@@ -110,7 +110,7 @@ const avatars = [
   },
 
   {
-    src: "https://irp.cdn-website.com/51b8b04e/dms3rep/multi/Dilip-Gupta.jpg",
+    src: "images/cta-6.jpg",
     alt: "Indian chartered accountant",
     position:
       "right-[9%] top-[52%] hidden md:block lg:right-[11%] lg:top-[52%]",
@@ -122,7 +122,7 @@ const avatars = [
   },
 
   {
-    src: "https://static.toiimg.com/thumb/imgsize-23456%2Cmsid-65652539%2Cwidth-600%2Cresizemode-4/65652539.jpg",
+    src: "images/cta-7.jpg",
     alt: "Indian female professional advisor",
     position:
       "left-[4%] bottom-[12%] sm:left-[6%] sm:bottom-[12%] lg:left-[7%]",
@@ -134,7 +134,7 @@ const avatars = [
   },
 
   {
-    src: "https://dvco.co.in/admin/img/associates/WhatsApp%20Image%202025-10-09%20at%2011.35.55%20AM_1759990161.jpeg",
+    src: "images/cta-8.jpg",
     alt: "Indian business advisor",
     position:
       "left-[27%] bottom-[7%] hidden sm:block lg:left-[26%]",
@@ -146,7 +146,7 @@ const avatars = [
   },
 
   {
-    src: "https://i.pinimg.com/736x/26/1d/09/261d09ebc9989a2dd442152d89c4d54f.jpg?nii=t",
+    src: "images/cta-9.jpg",
     alt: "Indian female tax consultant",
     position:
       "right-[28%] bottom-[8%] hidden sm:block lg:right-[27%]",
@@ -158,7 +158,7 @@ const avatars = [
   },
 
   {
-    src: "https://images.latestaiprompts.com/blog/ai-image-prompts-for-profile-picture/professional-corporate-dp.webp",
+    src: "images/cta-10.jpg",
     alt: "Indian professional consultant",
     position:
       "right-[4%] bottom-[13%] sm:right-[6%] lg:right-[7%]",

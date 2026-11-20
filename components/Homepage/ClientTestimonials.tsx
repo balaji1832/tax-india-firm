@@ -48,7 +48,7 @@ const reviews: Review[] = [
     text:
       "Timely, professional and thorough. Tax India Firm handled our Pvt Ltd registration and GST filing without a single follow-up needed from our side. Completely reliable.",
     image:
-      "https://images.latestaiprompts.com/blog/ai-image-prompts-for-profile-picture/professional-corporate-dp.webp",
+    "images/p2.webp"
   },
 
   {
@@ -59,8 +59,8 @@ const reviews: Review[] = [
     text:
       "Best consultants in Chennai. They completed the work on time. Good team work and excellent follow-through. Highly recommend for any company registration or GST work.",
     image:
-      "https://distil.webcraftstudio.site/indian-male-entrepreneur-ceo-professional-headshot.jpg",
-  },
+    "images/p1.jpg"
+    },
 
   {
     id: 3,
@@ -70,7 +70,7 @@ const reviews: Review[] = [
     text:
       "Excellent service from start to finish. Their team explained every step of our company compliance clearly. As a startup, having a CA firm that actually communicates makes all the difference.",
     image:
-      "https://images.squarespace-cdn.com/content/v1/6932f22638bc0d25b7bee5ae/93f4d48a-62c3-4efa-a514-e8bfd49f35e0/SOC_1005.jpg?format=1000w",
+    "images/p3.webp"
   },
 ];
 
