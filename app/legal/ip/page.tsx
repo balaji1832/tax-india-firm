@@ -51,11 +51,11 @@ const pageData: DynamicServiceData = {
 
   images: {
     hero:
-      "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1800&q=85",
-    heroAlt: "Intellectual property IP registration India Chennai",
+      "/images/services/legal/ip.webp",
+    heroAlt: "Four distinct protected creative assets, a blank brand tag, book, blueprint roll and chip in a display case illustration",
     office:
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-    officeAlt: "Intellectual property IP registration India Chennai",
+      "/images/services/legal/ip-banner.webp",
+    officeAlt: "",
   },
 
   logoSrc: "/icons/taxindia-logo.png",

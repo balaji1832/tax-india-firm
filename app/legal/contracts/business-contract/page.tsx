@@ -53,8 +53,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Discuss Your Contract Requirement on WhatsApp",
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Business contract legal agreement drafting Chennai Tamil Nadu"
+      "src": "/images/services/legal/contracts/business-contract.webp",
+      "alt": "Multi-page business agreement in navy folio with a gold pen illustration"
     }
   },
   "cta": {

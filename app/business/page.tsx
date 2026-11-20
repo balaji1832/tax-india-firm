@@ -128,8 +128,8 @@ const businessHubData: DynamicHubData = {
     markerNumber: "01",
     markerText: "Registration\nLicenses\nCompliance",
     image: {
-      src: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=85",
-      alt: "Business registration and compliance professionals in Chennai",
+      src: "/images/services/business/compliance-records.webp",
+      alt: "Structured blue corporate records archive with indexed ledgers and gold binder clips illustration",
     },
     imageChip: "Serving Tamil Nadu since 2013",
     imageStatement: "Your Business.\nSet Up Right.",
@@ -452,8 +452,8 @@ const businessHubData: DynamicHubData = {
     lede:
       "Many businesses in Chennai choose a filing agent over a CA firm to save money on registration, and spend far more fixing errors later. The difference is expertise and accountability.",
     image: {
-      src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=85",
-      alt: "Tax India Firm professionals discussing business registration",
+      src: "/images/services/business/hero.webp",
+      alt: "",
     },
     badge: "Professional business support since 2013",
     proofs: [

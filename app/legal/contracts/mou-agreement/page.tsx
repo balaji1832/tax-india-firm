@@ -53,8 +53,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Discuss Your MOU Requirement on WhatsApp",
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "MOU memorandum of understanding drafting India Chennai"
+      "src": "/images/services/legal/contracts/mou-agreement.webp",
+      "alt": "Two unsigned collaboration folios aligned edge to edge beneath a gold pen illustration"
     }
   },
   "cta": {

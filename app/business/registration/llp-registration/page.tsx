@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Register Your LLP",
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "LLP registration services Chennai Tamil Nadu"
+      "src": "/images/services/business/registration/llp-registration.webp",
+      "alt": "Two interlocking blue partnership blocks beside a blank agreement folio illustration"
     }
   },
   "cta": {

@@ -67,8 +67,8 @@ const pageData: ServiceInnerPageData = {
     ],
 
     image: {
-      src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=85",
-      alt: "TDS TCS return filing Chennai Tamil Nadu",
+      src: "/images/services/taxation/tax-filing/tds-tcs-return-filing.webp",
+      alt: "Quarterly calendar with two withholding tax folders illustration",
     },
   },
 

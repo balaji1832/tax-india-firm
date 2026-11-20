@@ -47,8 +47,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Register Nidhi Company",
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Nidhi Company Registration Services Chennai Tamil Nadu"
+      "src": "/images/services/business/registration/nidhi-company-registration.webp",
+      "alt": "Cooperative savings box and orderly blank membership cards illustration"
     }
   },
   "cta": {

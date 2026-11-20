@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Register Your Professional Tax with Tax India Firm",
     "image": {
-      "src": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Professional Tax Registration Chennai Tamil Nadu"
+      "src": "/images/services/business/license/professional-tax-registration.webp",
+      "alt": "Payroll ledger and compact calculator with a blank tax card illustration"
     }
   },
   "cta": {

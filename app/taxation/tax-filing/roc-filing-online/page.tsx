@@ -70,8 +70,8 @@ const pageData: ServiceInnerPageData = {
     ],
 
     image: {
-      src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-      alt: "ROC filing online annual compliance India Tamil Nadu",
+      src: "/images/services/taxation/tax-filing/roc-filing-online.webp",
+      alt: "Corporate filing folders and cloud upload arrow made of simple shapes illustration",
     },
   },
 

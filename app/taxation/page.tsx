@@ -110,8 +110,8 @@ const taxationHubData: DynamicHubData = {
       "Understand the requirement.\nBuild the right framework.",
 
     image: {
-      src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=85",
-      alt: "A contemporary office workspace used to represent professional taxation and compliance support",
+      src: "/images/services/taxation/filing-calendar.webp",
+      alt: "Calendar and organized blue tax filing folders for recurring compliance illustration",
     },
 
     imageChip: "Chennai · Tamil Nadu",
@@ -425,8 +425,8 @@ const taxationHubData: DynamicHubData = {
       "Taxation requires accuracy, but it also requires context. The correct approach for one business or individual may not be appropriate for another.",
 
     image: {
-      src: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1600&q=85",
-      alt: "Professionals collaborating in an office environment",
+      src: "/images/services/taxation/hero.webp",
+      alt: "",
     },
 
     badge: "Requirement-led tax support",

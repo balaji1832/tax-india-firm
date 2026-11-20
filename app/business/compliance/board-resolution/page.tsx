@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Get a Board Resolution",
     "image": {
-      "src": "/images/company-compliance.png",
-      "alt": "Board resolution drafting services India Chennai"
+      "src": "/images/services/business/compliance/board-resolution.webp",
+      "alt": "Formal board resolution folio with a gold pen and blank seal-free paper illustration"
     }
   },
   "cta": {

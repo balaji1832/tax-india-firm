@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowDown,
@@ -168,6 +169,14 @@ export default function ItrHubPage() {
               className="itr-reveal itr-reveal-late rounded-3xl border border-blue-300/25 bg-white/5 p-3 shadow-2xl shadow-slate-950/30 sm:p-4"
             >
               <div className="rounded-2xl bg-white p-5 text-slate-950 sm:p-7">
+                <Image
+                  src="/images/services/itr/hero.webp"
+                  alt="Personal income folder and calculator illustration"
+                  width={1536}
+                  height={1024}
+                  priority
+                  className="mb-5 aspect-[3/2] w-full rounded-xl object-contain"
+                />
                 <div className="flex items-center justify-between gap-4 border-b border-slate-200 pb-5">
                   <div>
                     <p className="text-xs font-bold tracking-widest text-blue-700">
@@ -284,6 +293,13 @@ export default function ItrHubPage() {
               Start with what you earned and the records you have. That gives
               our team a clearer picture of the support you need.
             </p>
+            <Image
+              src="/images/services/itr/deduction-documents.webp"
+              alt="Organized deduction and investment documents illustration"
+              width={1536}
+              height={1024}
+              className="mt-6 aspect-[3/2] w-full rounded-2xl object-contain"
+            />
           </div>
 
           <ol className="divide-y divide-slate-200 rounded-3xl border border-slate-200 bg-slate-50 px-5 sm:px-7">

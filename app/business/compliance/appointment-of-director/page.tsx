@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Talk to a Compliance Expert",
     "image": {
-      "src": "/images/company-compliance.png",
-      "alt": "Appointment of Director in Private Limited Company Chennai"
+      "src": "/images/services/business/compliance/appointment-of-director.webp",
+      "alt": "Blank board appointment card inserted into a corporate records binder illustration"
     }
   },
   "cta": {

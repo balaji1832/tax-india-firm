@@ -51,11 +51,11 @@ const pageData: DynamicServiceData = {
 
   images: {
     hero:
-      "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1800&q=85",
-    heroAlt: "Business contract legal agreement drafting Chennai Tamil Nadu",
+      "/images/services/legal/contracts.webp",
+    heroAlt: "Unsigned agreement sheets and a gold pen on a navy folio illustration",
     office:
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-    officeAlt: "Business contract legal agreement drafting Chennai Tamil Nadu",
+      "/images/services/legal/contracts-banner.webp",
+    officeAlt: "",
   },
 
   logoSrc: "/icons/taxindia-logo.png",

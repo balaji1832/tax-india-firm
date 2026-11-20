@@ -50,8 +50,8 @@ const pageData: ServiceInnerPageData = {
       "One-Sided NDA vs Mutual NDA"
     ],
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "NDA non disclosure agreement drafting India Chennai"
+      "src": "/images/services/legal/contracts/non-disclosure-agreement-nda.webp",
+      "alt": "Confidential blue document protected by a closed gold lock illustration"
     }
   },
   "cta": {

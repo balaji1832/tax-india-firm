@@ -252,8 +252,8 @@ const pageData: ServiceInnerPageData = {
     ],
     ctaLabel: "WhatsApp a CA: File My ITR",
     image: {
-      src: "/images/income-tax.jpg",
-      alt: "Income tax filing in Chennai with Chartered Accountant assistance",
+      src: "/images/services/itr/income-tax-filing-in-chennai.webp",
+      alt: "Blue Chennai tax filing desk with a personal income binder and calendar illustration",
     },
   },
   cta: {

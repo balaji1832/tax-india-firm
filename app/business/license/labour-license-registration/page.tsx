@@ -45,8 +45,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Apply for Your Labour License with Expert Guidance",
     "image": {
-      "src": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Labour License Registration services in Chennai Tamil Nadu"
+      "src": "/images/services/business/license/labour-license-registration.webp",
+      "alt": "Hard hat and rolled blank work permit illustration"
     }
   },
   "cta": {

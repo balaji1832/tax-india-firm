@@ -50,8 +50,8 @@ const pageData: ServiceInnerPageData = {
       "What Should an Employment Agreement Cover?"
     ],
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Employment agreement contract drafting India Chennai"
+      "src": "/images/services/legal/contracts/employment-agreement.webp",
+      "alt": "Employment agreement folio beside a small office badge without portrait illustration"
     }
   },
   "cta": {

@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Register Your Trust",
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Trust registration services Chennai Tamil Nadu"
+      "src": "/images/services/business/registration/trust-registration.webp",
+      "alt": "Charitable trust deed in a blue folder with a simple tree emblem made from shapes illustration"
     }
   },
   "cta": {

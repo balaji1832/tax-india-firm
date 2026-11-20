@@ -43,8 +43,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Register ESI & PF",
     "image": {
-      "src": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=85",
-      "alt": "ESI PF registration services Chennai Tamil Nadu"
+      "src": "/images/services/business/license/esi-pf-registration.webp",
+      "alt": "Two blue employee benefit files with a linked gold fastener illustration"
     }
   },
   "cta": {

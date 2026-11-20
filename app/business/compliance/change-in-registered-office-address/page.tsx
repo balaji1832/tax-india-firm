@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Schedule a Consultation",
     "image": {
-      "src": "/images/company-compliance.png",
-      "alt": "Change registered office address of company India"
+      "src": "/images/services/business/compliance/change-in-registered-office-address.webp",
+      "alt": "Office building model and two location pins over a blank address card illustration"
     }
   },
   "cta": {

@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Register Partnership Firm",
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Partnership Firm registration services in Chennai Tamil Nadu"
+      "src": "/images/services/business/registration/partnership-firm-registration.webp",
+      "alt": "Two matched blue business ledgers joined by a gold clasp illustration"
     }
   },
   "cta": {

@@ -49,8 +49,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Register Your Society",
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Society registration services in Chennai for NGO and non-profit organisations"
+      "src": "/images/services/business/registration/society-registration.webp",
+      "alt": "Circle of small blue organization tiles around a blank charter illustration"
     }
   },
   "cta": {

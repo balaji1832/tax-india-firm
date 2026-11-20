@@ -42,8 +42,8 @@ const pageData: ServiceInnerPageData = {
       "Filing, examination and prosecution assistance",
     ],
     image: {
-      src: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=85",
-      alt: "Patent registration India invention protection Chennai",
+      src: "/images/services/legal/ip/patent-registration.webp",
+      alt: "Rolled invention blueprint beside a small abstract mechanical prototype illustration",
     },
   },
   cta: {

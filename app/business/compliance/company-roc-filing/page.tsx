@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Schedule a Consultation",
     "image": {
-      "src": "/images/company-compliance.png",
-      "alt": "ROC filing services annual compliance Chennai Tamil Nadu"
+      "src": "/images/services/business/compliance/company-roc-filing.webp",
+      "alt": "Corporate filing tray with a blue annual calendar and blank reports illustration"
     }
   },
   "cta": {

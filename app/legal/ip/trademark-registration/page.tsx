@@ -42,8 +42,8 @@ const pageData: ServiceInnerPageData = {
       "Application monitoring and follow-up",
     ],
     image: {
-      src: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1400&q=85",
-      alt: "Trademark registration brand protection Chennai Tamil Nadu",
+      src: "/images/services/legal/ip/trademark-registration.webp",
+      alt: "Blank brand tag protected inside a clear glass case illustration",
     },
   },
   cta: {

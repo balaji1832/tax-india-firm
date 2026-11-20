@@ -91,8 +91,8 @@ const legalHubData: DynamicHubData = {
     markerNumber: "01",
     markerText: "Intellectual Property & Business Contract Services",
     image: {
-      src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=85",
-      alt: "Legal services Chennai Tamil Nadu IP contracts",
+      src: "/images/services/legal/agreement-drafting.webp",
+      alt: "Unsigned agreement in a navy folio beside a gold pen illustration",
     },
     imageChip: "Chennai · Tamil Nadu",
     imageStatement: banner,
@@ -344,8 +344,8 @@ const legalHubData: DynamicHubData = {
     lede:
       "Businesses generally do not need legal documents in isolation. They need documents that make sense within the **commercial and operational context** of the business.",
     image: {
-      src: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1600&q=85",
-      alt: "Professionals collaborating in an office",
+      src: "/images/services/legal/hero.webp",
+      alt: "",
     },
     badge: "Business legal support",
     proofs: [

@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "File Director eKYC",
     "image": {
-      "src": "/images/company-compliance.png",
-      "alt": "Annual Director eKYC DIR-3 KYC Filing Services India"
+      "src": "/images/services/business/compliance/annual-ekyc-for-directors.webp",
+      "alt": "Secure identity card with a blue renewal calendar, no portrait illustration"
     }
   },
   "cta": {

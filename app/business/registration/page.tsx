@@ -53,11 +53,11 @@ const pageData: DynamicServiceData = {
 
   images: {
     hero:
-      "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1800&q=85",
-    heroAlt: "Business registration services Chennai Tamil Nadu",
+      "/images/services/business/registration.webp",
+    heroAlt: "Blank incorporation certificate emerging from a blue registration folder illustration",
     office:
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-    officeAlt: "Business registration services Chennai Tamil Nadu",
+      "/images/services/business/registration-banner.webp",
+    officeAlt: "",
   },
 
   logoSrc: "/icons/taxindia-logo.png",

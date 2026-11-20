@@ -96,7 +96,6 @@ function HeroVisual({ data }: { data: ServiceInnerPageData }) {
       <Photo src={data.hero.image.src} alt={data.hero.image.alt} />
       <div className="sip-photo-shade" />
       <span className="sip-visual-label"><span />{data.category}</span>
-      <p>{data.hero.tagline}</p>
       <span className="sip-image-location"><MapPin size={14} aria-hidden="true" />{data.location}</span>
     </div>
     <div className="sip-registration-note">
@@ -555,4 +554,8 @@ const STYLES = `
 @media(max-width:359px){
   .sip-root .sip-hero h1{font-size:33px}.sip-root .sip-visual-image>p{font-size:24px}.sip-registration-note{padding:20px 16px}.sip-registration-note>svg{display:none}.sip-registration-note p{font-size:20px}.sip-overview-lead{padding:23px 18px;gap:13px}.sip-overview-lead .sip-copy{font-size:17px}.sip-audience-card,.sip-process-step,.sip-benefit-list article{padding:23px}.sip-eligibility-panel,.sip-checklist-panel,.sip-aftercare-panel,.sip-consult-panel{padding:24px 20px}.sip-root .sip-consult-panel h2{font-size:28px}.sip-consult-heading>.sip-action{font-size:11px}
 }
+.sip-visual-image{background:#fff}
+.sip-visual-image .sip-photo{object-fit:contain;filter:none;transform:none}
+.sip-hero-visual:hover .sip-photo{transform:none}
+.sip-photo-shade{background:linear-gradient(0deg,#061c3de8,transparent 43%)}
 `;

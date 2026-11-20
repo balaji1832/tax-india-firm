@@ -65,8 +65,8 @@ const pageData: ServiceInnerPageData = {
     ],
 
     image: {
-      src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-      alt: "GST registration cancellation India Chennai",
+      src: "/images/services/taxation/gst/gst-registration-cancellation.webp",
+      alt: "Closed blue GST registration folder with a gold cancellation tab illustration",
     },
   },
 

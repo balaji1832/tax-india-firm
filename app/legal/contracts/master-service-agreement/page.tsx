@@ -50,8 +50,8 @@ const pageData: ServiceInnerPageData = {
       "What Should a Master Service Agreement Cover?"
     ],
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Master service agreement MSA drafting India Chennai"
+      "src": "/images/services/legal/contracts/master-service-agreement.webp",
+      "alt": "Large master agreement binder with layered blank project schedules illustration"
     }
   },
   "cta": {

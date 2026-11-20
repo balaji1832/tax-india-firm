@@ -430,7 +430,7 @@ function Photo({
           priority={priority}
           unoptimized
           onError={() => setFailed(true)}
-          className="object-cover"
+          className="object-contain"
         />
       )}
     </div>
@@ -1498,7 +1498,6 @@ export default function DynamicHub({ data }: DynamicHubProps) {
             <div className="tp-overview-body">
               <div className="tp-overview-photo" data-lift>
                 <div
-                  data-parallax
                   className="tp-parallax-fill"
                 >
                   <Photo
@@ -1848,7 +1847,6 @@ export default function DynamicHub({ data }: DynamicHubProps) {
             <div className="tp-why-layout">
               <div className="tp-why-visual" data-lift>
                 <div
-                  data-parallax
                   className="tp-parallax-fill"
                 >
                   <Photo
@@ -2122,10 +2120,10 @@ function PremiumStyles() {
     .dynamic-hub .tp-overview-marker > span { font-size: 62px; font-weight: 500; letter-spacing: -.08em; color: #dce7f6; line-height: 1; }
     .dynamic-hub .tp-overview-marker p { font-size: 11px; line-height: 1.8; color: #718098; border-left: 1px solid #d9e4f3; padding-left: 20px; }
     .dynamic-hub .tp-overview-body { display: grid; grid-template-columns: .85fr 1.15fr; gap: 65px; align-items: center; }
-    .dynamic-hub .tp-overview-photo { min-height: 470px; align-self: stretch; position: relative; overflow: hidden; border-radius: 4px 70px 4px 4px; background: #dae6f7; }
-    .dynamic-hub .tp-photo-fill { position: absolute; inset: 0; background: #dce8fb; }
+    .dynamic-hub .tp-overview-photo { min-height: 470px; align-self: stretch; position: relative; overflow: hidden; border-radius: 4px 70px 4px 4px; background: #fff; }
+    .dynamic-hub .tp-photo-fill { position: absolute; inset: 0; background: #fff; }
     .dynamic-hub .tp-photo-fallback { height: 100%; display: flex; align-items: center; justify-content: center; color: #74a4e6; background: linear-gradient(140deg, #bdd5f7, #eaf3ff); }
-    .dynamic-hub .tp-parallax-fill { position: absolute; inset: -8% 0; }
+    .dynamic-hub .tp-parallax-fill { position: absolute; inset: 0; }
     .dynamic-hub .tp-overview-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, #071a350d 20%, #071a3599 100%); pointer-events: none; }
     .dynamic-hub .tp-photo-chip { position: absolute; z-index: 1; left: 22px; top: 22px; display: flex; align-items: center; gap: 7px; color: #dbeaff; background: #071a357c; backdrop-filter: blur(14px); border: 1px solid #ffffff27; border-radius: 30px; padding: 9px 12px; font-size: 9px; }
     .dynamic-hub .tp-photo-bottom { position: absolute; z-index: 1; left: 28px; bottom: 29px; display: flex; align-items: center; gap: 18px; color: white; }
@@ -2228,9 +2226,8 @@ function PremiumStyles() {
     .dynamic-hub .tp-why-heading .tp-title { max-width: 760px; }
     .dynamic-hub .tp-why-lede { max-width: 560px; justify-self: end; color: #a9bdd9; font-size: 15px; line-height: 1.85; }
     .dynamic-hub .tp-why-layout { display: grid; grid-template-columns: 1.06fr .94fr; gap: 44px; align-items: stretch; }
-    .dynamic-hub .tp-why-visual { position: relative; min-height: 560px; overflow: hidden; border-radius: 14px 86px 14px 14px; background: #102d53; border: 1px solid #9ec1f51f; }
-    .dynamic-hub .tp-why-visual .tp-photo-fill { filter: saturate(.6) contrast(.94); }
-    .dynamic-hub .tp-why-visual-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, #06162d0c 15%, #071a35d9 82%, #071a35 100%), linear-gradient(90deg, #071a354d 0%, transparent 58%); }
+    .dynamic-hub .tp-why-visual { position: relative; min-height: 560px; overflow: hidden; border-radius: 14px 86px 14px 14px; background: #fff; border: 1px solid #9ec1f51f; }
+    .dynamic-hub .tp-why-visual-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 48%, #071a35d9 84%, #071a35 100%); }
     .dynamic-hub .tp-why-visual-badge { position: absolute; top: 28px; left: 28px; z-index: 2; display: inline-flex; align-items: center; gap: 11px; max-width: calc(100% - 56px); padding: 12px 15px; border: 1px solid #b7d5ff2c; border-radius: 9px; background: #0a2143c7; color: #e4efff; backdrop-filter: blur(12px); font-size: 11px; font-weight: 650; }
     .dynamic-hub .tp-why-visual-badge > svg { color: #80aeff; flex-shrink: 0; }
     .dynamic-hub .tp-why-proof-grid { position: absolute; z-index: 2; left: 28px; right: 28px; bottom: 26px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #d8e8ff2a; }

@@ -51,8 +51,8 @@ const pageData: ServiceInnerPageData = {
       "Payment, Delivery and Termination. The Three Areas to Get Right"
     ],
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Vendor agreement drafting services India Chennai"
+      "src": "/images/services/legal/contracts/vendor-agreement.webp",
+      "alt": "Supplier delivery box beside a blue vendor contract illustration"
     }
   },
   "cta": {

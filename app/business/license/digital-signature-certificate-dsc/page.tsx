@@ -51,8 +51,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Get Your DSC",
     "image": {
-      "src": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Digital Signature Certificate DSC Chennai Tamil Nadu"
+      "src": "/images/services/business/license/digital-signature-certificate-dsc.webp",
+      "alt": "Secure USB signing token on a blank digital certificate card illustration"
     }
   },
   "cta": {

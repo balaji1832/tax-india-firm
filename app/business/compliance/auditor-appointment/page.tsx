@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Talk to a Compliance Expert",
     "image": {
-      "src": "/images/company-compliance.png",
-      "alt": "Auditor appointment for company India with ADT-1 MCA filing"
+      "src": "/images/services/business/compliance/auditor-appointment.webp",
+      "alt": "Audit magnifying glass over an orderly ledger and a blank appointment card illustration"
     }
   },
   "cta": {

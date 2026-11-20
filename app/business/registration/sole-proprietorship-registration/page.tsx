@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Register Proprietorship",
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Sole Proprietorship registration services in Chennai Tamil Nadu"
+      "src": "/images/services/business/registration/sole-proprietorship-registration.webp",
+      "alt": "One compact storefront model with a blank registration card illustration"
     }
   },
   "cta": {

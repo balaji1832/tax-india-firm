@@ -43,8 +43,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Get FSSAI License",
     "image": {
-      "src": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=85",
-      "alt": "FSSAI food license registration Chennai Tamil Nadu"
+      "src": "/images/services/business/license/fssai-registration.webp",
+      "alt": "Covered food serving dish with a blank food license card illustration"
     }
   },
   "cta": {

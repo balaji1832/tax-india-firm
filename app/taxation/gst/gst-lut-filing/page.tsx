@@ -64,8 +64,8 @@ const pageData: ServiceInnerPageData = {
     ],
 
     image: {
-      src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-      alt: "GST LUT letter of undertaking filing India Chennai",
+      src: "/images/services/taxation/gst/gst-lut-filing.webp",
+      alt: "Export shipping box and a blank undertaking letter illustration",
     },
   },
 

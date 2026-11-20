@@ -64,8 +64,8 @@ const pageData: ServiceInnerPageData = {
     ],
 
     image: {
-      src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-      alt: "GST notice reply services Chennai India",
+      src: "/images/services/taxation/gst/gst-notice-reply.webp",
+      alt: "Sealed notice envelope beside a prepared blank response sheet illustration",
     },
   },
 

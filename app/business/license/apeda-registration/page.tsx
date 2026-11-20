@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Schedule a Consultation",
     "image": {
-      "src": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=85",
-      "alt": "APEDA registration services India agricultural exporters"
+      "src": "/images/services/business/license/apeda-registration.webp",
+      "alt": "Crate of stylized agricultural produce next to a blue export folder illustration"
     }
   },
   "cta": {

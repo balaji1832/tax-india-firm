@@ -66,8 +66,8 @@ const pageData: ServiceInnerPageData = {
     ],
 
     image: {
-      src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-      alt: "GST appeals services India Chennai litigation",
+      src: "/images/services/taxation/gst/gst-appeals.webp",
+      alt: "Balance scale over two GST documents in separate folders illustration",
     },
   },
 

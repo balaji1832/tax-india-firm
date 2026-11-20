@@ -66,8 +66,8 @@ const pageData: ServiceInnerPageData = {
     ],
 
     image: {
-      src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-      alt: "GST amendment services India Chennai",
+      src: "/images/services/taxation/gst/gst-amendments.webp",
+      alt: "GST certificate with a movable blue amendment tab illustration",
     },
   },
 

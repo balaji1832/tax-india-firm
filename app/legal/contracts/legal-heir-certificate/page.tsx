@@ -51,8 +51,8 @@ const pageData: ServiceInnerPageData = {
       "Can You Apply for a Legal Heir Certificate Online in Tamil Nadu?"
     ],
     "image": {
-      "src": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Legal heir certificate Chennai Tamil Nadu"
+      "src": "/images/services/legal/contracts/legal-heir-certificate.webp",
+      "alt": "Family succession document represented by branching gold lines and a blank certificate, no people illustration"
     }
   },
   "cta": {

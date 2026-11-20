@@ -43,8 +43,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Register Your IEC",
     "image": {
-      "src": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Import Export Code IEC Registration Chennai Tamil Nadu"
+      "src": "/images/services/business/license/import-export-code-registration.webp",
+      "alt": "Cargo container and miniature globe beside a blank trade permit illustration"
     }
   },
   "cta": {

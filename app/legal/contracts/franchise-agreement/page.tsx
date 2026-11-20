@@ -53,8 +53,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Discuss Your Franchise Agreement on WhatsApp",
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Franchise agreement drafting services India Chennai"
+      "src": "/images/services/legal/contracts/franchise-agreement.webp",
+      "alt": "Two matching storefront models linked by an unsigned franchise agreement illustration"
     }
   },
   "cta": {

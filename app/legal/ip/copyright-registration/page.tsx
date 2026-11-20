@@ -44,8 +44,8 @@ const pageData: ServiceInnerPageData = {
       "Support through scrutiny and objections",
     ],
     image: {
-      src: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1400&q=85",
-      alt: "Copyright registration India creative work Chennai",
+      src: "/images/services/legal/ip/copyright-registration.webp",
+      alt: "Closed creative manuscript and blue copyright registration folio illustration",
     },
   },
   cta: {

@@ -65,8 +65,8 @@ const pageData: ServiceInnerPageData = {
     ],
 
     image: {
-      src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-      alt: "GST annual return GSTR-9 filing Chennai Tamil Nadu",
+      src: "/images/services/taxation/gst/gst-annual-return-filing.webp",
+      alt: "Yearly calendar and tall stack of sorted GST return folders illustration",
     },
   },
 

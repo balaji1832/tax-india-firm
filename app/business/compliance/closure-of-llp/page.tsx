@@ -45,8 +45,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Schedule a Consultation",
     "image": {
-      "src": "/images/company-compliance.png",
-      "alt": "LLP closure winding up MCA India"
+      "src": "/images/services/business/compliance/closure-of-llp.webp",
+      "alt": "Closed blue partnership ledger tied with a neat gold cord illustration"
     }
   },
   "cta": {

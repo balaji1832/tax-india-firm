@@ -50,8 +50,8 @@ const pageData: ServiceInnerPageData = {
       "What Should a Power of Attorney Cover?"
     ],
     "image": {
-      "src": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Power of attorney POA services Chennai Tamil Nadu"
+      "src": "/images/services/legal/contracts/power-of-attorney.webp",
+      "alt": "Authorization document beside a single blue key and gold pen illustration"
     }
   },
   "cta": {

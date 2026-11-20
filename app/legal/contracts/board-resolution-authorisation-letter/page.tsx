@@ -51,8 +51,8 @@ const pageData: ServiceInnerPageData = {
       "Board Resolution vs Authorisation Letter"
     ],
     "image": {
-      "src": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Board resolution authorisation letter India Chennai"
+      "src": "/images/services/legal/contracts/board-resolution-authorisation-letter.webp",
+      "alt": "Board decision papers and a separate blank authorization letter illustration"
     }
   },
   "cta": {

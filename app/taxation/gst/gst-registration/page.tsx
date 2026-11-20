@@ -49,8 +49,8 @@ const pageData: ServiceInnerPageData = {
       "ARN tracking and application follow-up"
     ],
     "image": {
-      "src": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-      "alt": "GST registration new Chennai Tamil Nadu"
+      "src": "/images/services/taxation/gst/gst-registration.webp",
+      "alt": "Fresh blank GST certificate and application folder illustration"
     }
   },
   "cta": {

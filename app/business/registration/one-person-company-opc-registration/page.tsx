@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Register Your OPC",
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "One Person Company (OPC) registration services in Chennai, Tamil Nadu"
+      "src": "/images/services/business/registration/one-person-company-opc-registration.webp",
+      "alt": "One standing blue office tower beside a single blank incorporation folder illustration"
     }
   },
   "cta": {

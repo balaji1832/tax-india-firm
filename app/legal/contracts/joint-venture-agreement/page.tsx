@@ -53,8 +53,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Discuss Your JV Agreement on WhatsApp",
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Joint venture agreement drafting India Chennai"
+      "src": "/images/services/legal/contracts/joint-venture-agreement.webp",
+      "alt": "Two different blue business models converging at one shared contract illustration"
     }
   },
   "cta": {

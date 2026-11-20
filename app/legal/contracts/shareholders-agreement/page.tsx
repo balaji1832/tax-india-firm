@@ -50,8 +50,8 @@ const pageData: ServiceInnerPageData = {
       "Shareholders Agreement for Founders and Investors"
     ],
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Shareholders agreement drafting India Chennai"
+      "src": "/images/services/legal/contracts/shareholders-agreement.webp",
+      "alt": "Cluster of distinct ownership blocks beside a blue shareholders folio illustration"
     }
   },
   "cta": {

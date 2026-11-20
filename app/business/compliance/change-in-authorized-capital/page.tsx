@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Talk to a Compliance Expert",
     "image": {
-      "src": "/images/company-compliance.png",
-      "alt": "Change authorized capital company MCA India"
+      "src": "/images/services/business/compliance/change-in-authorized-capital.webp",
+      "alt": "Stacked gold and blue capital blocks rising beside a company ledger illustration"
     }
   },
   "cta": {

@@ -43,8 +43,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Get ISO Certification",
     "image": {
-      "src": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=85",
-      "alt": "ISO certification services Chennai Tamil Nadu"
+      "src": "/images/services/business/license/iso-certification.webp",
+      "alt": "Precision gear beside a blank certification ribbon illustration"
     }
   },
   "cta": {

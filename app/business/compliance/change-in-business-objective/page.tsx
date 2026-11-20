@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Amend Your MOA",
     "image": {
-      "src": "/images/company-compliance.png",
-      "alt": "Change Business Objective MOA Amendment India"
+      "src": "/images/services/business/compliance/change-in-business-objective.webp",
+      "alt": "Blue business compass beside a revised blank company charter illustration"
     }
   },
   "cta": {

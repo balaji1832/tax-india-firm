@@ -966,9 +966,9 @@ const STYLES = `
 .gst-explore-link{display:inline-flex;align-items:center;gap:9px;padding-block:12px;color:#5f789d;font-size:12px}
 .gst-hero-photo{
   position:relative;height:470px;overflow:hidden;border-radius:65px 20px 20px 20px;
-  background:#dae7f9;box-shadow:0 28px 55px -40px #234f9680;transform:none;
+  background:#fff;box-shadow:0 28px 55px -40px #234f9680;transform:none;
 }
-.gst-image{object-fit:cover}
+.gst-image{object-fit:contain;background:#fff}
 .gst-image-fallback{
   position:absolute;inset:0;display:grid;place-items:center;color:#5c8fd6;
   background:linear-gradient(135deg,#e4efff,#a4c2ed);
@@ -996,7 +996,8 @@ const STYLES = `
 .gst-overview-featured{grid-column:1/-1;background:#183f75;border-color:#183f75}
 .gst-overview-featured>p{color:#e0edff;font-size:17px;line-height:1.75}
 .gst-overview-featured .gst-card-number{color:#94b9ec}
-.gst-overview-banner{position:relative;height:190px;margin-top:18px;overflow:hidden;border-radius:16px;background:#dbe7f8}
+.gst-overview-banner{position:relative;height:190px;margin-top:18px;overflow:hidden;border-radius:16px;background:#fff}
+.gst-overview-banner .gst-image{object-fit:cover;object-position:center}
 .gst-overview-overlay{position:absolute;inset:0;background:linear-gradient(90deg,#0d3067de,#0d306730)}
 .gst-overview-caption{position:absolute;inset:0;display:flex;align-items:center;gap:19px;padding:30px;color:#fff}
 .gst-root .gst-overview-caption>p{max-width:570px;color:#fff;font-size:27px;line-height:1.3;letter-spacing:-.035em}

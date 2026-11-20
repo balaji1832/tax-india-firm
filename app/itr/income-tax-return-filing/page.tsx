@@ -303,8 +303,8 @@ const pageData: ServiceInnerPageData = {
     ],
     ctaLabel: "Get Help Filing My ITR",
     image: {
-      src: "/images/tax-accounting.png",
-      alt: "Income tax return documents and filing support",
+      src: "/images/services/itr/income-tax-return-filing.webp",
+      alt: "Completed personal income folder with a compact calculator and blank return sheet illustration",
     },
   },
   cta: { label: "Get Help Filing My ITR", href: whatsappHref },

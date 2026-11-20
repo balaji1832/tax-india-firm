@@ -49,8 +49,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Register Section 8 Company",
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Section 8 company registration services in Chennai for NGOs and non-profit organisations"
+      "src": "/images/services/business/registration/section-8-company-registration.webp",
+      "alt": "Nonprofit incorporation folder with a simple gold heart-shaped paper clip illustration"
     }
   },
   "cta": {

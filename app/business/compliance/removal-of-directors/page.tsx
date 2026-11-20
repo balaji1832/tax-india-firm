@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Schedule a Consultation",
     "image": {
-      "src": "/images/company-compliance.png",
-      "alt": "Removal of director company India MCA filing"
+      "src": "/images/services/business/compliance/removal-of-directors.webp",
+      "alt": "One removable tab pulled from a corporate board binder illustration"
     }
   },
   "cta": {

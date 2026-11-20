@@ -42,8 +42,8 @@ const pageData: ServiceInnerPageData = {
     ],
     ctaLabel: "Start Your Pvt Ltd Registration on WhatsApp",
     image: {
-      src: "/images/company-registration.png",
-      alt: "Private limited company registration Chennai Tamil Nadu",
+      src: "/images/services/business/registration/private-limited-company-registration.webp",
+      alt: "Model of a modern office building rising from a blank incorporation certificate illustration",
     },
   },
   cta: {

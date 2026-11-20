@@ -46,8 +46,8 @@ const pageData: ServiceInnerPageData = {
     ],
     "ctaLabel": "Amend LLP Agreement",
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "LLP agreement amendment services Chennai India"
+      "src": "/images/services/business/registration/changes-in-llp-agreement.webp",
+      "alt": "Partnership agreement with two movable blue tabs and a gold amendment marker illustration"
     }
   },
   "cta": {

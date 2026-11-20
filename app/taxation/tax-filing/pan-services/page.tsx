@@ -68,8 +68,8 @@ const pageData: ServiceInnerPageData = {
     ],
 
     image: {
-      src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-      alt: "PAN card application services Chennai Tamil Nadu",
+      src: "/images/services/taxation/tax-filing/pan-services.webp",
+      alt: "Blank identity tax card without portrait in a protective sleeve illustration",
     },
   },
 

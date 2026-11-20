@@ -50,8 +50,8 @@ const pageData: ServiceInnerPageData = {
       "SLA vs Service Agreement"
     ],
     "image": {
-      "src": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
-      "alt": "Service level agreement SLA drafting India Chennai"
+      "src": "/images/services/legal/contracts/service-level-agreement.webp",
+      "alt": "Service agreement beside a precise clock and performance gauge without numbers illustration"
     }
   },
   "cta": {

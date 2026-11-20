@@ -69,8 +69,8 @@ const pageData: ServiceInnerPageData = {
     ],
 
     image: {
-      src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=85",
-      alt: "Tax planning advisory services Chennai Tamil Nadu",
+      src: "/images/services/taxation/tax-filing/tax-planning-advisory.webp",
+      alt: "Small gold savings blocks and a blue planning calendar illustration",
     },
   },
 

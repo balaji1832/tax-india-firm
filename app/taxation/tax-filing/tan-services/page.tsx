@@ -66,8 +66,8 @@ const pageData: ServiceInnerPageData = {
     ],
 
     image: {
-      src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-      alt: "TAN registration services Chennai Tamil Nadu",
+      src: "/images/services/taxation/tax-filing/tan-services.webp",
+      alt: "Blank tax account identification card in a secure blue holder illustration",
     },
   },
 
