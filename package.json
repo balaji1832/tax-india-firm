@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "contact:retry-sheets": "node --env-file=.env.local --experimental-strip-types scripts/retry-contact-sheets.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",

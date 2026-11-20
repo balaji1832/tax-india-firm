@@ -1,7 +1,7 @@
 "use client";
 
-import type { FormEvent, ReactNode } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -10,15 +10,94 @@ const ease = [0.16, 1, 0.3, 1] as const;
 ========================================================= */
 
 export default function ContactOffice() {
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const submitting = useRef(false);
+  const [sending, setSending] = useState(false);
+  const [feedback, setFeedback] = useState<{ success: boolean; text: string } | null>(null);
 
-    // Connect your FastAPI/contact API here.
-    console.log("Contact form submitted");
+  useEffect(() => {
+    if (!feedback) return;
+    const timeout = window.setTimeout(() => setFeedback(null), 6500);
+    return () => window.clearTimeout(timeout);
+  }, [feedback]);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (submitting.current) return;
+    submitting.current = true;
+    setSending(true);
+    setFeedback(null);
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.get("name"),
+          phone: data.get("phone"),
+          email: data.get("email"),
+          message: data.get("message"),
+        }),
+      });
+      const result = await response.json() as { saved?: boolean; error?: string; sheetsSynced?: boolean };
+      if (!response.ok || !result.saved) {
+        throw new Error(result.error || "We could not save your enquiry. Please try again.");
+      }
+      form.reset();
+      setFeedback({
+        success: true,
+        text: result.sheetsSynced
+          ? "Thank you. Your enquiry was sent successfully."
+          : "Thank you. Your enquiry was saved. Sheet sync will be retried.",
+      });
+    } catch (error) {
+      setFeedback({
+        success: false,
+        text: error instanceof Error ? error.message : "We could not save your enquiry. Please try again.",
+      });
+    } finally {
+      submitting.current = false;
+      setSending(false);
+    }
   };
 
   return (
     <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
+      <AnimatePresence>
+        {feedback && (
+          <motion.div
+            key={feedback.text}
+            role={feedback.success ? "status" : "alert"}
+            initial={{ opacity: 0, y: -16, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+            transition={{ duration: 0.25, ease }}
+            className={`fixed right-4 top-24 z-[100000] flex w-[calc(100vw-2rem)] max-w-[390px] items-start gap-3 rounded-2xl border bg-white p-4 shadow-[0_18px_48px_rgba(16,35,61,0.18)] sm:right-6 ${feedback.success ? "border-[#B9E8D0]" : "border-[#F7C4C0]"}`}
+          >
+            <span
+              aria-hidden="true"
+              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-lg font-bold ${feedback.success ? "bg-[#E5F8EE] text-[#168454]" : "bg-[#FFF0EF] text-[#C9362D]"}`}
+            >
+              {feedback.success ? "✓" : "!"}
+            </span>
+            <div className="min-w-0 flex-1 pt-0.5">
+              <p className="text-[13px] font-bold text-[#10233D]">
+                {feedback.success ? "Enquiry received" : "Could not send enquiry"}
+              </p>
+              <p className="mt-1 text-[12px] leading-5 text-[#526780]">{feedback.text}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setFeedback(null)}
+              aria-label="Dismiss notification"
+              className="rounded-full px-2 py-1 text-lg leading-none text-[#71859A] transition-colors hover:bg-[#F0F5FB] hover:text-[#10233D]"
+            >
+              ×
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* =====================================================
           BACKGROUND EFFECTS
       ===================================================== */}
@@ -477,6 +556,8 @@ export default function ContactOffice() {
 
                     <motion.button
                       type="submit"
+                      disabled={sending}
+                      aria-busy={sending}
                       whileHover={{
                         y: -3,
                       }}
@@ -517,10 +598,12 @@ export default function ContactOffice() {
 
                         hover:bg-[#1D5FD8]
                         hover:shadow-[0_16px_38px_rgba(36,110,241,0.26)]
+                        disabled:cursor-not-allowed
+                        disabled:opacity-60
                       "
                     >
                       <span className="!text-white">
-                        Send Enquiry
+                        {sending ? "Sending..." : "Send Enquiry"}
                       </span>
 
                       <span
