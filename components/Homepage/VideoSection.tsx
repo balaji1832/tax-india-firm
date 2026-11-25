@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { useRef, useState } from "react";
 
@@ -39,12 +40,6 @@ const videoReveal: Variants = {
     },
   },
 };
-
-const points = [
-  "Clear guidance from experienced professionals",
-  "End-to-end support for registrations and filings",
-  "Simple process with transparent communication",
-];
 
 type VideoSectionProps = {
   videoSrc?: string;
@@ -177,8 +172,7 @@ export default function VideoSection({
               sm:text-[12px]
             "
           >
-            <PlayMiniIcon className="h-[14px] w-[14px]" />
-            See How We Work
+            See About Us
           </motion.div>
 
           <motion.h2
@@ -202,70 +196,28 @@ export default function VideoSection({
               lg:text-[46px]
             "
           >
-            Business, Tax and Compliance Support Made For {" "}
-            <span className="text-[#2D8CFF]"> All Your Need .</span>
+            About <span className="text-[#2D8CFF]">Tax India Firm</span>
           </motion.h2>
 
-          <motion.p
+          <motion.h3
             variants={fadeUp}
-            className="
-              mt-5
-              max-w-[590px]
-              font-body
-              text-[14px]
-              leading-7
-              text-[#61788A]
-
-              sm:text-[15px]
-              sm:leading-7
-            "
+            className="mt-5 py-2 font-heading text-[18px] font-semibold leading-snug text-[#173A56] sm:text-[20px]"
           >
-            See how Tax India Firm helps businesses move from documentation to
-            registration, filing and ongoing compliance with a clear,
-            professional process.
+            Trusted &amp; ISO Certified Firm
+          </motion.h3>
+
+          <motion.p variants={fadeUp} className="mt-4 max-w-[590px] font-body text-[14px] leading-7 text-[#61788A] sm:text-[15px]">
+            Since 2013, <strong>TAX INDIA FIRM</strong> is a trusted ISO 9001-2015 certified organization based in Chennai. We have become the preferred choice for numerous businesses seeking support with startup incorporation, licensing, accounting, taxation, legal compliance and other professional services.
           </motion.p>
 
-          <motion.div variants={fadeUp} className="mt-7 space-y-3.5">
-            {points.map((point) => (
-              <div
-                key={point}
-                className="
-                  flex
-                  items-start
-                  gap-3
-                "
-              >
-                <span
-                  className="
-                    mt-[2px]
-                    flex
-                    h-6
-                    w-6
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-[#EAF6FF]
-                    text-[#0B72C5]
-                  "
-                >
-                  <CheckIcon className="h-[13px] w-[13px]" />
-                </span>
+          <motion.p variants={fadeUp} className="mt-4 max-w-[590px] font-body text-[14px] leading-7 text-[#61788A] sm:text-[15px]">
+            Our strong team of experts, including Chartered Accountants, Company Secretaries, Corporate Lawyers and Accounting Professionals is dedicated to helping entrepreneurs start, manage and grow their businesses successfully.
+          </motion.p>
 
-                <p
-                  className="
-                    font-body
-                    text-[13px]
-                    leading-6
-                    text-[#496579]
-
-                    sm:text-[14px]
-                  "
-                >
-                  {point}
-                </p>
-              </div>
-            ))}
+          <motion.div variants={fadeUp} className="mt-6">
+            <Link href="/about-us" className="inline-flex min-h-11 items-center rounded-lg bg-[#1766D6] px-6 py-3 font-body text-[14px] font-semibold !text-white transition-colors hover:bg-[#0D54B9]">
+              Read More
+            </Link>
           </motion.div>
 
           
@@ -554,45 +506,6 @@ export default function VideoSection({
    SMALL COMPONENTS
 ========================================================= */
 
-function MiniStat({
-  value,
-  label,
-}: {
-  value: string;
-  label: string;
-}) {
-  return (
-    <div>
-      <p
-        className="
-          font-heading
-          text-[18px]
-          font-bold
-          leading-none
-          text-[#173A56]
-
-          sm:text-[20px]
-        "
-      >
-        {value}
-      </p>
-
-      <p
-        className="
-          mt-1
-          font-body
-          text-[10.5px]
-          text-[#7A8C9A]
-
-          sm:text-[11px]
-        "
-      >
-        {label}
-      </p>
-    </div>
-  );
-}
-
 /* =========================================================
    ICONS
 ========================================================= */
@@ -612,50 +525,6 @@ function PlayIcon({ className = "" }: { className?: string }) {
     </svg>
   );
 }
-
-function PlayMiniIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      aria-hidden="true"
-    >
-      <circle
-        cx="12"
-        cy="12"
-        r="8"
-        stroke="currentColor"
-        strokeWidth="1.7"
-      />
-
-      <path
-        d="M10 8.8L15.2 12L10 15.2V8.8Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
-function CheckIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      aria-hidden="true"
-    >
-      <path
-        d="M6 12.5L10 16.5L18 8.5"
-        stroke="currentColor"
-        strokeWidth="1.9"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 function ShieldIcon({ className = "" }: { className?: string }) {
   return (
     <svg
@@ -677,46 +546,6 @@ function ShieldIcon({ className = "" }: { className?: string }) {
         strokeWidth="1.7"
         strokeLinecap="round"
         strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function UsersIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      aria-hidden="true"
-    >
-      <circle
-        cx="9"
-        cy="8"
-        r="3"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-
-      <path
-        d="M3 19C3.4 15.8 5.5 14 9 14C12.5 14 14.6 15.8 15 19"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-
-      <path
-        d="M15 5.5C17 5.6 18.4 7 18.4 8.8C18.4 10.5 17.2 11.8 15.4 12.1"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-
-      <path
-        d="M17 14.5C19.4 15.1 20.7 16.6 21 19"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
       />
     </svg>
   );

@@ -24,6 +24,12 @@ type SubMenuItem = {
   name: string;
   href: string;
   icon: IconType;
+  children?: ServiceLink[];
+};
+
+type ServiceLink = {
+  name: string;
+  href: string;
 };
 
 type NavigationItem = {
@@ -36,6 +42,95 @@ type NavigationItem = {
 /* =========================================================
    NAVIGATION
 ========================================================= */
+
+const serviceLinks = (
+  base: string,
+  entries: [string, string][],
+): ServiceLink[] => entries.map(([slug, name]) => ({ name, href: `${base}/${slug}` }));
+
+const registrationServices = serviceLinks("/business/registration", [
+  ["private-limited-company-registration", "Private Limited Company Registration"],
+  ["llp-registration", "LLP Registration"],
+  ["one-person-company-opc-registration", "One Person Company (OPC) Registration"],
+  ["partnership-firm-registration", "Partnership Firm Registration"],
+  ["sole-proprietorship-registration", "Sole Proprietorship Registration"],
+  ["trust-registration", "Trust Registration"],
+  ["society-registration", "Society Registration"],
+  ["section-8-company-registration", "Section 8 Company Registration"],
+  ["nidhi-company-registration", "Nidhi Company Registration"],
+  ["changes-in-llp-agreement", "Changes in LLP Agreement"],
+]);
+
+const licenseServices = serviceLinks("/business/license", [
+  ["digital-signature-certificate-dsc", "Digital Signature Certificate (DSC)"],
+  ["msme-udyam-registration", "MSME Udyam Registration"],
+  ["fssai-registration", "FSSAI Registration"],
+  ["import-export-code-registration", "Import Export Code Registration"],
+  ["esi-pf-registration", "ESI & PF Registration"],
+  ["iso-certification", "ISO Certification"],
+  ["apeda-registration", "APEDA Registration"],
+  ["labour-license-registration", "Labour License Registration"],
+  ["shop-establishment-registration", "Shop & Establishment Registration"],
+  ["professional-tax-registration", "Professional Tax Registration"],
+]);
+
+const complianceServices = serviceLinks("/business/compliance", [
+  ["appointment-of-director", "Appointment of Director"],
+  ["annual-ekyc-for-directors", "Annual eKYC for Directors"],
+  ["auditor-appointment", "Auditor Appointment"],
+  ["board-resolution", "Board Resolution"],
+  ["change-in-authorized-capital", "Change in Authorized Capital"],
+  ["change-in-business-objective", "Change in Business Objective"],
+  ["change-in-registered-office-address", "Change in Registered Office Address"],
+  ["closure-of-llp", "Closure of LLP"],
+  ["removal-of-directors", "Removal of Directors"],
+  ["company-roc-filing", "Company ROC Filing"],
+]);
+
+const gstServices = serviceLinks("/taxation/gst", [
+  ["gst-registration", "GST Registration"],
+  ["gst-return-filing", "GST Return Filing"],
+  ["gst-filing-chennai", "GST Filing in Chennai"],
+  ["gst-advisory-services", "GST Advisory Services"],
+  ["gst-amendments", "GST Amendments"],
+  ["gst-annual-return-filing", "GST Annual Return Filing"],
+  ["gst-appeals", "GST Appeals"],
+  ["gst-lut-filing", "GST LUT Filing"],
+  ["gst-notice-reply", "GST Notice Reply"],
+  ["gst-registration-cancellation", "GST Registration Cancellation"],
+]);
+
+const taxFilingServices = serviceLinks("/taxation/tax-filing", [
+  ["accounting-bookkeeping-services", "Accounting & Bookkeeping Services"],
+  ["capital-gains-tax-advisory", "Capital Gains Tax Advisory"],
+  ["pan-services", "PAN Services"],
+  ["roc-filing-online", "ROC Filing Online"],
+  ["tan-services", "TAN Services"],
+  ["tax-planning-advisory", "Tax Planning Advisory"],
+  ["tds-tcs-return-filing", "TDS & TCS Return Filing"],
+]);
+
+const ipServices = serviceLinks("/legal/ip", [
+  ["trademark-registration", "Trademark Registration"],
+  ["copyright-registration", "Copyright Registration"],
+  ["patent-registration", "Patent Registration"],
+]);
+
+const contractServices = serviceLinks("/legal/contracts", [
+  ["franchise-agreement", "Franchise Agreement"],
+  ["joint-venture-agreement", "Joint Venture Agreement"],
+  ["mou-agreement", "MOU Agreement"],
+  ["vendor-agreement", "Vendor Agreement"],
+  ["master-service-agreement", "Master Service Agreement"],
+  ["service-level-agreement", "Service Level Agreement"],
+  ["non-disclosure-agreement-nda", "Non-Disclosure Agreement (NDA)"],
+  ["business-contract", "Business Contract"],
+  ["employment-agreement", "Employment Agreement"],
+  ["power-of-attorney", "Power of Attorney"],
+  ["shareholders-agreement", "Shareholders Agreement"],
+  ["board-resolution-authorisation-letter", "Board Resolution & Authorisation Letter"],
+  ["legal-heir-certificate", "Legal Heir Certificate"],
+]);
 
 const navigation: NavigationItem[] = [
   {
@@ -53,16 +148,19 @@ const navigation: NavigationItem[] = [
         name: "Registration",
         href: "/business/registration",
         icon: "registration",
+        children: registrationServices,
       },
       {
         name: "License",
         href: "/business/license",
         icon: "license",
+        children: licenseServices,
       },
       {
         name: "Compliance",
         href: "/business/compliance",
         icon: "compliance",
+        children: complianceServices,
       },
     ],
   },
@@ -76,11 +174,13 @@ const navigation: NavigationItem[] = [
         name: "GST",
         href: "/taxation/gst",
         icon: "gst",
+        children: gstServices,
       },
       {
         name: "Tax Filing",
         href: "/taxation/tax-filing",
         icon: "tax",
+        children: taxFilingServices,
       },
     ],
   },
@@ -112,11 +212,13 @@ const navigation: NavigationItem[] = [
         name: "Intellectual Property",
         href: "/legal/ip",
         icon: "ip",
+        children: ipServices,
       },
       {
         name: "Contracts",
         href: "/legal/contracts",
         icon: "contracts",
+        children: contractServices,
       },
     ],
   },
@@ -147,7 +249,13 @@ export default function Header() {
   const [desktopDropdown, setDesktopDropdown] =
     useState<string | null>(null);
 
+  const [desktopCategory, setDesktopCategory] =
+    useState<string | null>(null);
+
   const [mobileDropdown, setMobileDropdown] =
+    useState<string | null>(null);
+
+  const [mobileCategory, setMobileCategory] =
     useState<string | null>(null);
 
   /* =========================================================
@@ -178,9 +286,14 @@ export default function Header() {
   ========================================================= */
 
   useEffect(() => {
-    setMobileMenuOpen(false);
-    setDesktopDropdown(null);
-    setMobileDropdown(null);
+    const frame = window.requestAnimationFrame(() => {
+      setMobileMenuOpen(false);
+      setDesktopDropdown(null);
+      setDesktopCategory(null);
+      setMobileDropdown(null);
+      setMobileCategory(null);
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, [pathname]);
 
   /* =========================================================
@@ -333,6 +446,12 @@ export default function Header() {
                     desktopDropdown ===
                     item.name;
 
+                  const selectedCategory = item.submenu?.find(
+                    (subItem) => subItem.href === desktopCategory,
+                  ) ?? item.submenu?.find(
+                    (subItem) => isSubMenuActive(subItem.href),
+                  ) ?? item.submenu?.[0];
+
                   return (
                     <li
                       key={item.name}
@@ -347,10 +466,19 @@ export default function Header() {
                           setDesktopDropdown(
                             item.name,
                           );
+                          setDesktopCategory(
+                            item.submenu?.find((subItem) => isSubMenuActive(subItem.href))?.href ??
+                            item.submenu?.[0]?.href ?? null,
+                          );
                         }
                       }}
                       onMouseLeave={() => {
                         setDesktopDropdown(null);
+                      }}
+                      onBlur={(event) => {
+                        if (!event.currentTarget.contains(event.relatedTarget)) {
+                          setDesktopDropdown(null);
+                        }
                       }}
                     >
                       {/* =========================================
@@ -359,6 +487,16 @@ export default function Header() {
 
                       <Link
                         href={item.href}
+                        aria-expanded={hasDropdown ? dropdownOpen : undefined}
+                        onFocus={() => {
+                          if (hasDropdown) {
+                            setDesktopDropdown(item.name);
+                            setDesktopCategory(
+                              item.submenu?.find((subItem) => isSubMenuActive(subItem.href))?.href ??
+                              item.submenu?.[0]?.href ?? null,
+                            );
+                          }
+                        }}
                         className={`
                           group
 
@@ -430,17 +568,17 @@ export default function Header() {
                       {hasDropdown && (
                         <div
                           className={`
-                            absolute
+                            fixed
 
                             left-1/2
 
-                            top-[calc(100%-7px)]
+                            top-[78px]
 
-                            w-[310px]
+                            w-[min(1060px,calc(100vw-32px))]
 
                             -translate-x-1/2
 
-                            pt-[15px]
+                            pt-3
 
                             transition-all
                             duration-300
@@ -474,6 +612,7 @@ export default function Header() {
 
                           <div
                             className="
+                              hidden
                               absolute
 
                               left-1/2
@@ -512,6 +651,9 @@ export default function Header() {
 
                               p-[9px]
 
+                              max-h-[min(75vh,660px)]
+                              overflow-y-auto
+
                               shadow-[0_22px_60px_rgba(18,35,60,0.17)]
 
                               backdrop-blur-xl
@@ -537,15 +679,16 @@ export default function Header() {
                               "
                             />
 
-                            <div className="relative space-y-[6px]">
+                            <div className="relative grid grid-cols-[270px_minmax(0,1fr)] gap-2">
+                              <div className="space-y-[6px] rounded-[17px] bg-[#F7F9FC] p-2">
+                                <p className="px-3 pb-2 pt-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#7A8CA5]">
+                                  Service categories
+                                </p>
                               {item.submenu?.map(
                                 (
                                   subItem,
                                 ) => {
-                                  const subActive =
-                                    isSubMenuActive(
-                                      subItem.href,
-                                    );
+                                  const selected = selectedCategory?.href === subItem.href;
 
                                   return (
                                     <Link
@@ -555,6 +698,8 @@ export default function Header() {
                                       href={
                                         subItem.href
                                       }
+                                      onMouseEnter={() => setDesktopCategory(subItem.href)}
+                                      onFocus={() => setDesktopCategory(subItem.href)}
                                       className={`
                                         group/sub
 
@@ -578,7 +723,7 @@ export default function Header() {
                                         duration-300
 
                                         ${
-                                          subActive
+                                          selected
                                             ? `
                                               bg-[#246EF1]
 
@@ -602,7 +747,7 @@ export default function Header() {
                                     >
                                       {/* LEFT HOVER ACCENT */}
 
-                                      {!subActive && (
+                                      {!selected && (
                                         <span
                                           className="
                                             absolute
@@ -648,7 +793,7 @@ export default function Header() {
                                           duration-300
 
                                           ${
-                                            subActive
+                                            selected
                                               ? `
                                                 bg-white/15
 
@@ -725,7 +870,7 @@ export default function Header() {
                                           duration-300
 
                                           ${
-                                            subActive
+                                            selected
                                               ? `
                                                 bg-white/15
 
@@ -749,6 +894,44 @@ export default function Header() {
                                   );
                                 },
                               )}
+                              </div>
+                              <div className="min-w-0 px-4 pb-4 pt-3">
+                                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#246EF1]">
+                                  Explore
+                                </p>
+                                <div className="mt-1 flex items-center justify-between gap-3 border-b border-[#E6EBF2] pb-4">
+                                  <h3 className="font-heading text-[19px] font-semibold text-[#10233D]">
+                                    {selectedCategory?.name}
+                                  </h3>
+                                  {selectedCategory && (
+                                    <Link
+                                      href={selectedCategory.href}
+                                      className="shrink-0 text-[12px] font-semibold text-[#246EF1] hover:underline"
+                                    >
+                                      View category
+                                    </Link>
+                                  )}
+                                </div>
+                                <div className="mt-4 grid grid-cols-2 gap-2">
+                                  {(selectedCategory?.children?.length
+                                    ? selectedCategory.children
+                                    : selectedCategory ? [{ name: selectedCategory.name, href: selectedCategory.href }] : []
+                                  ).map((service) => (
+                                    <Link
+                                      key={service.href}
+                                      href={service.href}
+                                      className={`group/service flex min-h-[52px] items-center justify-between gap-3 rounded-xl border px-4 py-3 text-[12px] font-medium leading-5 transition-colors ${
+                                        pathname === service.href
+                                          ? "border-[#9FC1FF] bg-[#EEF4FF] text-[#185FCE]"
+                                          : "border-[#E7EBF1] bg-white text-[#263446] hover:border-[#BBD3FF] hover:bg-[#F5F9FF]"
+                                      }`}
+                                    >
+                                      <span>{service.name}</span>
+                                      <span aria-hidden="true" className="shrink-0 text-[#246EF1] transition-transform group-hover/service:translate-x-0.5">→</span>
+                                    </Link>
+                                  ))}
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1030,6 +1213,12 @@ export default function Header() {
                                       ? null
                                       : item.name,
                                   );
+                                  if (!submenuOpen) {
+                                    setMobileCategory(
+                                      item.submenu?.find((subItem) => isSubMenuActive(subItem.href))?.href ??
+                                      item.submenu?.[0]?.href ?? null,
+                                    );
+                                  }
                                 }}
                                 className={`
                                   mr-1
@@ -1084,7 +1273,7 @@ export default function Header() {
                                 ${
                                   submenuOpen
                                     ? `
-                                      max-h-[430px]
+                                      max-h-[1200px]
 
                                       pb-2
                                       pt-2
@@ -1122,17 +1311,18 @@ export default function Header() {
                                       isSubMenuActive(
                                         subItem.href,
                                       );
+                                    const categoryOpen = mobileCategory === subItem.href;
 
                                     return (
+                                      <div key={subItem.href} className="overflow-hidden rounded-[13px] bg-white">
+                                      <div className="flex items-center">
                                       <Link
-                                        key={
-                                          subItem.href
-                                        }
                                         href={
                                           subItem.href
                                         }
                                         className={`
                                           flex
+                                          flex-1
 
                                           min-h-[54px]
 
@@ -1253,6 +1443,38 @@ export default function Header() {
                                           <ArrowRightIcon />
                                         </span>
                                       </Link>
+                                      {subItem.children && subItem.children.length > 0 && (
+                                        <button
+                                          type="button"
+                                          aria-label={`${categoryOpen ? "Hide" : "Show"} ${subItem.name} services`}
+                                          aria-expanded={categoryOpen}
+                                          onClick={() => setMobileCategory(categoryOpen ? null : subItem.href)}
+                                          className="mr-2 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#EEF4FF] text-[#246EF1]"
+                                        >
+                                          <ChevronIcon open={categoryOpen} />
+                                        </button>
+                                      )}
+                                      </div>
+                                      {categoryOpen && subItem.children && (
+                                        <div className="grid gap-1 border-t border-[#E6EBF2] bg-[#F9FBFF] p-2">
+                                          {subItem.children.map((service) => (
+                                            <Link
+                                              key={service.href}
+                                              href={service.href}
+                                              aria-current={pathname === service.href ? "page" : undefined}
+                                              className={`flex min-h-10 items-center justify-between gap-2 rounded-lg px-3 py-2 text-[12px] leading-5 transition-colors ${
+                                                pathname === service.href
+                                                  ? "bg-[#EAF2FF] font-semibold text-[#175FCB]"
+                                                  : "text-[#34465D] hover:bg-[#EDF4FF]"
+                                              }`}
+                                            >
+                                              <span>{service.name}</span>
+                                              <span aria-hidden="true" className="shrink-0 text-[#246EF1]">→</span>
+                                            </Link>
+                                          ))}
+                                        </div>
+                                      )}
+                                      </div>
                                     );
                                   },
                                 )}

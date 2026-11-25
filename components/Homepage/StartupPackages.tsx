@@ -52,7 +52,7 @@ const packages: PackageItem[] = [
       "Current Account Opening Support",
     ],
 
-    cta: "Start as a Proprietorship Launch in Chennai",
+    cta: "Start as a Proprietorship Launch",
   },
 
   {
@@ -68,7 +68,7 @@ const packages: PackageItem[] = [
       "Current Account Opening Assistance",
     ],
 
-    cta: "Register Your Company in Chennai",
+    cta: "Register Your Company",
 
     popular: true,
   },

@@ -23,13 +23,13 @@ export default function Home() {
 
       <VideoSection />
 
-      <WhyChooseUs />
+      <ServicesSection />
 
       <WhyTaxIndiaFirm />
 
-      <ServicesSection />
-
       <StartupPackages />
+
+      <WhyChooseUs />
 
       <ClientTestimonials />
 

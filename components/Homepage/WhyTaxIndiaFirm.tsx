@@ -518,29 +518,6 @@ export default function WhyTaxIndiaFirm() {
             </span>
           </motion.h2>
 
-          {/* DESCRIPTION */}
-
-          <motion.p
-            variants={headingVariant}
-            className="
-              mx-auto
-              mt-5
-
-              max-w-[640px]
-
-              text-[13px]
-              leading-[1.75]
-
-              text-[#667B93]
-
-              sm:text-[14px]
-
-              md:text-[14.5px]
-            "
-          >
-            No government portals, no paperwork confusion. Our CA team
-            handles everything from document collection to final submission.
-          </motion.p>
         </div>
 
         {/* =====================================================

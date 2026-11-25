@@ -1052,22 +1052,6 @@ export default function WhyChooseUs() {
             </span>
           </h2>
 
-          <p
-            className="
-              mx-auto
-              mt-4
-              max-w-[590px]
-              text-[14px]
-              leading-[1.75]
-              text-[#6B798D]
-
-              sm:pt-3
-              sm:text-[15px]
-            "
-          >
-            Expert support, transparent service and dependable compliance
-            solutions designed around your business.
-          </p>
         </motion.div>
 
         {/* MAIN CONTENT */}

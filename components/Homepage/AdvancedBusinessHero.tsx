@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
+import { Building2, FileText, Layers3, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
   AnimatePresence,
@@ -37,16 +39,6 @@ type SearchItem = {
 ========================================================= */
 
 const EASE = [0.16, 1, 0.3, 1] as const;
-
-/* =========================================================
-   ROTATING HERO WORDS
-========================================================= */
-
-const rotatingHeadlineWords = [
-  "Successfully",
-  "Confidently",
-  "Seamlessly",
-] as const;
 
 /* =========================================================
    SEARCH TYPING PLACEHOLDERS
@@ -797,7 +789,6 @@ export default function BusinessHero() {
   const [query, setQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [headlineWordIndex, setHeadlineWordIndex] = useState(0);
 
   const [typedPlaceholder, setTypedPlaceholder] = useState("Search");
   const [placeholderPhraseIndex, setPlaceholderPhraseIndex] = useState(0);
@@ -805,28 +796,6 @@ export default function BusinessHero() {
   const [searchHovered, setSearchHovered] = useState(false);
 
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
-
-  /* =======================================================
-     ROTATING HEADLINE WORD
-     - smooth continuous change
-     - no layout jump
-     - respects reduced motion
-  ======================================================= */
-
-  useEffect(() => {
-    if (reduceMotion) {
-      setHeadlineWordIndex(0);
-      return;
-    }
-
-    const intervalId = window.setInterval(() => {
-      setHeadlineWordIndex(
-        (current) => (current + 1) % rotatingHeadlineWords.length,
-      );
-    }, 2700);
-
-    return () => window.clearInterval(intervalId);
-  }, [reduceMotion]);
 
   /* =======================================================
      CONTINUOUS SEARCH PLACEHOLDER TYPING
@@ -840,7 +809,6 @@ export default function BusinessHero() {
 
   useEffect(() => {
     if (reduceMotion) {
-      setTypedPlaceholder("Search any service...");
       return;
     }
 
@@ -959,10 +927,6 @@ export default function BusinessHero() {
     };
   }, []);
 
-  useEffect(() => {
-    setActiveIndex(-1);
-  }, [query]);
-
   /* =======================================================
      NAVIGATION
   ======================================================= */
@@ -1038,8 +1002,7 @@ export default function BusinessHero() {
           HERO
       ===================================================== */}
 
-      <div className="relative isolate mt-18 overflow-hidden bg-[#063B78] lg:min-h-[760px]">
-        <PremiumHeroBackdrop reduceMotion={Boolean(reduceMotion)} />
+      <div className="relative isolate mt-[78px] bg-white">
         <div
           className="
             relative
@@ -1051,8 +1014,8 @@ export default function BusinessHero() {
             flex-col
             items-center
             px-4
-            pb-[clamp(34px,5vh,64px)]
-            pt-[clamp(38px,5.2vh,64px)]
+            pb-12
+            pt-5
             text-center
 
             min-[420px]:px-5
@@ -1066,161 +1029,70 @@ export default function BusinessHero() {
             xl:px-12
           "
         >
-          {/* ===============================================
-              INTRO GROUP
-          =============================================== */}
-
+          {/* HERO CARD */}
           <motion.div
             variants={introContainer}
-            initial={reduceMotion ? false : "hidden"}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            className="flex w-full flex-col items-center"
+            initial={false}
+            animate="visible"
+            className="relative w-full overflow-hidden rounded-[26px] border border-[#E9E4DE] bg-[#F7E6D1] text-left shadow-[0_24px_70px_rgba(28,55,83,0.11)] sm:rounded-[30px] sm:bg-[#F5ECE4]"
           >
-            <motion.div
-              variants={badgeReveal}
-              className="
-                inline-flex
-                max-w-full
-                items-center
-                justify-center
-                gap-2
-                rounded-full
-                border
-                border-white/[0.18]
-                bg-white/[0.09]
-                px-3
-                py-2
-                shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_10px_30px_rgba(2,42,96,0.08)]
-                backdrop-blur-[8px]
-                font-body
-                text-[10px]
-                font-semibold
-                leading-4
-                text-white
+            <PremiumHeroBackdrop />
 
-                min-[380px]:text-[11px]
-
-                sm:px-4
-                sm:text-[12px]
-              "
-            >
-              <span
-                className="
-                  flex
-                  h-[24px]
-                  w-[24px]
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-full 
-                  bg-white/[0.96]
-                  text-[#0B68AE]
-                  shadow-[0_5px_16px_rgba(1,55,118,0.12)]
-                "
+            <div className="relative z-10 flex flex-col items-start justify-center px-6 pb-8 pt-10 min-[420px]:px-8 sm:min-h-[420px] sm:w-[62%] sm:px-9 sm:py-11 lg:w-[59%] lg:px-14 xl:px-16">
+              <motion.p
+                variants={badgeReveal}
+                className="font-body text-[10px] font-bold uppercase tracking-[0.18em] !text-[#142B4B] sm:text-[11px]"
               >
-                <ShieldCheckIcon className="h-[14px] w-[14px]" />
-              </span>
+                Business &amp; Tax Services in Chennai
+              </motion.p>
 
-              <span>Chennai&apos;s Trusted Business & Tax Professionals</span>
-            </motion.div>
-
-            <motion.h1
-              variants={headlineReveal}
-              className="
-                mt-5
-                w-full
-                max-w-[1120px]
-                break-words
-                px-0
-                font-heading pt-5
-                text-[32px]
-                font-bold
-                leading-[1.08]
-                tracking-[-0.045em]
-                !text-[#F4FAFF]
-                [text-shadow:0_8px_34px_rgba(0,38,91,0.12)]
-
-                min-[400px]:text-[36px]
-                min-[500px]:text-[40px]
-
-                sm:mt-6
-                sm:text-[33px]
-
-                md:text-[40px]
-
-                lg:text-[clamp(44px,5.8vh,52px)]
-
-                xl:text-[clamp(46px,6vh,56px)]
-
-                2xl:text-[clamp(48px,6.1vh,58px)]
-              "
-            >
-              Helping You Build Your Business{" "}
-              <span
-                className="relative inline-grid align-baseline"
-                aria-live="polite"
+              <motion.h1
+                variants={headlineReveal}
+                className="mt-5 max-w-[690px] font-heading text-[33px] font-bold leading-[1.09] tracking-[-0.055em] !text-[#10233D] min-[420px]:text-[37px] sm:text-[40px] lg:text-[clamp(40px,3.3vw,48px)]"
               >
-                {/* Invisible word keeps the headline width stable while words change. */}
-                <span
-                  aria-hidden="true"
-                  className="invisible col-start-1 row-start-1 !text-[#BFEAFF]"
+                Helping people to <span className="text-[#1766D6]">Start, Manage &amp; Grow</span> Their business successfully!
+              </motion.h1>
+
+              <motion.p
+                variants={copyReveal}
+                className="mt-5 max-w-[530px] font-body text-[15px] leading-7 !text-[#4D5B6C] sm:text-[16px] lg:text-[18px] lg:leading-8"
+              >
+                Expert help with company registration, GST, income tax and trademark registration.
+              </motion.p>
+
+              <motion.div variants={copyReveal} className="mt-7">
+                <Link
+                  href="/contact-us"
+                  className="inline-flex min-h-[46px] items-center justify-center gap-3 rounded-lg bg-[#1265DA] px-6 py-3 font-body text-[14px] font-semibold !text-white shadow-[0_10px_24px_rgba(18,101,218,0.22)] transition-colors hover:bg-[#0D54B9] sm:px-7"
                 >
-                  Successfully
-                </span>
+                  Talk to an Expert
+                  <ArrowRightIcon className="h-4 w-4" />
+                </Link>
+              </motion.div>
 
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.span
-                    key={rotatingHeadlineWords[headlineWordIndex]}
-                    initial={
-                      reduceMotion
-                        ? false
-                        : { opacity: 0, y: 14, scale: 0.985 }
-                    }
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={
-                      reduceMotion
-                        ? { opacity: 0 }
-                        : { opacity: 0, y: -12, scale: 0.99 }
-                    }
-                    transition={{
-                      duration: reduceMotion ? 0.01 : 0.58,
-                      ease: EASE,
-                    }}
-                    className="col-start-1 row-start-1 inline-block !text-[#BFEAFF] [text-shadow:0_0_30px_rgba(136,218,255,0.16)]"
-                  >
-                    {rotatingHeadlineWords[headlineWordIndex]}
-                  </motion.span>
-                </AnimatePresence>
-              </span>
-            </motion.h1>
+              <motion.div
+                variants={statsContainer}
+                initial={false}
+                animate="visible"
+                className="mt-6 grid w-full max-w-[565px] grid-cols-3 border-t border-[#D8CFC4] pt-4 sm:mt-7"
+                aria-label="Tax India Firm at a glance"
+              >
+                <StatItem value="5,760+" title="Clients Served" subtitle="Businesses & individuals" />
+                <StatItem value="4.9 / 5" title="Google Rating" subtitle="Trusted client reviews" />
+                <StatItem value="300+" title="Professional Services" subtitle="Tax, business & legal" />
+              </motion.div>
+            </div>
 
-            <motion.p
-              variants={copyReveal}
-              className="
-                mt-5
-                w-full
-                max-w-[860px]
-                px-1
-                font-body
-                text-[14px]
-                leading-7
-                !text-[#DCEFFF]
+            <div className="relative h-[min(95vw,440px)] overflow-hidden bg-[#F7E6D1] sm:hidden">
+              <Image
+                src="/images/home-hero-blue-ribbon-mobile.webp"
+                alt="Blue folded ribbon with a subtle Chennai architectural illustration"
+                fill
+                sizes="100vw"
+                className="object-contain object-center [mask-image:linear-gradient(to_bottom,transparent,black_18%)]"
+              />
+            </div>
 
-                min-[420px]:px-2
-
-                sm:mt-5
-                sm:text-[15px]
-                sm:leading-7
-
-                md:text-[16px]
-                md:leading-7
-
-                lg:mt-4 pt-5
-              "
-            >
-              Start your dream business with us! We turn your idea into reality with expert support at every stage. Whether you’re launching a startup or growing a business, we ensure a smooth journey to success! 
-            </motion.p>
           </motion.div>
 
           {/* =================================================
@@ -1230,12 +1102,11 @@ export default function BusinessHero() {
           <motion.div
             ref={searchContainerRef}
             variants={searchReveal}
-            initial={reduceMotion ? false : "hidden"}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3, margin: "0px 0px -5% 0px" }}
+            initial={false}
+            animate="visible"
             onMouseEnter={() => setSearchHovered(true)}
             onMouseLeave={() => setSearchHovered(false)}
-            className="relative z-50 mt-7 w-full max-w-[980px] md:mt-8 lg:mt-7"
+            className="relative z-50 mt-7 w-full max-w-[820px] md:mt-8 lg:mt-8"
           >
             <div
               className="
@@ -1246,10 +1117,10 @@ export default function BusinessHero() {
                 overflow-hidden
                 rounded-[20px]
                 border
-                border-white/70
+                border-[#D7DEE8]
                 bg-white/[0.97]
                 p-[5px]
-                shadow-[0_22px_55px_rgba(1,35,86,0.20),inset_0_1px_0_rgba(255,255,255,0.95)]
+                shadow-[0_12px_35px_rgba(18,49,81,0.09)]
 
                 sm:min-h-[68px]
                 sm:rounded-full
@@ -1285,13 +1156,14 @@ export default function BusinessHero() {
               <input
                 type="text"
                 value={query}
-                placeholder={typedPlaceholder}
+                placeholder={reduceMotion ? "Search any service..." : typedPlaceholder}
                 autoComplete="off"
                 spellCheck={false}
                 aria-label="Search services"
                 onChange={(event) => {
                   const value = event.target.value;
                   setQuery(value);
+                  setActiveIndex(-1);
                   setSearchOpen(Boolean(value.trim()));
                 }}
                 onFocus={() => {
@@ -1629,43 +1501,42 @@ export default function BusinessHero() {
 
           <motion.div
             variants={chipsContainer}
-            initial={reduceMotion ? false : "hidden"}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
+            initial={false}
+            animate="visible"
             className="
-              mt-4
+              mt-5
               grid
               w-full
-              max-w-[500px]
+              max-w-[1160px]
               grid-cols-2
-              gap-2
+              gap-2.5
 
-              sm:flex
-              sm:w-auto
-              sm:max-w-[920px]
-              sm:flex-wrap
-              sm:items-center
-              sm:justify-center
+              sm:grid-cols-4
+              sm:gap-3
             "
           >
             <QuickLink
-              href="/business/registration/private-limited-company-registration"
-              label="Private Limited Company"
+              href="/business/registration"
+              label="Start a business"
+              icon={<Building2 size={20} strokeWidth={1.8} />}
             />
 
             <QuickLink
-              href="/taxation/gst/gst-registration"
-              label="GST Registration"
-            />
-
-            <QuickLink
-              href="/legal/ip/trademark-registration"
-              label="Trademark Registration"
+              href="/taxation/gst"
+              label="Get GST support"
+              icon={<Layers3 size={20} strokeWidth={1.8} />}
             />
 
             <QuickLink
               href="/itr/income-tax-return-filing"
-              label="ITR Filing"
+              label="File your income tax"
+              icon={<FileText size={20} strokeWidth={1.8} />}
+            />
+
+            <QuickLink
+              href="/legal/ip"
+              label="Protect your brand"
+              icon={<ShieldCheck size={20} strokeWidth={1.8} />}
             />
           </motion.div>
 
@@ -1675,9 +1546,8 @@ export default function BusinessHero() {
 
           <motion.div
             variants={supportReveal}
-            initial={reduceMotion ? false : "hidden"}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.35 }}
+            initial={false}
+            animate="visible"
             className="
               mt-4
               flex
@@ -1688,8 +1558,8 @@ export default function BusinessHero() {
               gap-2
               rounded-full
               border
-              border-white/[0.08]
-              bg-white/[0.035]
+              border-[#DCE6F2]
+              bg-[#F4F8FD]
               px-3.5
               py-1.5
               text-center
@@ -1698,69 +1568,18 @@ export default function BusinessHero() {
               text-[11px]
               font-medium
               leading-5
-              !text-[#CBE6F7]
+              !text-[#476582]
 
               sm:items-center
               sm:text-[12px]
             "
           >
-            <SparkIcon className="mt-[3px] h-[13px] w-[13px] shrink-0 !text-[#AEE1FF] sm:mt-0" />
+            <SparkIcon className="mt-[3px] h-[13px] w-[13px] shrink-0 !text-[#1766D6] sm:mt-0" />
             <span>
               Registration, Taxation, Compliance & Legal Support . All in One Place .
             </span>
           </motion.div>
 
-          {/* =================================================
-              STATS
-          ================================================= */}
-
-          <motion.div
-            variants={statsContainer}
-            initial={reduceMotion ? false : "hidden"}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.12, margin: "0px 0px -8% 0px" }}
-            className="
-              mt-6
-              grid
-              w-full
-              max-w-[1080px]
-              grid-cols-1
-              gap-2
-              rounded-[24px]
-              border
-              border-white/[0.10]
-              bg-white/[0.035]
-              p-1.5
-              shadow-[0_22px_60px_rgba(1,30,76,0.10)]
-              backdrop-blur-[8px]
-
-              sm:grid-cols-3
-              sm:gap-1.5
-
-              lg:mt-6
-            "
-          >
-            <StatItem
-              icon={<UsersIcon className="h-5 w-5" />}
-              value="2,760+"
-              title="Clients Served"
-              subtitle="Businesses & individuals"
-            />
-
-            <StatItem
-              icon={<StarIcon className="h-5 w-5" />}
-              value="4.9 / 5"
-              title="Google Rating"
-              subtitle="Trusted client reviews"
-            />
-
-            <StatItem
-              icon={<BriefcaseIcon className="h-5 w-5" />}
-              value="300+"
-              title="Professional Services"
-              subtitle="Tax, business & legal"
-            />
-          </motion.div>
         </div>
       </div>
 
@@ -1781,7 +1600,7 @@ export default function BusinessHero() {
           md:py-20
 
           lg:px-10
-          lg:py-24
+          lg:py-14
         "
       >
         <div className="mx-auto max-w-[1320px]">
@@ -1840,23 +1659,6 @@ export default function BusinessHero() {
               Simple, dependable support for your business
             </motion.h2>
 
-            <motion.p
-              variants={sectionReveal}
-              className="
-                mx-auto
-                mt-4
-                max-w-[700px]
-                font-body
-                text-[14px]
-                leading-7
-                text-[#60788B]
-
-                sm:text-[15px]
-              "
-            >
-              From registrations and tax filings to compliance and legal support,
-              our team keeps every step clear, responsive and easy to manage.
-            </motion.p>
           </motion.div>
 
           <motion.div
@@ -1930,77 +1732,22 @@ export default function BusinessHero() {
 }
 
 /* =========================================================
-   PREMIUM HERO BACKDROP
-   ---------------------------------------------------------
-   Modern tax / business visual language without cartoon icons:
-   - abstract ledger/document forms
-   - certification seal geometry
-   - soft aurora mesh
-   - subtle grid + light paths
-   - desktop-only slow float for performance
+   RESPONSIVE HERO ARTWORK
 ========================================================= */
 
-function PremiumHeroBackdrop({
-  reduceMotion,
-}: {
-  reduceMotion: boolean;
-}) {
+function PremiumHeroBackdrop() {
   return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 overflow-hidden"
-    >
-      {/* =====================================================
-          BACKGROUND VIDEO
-          Put the file inside:
-          public/videos/Homepage.mp4
-      ===================================================== */}
-      <video
-        className="
-          absolute
-          inset-0
-          h-full
-          w-full
-          scale-[1.015]
-          object-cover
-          object-center
-        "
-        autoPlay={!reduceMotion}
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        tabIndex={-1}
-      >
-        <source src="/videos/Homepage.mp4" type="video/mp4" />
-      </video>
-
-      {/* =====================================================
-          READABILITY OVERLAYS
-          Keeps the video visible while protecting white text.
-      ===================================================== */}
-
-      {/* Main premium blue tint */}
-      <div
-        className="
-          absolute
-          inset-0
-          bg-[linear-gradient(110deg,rgba(1,27,67,0.82)_0%,rgba(3,55,116,0.70)_38%,rgba(3,48,101,0.66)_65%,rgba(1,24,59,0.80)_100%)]
-        "
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden sm:block">
+      <Image
+        src="/images/home-hero-blue-ribbon-desktop.webp"
+        alt=""
+        fill
+        sizes="(max-width: 1024px) 100vw, 1400px"
+        className="object-cover object-center"
       />
-
-      {/* Slightly darker center behind headline/search */}
-      <div
-        className="
-          absolute
-          inset-0
-          bg-[radial-gradient(circle_at_50%_34%,rgba(8,78,155,0.03)_0%,rgba(3,38,86,0.10)_40%,rgba(1,23,58,0.22)_100%)]
-        "
-      />
-
-      
+      <div className="absolute inset-0 bg-gradient-to-r from-[#F5ECE4]/65 via-[#F5ECE4]/25 to-transparent lg:from-[#F5ECE4]/10 lg:via-transparent" />
     </div>
-  );  
+  );
 }
 
 /* =========================================================
@@ -2010,53 +1757,51 @@ function PremiumHeroBackdrop({
 function QuickLink({
   href,
   label,
+  icon,
 }: {
   href: string;
   label: string;
+  icon: ReactNode;
 }) {
   return (
     <motion.div variants={chipReveal} className="min-w-0">
       <Link
         href={href}
         className="
+          group
           flex
-          min-h-[40px]
+          min-h-[68px]
           w-full
           items-center
-          justify-center
-          rounded-full
+          gap-3
+          rounded-2xl
           border
-          border-white/[0.22]
-          bg-white/[0.13]
-          px-3
-          py-2
-          text-center
+          border-[#E1E8F1]
+          bg-[#F8FAFD]
+          px-3.5
+          py-3
+          text-left
           font-body
-          text-[10.5px]
-          font-medium
-          leading-[1.25]
-          !text-white
-          shadow-[inset_0_1px_0_rgba(255,255,255,0.10),0_7px_18px_rgba(2,45,91,0.05)]
-          backdrop-blur-[8px]
-          transition-[border-color,background-color,color,box-shadow,transform]
-          duration-[400ms]
-          ease-out
-          hover:-translate-y-[2px]
-          hover:border-white/[0.34]
-          hover:bg-white/[0.19]
-          hover:text-white
-          hover:shadow-[0_12px_28px_rgba(2,45,91,0.10)]
+          text-[11px]
+          font-semibold
+          leading-4
+          !text-[#10233D]
+          transition-[border-color,background-color,box-shadow,transform]
+          duration-300
+          hover:-translate-y-1
+          hover:border-[#BBD3F4]
+          hover:bg-white
+          hover:shadow-[0_12px_25px_rgba(18,49,81,0.09)]
 
-          min-[420px]:text-[11px]
-
-          sm:min-h-[36px]
-          sm:w-auto
-          sm:px-4
-          sm:py-0
-          sm:text-[12px]
+          min-[420px]:text-[12px]
+          lg:min-h-[74px]
         "
       >
-        {label}
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#EAF2FF] text-[#1766D6]">
+          {icon}
+        </span>
+        <span className="min-w-0 flex-1">{label}</span>
+        <ArrowRightIcon className="h-4 w-4 shrink-0 text-[#1766D6] transition-transform group-hover:translate-x-1" />
       </Link>
     </motion.div>
   );
@@ -2067,163 +1812,22 @@ function QuickLink({
 ========================================================= */
 
 function StatItem({
-  icon,
   value,
   title,
   subtitle,
 }: {
-  icon: ReactNode;
   value: string;
   title: string;
   subtitle: string;
 }) {
-  const reduceMotion = useReducedMotion();
-
   return (
     <motion.div
       variants={statReveal}
-      whileHover={
-        reduceMotion
-          ? undefined
-          : {
-              y: -3,
-              scale: 1.01,
-              transition: { duration: 0.42, ease: EASE },
-            }
-      }
-      className="
-        group
-        relative
-        isolate
-        flex
-        min-h-[104px]
-        w-full
-        items-center
-        justify-start
-        gap-4
-        overflow-hidden
-        rounded-[20px]
-        border
-        border-white/[0.055]
-        bg-white/[0.055]
-        px-5
-        py-5
-        shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]
-        transition-[border-color,background-color,box-shadow]
-        duration-500
-        ease-out
-        hover:border-white/[0.16]
-        hover:bg-white/[0.085]
-        hover:shadow-[0_16px_36px_rgba(2,34,76,0.10)]
-
-        sm:min-h-[108px]
-        sm:justify-center
-        sm:px-4
-        sm:py-4
-
-        lg:min-h-[100px]
-        lg:px-5
-        lg:py-4
-
-        2xl:min-h-[108px]
-      "
+      className="flex min-w-0 flex-col justify-start border-r border-[#D8CFC4] px-2 text-left first:pl-0 last:border-r-0 last:pr-0 sm:px-4"
     >
-      {/* Soft white glass layer appears gently on hover. */}
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          z-0
-          bg-gradient-to-br
-          from-white/[0.16]
-          via-white/[0.055]
-          to-transparent
-          opacity-0
-          transition-opacity
-          duration-500
-          ease-out
-          group-hover:opacity-100
-        "
-      />
-
-      {/* Very subtle moving white sheen for a premium hover finish. */}
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          -left-[45%]
-          top-[-25%]
-          z-0
-          h-[160%]
-          w-[34%]
-          rotate-[18deg]
-          bg-gradient-to-r
-          from-transparent
-          via-white/[0.16]
-          to-transparent
-          opacity-0
-          transition-[left,opacity]
-          duration-700
-          ease-out
-          group-hover:left-[115%]
-          group-hover:opacity-100
-        "
-      />
-
-      <div
-        className="
-          relative
-          z-10
-          flex
-          h-[44px]
-          w-[44px]
-          shrink-0
-          items-center
-          justify-center
-          rounded-[14px]
-          border
-          border-white/[0.08]
-          bg-white/[0.10]
-          text-white
-          transition-[background-color,box-shadow,transform]
-          duration-500
-          ease-out
-          group-hover:scale-[1.04]
-          group-hover:bg-white/[0.17]
-          group-hover:shadow-[0_8px_24px_rgba(255,255,255,0.08)]
-        "
-      >
-        {icon}
-      </div>
-
-      <div className="relative z-10 min-w-0 text-left">
-        <div
-          className="
-            font-heading
-            text-[24px]
-            font-bold
-            leading-none
-            !text-[#F4FAFF]
-
-            md:text-[25px]
-            lg:text-[25px]
-            2xl:text-[27px]
-          "
-        >
-          {value}
-        </div>
-
-        <div className="mt-2 font-body text-[12px] font-semibold !text-[#EDF8FF]">
-          {title}
-        </div>
-
-        <div className="mt-1 font-body text-[10px] !text-[#BFDCEC] sm:text-[10.5px]">
-          {subtitle}
-        </div>
-      </div>
+      <strong className="font-heading text-[18px] leading-tight !text-[#10233D] min-[420px]:text-[20px] sm:text-[24px]">{value}</strong>
+      <span className="mt-1 font-body text-[10px] font-semibold leading-tight !text-[#10233D] min-[420px]:text-[11px] sm:text-[12px]">{title}</span>
+      <span className="mt-1 font-body text-[9px] leading-tight !text-[#53657B] sm:text-[10px]">{subtitle}</span>
     </motion.div>
   );
 }
@@ -2621,115 +2225,6 @@ function DocumentSearchIcon({
   );
 }
 
-function UsersIcon({
-  className = "",
-}: {
-  className?: string;
-}) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      aria-hidden="true"
-    >
-      <circle
-        cx="9"
-        cy="8"
-        r="3"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-
-      <path
-        d="M3 19C3.4 15.8 5.5 14 9 14C12.5 14 14.6 15.8 15 19"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-
-      <path
-        d="M15 5.5C17 5.6 18.4 7 18.4 8.8C18.4 10.5 17.2 11.8 15.4 12.1"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-
-      <path
-        d="M17 14.5C19.4 15.1 20.7 16.6 21 19"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function StarIcon({
-  className = "",
-}: {
-  className?: string;
-}) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      aria-hidden="true"
-    >
-      <path
-        d="M12 3.5L14.5 8.6L20 9.4L16 13.3L16.9 18.8L12 16.2L7.1 18.8L8 13.3L4 9.4L9.5 8.6L12 3.5Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function BriefcaseIcon({
-  className = "",
-}: {
-  className?: string;
-}) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      aria-hidden="true"
-    >
-      <rect
-        x="3"
-        y="7"
-        width="18"
-        height="12"
-        rx="2"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-
-      <path
-        d="M9 7V5C9 4.4 9.4 4 10 4H14C14.6 4 15 4.4 15 5V7"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-
-      <path
-        d="M3 11.5C7.6 13.4 16.4 13.4 21 11.5"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-
-      <path
-        d="M10.5 12H13.5V15H10.5V12Z"
-        stroke="currentColor"
-        strokeWidth="1.4"
-      />
-    </svg>
-  );
-}
-
 function CompassIcon({
   className = "",
 }: {
@@ -2868,4 +2363,4 @@ function ClockIcon({
       />
     </svg>
   );
-}   
+}

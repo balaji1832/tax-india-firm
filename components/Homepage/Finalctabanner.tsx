@@ -564,11 +564,11 @@ export default function FinalCtaBanner() {
                 "var(--font-heading, ui-sans-serif, system-ui, sans-serif)",
             }}
           >
-            Ready to make business
+            We Love answering your
             <br className="hidden sm:block" />
 
             <span className="text-[#2563EB]">
-              {" "}simpler?
+              {" "}Queries
             </span>
           </motion.h2>
 
@@ -598,9 +598,7 @@ export default function FinalCtaBanner() {
                 "var(--font-body, ui-sans-serif, system-ui, sans-serif)",
             }}
           >
-            Speak directly with a Chartered Accountant.
-            From registration and GST to tax, licenses and
-            compliance, our team handles everything end to end.
+            Speak directly with our expert for Business Setup, licensing, tax filing, compliance and legal work, our team handles everything end to end support.
           </motion.p>
 
           {/* =================================================
